@@ -49,11 +49,12 @@
   "sand": "#F3E9DA",
   "olive": "#2F3B2A",
   "orange": "#FF6A1A",
+  "rust": "#D9530C",
   "muted": "#5E6656"
  },
  "styles": {
   "accent": {
-   "color": "{{orange}}"
+   "color": "{{rust}}"
   }
  },
  "components": {
@@ -67,7 +68,7 @@
     {
      "type": "icon",
      "name": "{{icon}}",
-     "color": "{{orange}}",
+     "color": "{{rust}}",
      "width": 40,
      "height": 40,
      "strokeWidth": 2.25,
