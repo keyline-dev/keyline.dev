@@ -54,7 +54,8 @@ code, pre { font-family: "JetBrains Mono", ui-monospace, monospace; }
 .nav-row { display: flex; align-items: center; justify-content: space-between; height: 60px; }
 .brand { display: flex; }
 .brand img { display: block; }
-.foot-brand { display: inline-flex; align-items: center; gap: 10px; }
+.foot-brand { display: inline-flex; align-items: center; gap: 16px; }
+.foot-brand img { display: block; }
 .nav nav { display: flex; align-items: center; gap: 24px; font-size: 15px; }
 .nav .gh { display: flex; }
 .nav nav a { text-decoration: none; color: var(--muted); }
