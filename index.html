@@ -43,26 +43,26 @@
       <div class="app" aria-label="A conversation with an agent using keyline">
         <div class="app-bar"><span></span><span></span><span></span><em>Claude · keyline</em></div>
         <div class="app-body">
-          <p class="msg user">Make a Cold Brew Season promo: an Instagram post, a web banner and a story. Animate the post.</p>
+          <p class="msg user">Make a listing ad for Villa Lefka in Oia: an Instagram post, a Facebook banner and a skyscraper. Give the photo a slow zoom.</p>
           <ol class="calls">
-            <li><b>keyline</b> scene_create <i>square, banner, story</i> <s>s7f3a0c2e1 v0</s></li>
-            <li><b>keyline</b> layer_add <i>14 layers, 2 tokens</i> <s>added bg,hero,content v1 ok</s></li>
-            <li><b>keyline</b> layer_update <i>headline 104px on the banner</i> <s>changed headline v2 ok</s></li>
-            <li><b>keyline</b> render <i>webp · mp4</i> <s>4 files · 5s, 125 frames</s></li>
+            <li><b>keyline</b> scene_create <i>portrait, banner, sky · 8s loop</i> <s>sa41c9e07d v0</s></li>
+            <li><b>keyline</b> asset_add <i>the villa photo</i> <s>villa 2400×1600 v1</s></li>
+            <li><b>keyline</b> layer_add <i>photo, scrim, price chip, copy</i> <s>added photo,scrim,chip,copy v2 ok</s></li>
+            <li><b>keyline</b> render <i>mp4</i> <s>3 files · 8s, 200 frames each</s></li>
           </ol>
-          <p class="msg agent">Done: three sizes from one layout, all checks clean. The post animates for 5 seconds.</p>
+          <p class="msg agent">Done: three sizes from one layout, all checks clean. The photo zooms toward the tower and back, and the loop runs every 8 seconds.</p>
           <div class="sizes">
-            <figure class="size story">
-              <img src="assets/cold-brew/story-v0.webp" width="1080" height="1920" alt="A tall story: Cold Brew Season, the cup above the headline">
-              <figcaption>Story · 1080×1920</figcaption>
+            <figure class="size">
+              <video src="assets/villa/portrait-web.mp4" poster="assets/villa/portrait-v0.webp" width="1080" height="1350" autoplay muted loop playsinline aria-label="Instagram post: Villa Lefka, Oia, a white Cycladic tower, with a slow zoom"></video>
+              <figcaption>Post · 1080×1350</figcaption>
             </figure>
-            <figure class="size square">
-              <video src="assets/cold-brew-motion/square-v0.mp4" poster="assets/cold-brew/square-v0.webp" width="1080" height="1080" autoplay muted loop playsinline aria-label="The square post, animated: the headline and button slide in"></video>
-              <figcaption>Post · 1080×1080 · animated</figcaption>
-            </figure>
-            <figure class="size banner">
-              <img src="assets/cold-brew/banner-v0.webp" width="1200" height="628" alt="A wide banner: Cold Brew Season beside the cup">
+            <figure class="size">
+              <video src="assets/villa/banner-web.mp4" poster="assets/villa/banner-v0.webp" width="1200" height="628" autoplay muted loop playsinline aria-label="Facebook banner: Villa Lefka beside the tower"></video>
               <figcaption>Banner · 1200×628</figcaption>
+            </figure>
+            <figure class="size">
+              <video src="assets/villa/sky-web.mp4" poster="assets/villa/sky-v0.webp" width="300" height="600" autoplay muted loop playsinline aria-label="Skyscraper ad: Villa Lefka, the tower above the name"></video>
+              <figcaption>Skyscraper · 300×600</figcaption>
             </figure>
           </div>
         </div>
@@ -85,7 +85,7 @@
         <figure><img src="assets/thumbnail/thumbnail-v0.webp" width="1280" height="720" loading="lazy" alt="Video thumbnail: Ship 10x faster with agents, highlighted in yellow, beside a rocket"><figcaption>Video thumbnail · 1280×720</figcaption></figure>
         <figure><img src="assets/quote/square-v0.webp" width="1080" height="1080" loading="lazy" alt="Review card: a five-star quote about a notebook"><figcaption>Review card · 1080×1080</figcaption></figure>
         <figure><img src="assets/webinar/linkedin-v0.webp" width="1200" height="628" loading="lazy" alt="LinkedIn banner: live webinar, automating ad creatives with AI agents"><figcaption>Webinar banner · 1200×628</figcaption></figure>
-        <figure><img src="assets/cold-brew/square-v0.webp" width="1080" height="1080" loading="lazy" alt="Cold Brew Season post"><figcaption>Seasonal promo · 1080×1080</figcaption></figure>
+        <figure><video src="assets/cold-brew-motion/square-v0.mp4" poster="assets/cold-brew/square-v0.webp" width="1080" height="1080" autoplay muted loop playsinline aria-label="Cold Brew Season post, animated"></video><figcaption>Seasonal promo · 1080×1080 · animated</figcaption></figure>
       </div>
     </section>
 

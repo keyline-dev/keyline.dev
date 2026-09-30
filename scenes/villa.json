@@ -1,0 +1,300 @@
+{
+ "width": 1080,
+ "height": 1350,
+ "sizes": [
+  {
+   "id": "portrait",
+   "width": 1080,
+   "height": 1350
+  },
+  {
+   "id": "banner",
+   "width": 1200,
+   "height": 628,
+   "scale": 0.75
+  },
+  {
+   "id": "sky",
+   "width": 300,
+   "height": 600,
+   "scale": 0.35
+  }
+ ],
+ "duration": 8,
+ "fps": 25,
+ "loop": true,
+ "assets": {
+  "villa": "https://picsum.photos/id/947/2400/1600"
+ },
+ "tokens": {
+  "ink": "#1D2A38",
+  "wash": "#F4EFE6",
+  "terracotta": "#C8643B"
+ },
+ "layers": [
+  {
+   "id": "photo",
+   "type": "image",
+   "asset": "villa",
+   "width": "fill",
+   "height": "fill",
+   "fit": "cover",
+   "focus": [
+    0.72,
+    0.45
+   ],
+   "animate": {
+    "scale": [
+     1,
+     1.1
+    ],
+    "translate": [
+     [
+      0,
+      0
+     ],
+     [
+      24,
+      -14
+     ]
+    ],
+    "duration": 4,
+    "repeat": 1,
+    "yoyo": true,
+    "ease": "sine.inOut"
+   }
+  },
+  {
+   "id": "scrim",
+   "type": "rect",
+   "width": "fill",
+   "height": "fill",
+   "fill": {
+    "gradient": {
+     "stops": [
+      {
+       "color": "#0000",
+       "offset": 0.3
+      },
+      {
+       "color": "#00000066",
+       "offset": 0.6
+      },
+      {
+       "color": "#000000C7",
+       "offset": 1
+      }
+     ]
+    }
+   },
+   "media": {
+    "banner": {
+     "fill": {
+      "gradient": {
+       "angle": 90,
+       "stops": [
+        {
+         "color": "#000000C0",
+         "offset": 0
+        },
+        {
+         "color": "#0000",
+         "offset": 0.62
+        }
+       ]
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": "chip",
+   "type": "frame",
+   "place": "top-left",
+   "margin": 48,
+   "flexDirection": "row",
+   "gap": 10,
+   "alignItems": "center",
+   "padding": [
+    14,
+    22
+   ],
+   "fill": "#FFFFFF",
+   "borderRadius": "full",
+   "shadow": {
+    "y": 8,
+    "blur": 24,
+    "color": "#0000002E"
+   },
+   "enter": {
+    "effect": "pop",
+    "delay": 0.8
+   },
+   "children": [
+    {
+     "type": "icon",
+     "name": "star",
+     "set": "solid",
+     "color": "{{terracotta}}",
+     "width": 26,
+     "height": 26
+    },
+    {
+     "id": "rating",
+     "type": "text",
+     "text": "4.96",
+     "fontFamily": "Inter",
+     "fontSize": 28,
+     "fontWeight": 700,
+     "color": "{{ink}}",
+     "trim": "cap"
+    },
+    {
+     "type": "text",
+     "text": "·",
+     "fontFamily": "Inter",
+     "fontSize": 28,
+     "color": "#5D6673",
+     "trim": "cap"
+    },
+    {
+     "type": "text",
+     "text": "€214 night",
+     "fontFamily": "Inter",
+     "fontSize": 28,
+     "fontWeight": 500,
+     "color": "{{ink}}",
+     "trim": "cap"
+    }
+   ]
+  },
+  {
+   "id": "copy",
+   "type": "frame",
+   "place": "bottom-left",
+   "margin": [
+    64,
+    72
+   ],
+   "width": 800,
+   "flexDirection": "column",
+   "gap": 18,
+   "alignItems": "flex-start",
+   "media": {
+    "banner": {
+     "place": "left",
+     "margin": [
+      64,
+      0
+     ],
+     "width": 700
+    },
+    "sky": {
+     "width": 640,
+     "margin": [
+      64,
+      90
+     ]
+    }
+   },
+   "children": [
+    {
+     "id": "eyebrow",
+     "type": "text",
+     "text": "OIA · SANTORINI",
+     "fontFamily": "Inter",
+     "fontSize": 24,
+     "fontWeight": 600,
+     "letterSpacing": 5,
+     "color": "#FFFFFFD9",
+     "enter": {
+      "effect": "fade-up",
+      "delay": 0.2
+     },
+     "shadow": {
+      "y": 2,
+      "blur": 10,
+      "color": "#00000080"
+     }
+    },
+    {
+     "id": "name",
+     "type": "text",
+     "text": "Villa Lefka",
+     "fontFamily": "Fraunces",
+     "fontSize": 132,
+     "fontWeight": 600,
+     "lineHeight": 1,
+     "letterSpacing": -3,
+     "color": "#FFFFFF",
+     "width": "fill",
+     "textWrap": "balance",
+     "enter": {
+      "effect": "fade-up",
+      "delay": 0.35
+     },
+     "media": {
+      "sky": {
+       "fontSize": 112
+      }
+     }
+    },
+    {
+     "id": "details",
+     "type": "text",
+     "text": "3 guests · 1 bedroom · sea view",
+     "fontFamily": "Inter",
+     "fontSize": 32,
+     "fontWeight": 500,
+     "color": "#FFFFFFE6",
+     "width": "fill",
+     "enter": {
+      "effect": "fade-up",
+      "delay": 0.5
+     },
+     "shadow": {
+      "y": 2,
+      "blur": 10,
+      "color": "#00000080"
+     }
+    },
+    {
+     "id": "cta",
+     "type": "frame",
+     "flexDirection": "row",
+     "gap": 12,
+     "alignItems": "center",
+     "padding": [
+      20,
+      32
+     ],
+     "fill": "{{wash}}",
+     "borderRadius": "full",
+     "enter": {
+      "effect": "pop",
+      "delay": 1.2
+     },
+     "children": [
+      {
+       "type": "text",
+       "text": "Book your dates",
+       "fontFamily": "Inter",
+       "fontSize": 30,
+       "fontWeight": 700,
+       "color": "{{ink}}",
+       "trim": "cap"
+      },
+      {
+       "type": "icon",
+       "name": "arrow-right",
+       "color": "{{ink}}",
+       "width": 30,
+       "height": 30,
+       "strokeWidth": 2.5
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}
