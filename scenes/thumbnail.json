@@ -1,0 +1,10 @@
+{"width": 1280, "height": 720, "sizes": [{"id": "thumbnail", "width": 1280, "height": 720}],
+ "layers": [
+  {"type": "rect", "width": "fill", "height": "fill", "fill": [{"gradient": {"type": "radial", "stops": ["#2B1D6B", "#0B0A1A"]}}, {"noise": 0.06, "seed": 4}]},
+  {"type": "path", "shape": "blob-3", "width": 620, "height": 620, "place": "right", "margin": [-60, 0], "fill": {"gradient": {"angle": 135, "stops": ["#22D3EE", "#A855F7"]}}},
+  {"type": "icon", "name": "rocket", "color": "#FFFFFF", "width": 260, "height": 260, "place": "right", "margin": [120, 0], "rotate": 12, "shadow": {"y": 20, "blur": 50, "color": "#00000080"}},
+  {"type": "frame", "flexDirection": "column", "gap": 22, "place": "left", "margin": [70, 0], "width": 700, "children": [
+   {"type": "text", "text": "EP. 12", "fontFamily": "Inter", "fontSize": 30, "fontWeight": 800, "letterSpacing": 5, "color": "#22D3EE"},
+   {"type": "text", "text": "Ship <span style=\"color:#0B0A1A\">10x</span> faster with agents", "highlight": "#FACC15", "fontFamily": "Inter", "fontSize": 104, "fontWeight": 900, "lineHeight": 1.02, "letterSpacing": -3, "color": "#FFFFFF", "width": "fill", "textWrap": "balance"}
+  ]}
+ ]}

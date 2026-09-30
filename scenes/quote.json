@@ -1,0 +1,148 @@
+{
+ "width": 1080,
+ "height": 1080,
+ "sizes": [
+  {
+   "id": "square",
+   "width": 1080,
+   "height": 1080
+  }
+ ],
+ "background": "#DDE9DC",
+ "layers": [
+  {
+   "type": "text",
+   "text": "“",
+   "place": "top-left",
+   "margin": [
+    70,
+    10
+   ],
+   "fontFamily": "Fraunces",
+   "fontSize": 420,
+   "fontWeight": 700,
+   "color": "#2F5D3A"
+  },
+  {
+   "type": "frame",
+   "flexDirection": "column",
+   "gap": 44,
+   "place": "bottom-left",
+   "margin": [
+    100,
+    110
+   ],
+   "width": 880,
+   "children": [
+    {
+     "type": "frame",
+     "flexDirection": "row",
+     "gap": 8,
+     "children": [
+      {
+       "type": "icon",
+       "name": "star",
+       "set": "solid",
+       "color": "#E0A526",
+       "width": 34,
+       "height": 34
+      },
+      {
+       "type": "icon",
+       "name": "star",
+       "set": "solid",
+       "color": "#E0A526",
+       "width": 34,
+       "height": 34
+      },
+      {
+       "type": "icon",
+       "name": "star",
+       "set": "solid",
+       "color": "#E0A526",
+       "width": 34,
+       "height": 34
+      },
+      {
+       "type": "icon",
+       "name": "star",
+       "set": "solid",
+       "color": "#E0A526",
+       "width": 34,
+       "height": 34
+      },
+      {
+       "type": "icon",
+       "name": "star",
+       "set": "solid",
+       "color": "#E0A526",
+       "width": 34,
+       "height": 34
+      }
+     ]
+    },
+    {
+     "type": "text",
+     "text": "The only notebook that made it through my whole PhD. Paper so good I stopped using my laptop for notes.",
+     "fontFamily": "Fraunces",
+     "fontSize": 64,
+     "lineHeight": 1.15,
+     "letterSpacing": -1,
+     "color": "#16301D",
+     "width": "fill",
+     "textWrap": "pretty"
+    },
+    {
+     "type": "frame",
+     "flexDirection": "row",
+     "gap": 22,
+     "alignItems": "center",
+     "children": [
+      {
+       "type": "frame",
+       "width": 84,
+       "height": 84,
+       "fill": "#2F5D3A",
+       "borderRadius": "full",
+       "flexDirection": "row",
+       "justifyContent": "center",
+       "alignItems": "center",
+       "children": [
+        {
+         "type": "text",
+         "text": "MR",
+         "fontFamily": "Inter",
+         "fontSize": 30,
+         "fontWeight": 700,
+         "color": "#DDE9DC"
+        }
+       ]
+      },
+      {
+       "type": "frame",
+       "flexDirection": "column",
+       "gap": 4,
+       "children": [
+        {
+         "type": "text",
+         "text": "Maya Rosen",
+         "fontFamily": "Inter",
+         "fontSize": 32,
+         "fontWeight": 700,
+         "color": "#16301D"
+        },
+        {
+         "type": "text",
+         "text": "Verified buyer · Fieldnote A5 notebook",
+         "fontFamily": "Inter",
+         "fontSize": 28,
+         "color": "#4A6B52"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

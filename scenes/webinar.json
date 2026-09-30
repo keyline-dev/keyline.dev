@@ -1,0 +1,135 @@
+{
+ "width": 1200,
+ "height": 628,
+ "sizes": [
+  {
+   "id": "linkedin",
+   "width": 1200,
+   "height": 628
+  }
+ ],
+ "background": "#0E1B2E",
+ "layers": [
+  {
+   "type": "rect",
+   "width": 460,
+   "height": "fill",
+   "place": "right",
+   "fill": {
+    "gradient": {
+     "angle": 160,
+     "stops": [
+      "#2563EB",
+      "#0EA5E9"
+     ]
+    }
+   }
+  },
+  {
+   "type": "rect",
+   "width": 460,
+   "height": "fill",
+   "place": "right",
+   "fill": {
+    "pattern": "dots",
+    "color": "#FFFFFF33",
+    "size": 26
+   }
+  },
+  {
+   "type": "icon",
+   "name": "presentation",
+   "color": "#FFFFFF",
+   "width": 210,
+   "height": 210,
+   "place": "right",
+   "margin": [
+    125,
+    0
+   ],
+   "strokeWidth": 1.5
+  },
+  {
+   "type": "frame",
+   "flexDirection": "column",
+   "gap": 22,
+   "place": "left",
+   "margin": [
+    64,
+    0
+   ],
+   "width": 640,
+   "children": [
+    {
+     "type": "frame",
+     "flexDirection": "row",
+     "gap": 10,
+     "padding": [
+      8,
+      18
+     ],
+     "fill": "#EF4444",
+     "borderRadius": "full",
+     "alignItems": "center",
+     "children": [
+      {
+       "type": "ellipse",
+       "width": 12,
+       "height": 12,
+       "fill": "#FFFFFF"
+      },
+      {
+       "type": "text",
+       "text": "LIVE WEBINAR",
+       "fontFamily": "Inter",
+       "fontSize": 20,
+       "fontWeight": 800,
+       "letterSpacing": 2,
+       "color": "#FFFFFF"
+      }
+     ]
+    },
+    {
+     "type": "text",
+     "text": "Automating ad creatives with AI agents",
+     "fontFamily": "Plus Jakarta Sans",
+     "fontSize": 58,
+     "fontWeight": 800,
+     "lineHeight": 1.08,
+     "letterSpacing": -1.5,
+     "color": "#FFFFFF",
+     "width": "fill",
+     "textWrap": "balance"
+    },
+    {
+     "type": "text",
+     "text": "Thursday, Nov 6 · 5 pm CET · 45 minutes",
+     "fontFamily": "Inter",
+     "fontSize": 24,
+     "color": "#9FB3CC"
+    },
+    {
+     "type": "frame",
+     "flexDirection": "row",
+     "padding": [
+      16,
+      30
+     ],
+     "fill": "#FFFFFF",
+     "borderRadius": 12,
+     "children": [
+      {
+       "type": "text",
+       "text": "Save your seat",
+       "fontFamily": "Inter",
+       "fontSize": 24,
+       "fontWeight": 700,
+       "color": "#0E1B2E"
+      }
+     ]
+    }
+   ],
+   "alignItems": "flex-start"
+  }
+ ]
+}

@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>keyline: design engine for AI agents</title>
+  <meta name="description" content="Design engine for AI agents: images and video at every size, no Chrome needed. One native binary, driven over MCP.">
+  <meta property="og:title" content="keyline: design engine for AI agents">
+  <meta property="og:description" content="Images and video at every size. No Chrome needed.">
+  <meta property="og:image" content="https://keyline.dev/assets/og/og-v0.png">
+  <meta property="og:url" content="https://keyline.dev">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-row">
+      <a class="brand" href="/"><span class="mark" aria-hidden="true"></span>keyline</a>
+      <nav>
+        <a href="#gallery">Examples</a>
+        <a href="#how">How it works</a>
+        <a href="#install">Install</a>
+        <a href="https://github.com/keyline-dev/keyline/tree/main/docs">Docs</a>
+        <a href="https://github.com/keyline-dev/keyline" class="gh">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero wrap">
+      <p class="eyebrow">An MCP server for Claude, Cursor and any agent</p>
+      <h1>Design engine for AI&nbsp;agents.</h1>
+      <p class="lead">Your agent describes a design once. keyline renders it as images and video at every size you need. No Chrome needed.</p>
+      <div class="cta">
+        <a class="btn primary" href="#install">Install</a>
+        <a class="btn" href="https://github.com/keyline-dev/keyline">View on GitHub</a>
+      </div>
+
+      <div class="app" aria-label="A conversation with an agent using keyline">
+        <div class="app-bar"><span></span><span></span><span></span><em>Claude · keyline</em></div>
+        <div class="app-body">
+          <p class="msg user">Make a Cold Brew Season promo: an Instagram post, a web banner and a story. Animate the post.</p>
+          <ol class="calls">
+            <li><b>keyline</b> scene_create <i>square, banner, story</i> <s>s7f3a0c2e1 v0</s></li>
+            <li><b>keyline</b> layer_add <i>14 layers, 2 tokens</i> <s>added bg,hero,content v1 ok</s></li>
+            <li><b>keyline</b> layer_update <i>headline 104px on the banner</i> <s>changed headline v2 ok</s></li>
+            <li><b>keyline</b> render <i>webp · mp4</i> <s>4 files · 5s, 125 frames</s></li>
+          </ol>
+          <p class="msg agent">Done: three sizes from one layout, all checks clean. The post animates for 5 seconds.</p>
+          <div class="sizes">
+            <figure class="size story">
+              <img src="assets/cold-brew/story-v0.webp" width="1080" height="1920" alt="A tall story: Cold Brew Season, the cup above the headline">
+              <figcaption>Story · 1080×1920</figcaption>
+            </figure>
+            <figure class="size square">
+              <video src="assets/cold-brew-motion/square-v0.mp4" poster="assets/cold-brew/square-v0.webp" width="1080" height="1080" autoplay muted loop playsinline aria-label="The square post, animated: the headline and button slide in"></video>
+              <figcaption>Post · 1080×1080 · animated</figcaption>
+            </figure>
+            <figure class="size banner">
+              <img src="assets/cold-brew/banner-v0.webp" width="1200" height="628" alt="A wide banner: Cold Brew Season beside the cup">
+              <figcaption>Banner · 1200×628</figcaption>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="works wrap" aria-label="Works with">
+      <p>Works with</p>
+      <ul>
+        <li>Claude Code</li><li>Claude Desktop</li><li>Cursor</li><li>VS Code</li><li>Windsurf</li><li>Cline</li><li>GitHub Actions</li><li>Any MCP client</li>
+      </ul>
+    </section>
+
+    <section id="gallery" class="gallery wrap">
+      <h2>Made with keyline</h2>
+      <p class="section-lead">Each of these is a small JSON scene, rendered by keyline. Sample designs; the brands are fictional.</p>
+      <div class="masonry">
+        <figure><img src="assets/flash-sale/square-v0.webp" width="1080" height="1080" loading="lazy" alt="Flash sale post: 50% off everything, a yellow burst saying only 48 hours"><figcaption>E-commerce sale · 1080×1080</figcaption></figure>
+        <figure><img src="assets/summit/portrait-v0.webp" width="1080" height="1350" loading="lazy" alt="Event poster: Design Systems Summit, Berlin, with a red circle and a blue square"><figcaption>Event poster · 1080×1350</figcaption></figure>
+        <figure><img src="assets/thumbnail/thumbnail-v0.webp" width="1280" height="720" loading="lazy" alt="Video thumbnail: Ship 10x faster with agents, highlighted in yellow, beside a rocket"><figcaption>Video thumbnail · 1280×720</figcaption></figure>
+        <figure><img src="assets/quote/square-v0.webp" width="1080" height="1080" loading="lazy" alt="Review card: a five-star quote about a notebook"><figcaption>Review card · 1080×1080</figcaption></figure>
+        <figure><img src="assets/webinar/linkedin-v0.webp" width="1200" height="628" loading="lazy" alt="LinkedIn banner: live webinar, automating ad creatives with AI agents"><figcaption>Webinar banner · 1200×628</figcaption></figure>
+        <figure><img src="assets/cold-brew/square-v0.webp" width="1080" height="1080" loading="lazy" alt="Cold Brew Season post"><figcaption>Seasonal promo · 1080×1080</figcaption></figure>
+      </div>
+    </section>
+
+    <section id="how" class="how wrap">
+      <h2>How it works</h2>
+      <p class="section-lead">The agent works in a small JSON scene. keyline measures it and says what's wrong, so the agent fixes the design before anyone looks at pixels.</p>
+      <ol class="steps">
+        <li>
+          <h3><span>1</span> The agent writes a scene</h3>
+          <p>Text, images, shapes, layout and motion, in names models already know from CSS and Figma.</p>
+<pre><code>{"id": "headline", "type": "text",
+ "text": "Cold Brew Season",
+ "fontSize": 168, "fontWeight": 900,
+ "textWrap": "balance",
+ "media": {"banner": {"fontSize": 104}}}</code></pre>
+        </li>
+        <li>
+          <h3><span>2</span> keyline checks it</h3>
+          <p>Every edit replies with what doesn't fit, per size: cut text, overflow, low contrast, text under a platform's buttons.</p>
+<pre><code>changed headline v4
+story headline text 96,1110 888×290 168px 2L
+banner sub text 60,372 470×62 26px
+  !truncated needs 470×96</code></pre>
+        </li>
+        <li>
+          <h3><span>3</span> and renders every size</h3>
+          <p>PNG, JPEG, WebP, PDF, animated PNG, GIF, MP4 or WebM, with facts the agent can check without opening the files.</p>
+<pre><code>story  …/story-v5.png  (1080×1920, 78 KB)
+banner …/banner-v5.png (1200×628, 46 KB)
+square …/square-v5.mp4 (1080×1080, 5s,
+  125 frames at 25 fps, 2179 KB)</code></pre>
+        </li>
+      </ol>
+    </section>
+
+    <section class="features wrap">
+      <h2>What it does</h2>
+      <div class="grid">
+        <div class="feature">
+          <h3>Every size from one layout</h3>
+          <p>Stacks, grids and constraints adapt one design to a post, a banner and a skyscraper ad; <code>media</code> tweaks a single size.</p>
+        </div>
+        <div class="feature">
+          <h3>Checks before pixels</h3>
+          <p>The server measures text, overflow, contrast and safe areas, so the agent verifies with numbers instead of screenshots.</p>
+        </div>
+        <div class="feature">
+          <h3>Motion and video</h3>
+          <p>Entrance effects, keyframes, staggered text and video clips, rendered as GIF, animated PNG, MP4 or WebM.</p>
+        </div>
+        <div class="feature">
+          <h3>No browser</h3>
+          <p>One native Rust binary on Skia. No headless Chrome, Puppeteer or Playwright to install, run or patch.</p>
+        </div>
+        <div class="feature">
+          <h3>The same scene, the same design</h3>
+          <p>No model generates pixels: a scene always renders the same way, on every machine.</p>
+        </div>
+        <div class="feature">
+          <h3>Built for tokens</h3>
+          <p>Six tools, batched edits and terse replies: a full multi-size design in a couple of thousand tokens of tool traffic.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="install" class="install wrap">
+      <h2>Install</h2>
+      <p class="section-lead">macOS, Windows and Linux. Every download is checksummed and built by GitHub Actions.</p>
+      <div class="tabs" role="tablist">
+        <button role="tab" aria-selected="true" data-tab="claude-code">Claude Code</button>
+        <button role="tab" aria-selected="false" data-tab="claude-desktop">Claude Desktop</button>
+        <button role="tab" aria-selected="false" data-tab="homebrew">Homebrew</button>
+        <button role="tab" aria-selected="false" data-tab="docker">Docker</button>
+        <button role="tab" aria-selected="false" data-tab="other">Other clients</button>
+      </div>
+      <div class="panel" data-panel="claude-code">
+        <p>The plugin installs everything, downloading keyline if it isn't on your PATH.</p>
+        <div class="code"><pre><code>/plugin marketplace add keyline-dev/keyline
+/plugin install keyline@keyline</code></pre><button class="copy">Copy</button></div>
+      </div>
+      <div class="panel" data-panel="claude-desktop" hidden>
+        <p>Download <code>keyline-mcp-&lt;version&gt;.mcpb</code> from the <a href="https://github.com/keyline-dev/keyline/releases/latest">latest release</a> and double-click it, or install it from Settings, Extensions. Mac (Apple silicon) and Windows.</p>
+      </div>
+      <div class="panel" data-panel="homebrew" hidden>
+        <p>macOS on Apple silicon. Then add <code>keyline-mcp</code> to your client.</p>
+        <div class="code"><pre><code>brew install keyline-dev/tap/keyline-mcp</code></pre><button class="copy">Copy</button></div>
+      </div>
+      <div class="panel" data-panel="docker" hidden>
+        <p>Linux, nothing else to install. Use this as your client's command; <code>:stills</code> leaves out video and is a third the size.</p>
+        <div class="code"><pre><code>docker run -i --rm -v keyline:/data ghcr.io/keyline-dev/keyline-mcp</code></pre><button class="copy">Copy</button></div>
+      </div>
+      <div class="panel" data-panel="other" hidden>
+        <p>Cursor, VS Code, Windsurf, Cline and any MCP client: install keyline, then point the client at <code>keyline-mcp</code>. The <a href="https://github.com/keyline-dev/keyline#quick-start">Quick start</a> has a setup block for each.</p>
+      </div>
+
+      <div class="ci">
+        <h3>Render in CI</h3>
+        <p>Keep designs as scene files in a repo; every push renders them and fails on a broken layout.</p>
+        <div class="code"><pre><code>- uses: keyline-dev/keyline@v0
+  with:
+    scenes: campaigns/*.json</code></pre><button class="copy">Copy</button></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap foot-row">
+      <span><span class="mark" aria-hidden="true"></span>keyline · every image on this page was rendered by keyline</span>
+      <nav>
+        <a href="https://github.com/keyline-dev/keyline">GitHub</a>
+        <a href="https://github.com/keyline-dev/keyline/tree/main/docs">Docs</a>
+        <a href="https://github.com/keyline-dev/keyline/blob/main/LICENSE">PolyForm Shield license</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="site.js" defer></script>
+</body>
+</html>

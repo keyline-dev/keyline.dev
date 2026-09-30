@@ -1,0 +1,9 @@
+{"width": 1200, "height": 630, "sizes": [{"id": "og", "width": 1200, "height": 630}], "background": "#0B0B0C",
+ "layers": [
+  {"type": "rect", "width": 8, "height": "fill", "place": "left", "fill": {"gradient": {"angle": 180, "stops": ["#F97316", "#E11D48", "#6D28D9"]}}},
+  {"type": "frame", "flexDirection": "column", "gap": 28, "place": "left", "margin": [96, 0], "width": 900, "children": [
+    {"type": "text", "text": "keyline", "fontSize": 44, "fontWeight": 700, "color": "#FFFFFF", "letterSpacing": -1},
+    {"type": "text", "text": "Design engine for AI agents", "textWrap": "balance", "fontSize": 84, "fontWeight": 800, "color": "#FFFFFF", "lineHeight": 1.05, "letterSpacing": -2, "width": "fill"},
+    {"type": "text", "text": "Images and video at every size. No Chrome needed.", "fontSize": 34, "color": "#A1A1AA", "width": "fill"}
+  ]}
+ ]}

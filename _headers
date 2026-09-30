@@ -1,0 +1,3 @@
+# Cloudflare Pages: renders change only with a new file name or a deploy.
+/assets/*
+  Cache-Control: public, max-age=86400
