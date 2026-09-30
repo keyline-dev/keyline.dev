@@ -1,0 +1,414 @@
+{
+ "width": 1080,
+ "height": 1350,
+ "sizes": [
+  "instagram-portrait",
+  {
+   "id": "a4",
+   "width": 595,
+   "height": 842,
+   "scale": 0.551
+  },
+  {
+   "id": "story-loop",
+   "width": 540,
+   "height": 960,
+   "scale": 0.5,
+   "safeArea": [
+    125,
+    0,
+    170,
+    0
+   ]
+  }
+ ],
+ "fps": 20,
+ "background": "#171412",
+ "tokens": {
+  "coal": "#171412",
+  "bone": "#EDE4D6",
+  "ember": "#D9642B",
+  "muted": "#B3A796"
+ },
+ "assets": {
+  "table": "https://picsum.photos/id/490/2000/1323",
+  "cake": "https://picsum.photos/id/999/2000/1333"
+ },
+ "components": {
+  "dish": {
+   "type": "frame",
+   "width": "fill",
+   "flexDirection": "column",
+   "gap": 4,
+   "children": [
+    {
+     "type": "text",
+     "role": "dish",
+     "text": "{{dish}}\t{{price}}",
+     "leader": "·",
+     "width": "fill",
+     "fontFamily": "Cormorant Garamond",
+     "fontStyle": "italic",
+     "fontWeight": 600,
+     "fontSize": 40,
+     "color": "{{bone}}",
+     "maxLines": 1,
+     "minimumScaleFactor": 1
+    },
+    {
+     "type": "text",
+     "role": "desc",
+     "text": "{{desc}}",
+     "width": "fill",
+     "fontFamily": "Inter",
+     "fontSize": 22,
+     "letterSpacing": 0.3,
+     "color": "{{muted}}",
+     "maxLines": 1,
+     "minimumScaleFactor": 1
+    }
+   ]
+  }
+ },
+ "layers": [
+  {
+   "id": "menuShot",
+   "type": "shot",
+   "duration": 7.4,
+   "flexDirection": "column",
+   "children": [
+    {
+     "id": "hero",
+     "type": "frame",
+     "width": "fill",
+     "height": "31%",
+     "media": {
+      "a4": {
+       "height": "34%"
+      },
+      "story-loop": {
+       "height": "37%"
+      }
+     },
+     "children": [
+      {
+       "id": "photo",
+       "type": "image",
+       "asset": "table",
+       "width": "fill",
+       "height": "fill",
+       "focus": [
+        0.45,
+        0.45
+       ],
+       "filter": {
+        "brightness": 0.92,
+        "saturate": 0.95
+       },
+       "mask": {
+        "stops": [
+         {
+          "offset": 0.45,
+          "color": "#000"
+         },
+         {
+          "offset": 1,
+          "color": "#0000"
+         }
+        ]
+       },
+       "animate": {
+        "scale": [
+         1,
+         1.08
+        ],
+        "duration": 7.4,
+        "ease": "none"
+       },
+       "media": {
+        "a4": {
+         "filter": {
+          "duotone": [
+           "#171412",
+           "#E8D9C0"
+          ],
+          "contrast": 1.1
+         }
+        }
+       }
+      }
+     ]
+    },
+    {
+     "id": "body",
+     "type": "frame",
+     "width": "fill",
+     "height": "fill",
+     "flexDirection": "column",
+     "gap": 26,
+     "padding": [
+      0,
+      96,
+      56,
+      96
+     ],
+     "clipsContent": false,
+     "media": {
+      "story-loop": {
+       "padding": [
+        0,
+        96,
+        350,
+        96
+       ],
+       "gap": 28
+      }
+     },
+     "children": [
+      {
+       "id": "head",
+       "type": "frame",
+       "width": "fill",
+       "flexDirection": "column",
+       "gap": 14,
+       "alignItems": "center",
+       "clipsContent": false,
+       "enter": {
+        "effect": "blur-in",
+        "delay": 0.3,
+        "duration": 0.9
+       },
+       "children": [
+        {
+         "id": "eyebrow",
+         "type": "text",
+         "text": "CINDER &amp; THYME · SUPPER CLUB",
+         "fontFamily": "Space Mono",
+         "fontSize": 20,
+         "letterSpacing": 5,
+         "color": "{{ember}}"
+        },
+        {
+         "id": "title",
+         "type": "text",
+         "text": "Tuesday Supper Club",
+         "fontFamily": "Cormorant Garamond",
+         "fontStyle": "italic",
+         "fontWeight": 600,
+         "fontSize": 88,
+         "lineHeight": 1,
+         "color": "{{bone}}",
+         "textAlign": "center"
+        },
+        {
+         "id": "rule",
+         "type": "frame",
+         "flexDirection": "row",
+         "gap": 18,
+         "alignItems": "center",
+         "children": [
+          {
+           "type": "line",
+           "width": 120,
+           "height": 0,
+           "stroke": {
+            "width": 2,
+            "color": "{{ember}}"
+           }
+          },
+          {
+           "type": "icon",
+           "name": "flame",
+           "color": "{{ember}}",
+           "width": 26,
+           "height": 26,
+           "strokeWidth": 1.75
+          },
+          {
+           "type": "line",
+           "width": 120,
+           "height": 0,
+           "stroke": {
+            "width": 2,
+            "color": "{{ember}}"
+           }
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "id": "menu",
+       "type": "frame",
+       "width": "fill",
+       "flexDirection": "column",
+       "gap": 18,
+       "stagger": 0.35,
+       "enter": {
+        "effect": "fade-up",
+        "delay": 1.0,
+        "duration": 0.6,
+        "distance": 24
+       },
+       "children": [
+        {
+         "id": "d",
+         "type": "use",
+         "component": "dish",
+         "each": [
+          {
+           "dish": "Charred leeks, whipped feta",
+           "price": "14",
+           "desc": "Hazelnut dukkah · lemon oil · <span style=\"color:{{ember}};font-weight:600\">V</span>"
+          },
+          {
+           "dish": "Burnt-honey carrots",
+           "price": "12",
+           "desc": "Labneh · pickled chilli · dill · <span style=\"color:{{ember}};font-weight:600\">V</span>"
+          },
+          {
+           "dish": "Smoked mussels on toast",
+           "price": "16",
+           "desc": "Brown butter · sea herbs · sourdough"
+          },
+          {
+           "dish": "Cast-iron chicken thigh",
+           "price": "24",
+           "desc": "Salsa verde · crisp potatoes · <span style=\"color:{{ember}};font-weight:600\">GF</span>"
+          },
+          {
+           "dish": "Ember-roasted celeriac",
+           "price": "21",
+           "desc": "Black garlic · walnut · sage · <span style=\"color:{{ember}};font-weight:600\">VG</span>"
+          },
+          {
+           "dish": "Olive-oil cake",
+           "price": "11",
+           "desc": "Crème fraîche · blood orange · <span style=\"color:{{ember}};font-weight:600\">V</span>"
+          }
+         ]
+        }
+       ],
+       "media": {
+        "a4": {
+         "gap": 34
+        }
+       }
+      },
+      {
+       "type": "spacer"
+      },
+      {
+       "id": "foot",
+       "type": "text",
+       "text": "Tuesdays at 7 · one long table · <span style=\"color:{{ember}}\">cinderandthyme.example</span>",
+       "width": "fill",
+       "textAlign": "center",
+       "fontFamily": "Space Mono",
+       "fontSize": 20,
+       "color": "{{muted}}",
+       "enter": {
+        "effect": "fade",
+        "delay": 3.4
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "dessertShot",
+   "type": "shot",
+   "duration": 3,
+   "transition": {
+    "type": "fade",
+    "duration": 0.8
+   },
+   "children": [
+    {
+     "id": "cakePhoto",
+     "type": "image",
+     "asset": "cake",
+     "width": "fill",
+     "height": "fill",
+     "animate": {
+      "scale": [
+       1.1,
+       1
+      ],
+      "duration": 3,
+      "ease": "sine.out"
+     },
+     "crop": {
+      "x": 0.28,
+      "y": 0.04,
+      "width": 0.46,
+      "height": 0.96
+     }
+    },
+    {
+     "type": "rect",
+     "width": "fill",
+     "height": "fill",
+     "fill": "linear-gradient(180deg, #17141200 40%, #171412EE 80%)"
+    },
+    {
+     "id": "book",
+     "type": "frame",
+     "place": "bottom",
+     "margin": [
+      0,
+      400
+     ],
+     "flexDirection": "column",
+     "gap": 24,
+     "alignItems": "center",
+     "children": [
+      {
+       "type": "text",
+       "text": "Save room for cake.",
+       "fontFamily": "Cormorant Garamond",
+       "fontStyle": "italic",
+       "fontWeight": 600,
+       "fontSize": 84,
+       "color": "{{bone}}",
+       "enter": {
+        "effect": "fade-up",
+        "delay": 0.7,
+        "duration": 0.7
+       }
+      },
+      {
+       "type": "frame",
+       "fill": "{{ember}}",
+       "borderRadius": "full",
+       "flexDirection": "row",
+       "gap": 14,
+       "padding": [
+        22,
+        40
+       ],
+       "alignItems": "center",
+       "enter": {
+        "effect": "pop",
+        "delay": 1.2,
+        "duration": 0.5
+       },
+       "children": [
+        {
+         "type": "text",
+         "text": "Book a seat · cinderandthyme.example",
+         "fontFamily": "Inter",
+         "fontSize": 32,
+         "fontWeight": 600,
+         "color": "{{coal}}",
+         "trim": "cap"
+        }
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ ]
+}

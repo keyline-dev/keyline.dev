@@ -1,0 +1,489 @@
+{
+ "width": 1080,
+ "height": 1080,
+ "sizes": [
+  "instagram-square",
+  {
+   "id": "instagram-story",
+   "width": 1080,
+   "height": 1920,
+   "safeArea": [
+    250,
+    0,
+    340,
+    0
+   ]
+  },
+  {
+   "id": "story-loop",
+   "width": 540,
+   "height": 960,
+   "scale": 0.5,
+   "safeArea": [
+    125,
+    0,
+    170,
+    0
+   ]
+  }
+ ],
+ "duration": 4,
+ "fps": 30,
+ "loop": true,
+ "background": "#FFF3E2",
+ "tokens": {
+  "paper": "#FFF3E2",
+  "tomato": "#E4572E",
+  "ink": "#2B2118",
+  "name": "Biscuit",
+  "age": "2 yrs",
+  "trait1": "house-trained",
+  "trait2": "loves kids",
+  "trait3": "blanket burrito",
+  "photo": "biscuit",
+  "focus": [
+   0.45,
+   0.5
+  ]
+ },
+ "assets": {
+  "biscuit": "https://picsum.photos/id/1025/1800/1200",
+  "pepper": "https://picsum.photos/id/237/1800/1200",
+  "juno": "https://picsum.photos/id/659/1800/1200",
+  "winston": "https://picsum.photos/id/837/1800/1200"
+ },
+ "styles": {
+  "chip": {
+   "flexDirection": "row",
+   "gap": 10,
+   "alignItems": "center",
+   "padding": [
+    14,
+    22
+   ],
+   "borderRadius": "full",
+   "fill": "#FFF3E2",
+   "stroke": {
+    "width": 3,
+    "color": "{{ink}}"
+   }
+  },
+  "chipText": {
+   "fontFamily": "Inter",
+   "fontSize": 28,
+   "fontWeight": 600,
+   "color": "{{ink}}",
+   "trim": "cap"
+  },
+  "chipIcon": {
+   "color": "{{tomato}}",
+   "width": 26,
+   "height": 26,
+   "strokeWidth": 2.5
+  }
+ },
+ "layers": [
+  {
+   "id": "grain",
+   "type": "rect",
+   "width": "fill",
+   "height": "fill",
+   "fill": [
+    {
+     "noise": 0.05,
+     "seed": 3
+    }
+   ]
+  },
+  {
+   "id": "wash",
+   "type": "path",
+   "shape": "blob-5",
+   "width": 1000,
+   "height": 1000,
+   "place": "top-left",
+   "margin": [
+    -420,
+    -380
+   ],
+   "fill": "#F9D9C4",
+   "media": {
+    "square": {
+     "width": 760,
+     "height": 760,
+     "margin": [
+      -300,
+      -320
+     ]
+    }
+   }
+  },
+  {
+   "id": "wash2",
+   "type": "path",
+   "shape": "blob-2",
+   "width": 900,
+   "height": 900,
+   "place": "bottom-right",
+   "margin": [
+    -360,
+    -420
+   ],
+   "fill": "#F9D9C4",
+   "hidden": false,
+   "media": {
+    "square": {
+     "hidden": true
+    }
+   }
+  },
+  {
+   "id": "page",
+   "type": "frame",
+   "width": "fill",
+   "height": "fill",
+   "flexDirection": "column",
+   "clipsContent": false,
+   "media": {
+    "square": {
+     "padding": null
+    }
+   },
+   "children": [
+    {
+     "id": "main",
+     "type": "frame",
+     "width": "fill",
+     "height": "fill",
+     "clipsContent": false,
+     "children": [
+      {
+       "id": "art",
+       "type": "frame",
+       "width": 820,
+       "height": 820,
+       "place": "top",
+       "margin": [
+        0,
+        0
+       ],
+       "clipsContent": false,
+       "media": {
+        "square": {
+         "width": 660,
+         "height": 660,
+         "place": "right",
+         "margin": [
+          30,
+          10
+         ]
+        }
+       },
+       "children": [
+        {
+         "id": "ring",
+         "type": "path",
+         "shape": "blob-3",
+         "width": "fill",
+         "height": "fill",
+         "fill": [],
+         "stroke": {
+          "width": 5,
+          "color": "{{tomato}}"
+         },
+         "rotate": 6,
+         "translate": [
+          18,
+          22
+         ],
+         "enter": {
+          "effect": "zoom-in",
+          "delay": 0.15,
+          "duration": 0.6
+         }
+        },
+        {
+         "id": "photo",
+         "type": "image",
+         "asset": "{{photo}}",
+         "focus": "{{focus}}",
+         "width": "fill",
+         "height": "fill",
+         "mask": "blob-3",
+         "rotate": -4,
+         "enter": {
+          "effect": "pop",
+          "duration": 0.6
+         }
+        }
+       ]
+      },
+      {
+       "id": "copy",
+       "type": "frame",
+       "width": 936,
+       "place": "bottom-left",
+       "margin": [
+        72,
+        40
+       ],
+       "flexDirection": "column",
+       "gap": 26,
+       "alignItems": "flex-start",
+       "clipsContent": false,
+       "media": {
+        "square": {
+         "width": 560,
+         "place": "left",
+         "margin": [
+          72,
+          0
+         ]
+        }
+       },
+       "children": [
+        {
+         "id": "meet",
+         "type": "frame",
+         "flexDirection": "row",
+         "gap": 14,
+         "alignItems": "center",
+         "clipsContent": false,
+         "children": [
+          {
+           "id": "heart",
+           "type": "icon",
+           "name": "heart",
+           "set": "solid",
+           "color": "{{tomato}}",
+           "width": 34,
+           "height": 34,
+           "animate": {
+            "scale": [
+             1,
+             1.25,
+             1,
+             1.12,
+             1
+            ],
+            "duration": 0.8,
+            "repeat": -1,
+            "ease": "sine.inOut"
+           }
+          },
+          {
+           "type": "text",
+           "text": "MEET",
+           "fontFamily": "Inter",
+           "fontSize": 30,
+           "fontWeight": 800,
+           "letterSpacing": 8,
+           "color": "{{ink}}",
+           "trim": "cap"
+          }
+         ],
+         "padding": [
+          0,
+          0,
+          20,
+          0
+         ]
+        },
+        {
+         "id": "name",
+         "role": "name",
+         "type": "text",
+         "text": "{{name}}",
+         "width": "fill",
+         "fontFamily": "Bricolage Grotesque",
+         "fontSize": 164,
+         "fontWeight": 800,
+         "lineHeight": 0.98,
+         "letterSpacing": -4,
+         "color": "{{paper}}",
+         "highlight": {
+          "color": "{{tomato}}",
+          "shape": "brush",
+          "padding": 14
+         },
+         "split": "words",
+         "stagger": 0.15,
+         "enter": {
+          "effect": "zoom-in",
+          "delay": 0.3,
+          "duration": 0.5,
+          "ease": "back.out"
+         },
+         "media": {
+          "square": {
+           "fontSize": 140
+          }
+         }
+        },
+        {
+         "id": "age",
+         "type": "text",
+         "text": "{{age}} old, and ready for a sofa of their own.",
+         "width": "fill",
+         "fontFamily": "Inter",
+         "fontSize": 36,
+         "lineHeight": 1.3,
+         "color": "{{ink}}",
+         "enter": {
+          "effect": "fade",
+          "delay": 0.9
+         },
+         "media": {
+          "square": {
+           "width": 340,
+           "fontSize": 30
+          }
+         }
+        },
+        {
+         "id": "chips",
+         "type": "frame",
+         "width": "fill",
+         "flexDirection": "row",
+         "flexWrap": "wrap",
+         "gap": 12,
+         "alignItems": "flex-start",
+         "stagger": 0.1,
+         "clipsContent": false,
+         "enter": {
+          "effect": "pop",
+          "delay": 1.1,
+          "duration": 0.45
+         },
+         "media": {
+          "square": {
+           "width": 360
+          }
+         },
+         "children": [
+          {
+           "type": "frame",
+           "style": "chip",
+           "children": [
+            {
+             "type": "icon",
+             "name": "paw-print",
+             "style": "chipIcon"
+            },
+            {
+             "type": "text",
+             "style": "chipText",
+             "text": "{{trait1}}"
+            }
+           ]
+          },
+          {
+           "type": "frame",
+           "style": "chip",
+           "children": [
+            {
+             "type": "icon",
+             "name": "heart",
+             "style": "chipIcon"
+            },
+            {
+             "type": "text",
+             "style": "chipText",
+             "text": "{{trait2}}"
+            }
+           ]
+          },
+          {
+           "type": "frame",
+           "style": "chip",
+           "children": [
+            {
+             "type": "icon",
+             "name": "sparkles",
+             "style": "chipIcon"
+            },
+            {
+             "type": "text",
+             "style": "chipText",
+             "text": "{{trait3}}"
+            }
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "strip",
+     "type": "frame",
+     "width": "fill",
+     "fill": "#C4441F",
+     "edges": {
+      "sides": [
+       "top",
+       "bottom"
+      ],
+      "depth": 12,
+      "seed": 5
+     },
+     "flexDirection": "row",
+     "gap": 16,
+     "padding": [
+      42,
+      72
+     ],
+     "alignItems": "center",
+     "justifyContent": "center",
+     "media": {
+      "square": {
+       "edges": {
+        "sides": [
+         "top"
+        ],
+        "depth": 12,
+        "seed": 5
+       },
+       "padding": [
+        36,
+        72,
+        32,
+        72
+       ],
+       "rotate": null,
+       "scale": null
+      }
+     },
+     "children": [
+      {
+       "type": "icon",
+       "name": "paw",
+       "set": "solid",
+       "color": "{{paper}}",
+       "width": 38,
+       "height": 38
+      },
+      {
+       "type": "text",
+       "text": "Adopt {{name}} at <b>kindlepaw.example</b>",
+       "fontFamily": "Inter",
+       "fontSize": 34,
+       "fontWeight": 500,
+       "color": "{{paper}}",
+       "trim": "cap"
+      }
+     ],
+     "rotate": -2,
+     "scale": 1.08
+    }
+   ],
+   "padding": [
+    250,
+    0,
+    300,
+    0
+   ]
+  }
+ ]
+}

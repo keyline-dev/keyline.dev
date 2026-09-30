@@ -1,0 +1,255 @@
+{
+ "width": 1080,
+ "height": 1920,
+ "sizes": [
+  {
+   "id": "thumb",
+   "width": 1280,
+   "height": 720,
+   "scale": 0.8
+  }
+ ],
+ "background": "#12002E",
+ "assets": {
+  "stage": "https://picsum.photos/id/158/2880/1920"
+ },
+ "tokens": {
+  "midnight": "#12002E",
+  "magenta": "#FF3D8B",
+  "pale": "#FFE3EF"
+ },
+ "styles": {},
+ "layers": [
+  {
+   "id": "lineup-card",
+   "type": "frame",
+   "width": "fill",
+   "height": "fill",
+   "children": [
+    {
+     "id": "bg4",
+     "type": "rect",
+     "width": "fill",
+     "height": "fill",
+     "fill": [
+      "{{midnight}}",
+      {
+       "gradient": {
+        "type": "radial",
+        "center": [
+         0.5,
+         1.05
+        ],
+        "radius": [
+         0.9,
+         0.55
+        ],
+        "stops": [
+         "#FF3D8B8C",
+         "#FF3D8B00"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "id": "photo",
+     "type": "image",
+     "asset": "stage",
+     "width": "fill",
+     "height": "fill",
+     "opacity": 0.35,
+     "filter": {
+      "duotone": [
+       "#12002E",
+       "#FF3D8B"
+      ],
+      "contrast": 1.15
+     }
+    },
+    {
+     "id": "lineup",
+     "type": "frame",
+     "width": "fill",
+     "height": "fill",
+     "flexDirection": "column",
+     "alignItems": "center",
+     "justifyContent": "center",
+     "gap": 44,
+     "padding": [
+      400,
+      72,
+      360,
+      72
+     ],
+     "clipsContent": false,
+     "media": {
+      "thumb": {
+       "padding": [
+        190,
+        80,
+        70,
+        80
+       ],
+       "gap": 30
+      }
+     },
+     "children": [
+      {
+       "id": "presents",
+       "type": "text",
+       "text": "Headlining",
+       "fontFamily": "Space Mono",
+       "fontSize": 34,
+       "fontWeight": 700,
+       "letterSpacing": 8,
+       "textTransform": "uppercase",
+       "color": "{{magenta}}",
+       "media": {
+        "thumb": {
+         "fontSize": 26
+        }
+       }
+      },
+      {
+       "id": "headliner",
+       "type": "text",
+       "text": "Velvet<br>Static",
+       "fontFamily": "Anton",
+       "fontSize": 250,
+       "lineHeight": 0.9,
+       "textAlign": "center",
+       "textTransform": "uppercase",
+       "color": "#FFFFFF",
+       "shadow": {
+        "blur": 40,
+        "color": "#FF3D8B99"
+       },
+       "media": {
+        "thumb": {
+         "text": "Velvet Static",
+         "fontSize": 190
+        }
+       }
+      },
+      {
+       "id": "rule",
+       "type": "rect",
+       "width": 160,
+       "height": 6,
+       "fill": "{{magenta}}"
+      },
+      {
+       "id": "acts",
+       "type": "text",
+       "role": "act",
+       "text": "Mira Sol <span style=\"color:{{magenta}}\">·</span> Halcyon Drive<br>Neon Orchard <span style=\"color:{{magenta}}\">·</span> Kid Lanterna<br>Twin Harbour <span style=\"color:{{magenta}}\">·</span> Sable &amp; Rye",
+       "fontFamily": "Anton",
+       "fontSize": 78,
+       "lineHeight": 1.12,
+       "textTransform": "uppercase",
+       "color": "{{pale}}",
+       "textAlign": "center",
+       "width": "fill",
+       "media": {
+        "thumb": {
+         "hidden": true
+        }
+       }
+      },
+      {
+       "id": "acts-wide",
+       "type": "text",
+       "role": "act",
+       "text": "Mira Sol <span style=\"color:{{magenta}}\">·</span> Halcyon Drive <span style=\"color:{{magenta}}\">·</span> Neon Orchard<br>Kid Lanterna <span style=\"color:{{magenta}}\">·</span> Twin Harbour <span style=\"color:{{magenta}}\">·</span> Sable &amp; Rye",
+       "fontFamily": "Anton",
+       "fontSize": 58,
+       "lineHeight": 1.12,
+       "textTransform": "uppercase",
+       "color": "{{pale}}",
+       "textAlign": "center",
+       "width": "fill",
+       "media": {
+        "thumb": {
+         "hidden": false
+        }
+       },
+       "hidden": true
+      },
+      {
+       "id": "date",
+       "type": "frame",
+       "fill": "{{magenta}}",
+       "flexDirection": "row",
+       "padding": [
+        22,
+        36
+       ],
+       "alignItems": "center",
+       "children": [
+        {
+         "type": "text",
+         "text": "AUG 14–16 · PIER 9",
+         "fontFamily": "Space Mono",
+         "fontSize": 46,
+         "fontWeight": 700,
+         "letterSpacing": 2,
+         "color": "{{midnight}}",
+         "trim": "cap"
+        }
+       ],
+       "media": {
+        "thumb": {
+         "padding": [
+          18,
+          30
+         ]
+        }
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mark",
+   "type": "frame",
+   "place": "top",
+   "margin": [
+    0,
+    250
+   ],
+   "fill": "{{magenta}}",
+   "flexDirection": "row",
+   "padding": [
+    18,
+    40
+   ],
+   "media": {
+    "thumb": {
+     "margin": [
+      0,
+      56
+     ]
+    }
+   },
+   "children": [
+    {
+     "id": "wordmark",
+     "type": "text",
+     "text": "NIGHTLINE",
+     "fontFamily": "Anton",
+     "fontSize": 120,
+     "letterSpacing": 14,
+     "knockout": true,
+     "trim": "cap",
+     "media": {
+      "thumb": {
+       "fontSize": 96
+      }
+     }
+    }
+   ]
+  }
+ ]
+}

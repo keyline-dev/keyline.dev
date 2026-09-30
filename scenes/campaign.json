@@ -1,0 +1,446 @@
+{
+ "width": 1080,
+ "height": 1350,
+ "sizes": [
+  "instagram-portrait",
+  "facebook-feed",
+  {
+   "id": "iab-medium-rectangle",
+   "width": 300,
+   "height": 250,
+   "scale": 0.36
+  },
+  {
+   "id": "iab-half-page",
+   "width": 300,
+   "height": 600,
+   "scale": 0.4
+  }
+ ],
+ "background": "#0E4D5C",
+ "tokens": {
+  "teal": "#0E4D5C",
+  "gold": "#F2B33D",
+  "paper": "#FAF6EE",
+  "headline": "A District 4 that works for families.",
+  "headlineShort": "Families first.",
+  "office": "City Council · District 4",
+  "cta": "Vote by Nov 3",
+  "tag": "Election Day · Nov 3",
+  "disclaimer": "Paid for by Neighbors for Maya Okafor.",
+  "hlStart": 18,
+  "hlEnd": 37,
+  "hsEnd": 15
+ },
+ "assets": {
+  "street": "https://picsum.photos/id/57/1500/2000"
+ },
+ "styles": {
+  "head": {
+   "fontFamily": "Archivo",
+   "fontWeight": 800,
+   "color": "{{paper}}",
+   "lineHeight": 1.02,
+   "letterSpacing": -1.5,
+   "width": "fill",
+   "textWrap": "balance"
+  }
+ },
+ "layers": [
+  {
+   "id": "grid",
+   "type": "frame",
+   "width": "fill",
+   "height": "fill",
+   "gridTemplateRows": "1fr auto",
+   "gridTemplateAreas": [
+    "photo",
+    "panel"
+   ],
+   "clipsContent": false,
+   "media": {
+    "landscape": {
+     "gridTemplateRows": "1fr",
+     "gridTemplateColumns": "46% 1fr",
+     "gridTemplateAreas": [
+      "photo panel"
+     ]
+    },
+    "iab-medium-rectangle": {
+     "gridTemplateRows": "1fr auto",
+     "gridTemplateColumns": "1fr",
+     "gridTemplateAreas": [
+      "photo",
+      "panel"
+     ]
+    }
+   },
+   "children": [
+    {
+     "id": "photoCell",
+     "type": "frame",
+     "gridArea": "photo",
+     "children": [
+      {
+       "id": "photo",
+       "type": "image",
+       "asset": "street",
+       "width": "fill",
+       "height": "fill",
+       "focus": [
+        0.5,
+        0.42
+       ],
+       "filter": {
+        "saturate": 0.9,
+        "contrast": 1.05
+       }
+      },
+      {
+       "id": "shade",
+       "type": "rect",
+       "width": "fill",
+       "height": "fill",
+       "fill": "linear-gradient(180deg, #0E4D5C66 0%, #0E4D5C00 35%)"
+      },
+      {
+       "id": "tag",
+       "type": "frame",
+       "place": "top-left",
+       "margin": 48,
+       "fill": "{{gold}}",
+       "borderRadius": "full",
+       "flexDirection": "row",
+       "gap": 12,
+       "padding": [
+        16,
+        26
+       ],
+       "alignItems": "center",
+       "media": {
+        "iab-medium-rectangle": {
+         "hidden": true
+        },
+        "tall": {
+         "hidden": true
+        }
+       },
+       "children": [
+        {
+         "type": "icon",
+         "name": "calendar-check",
+         "color": "{{teal}}",
+         "width": 30,
+         "height": 30,
+         "strokeWidth": 2.5
+        },
+        {
+         "type": "text",
+         "text": "{{tag}}",
+         "fontFamily": "Inter",
+         "fontSize": 28,
+         "fontWeight": 700,
+         "color": "{{teal}}",
+         "trim": "cap"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "panel",
+     "type": "frame",
+     "gridArea": "panel",
+     "fill": "{{teal}}",
+     "edges": {
+      "sides": [
+       "top"
+      ],
+      "depth": 16,
+      "seed": 11
+     },
+     "translate": [
+      0,
+      -18
+     ],
+     "flexDirection": "column",
+     "gap": 40,
+     "padding": [
+      64,
+      72,
+      40,
+      72
+     ],
+     "alignItems": "flex-start",
+     "clipsContent": false,
+     "media": {
+      "landscape": {
+       "edges": {
+        "sides": [
+         "left"
+        ],
+        "depth": 16,
+        "seed": 11
+       },
+       "translate": [
+        -18,
+        0
+       ],
+       "padding": [
+        56,
+        56,
+        40,
+        64
+       ],
+       "gap": 24,
+       "justifyContent": "center"
+      },
+      "iab-medium-rectangle": {
+       "edges": {
+        "sides": [
+         "top"
+        ],
+        "depth": 16,
+        "seed": 11
+       },
+       "translate": [
+        0,
+        -18
+       ],
+       "padding": [
+        44,
+        48,
+        30,
+        48
+       ],
+       "gap": 18
+      }
+     },
+     "children": [
+      {
+       "id": "headFit",
+       "type": "firstFit",
+       "width": "fill",
+       "media": {
+        "iab-medium-rectangle": {
+         "hidden": true
+        }
+       },
+       "children": [
+        {
+         "id": "headline",
+         "role": "headline",
+         "type": "text",
+         "style": "head",
+         "text": "{{headline}}",
+         "fontSize": 84,
+         "minimumScaleFactor": 0.85,
+         "media": {
+          "landscape": {
+           "fontSize": 64
+          },
+          "tall": {
+           "fontSize": 76
+          }
+         },
+         "ranges": [
+          {
+           "start": "{{hlStart}}",
+           "end": "{{hlEnd}}",
+           "color": "{{teal}}",
+           "highlight": {
+            "color": "{{gold}}",
+            "shape": "brush",
+            "padding": 6
+           }
+          }
+         ]
+        },
+        {
+         "id": "headlineShort",
+         "role": "headline",
+         "type": "text",
+         "style": "head",
+         "text": "{{headlineShort}}",
+         "fontSize": 84,
+         "minimumScaleFactor": 0.85,
+         "media": {
+          "landscape": {
+           "fontSize": 64
+          }
+         },
+         "ranges": [
+          {
+           "start": 0,
+           "end": "{{hsEnd}}",
+           "color": "{{teal}}",
+           "highlight": {
+            "color": "{{gold}}",
+            "shape": "brush",
+            "padding": 6
+           }
+          }
+         ]
+        }
+       ]
+      },
+      {
+       "id": "who",
+       "type": "frame",
+       "flexDirection": "column",
+       "gap": 10,
+       "width": "fill",
+       "children": [
+        {
+         "id": "name",
+         "type": "text",
+         "text": "Maya Okafor",
+         "textTransform": "uppercase",
+         "fontFamily": "Archivo Narrow",
+         "fontSize": 60,
+         "fontWeight": 700,
+         "letterSpacing": 1,
+         "color": "{{gold}}",
+         "trim": "cap",
+         "media": {
+          "landscape": {
+           "fontSize": 48
+          },
+          "iab-medium-rectangle": {
+           "fontSize": 88
+          }
+         }
+        },
+        {
+         "id": "office",
+         "type": "text",
+         "text": "{{office}}",
+         "width": "fill",
+         "fontFamily": "Inter",
+         "fontSize": 30,
+         "fontWeight": 500,
+         "color": "{{paper}}",
+         "media": {
+          "landscape": {
+           "fontSize": 26
+          },
+          "iab-medium-rectangle": {
+           "fontSize": 38
+          },
+          "tall": {
+           "fontSize": 34
+          }
+         }
+        }
+       ]
+      },
+      {
+       "id": "cta",
+       "type": "frame",
+       "fill": "{{gold}}",
+       "flexDirection": "row",
+       "gap": 16,
+       "padding": [
+        24,
+        34
+       ],
+       "alignItems": "center",
+       "borderRadius": 6,
+       "media": {
+        "iab-medium-rectangle": {
+         "hidden": true
+        },
+        "tall": {
+         "width": "fill",
+         "justifyContent": "center"
+        }
+       },
+       "children": [
+        {
+         "type": "icon",
+         "name": "check-square",
+         "set": "solid",
+         "color": "{{teal}}",
+         "width": 36,
+         "height": 36
+        },
+        {
+         "id": "ctaText",
+         "type": "text",
+         "text": "{{cta}}",
+         "fontFamily": "Archivo",
+         "fontSize": 38,
+         "fontWeight": 800,
+         "color": "{{teal}}",
+         "trim": "cap",
+         "media": {
+          "landscape": {
+           "fontSize": 32
+          }
+         }
+        }
+       ]
+      },
+      {
+       "id": "disclaimer",
+       "type": "text",
+       "text": "{{disclaimer}}",
+       "width": "fill",
+       "fontFamily": "Inter",
+       "fontSize": 20,
+       "color": "#FAF6EECC",
+       "media": {
+        "iab-medium-rectangle": {
+         "fontSize": 26
+        },
+        "tall": {
+         "fontSize": 24
+        }
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ctaBadge",
+   "type": "frame",
+   "hidden": true,
+   "place": "top-right",
+   "margin": 20,
+   "fill": "{{gold}}",
+   "borderRadius": 8,
+   "flexDirection": "row",
+   "gap": 12,
+   "padding": [
+    22,
+    28
+   ],
+   "alignItems": "center",
+   "media": {
+    "iab-medium-rectangle": {
+     "hidden": false
+    }
+   },
+   "children": [
+    {
+     "type": "icon",
+     "name": "check-square",
+     "set": "solid",
+     "color": "{{teal}}",
+     "width": 44,
+     "height": 44
+    },
+    {
+     "type": "text",
+     "text": "{{cta}}",
+     "fontFamily": "Archivo",
+     "fontSize": 46,
+     "fontWeight": 800,
+     "color": "{{teal}}",
+     "trim": "cap"
+    }
+   ]
+  }
+ ]
+}

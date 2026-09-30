@@ -1,0 +1,24 @@
+[
+ {
+  "headline": "A District 4 that works for families.",
+  "headlineShort": "Families first.",
+  "hlStart": 18,
+  "hlEnd": 37,
+  "hsEnd": 15,
+  "office": "City Council · District 4",
+  "cta": "Vote by Nov 3",
+  "tag": "Election Day · Nov 3",
+  "disclaimer": "Paid for by Neighbors for Maya Okafor."
+ },
+ {
+  "headline": "Un Distrito 4 que funciona para las familias.",
+  "headlineShort": "Primero, las familias.",
+  "hlStart": 18,
+  "hlEnd": 45,
+  "hsEnd": 22,
+  "office": "Concejo Municipal · Distrito 4",
+  "cta": "Vote antes del 3 de nov.",
+  "tag": "Elecciones · 3 de nov.",
+  "disclaimer": "Pagado por Vecinos con Maya Okafor."
+ }
+]

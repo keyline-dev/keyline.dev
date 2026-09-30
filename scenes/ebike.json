@@ -1,0 +1,696 @@
+{
+ "width": 1080,
+ "height": 1350,
+ "sizes": [
+  {
+   "id": "portrait",
+   "width": 1080,
+   "height": 1350
+  },
+  {
+   "id": "feed",
+   "width": 1200,
+   "height": 628,
+   "scale": 0.75
+  },
+  {
+   "id": "half-page",
+   "width": 300,
+   "height": 600,
+   "scale": 0.36
+  },
+  {
+   "id": "mpu",
+   "width": 300,
+   "height": 250,
+   "scale": 0.3
+  },
+  {
+   "id": "leaderboard",
+   "width": 728,
+   "height": 90,
+   "scale": 0.3
+  },
+  {
+   "id": "web",
+   "width": 540,
+   "height": 675,
+   "scale": 0.5
+  }
+ ],
+ "duration": 6,
+ "fps": 25,
+ "loop": true,
+ "background": "#F3E9DA",
+ "assets": {
+  "bike": "https://picsum.photos/id/839/2400/1600"
+ },
+ "tokens": {
+  "sand": "#F3E9DA",
+  "olive": "#2F3B2A",
+  "orange": "#FF6A1A",
+  "muted": "#5E6656"
+ },
+ "styles": {
+  "accent": {
+   "color": "{{orange}}"
+  }
+ },
+ "components": {
+  "spec": {
+   "type": "frame",
+   "width": "fill",
+   "flexDirection": "column",
+   "gap": 6,
+   "alignItems": "flex-start",
+   "children": [
+    {
+     "type": "icon",
+     "name": "{{icon}}",
+     "color": "{{orange}}",
+     "width": 40,
+     "height": 40,
+     "strokeWidth": 2.25,
+     "media": {
+      "tall": {
+       "width": 46,
+       "height": 46
+      }
+     }
+    },
+    {
+     "type": "text",
+     "role": "spec-value",
+     "text": "{{value}}",
+     "fontFamily": "Instrument Sans",
+     "fontSize": 40,
+     "fontWeight": 700,
+     "color": "{{olive}}",
+     "features": {
+      "tnum": 1
+     },
+     "media": {
+      "tall": {
+       "fontSize": 46
+      }
+     }
+    },
+    {
+     "type": "text",
+     "role": "spec-label",
+     "text": "{{label}}",
+     "fontSize": 24,
+     "color": "{{muted}}",
+     "width": "fill",
+     "media": {
+      "tall": {
+       "fontSize": 30
+      }
+     }
+    }
+   ]
+  }
+ },
+ "layers": [
+  {
+   "id": "page",
+   "type": "frame",
+   "width": "fill",
+   "height": "fill",
+   "flexDirection": "column",
+   "media": {
+    "landscape": {
+     "flexDirection": "row"
+    },
+    "mpu": {
+     "flexDirection": "column"
+    }
+   },
+   "children": [
+    {
+     "id": "photo-wrap",
+     "type": "frame",
+     "width": "fill",
+     "height": "52%",
+     "mask": {
+      "angle": 180,
+      "stops": [
+       {
+        "offset": 0.72,
+        "color": "#000"
+       },
+       {
+        "offset": 0.97,
+        "color": "#0000"
+       }
+      ]
+     },
+     "media": {
+      "landscape": {
+       "width": "50%",
+       "height": "fill",
+       "mask": {
+        "angle": 90,
+        "stops": [
+         {
+          "offset": 0.68,
+          "color": "#000"
+         },
+         {
+          "offset": 0.97,
+          "color": "#0000"
+         }
+        ]
+       }
+      },
+      "tall": {
+       "height": "50%"
+      },
+      "mpu": {
+       "width": "fill",
+       "height": "50%",
+       "mask": {
+        "angle": 180,
+        "stops": [
+         {
+          "offset": 0.7,
+          "color": "#000"
+         },
+         {
+          "offset": 0.97,
+          "color": "#0000"
+         }
+        ]
+       }
+      },
+      "wide": {
+       "width": 520,
+       "height": "fill",
+       "mask": {
+        "angle": 90,
+        "stops": [
+         {
+          "offset": 0.7,
+          "color": "#000"
+         },
+         {
+          "offset": 0.97,
+          "color": "#0000"
+         }
+        ]
+       }
+      }
+     },
+     "children": [
+      {
+       "id": "photo",
+       "type": "image",
+       "asset": "bike",
+       "width": "fill",
+       "height": "fill",
+       "focus": [
+        0.62,
+        0.6
+       ],
+       "filter": {
+        "saturate": 1.05,
+        "contrast": 1.04
+       },
+       "scale": 1.12,
+       "animate": {
+        "translate": [
+         [
+          60,
+          0
+         ],
+         [
+          -60,
+          0
+         ]
+        ],
+        "duration": 6,
+        "ease": "none"
+       },
+       "media": {
+        "tall": {
+         "focus": [
+          0.66,
+          0.62
+         ]
+        },
+        "wide": {
+         "focus": [
+          0.64,
+          0.3
+         ]
+        }
+       }
+      },
+      {
+       "id": "badge",
+       "type": "frame",
+       "place": "top-left",
+       "margin": 44,
+       "fill": "{{sand}}",
+       "borderRadius": "full",
+       "shadow": {
+        "y": 6,
+        "blur": 18,
+        "color": "#2F3B2A33"
+       },
+       "flexDirection": "row",
+       "gap": 12,
+       "padding": [
+        16,
+        26
+       ],
+       "alignItems": "center",
+       "media": {
+        "wide": {
+         "hidden": true
+        }
+       },
+       "enter": {
+        "effect": "fade-down",
+        "delay": 0.1,
+        "duration": 0.5,
+        "distance": 20
+       },
+       "children": [
+        {
+         "type": "ellipse",
+         "width": 14,
+         "height": 14,
+         "fill": "{{orange}}"
+        },
+        {
+         "type": "text",
+         "text": "NEW · LOAM CARGO",
+         "fontFamily": "Instrument Sans",
+         "fontSize": 24,
+         "fontWeight": 700,
+         "letterSpacing": 2.5,
+         "color": "{{olive}}",
+         "trim": "cap"
+        }
+       ]
+      }
+     ]
+    },
+    {
+     "id": "content",
+     "type": "frame",
+     "width": "fill",
+     "height": "fill",
+     "flexDirection": "column",
+     "gap": 36,
+     "padding": [
+      0,
+      72,
+      64,
+      72
+     ],
+     "justifyContent": "center",
+     "alignItems": "stretch",
+     "media": {
+      "landscape": {
+       "padding": [
+        56,
+        64,
+        56,
+        24
+       ],
+       "gap": 34
+      },
+      "tall": {
+       "padding": [
+        0,
+        48,
+        56,
+        48
+       ],
+       "gap": 34
+      },
+      "mpu": {
+       "padding": [
+        0,
+        48,
+        44,
+        48
+       ],
+       "gap": 26
+      },
+      "wide": {
+       "flexDirection": "row",
+       "alignItems": "center",
+       "gap": 48,
+       "padding": [
+        0,
+        64,
+        0,
+        16
+       ]
+      }
+     },
+     "children": [
+      {
+       "id": "headline",
+       "type": "text",
+       "role": "headline",
+       "text": "Errands,<br><accent>electrified.</accent>",
+       "fontFamily": "Instrument Sans",
+       "fontSize": 104,
+       "fontWeight": 700,
+       "lineHeight": 0.98,
+       "letterSpacing": -2.5,
+       "color": "{{olive}}",
+       "width": "fill",
+       "enter": {
+        "effect": "fade-up",
+        "delay": 0.2,
+        "duration": 0.7,
+        "distance": 36
+       },
+       "media": {
+        "mpu": {
+         "hidden": true
+        },
+        "wide": {
+         "hidden": true
+        }
+       }
+      },
+      {
+       "id": "title-short",
+       "type": "frame",
+       "width": "fill",
+       "flexDirection": "column",
+       "gap": 10,
+       "alignItems": "flex-start",
+       "hidden": true,
+       "enter": {
+        "effect": "fade-up",
+        "delay": 0.2,
+        "duration": 0.7,
+        "distance": 30
+       },
+       "media": {
+        "mpu": {
+         "hidden": false
+        },
+        "wide": {
+         "hidden": false
+        }
+       },
+       "children": [
+        {
+         "id": "eyebrow",
+         "type": "text",
+         "text": "NEW · LOAM CARGO",
+         "fontFamily": "Instrument Sans",
+         "fontSize": 30,
+         "fontWeight": 700,
+         "letterSpacing": 3,
+         "color": "{{muted}}",
+         "hidden": true,
+         "media": {
+          "wide": {
+           "hidden": false
+          }
+         }
+        },
+        {
+         "id": "headline-line",
+         "type": "text",
+         "text": "Errands, <accent>electrified.</accent>",
+         "fontFamily": "Instrument Sans",
+         "fontSize": 84,
+         "fontWeight": 700,
+         "letterSpacing": -2,
+         "color": "{{olive}}",
+         "width": "fill",
+         "role": "headline",
+         "media": {
+          "wide": {
+           "fontSize": 92
+          }
+         }
+        }
+       ],
+       "clipsContent": false
+      },
+      {
+       "id": "rule",
+       "type": "rect",
+       "height": 2,
+       "width": "fill",
+       "fill": "#2F3B2A26",
+       "media": {
+        "mpu": {
+         "hidden": true
+        },
+        "wide": {
+         "hidden": true
+        }
+       }
+      },
+      {
+       "id": "specs",
+       "type": "frame",
+       "width": "fill",
+       "flexDirection": "row",
+       "gap": 28,
+       "alignItems": "flex-start",
+       "stagger": 0.15,
+       "media": {
+        "mpu": {
+         "hidden": true
+        },
+        "wide": {
+         "hidden": true
+        }
+       },
+       "children": [
+        {
+         "id": "spec",
+         "type": "use",
+         "component": "spec",
+         "enter": {
+          "effect": "fade-left",
+          "delay": 0.9,
+          "duration": 0.5,
+          "distance": 30
+         },
+         "each": [
+          {
+           "icon": "battery-charging",
+           "value": "80 km",
+           "label": "range"
+          },
+          {
+           "icon": "gauge",
+           "value": "25 km/h",
+           "label": "pedal assist"
+          },
+          {
+           "icon": "package",
+           "value": "2 kids",
+           "label": "+ the groceries"
+          }
+         ]
+        }
+       ],
+       "clipsContent": false
+      },
+      {
+       "id": "buy",
+       "type": "frame",
+       "width": "fill",
+       "flexDirection": [
+        "row",
+        "column"
+       ],
+       "gap": [
+        22,
+        32
+       ],
+       "alignItems": "center",
+       "justifyContent": "space-between",
+       "media": {
+        "tall": {
+         "flexDirection": "column",
+         "alignItems": "stretch"
+        },
+        "wide": {
+         "width": "hug",
+         "gap": 44,
+         "flexDirection": "row",
+         "alignItems": "center"
+        },
+        "mpu": {
+         "flexDirection": "row",
+         "alignItems": "center"
+        },
+        "landscape": {
+         "alignItems": "flex-start"
+        }
+       },
+       "children": [
+        {
+         "id": "price",
+         "type": "frame",
+         "flexDirection": "column",
+         "gap": 4,
+         "alignItems": "flex-start",
+         "enter": {
+          "effect": "pop",
+          "delay": 1.8,
+          "duration": 0.5
+         },
+         "media": {
+          "tall": {
+           "alignItems": "center"
+          }
+         },
+         "children": [
+          {
+           "id": "price-row",
+           "type": "frame",
+           "flexDirection": "row",
+           "gap": 18,
+           "alignItems": "baseline",
+           "children": [
+            {
+             "id": "price-was",
+             "type": "text",
+             "text": "<s>$2,190</s>",
+             "fontFamily": "Instrument Sans",
+             "fontSize": 40,
+             "fontWeight": 500,
+             "color": "{{muted}}",
+             "features": {
+              "tnum": 1
+             }
+            },
+            {
+             "id": "price-now",
+             "type": "text",
+             "text": "$1,890",
+             "fontFamily": "Instrument Sans",
+             "fontSize": 60,
+             "fontWeight": 700,
+             "color": "{{olive}}",
+             "features": {
+              "tnum": 1
+             }
+            }
+           ]
+          },
+          {
+           "id": "price-note",
+           "type": "text",
+           "text": "Launch price · until Oct 31",
+           "fontSize": 24,
+           "color": "{{muted}}",
+           "media": {
+            "wide": {
+             "hidden": true
+            },
+            "mpu": {
+             "hidden": true
+            },
+            "tall": {
+             "fontSize": 30
+            }
+           }
+          }
+         ],
+         "clipsContent": false
+        },
+        {
+         "id": "cta",
+         "type": "frame",
+         "fill": "{{orange}}",
+         "borderRadius": "full",
+         "flexDirection": "row",
+         "gap": 14,
+         "padding": [
+          28,
+          44
+         ],
+         "alignItems": "center",
+         "justifyContent": "center",
+         "shadow": {
+          "y": 10,
+          "blur": 24,
+          "color": "#FF6A1A44"
+         },
+         "enter": {
+          "effect": "pop",
+          "delay": 2.2,
+          "duration": 0.5
+         },
+         "animate": {
+          "scale": [
+           1,
+           1.07,
+           1
+          ],
+          "delay": 3,
+          "duration": 0.8,
+          "ease": "sine.inOut"
+         },
+         "children": [
+          {
+           "type": "text",
+           "text": "Book a test ride",
+           "fontFamily": "Instrument Sans",
+           "fontSize": 34,
+           "fontWeight": 700,
+           "color": "#1E2619",
+           "trim": "cap"
+          },
+          {
+           "type": "icon",
+           "name": "arrow-right",
+           "color": "#1E2619",
+           "width": 34,
+           "height": 34,
+           "strokeWidth": 2.5
+          }
+         ]
+        }
+       ],
+       "clipsContent": false
+      }
+     ],
+     "clipsContent": false
+    }
+   ]
+  },
+  {
+   "id": "curtain",
+   "type": "rect",
+   "width": "fill",
+   "height": "fill",
+   "fill": "{{sand}}",
+   "opacity": 0,
+   "animate": {
+    "opacity": [
+     1,
+     0,
+     0,
+     1
+    ],
+    "times": [
+     0,
+     0.07,
+     0.93,
+     1
+    ],
+    "duration": 6,
+    "ease": "sine.inOut"
+   }
+  }
+ ]
+}

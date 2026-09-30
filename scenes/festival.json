@@ -1,0 +1,475 @@
+{
+ "width": 1080,
+ "height": 1920,
+ "sizes": [
+  {
+   "id": "story",
+   "width": 540,
+   "height": 960,
+   "scale": 0.5
+  },
+  {
+   "id": "land",
+   "width": 800,
+   "height": 450,
+   "scale": 0.5
+  }
+ ],
+ "fps": 24,
+ "loop": true,
+ "background": "#12002E",
+ "assets": {
+  "stage": "https://picsum.photos/id/158/2880/1920",
+  "band": "https://picsum.photos/id/453/2048/1365",
+  "crowd": "https://picsum.photos/id/452/2880/1914"
+ },
+ "tokens": {
+  "midnight": "#12002E",
+  "magenta": "#FF3D8B",
+  "pale": "#FFE3EF"
+ },
+ "styles": {
+  "duo": {
+   "filter": {
+    "duotone": [
+     "#12002E",
+     "#FF3D8B"
+    ],
+    "contrast": 1.15
+   }
+  },
+  "caption": {
+   "fontFamily": "Anton",
+   "fontSize": 200,
+   "lineHeight": 0.9,
+   "color": "#FFFFFF",
+   "textTransform": "uppercase",
+   "place": "bottom-left",
+   "margin": [
+    72,
+    400
+   ],
+   "width": "fill",
+   "media": {
+    "land": {
+     "fontSize": 150,
+     "margin": [
+      72,
+      64
+     ]
+    }
+   }
+  }
+ },
+ "layers": [
+  {
+   "id": "s1",
+   "type": "shot",
+   "duration": 2,
+   "children": [
+    {
+     "id": "p1",
+     "type": "image",
+     "asset": "stage",
+     "width": "fill",
+     "height": "fill",
+     "focus": [
+      0.5,
+      0.45
+     ],
+     "style": "duo",
+     "animate": [
+      {
+       "scale": [
+        1.25,
+        1.05
+       ],
+       "duration": 2,
+       "ease": "power2.out"
+      },
+      {
+       "blur": [
+        8,
+        0
+       ],
+       "duration": 0.4,
+       "ease": "power1.out"
+      }
+     ]
+    },
+    {
+     "id": "c1",
+     "type": "text",
+     "style": "caption",
+     "text": "Three<br>nights.",
+     "split": "words",
+     "stagger": 0.12,
+     "enter": {
+      "effect": "fade-up",
+      "delay": 0.25,
+      "duration": 0.45,
+      "distance": 60
+     }
+    }
+   ]
+  },
+  {
+   "id": "s2",
+   "type": "shot",
+   "duration": 1.5,
+   "children": [
+    {
+     "id": "p2",
+     "type": "image",
+     "asset": "band",
+     "width": "fill",
+     "height": "fill",
+     "focus": [
+      0.52,
+      0.4
+     ],
+     "style": "duo",
+     "animate": {
+      "scale": [
+       1.15,
+       1.0
+      ],
+      "duration": 1.5,
+      "ease": "power1.out"
+     }
+    },
+    {
+     "id": "c2",
+     "type": "text",
+     "style": "caption",
+     "text": "Forty<br>acts.",
+     "split": "words",
+     "stagger": 0.12,
+     "enter": {
+      "effect": "fade-up",
+      "delay": 0.1,
+      "duration": 0.45,
+      "distance": 60
+     }
+    }
+   ]
+  },
+  {
+   "id": "s3",
+   "type": "shot",
+   "duration": 1.5,
+   "transition": {
+    "type": "push-up",
+    "duration": 0.3
+   },
+   "children": [
+    {
+     "id": "p3",
+     "type": "image",
+     "asset": "crowd",
+     "width": "fill",
+     "height": "fill",
+     "focus": [
+      0.3,
+      0.45
+     ],
+     "style": "duo",
+     "animate": {
+      "scale": [
+       1.0,
+       1.12
+      ],
+      "duration": 1.5,
+      "ease": "none"
+     }
+    },
+    {
+     "id": "c3",
+     "type": "text",
+     "style": "caption",
+     "text": "One<br>pier.",
+     "split": "words",
+     "stagger": 0.12,
+     "enter": {
+      "effect": "fade-up",
+      "delay": 0.3,
+      "duration": 0.45,
+      "distance": 60
+     }
+    }
+   ]
+  },
+  {
+   "id": "s4",
+   "type": "shot",
+   "duration": 3.7,
+   "transition": {
+    "type": "fade",
+    "duration": 0.4
+   },
+   "children": [
+    {
+     "id": "bg4",
+     "type": "rect",
+     "width": "fill",
+     "height": "fill",
+     "fill": [
+      "{{midnight}}",
+      {
+       "gradient": {
+        "type": "radial",
+        "center": [
+         0.5,
+         1.05
+        ],
+        "radius": [
+         0.9,
+         0.55
+        ],
+        "stops": [
+         "#FF3D8B8C",
+         "#FF3D8B00"
+        ]
+       }
+      }
+     ]
+    },
+    {
+     "id": "lineup",
+     "type": "frame",
+     "width": "fill",
+     "height": "fill",
+     "flexDirection": "column",
+     "alignItems": "center",
+     "justifyContent": "center",
+     "gap": 44,
+     "padding": [
+      400,
+      72,
+      360,
+      72
+     ],
+     "clipsContent": false,
+     "media": {
+      "land": {
+       "padding": [
+        190,
+        80,
+        70,
+        80
+       ],
+       "gap": 30
+      }
+     },
+     "children": [
+      {
+       "id": "presents",
+       "type": "text",
+       "text": "Headlining",
+       "fontFamily": "Space Mono",
+       "fontSize": 34,
+       "fontWeight": 700,
+       "letterSpacing": 8,
+       "textTransform": "uppercase",
+       "color": "{{magenta}}",
+       "enter": {
+        "effect": "fade",
+        "delay": 0.1,
+        "duration": 0.4
+       },
+       "media": {
+        "land": {
+         "fontSize": 26
+        }
+       }
+      },
+      {
+       "id": "headliner",
+       "type": "text",
+       "text": "Velvet<br>Static",
+       "fontFamily": "Anton",
+       "fontSize": 250,
+       "lineHeight": 0.9,
+       "textAlign": "center",
+       "textTransform": "uppercase",
+       "color": "#FFFFFF",
+       "shadow": {
+        "blur": 40,
+        "color": "#FF3D8B99"
+       },
+       "split": "chars",
+       "stagger": 0.035,
+       "animate": {
+        "translate": {
+         "from": [
+          "random(-300, 300)",
+          "random(-200, 200)"
+         ]
+        },
+        "rotate": {
+         "from": "random(-60, 60)"
+        },
+        "opacity": {
+         "from": 0
+        },
+        "scale": {
+         "from": 1.6
+        },
+        "delay": 0.15,
+        "duration": 0.9,
+        "ease": "back.out"
+       },
+       "media": {
+        "land": {
+         "text": "Velvet Static",
+         "fontSize": 190
+        }
+       }
+      },
+      {
+       "id": "rule",
+       "type": "rect",
+       "width": 160,
+       "height": 6,
+       "fill": "{{magenta}}",
+       "enter": {
+        "effect": "zoom-in",
+        "delay": 0.8,
+        "duration": 0.4
+       }
+      },
+      {
+       "id": "acts",
+       "type": "text",
+       "role": "act",
+       "text": "Mira Sol <span style=\"color:{{magenta}}\">·</span> Halcyon Drive<br>Neon Orchard <span style=\"color:{{magenta}}\">·</span> Kid Lanterna<br>Twin Harbour <span style=\"color:{{magenta}}\">·</span> Sable &amp; Rye",
+       "fontFamily": "Anton",
+       "fontSize": 78,
+       "lineHeight": 1.12,
+       "textTransform": "uppercase",
+       "color": "{{pale}}",
+       "textAlign": "center",
+       "width": "fill",
+       "split": "words",
+       "stagger": 0.05,
+       "enter": {
+        "effect": "fade-up",
+        "delay": 0.9,
+        "duration": 0.4,
+        "distance": 24
+       },
+       "media": {
+        "land": {
+         "hidden": true
+        }
+       }
+      },
+      {
+       "id": "acts-wide",
+       "type": "text",
+       "role": "act",
+       "text": "Mira Sol <span style=\"color:{{magenta}}\">·</span> Halcyon Drive <span style=\"color:{{magenta}}\">·</span> Neon Orchard<br>Kid Lanterna <span style=\"color:{{magenta}}\">·</span> Twin Harbour <span style=\"color:{{magenta}}\">·</span> Sable &amp; Rye",
+       "fontFamily": "Anton",
+       "fontSize": 58,
+       "lineHeight": 1.12,
+       "textTransform": "uppercase",
+       "color": "{{pale}}",
+       "textAlign": "center",
+       "width": "fill",
+       "split": "words",
+       "stagger": 0.05,
+       "enter": {
+        "effect": "fade-up",
+        "delay": 0.9,
+        "duration": 0.4,
+        "distance": 24
+       },
+       "media": {
+        "land": {
+         "hidden": false
+        }
+       },
+       "hidden": true
+      },
+      {
+       "id": "date",
+       "type": "frame",
+       "fill": "{{magenta}}",
+       "flexDirection": "row",
+       "padding": [
+        22,
+        36
+       ],
+       "alignItems": "center",
+       "enter": {
+        "effect": "pop",
+        "delay": 1.6,
+        "duration": 0.5
+       },
+       "children": [
+        {
+         "type": "text",
+         "text": "AUG 14–16 · PIER 9",
+         "fontFamily": "Space Mono",
+         "fontSize": 46,
+         "fontWeight": 700,
+         "letterSpacing": 2,
+         "color": "{{midnight}}",
+         "trim": "cap"
+        }
+       ],
+       "media": {
+        "land": {
+         "padding": [
+          18,
+          30
+         ]
+        }
+       }
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "mark",
+   "type": "frame",
+   "place": "top",
+   "margin": [
+    0,
+    250
+   ],
+   "fill": "{{magenta}}",
+   "flexDirection": "row",
+   "padding": [
+    18,
+    40
+   ],
+   "media": {
+    "land": {
+     "margin": [
+      0,
+      56
+     ]
+    }
+   },
+   "children": [
+    {
+     "id": "wordmark",
+     "type": "text",
+     "text": "NIGHTLINE",
+     "fontFamily": "Anton",
+     "fontSize": 120,
+     "letterSpacing": 14,
+     "knockout": true,
+     "trim": "cap",
+     "media": {
+      "land": {
+       "fontSize": 96
+      }
+     }
+    }
+   ]
+  }
+ ]
+}

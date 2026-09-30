@@ -1,0 +1,856 @@
+{
+ "width": 1600,
+ "height": 900,
+ "sizes": [
+  {
+   "id": "x-post",
+   "width": 1600,
+   "height": 900
+  },
+  {
+   "id": "linkedin",
+   "width": 1200,
+   "height": 627,
+   "scale": 0.75
+  },
+  {
+   "id": "square",
+   "width": 1080,
+   "height": 1080,
+   "scale": 0.9
+  },
+  {
+   "id": "web",
+   "width": 800,
+   "height": 450,
+   "scale": 0.5
+  }
+ ],
+ "duration": 6,
+ "fps": 25,
+ "loop": true,
+ "background": "#0E0D1C",
+ "assets": {
+  "desk": "https://picsum.photos/id/668/3200/2126"
+ },
+ "tokens": {
+  "violet": "#6D5BFF",
+  "lilac": "#B9AEFF",
+  "ink": "#15142B",
+  "grey": "#4A4860",
+  "night": "#0E0D1C"
+ },
+ "styles": {
+  "glass": {
+   "fill": "rgba(255,255,255,0.86)",
+   "backdropBlur": 24,
+   "borderRadius": 24,
+   "stroke": {
+    "width": 1,
+    "color": "rgba(255,255,255,0.6)"
+   },
+   "shadow": {
+    "y": 24,
+    "blur": 48,
+    "color": "#0000004D"
+   }
+  },
+  "label": {
+   "fontSize": 17,
+   "fontWeight": 600,
+   "letterSpacing": 1.6,
+   "textTransform": "uppercase",
+   "color": "{{grey}}"
+  },
+  "accent": {
+   "color": "{{lilac}}"
+  }
+ },
+ "components": {
+  "event": {
+   "type": "frame",
+   "flexDirection": "row",
+   "gap": 16,
+   "alignItems": "center",
+   "fill": "{{tint}}",
+   "borderRadius": 14,
+   "padding": [
+    14,
+    18,
+    14,
+    14
+   ],
+   "children": [
+    {
+     "type": "rect",
+     "width": 6,
+     "height": 48,
+     "borderRadius": 3,
+     "fill": "{{color}}"
+    },
+    {
+     "type": "frame",
+     "flexDirection": "column",
+     "gap": 3,
+     "children": [
+      {
+       "type": "text",
+       "role": "event-time",
+       "text": "{{time}}",
+       "fontSize": 17,
+       "fontWeight": 500,
+       "color": "{{grey}}",
+       "features": {
+        "tnum": 1
+       }
+      },
+      {
+       "type": "text",
+       "role": "event-title",
+       "text": "{{title}}",
+       "fontSize": 22,
+       "fontWeight": 600,
+       "color": "{{ink}}"
+      }
+     ],
+     "flexGrow": 1
+    },
+    {
+     "type": "icon",
+     "name": "{{icon}}",
+     "color": "{{color}}",
+     "width": 22,
+     "height": 22
+    }
+   ]
+  }
+ },
+ "layers": [
+  {
+   "id": "photo",
+   "type": "image",
+   "asset": "desk",
+   "width": "fill",
+   "height": "fill",
+   "crop": {
+    "x": 0,
+    "y": 0.2,
+    "width": 1,
+    "height": 0.8
+   },
+   "focus": [
+    0.55,
+    0.6
+   ],
+   "filter": {
+    "brightness": 0.62,
+    "saturate": 0.75
+   },
+   "blur": 6,
+   "animate": {
+    "scale": [
+     1.06,
+     1
+    ],
+    "duration": 6,
+    "ease": "sine.out"
+   }
+  },
+  {
+   "id": "wash",
+   "type": "rect",
+   "width": "fill",
+   "height": "fill",
+   "fill": [
+    {
+     "gradient": {
+      "angle": 90,
+      "stops": [
+       {
+        "offset": 0,
+        "color": "#0E0D1CE6"
+       },
+       {
+        "offset": 0.45,
+        "color": "#0E0D1C99"
+       },
+       {
+        "offset": 1,
+        "color": "#0E0D1C1A"
+       }
+      ]
+     }
+    },
+    {
+     "gradient": {
+      "type": "radial",
+      "center": [
+       0.78,
+       0.45
+      ],
+      "radius": [
+       0.45,
+       0.6
+      ],
+      "stops": [
+       "#6D5BFF40",
+       "#6D5BFF00"
+      ]
+     }
+    }
+   ],
+   "media": {
+    "square": {
+     "fill": [
+      {
+       "gradient": {
+        "angle": 180,
+        "stops": [
+         {
+          "offset": 0,
+          "color": "#0E0D1CF0"
+         },
+         {
+          "offset": 0.45,
+          "color": "#0E0D1C99"
+         },
+         {
+          "offset": 1,
+          "color": "#0E0D1C33"
+         }
+        ]
+       }
+      },
+      {
+       "gradient": {
+        "type": "radial",
+        "center": [
+         0.5,
+         0.7
+        ],
+        "radius": [
+         0.6,
+         0.45
+        ],
+        "stops": [
+         "#6D5BFF40",
+         "#6D5BFF00"
+        ]
+       }
+      }
+     ]
+    }
+   }
+  },
+  {
+   "id": "page",
+   "type": "frame",
+   "width": "fill",
+   "height": "fill",
+   "flexDirection": "row",
+   "gap": 56,
+   "padding": [
+    80,
+    96
+   ],
+   "alignItems": "center",
+   "clipsContent": false,
+   "media": {
+    "square": {
+     "flexDirection": "column",
+     "padding": [
+      80,
+      96,
+      72,
+      96
+     ],
+     "gap": 36,
+     "alignItems": "stretch"
+    }
+   },
+   "children": [
+    {
+     "id": "copy",
+     "type": "frame",
+     "width": "44%",
+     "flexDirection": "column",
+     "gap": 36,
+     "alignItems": "flex-start",
+     "media": {
+      "square": {
+       "width": "fill"
+      }
+     },
+     "children": [
+      {
+       "id": "wordmark",
+       "type": "frame",
+       "flexDirection": "row",
+       "gap": 14,
+       "alignItems": "center",
+       "enter": {
+        "effect": "fade",
+        "delay": 0.1,
+        "duration": 0.5
+       },
+       "children": [
+        {
+         "type": "frame",
+         "width": 40,
+         "height": 40,
+         "children": [
+          {
+           "type": "ellipse",
+           "width": "fill",
+           "height": "fill",
+           "fill": "{{violet}}"
+          },
+          {
+           "type": "ellipse",
+           "width": 22,
+           "height": 22,
+           "place": "center",
+           "arc": {
+            "start": 40,
+            "end": 330,
+            "inner": 0.55
+           },
+           "fill": "#FFFFFF"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "text": "quillday",
+         "fontSize": 34,
+         "fontWeight": 700,
+         "letterSpacing": -0.8,
+         "color": "#FFFFFF"
+        }
+       ]
+      },
+      {
+       "id": "headline",
+       "type": "text",
+       "role": "headline",
+       "text": "Your week,<br><accent>defended.</accent>",
+       "fontSize": 96,
+       "fontWeight": 700,
+       "lineHeight": 1.0,
+       "letterSpacing": -3,
+       "color": "#FFFFFF",
+       "width": "fill",
+       "enter": {
+        "effect": "fade-up",
+        "delay": 0.2,
+        "duration": 0.8,
+        "distance": 36
+       },
+       "media": {}
+      },
+      {
+       "id": "headline-line",
+       "type": "text",
+       "role": "headline",
+       "text": "Your week, <accent>defended.</accent>",
+       "fontSize": 96,
+       "fontWeight": 700,
+       "lineHeight": 1.0,
+       "letterSpacing": -3,
+       "color": "#FFFFFF",
+       "width": "fill",
+       "hidden": true,
+       "enter": {
+        "effect": "fade-up",
+        "delay": 0.2,
+        "duration": 0.8,
+        "distance": 36
+       },
+       "media": {}
+      },
+      {
+       "id": "sub",
+       "type": "text",
+       "text": "Quillday books your meetings around the work that matters, and guards your focus time from everything else.",
+       "fontSize": 28,
+       "lineHeight": 1.4,
+       "color": "#FFFFFFCC",
+       "width": "fill",
+       "maxWidth": 600,
+       "textWrap": "pretty",
+       "enter": {
+        "effect": "fade-up",
+        "delay": 0.45,
+        "duration": 0.7,
+        "distance": 24
+       },
+       "media": {
+        "square": {
+         "hidden": true
+        },
+        "linkedin": {
+         "hidden": true
+        }
+       }
+      },
+      {
+       "id": "cta",
+       "type": "frame",
+       "fill": "#FFFFFF",
+       "borderRadius": "full",
+       "flexDirection": "row",
+       "gap": 12,
+       "padding": [
+        24,
+        38
+       ],
+       "alignItems": "center",
+       "shadow": {
+        "y": 12,
+        "blur": 32,
+        "color": "#6D5BFF55"
+       },
+       "enter": {
+        "effect": "pop",
+        "delay": 0.7,
+        "duration": 0.5
+       },
+       "media": {
+        "square": {
+         "hidden": true
+        }
+       },
+       "children": [
+        {
+         "type": "text",
+         "text": "Try Quillday free",
+         "fontSize": 28,
+         "fontWeight": 700,
+         "color": "{{ink}}",
+         "trim": "cap"
+        },
+        {
+         "type": "icon",
+         "name": "arrow-right",
+         "color": "{{violet}}",
+         "width": 28,
+         "height": 28,
+         "strokeWidth": 2.5
+        }
+       ]
+      }
+     ],
+     "clipsContent": false
+    },
+    {
+     "id": "stage",
+     "type": "frame",
+     "width": 732,
+     "height": "fill",
+     "clipsContent": false,
+     "children": [
+      {
+       "id": "today",
+       "type": "frame",
+       "style": "glass",
+       "x": 0,
+       "y": 70,
+       "width": 460,
+       "flexDirection": "column",
+       "gap": 14,
+       "padding": [
+        26,
+        26,
+        28,
+        26
+       ],
+       "enter": {
+        "effect": "pop",
+        "delay": 0.8,
+        "duration": 0.55
+       },
+       "media": {
+        "square": {
+         "x": 70,
+         "y": 40,
+         "width": 480
+        },
+        "linkedin": {
+         "y": 30
+        }
+       },
+       "children": [
+        {
+         "type": "frame",
+         "flexDirection": "row",
+         "alignItems": "center",
+         "justifyContent": "space-between",
+         "padding": [
+          0,
+          4,
+          6,
+          4
+         ],
+         "children": [
+          {
+           "type": "frame",
+           "flexDirection": "column",
+           "gap": 4,
+           "children": [
+            {
+             "type": "text",
+             "text": "Today",
+             "style": "label"
+            },
+            {
+             "type": "text",
+             "text": "Wednesday, Oct 14",
+             "fontSize": 28,
+             "fontWeight": 700,
+             "letterSpacing": -0.5,
+             "color": "{{ink}}"
+            }
+           ]
+          },
+          {
+           "type": "icon",
+           "name": "calendar-days",
+           "color": "{{violet}}",
+           "width": 30,
+           "height": 30
+          }
+         ]
+        },
+        {
+         "id": "events",
+         "type": "use",
+         "component": "event",
+         "each": [
+          {
+           "time": "9:00 – 9:30",
+           "title": "Design review",
+           "color": "#23B5A6",
+           "tint": "#23B5A614",
+           "icon": "users"
+          },
+          {
+           "time": "10:00 – 12:30",
+           "title": "Deep work · Q4 roadmap",
+           "color": "{{violet}}",
+           "tint": "#6D5BFF1F",
+           "icon": "lock"
+          },
+          {
+           "time": "14:00 – 14:30",
+           "title": "Weekly 1:1",
+           "color": "#F08A3C",
+           "tint": "#F08A3C14",
+           "icon": "coffee"
+          }
+         ]
+        }
+       ],
+       "height": "hug"
+      },
+      {
+       "id": "focus",
+       "type": "frame",
+       "style": "glass",
+       "x": 392,
+       "y": 235,
+       "width": 340,
+       "flexDirection": "column",
+       "gap": 18,
+       "padding": [
+        26,
+        28,
+        30,
+        28
+       ],
+       "alignItems": "center",
+       "enter": {
+        "effect": "pop",
+        "delay": 1.05,
+        "duration": 0.55
+       },
+       "media": {
+        "square": {
+         "x": 540,
+         "y": 190
+        },
+        "linkedin": {
+         "y": 185
+        }
+       },
+       "children": [
+        {
+         "type": "text",
+         "text": "Focus this week",
+         "style": "label",
+         "alignSelf": "flex-start"
+        },
+        {
+         "id": "ring",
+         "type": "frame",
+         "width": 200,
+         "height": 200,
+         "children": [
+          {
+           "type": "ellipse",
+           "width": "fill",
+           "height": "fill",
+           "stroke": {
+            "width": 18,
+            "color": "#6D5BFF24"
+           }
+          },
+          {
+           "id": "ring-fill",
+           "type": "path",
+           "d": "M91 0 A91 91 0 1 1 0 91",
+           "width": 182,
+           "height": 182,
+           "place": "center",
+           "stroke": {
+            "width": 18,
+            "color": {
+             "gradient": {
+              "type": "conic",
+              "stops": [
+               "#9B8CFF",
+               "#6D5BFF"
+              ]
+             }
+            },
+            "cap": "round",
+            "align": "center"
+           },
+           "animate": {
+            "draw": [
+             0,
+             1
+            ],
+            "delay": 1.4,
+            "duration": 1.8,
+            "ease": "power2.out"
+           }
+          },
+          {
+           "type": "frame",
+           "place": "center",
+           "flexDirection": "column",
+           "alignItems": "center",
+           "gap": 0,
+           "children": [
+            {
+             "id": "hours",
+             "type": "text",
+             "text": "{{n}}h",
+             "fontSize": 60,
+             "fontWeight": 700,
+             "letterSpacing": -2,
+             "color": "{{ink}}",
+             "animate": {
+              "count": [
+               0,
+               12
+              ],
+              "delay": 1.4,
+              "duration": 1.8,
+              "ease": "power2.out"
+             }
+            },
+            {
+             "type": "text",
+             "text": "of 16h goal",
+             "fontSize": 18,
+             "fontWeight": 500,
+             "color": "{{grey}}"
+            }
+           ]
+          }
+         ]
+        },
+        {
+         "type": "frame",
+         "flexDirection": "row",
+         "gap": 8,
+         "alignItems": "center",
+         "fill": "#1F9D6A1A",
+         "borderRadius": "full",
+         "padding": [
+          10,
+          16
+         ],
+         "enter": {
+          "effect": "fade",
+          "delay": 2.9,
+          "duration": 0.5
+         },
+         "children": [
+          {
+           "type": "icon",
+           "name": "trending-up",
+           "color": "#0B5C3B",
+           "width": 20,
+           "height": 20
+          },
+          {
+           "type": "text",
+           "text": "+4h vs last week",
+           "fontSize": 18,
+           "fontWeight": 600,
+           "color": "#0B5C3B",
+           "trim": "cap"
+          }
+         ]
+        }
+       ],
+       "height": "hug"
+      },
+      {
+       "id": "toast",
+       "type": "frame",
+       "style": "glass",
+       "x": -24,
+       "y": 500,
+       "borderRadius": 18,
+       "fill": "rgba(255,255,255,0.86)",
+       "flexDirection": "row",
+       "gap": 14,
+       "padding": [
+        16,
+        24,
+        16,
+        16
+       ],
+       "alignItems": "center",
+       "enter": {
+        "effect": "fade-down",
+        "delay": 2.6,
+        "duration": 0.5,
+        "distance": 24
+       },
+       "media": {
+        "square": {
+         "x": 40,
+         "y": 470
+        },
+        "linkedin": {
+         "y": 445,
+         "x": -20
+        }
+       },
+       "children": [
+        {
+         "type": "frame",
+         "width": 36,
+         "height": 36,
+         "fill": "#1F9D6A",
+         "borderRadius": "full",
+         "children": [
+          {
+           "type": "icon",
+           "name": "check",
+           "color": "#FFFFFF",
+           "width": 20,
+           "height": 20,
+           "strokeWidth": 3,
+           "place": "center"
+          }
+         ]
+        },
+        {
+         "type": "text",
+         "text": "Scheduling link copied",
+         "fontSize": 21,
+         "fontWeight": 600,
+         "color": "{{ink}}"
+        }
+       ],
+       "height": "hug"
+      }
+     ],
+     "media": {
+      "square": {
+       "width": 1008,
+       "height": "fill"
+      }
+     }
+    },
+    {
+     "id": "cta-bottom",
+     "type": "frame",
+     "fill": "#FFFFFF",
+     "borderRadius": "full",
+     "flexDirection": "row",
+     "gap": 12,
+     "padding": [
+      24,
+      38
+     ],
+     "alignItems": "center",
+     "shadow": {
+      "y": 12,
+      "blur": 32,
+      "color": "#6D5BFF55"
+     },
+     "enter": {
+      "effect": "pop",
+      "delay": 3.2,
+      "duration": 0.5
+     },
+     "media": {
+      "square": {
+       "hidden": false
+      }
+     },
+     "children": [
+      {
+       "type": "text",
+       "text": "Try Quillday free",
+       "fontSize": 28,
+       "fontWeight": 700,
+       "color": "{{ink}}",
+       "trim": "cap"
+      },
+      {
+       "type": "icon",
+       "name": "arrow-right",
+       "color": "{{violet}}",
+       "width": 28,
+       "height": 28,
+       "strokeWidth": 2.5
+      }
+     ],
+     "hidden": true,
+     "alignSelf": "flex-start"
+    }
+   ]
+  },
+  {
+   "id": "curtain",
+   "type": "rect",
+   "width": "fill",
+   "height": "fill",
+   "fill": "{{night}}",
+   "opacity": 0,
+   "animate": {
+    "opacity": [
+     1,
+     0,
+     0,
+     1
+    ],
+    "times": [
+     0,
+     0.06,
+     0.94,
+     1
+    ],
+    "duration": 6,
+    "ease": "sine.inOut"
+   }
+  }
+ ]
+}
