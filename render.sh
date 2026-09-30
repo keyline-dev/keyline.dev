@@ -9,4 +9,4 @@ k=${KEYLINE:-keyline-mcp}
 $k render scenes/cold-brew.json --out assets/cold-brew --format webp --renderer cpu
 $k render scenes/cold-brew-motion.json --out assets/cold-brew-motion --format mp4 --renderer cpu
 # The preview shown when the site is shared.
-$k render scenes/og.json --out assets/og --format png --renderer cpu
+$k render scenes/og.json --out assets/og --format png --renderer cpu --allow-read .

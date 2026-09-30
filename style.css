@@ -5,7 +5,7 @@
   --muted: #5f5f66;
   --line: #e7e5e4;
   --code-bg: #f4f4f3;
-  --accent: linear-gradient(135deg, #f97316, #e11d48 55%, #6d28d9);
+  --pink: #f0245e;
   --radius: 12px;
   --wrap: 1120px;
   color-scheme: light;
@@ -43,17 +43,6 @@ code, pre { font-family: "JetBrains Mono", ui-monospace, monospace; }
 }
 .wrap { max-width: var(--wrap); margin: 0 auto; padding: 0 24px; }
 
-/* The mark: a keyline, the thin guide line of a layout. */
-.mark {
-  display: inline-block;
-  width: 4px;
-  height: 1em;
-  border-radius: 2px;
-  background: var(--accent);
-  margin-right: 10px;
-  vertical-align: -0.12em;
-}
-
 .nav {
   position: sticky;
   top: 0;
@@ -63,8 +52,11 @@ code, pre { font-family: "JetBrains Mono", ui-monospace, monospace; }
   border-bottom: 1px solid var(--line);
 }
 .nav-row { display: flex; align-items: center; justify-content: space-between; height: 60px; }
-.brand { font-weight: 700; font-size: 19px; text-decoration: none; letter-spacing: -0.02em; }
-.nav nav { display: flex; gap: 24px; font-size: 15px; }
+.brand { display: flex; }
+.brand img { display: block; }
+.foot-brand { display: inline-flex; align-items: center; gap: 10px; }
+.nav nav { display: flex; align-items: center; gap: 24px; font-size: 15px; }
+.nav .gh { display: flex; }
 .nav nav a { text-decoration: none; color: var(--muted); }
 .nav nav a:hover { color: var(--ink); }
 
@@ -161,7 +153,7 @@ h1 {
   margin-right: 8px;
   vertical-align: -0.1em;
   border-radius: 2px;
-  background: var(--accent);
+  background: var(--pink);
 }
 .calls i { font-style: normal; overflow: hidden; text-overflow: ellipsis; min-width: 0; }
 .calls s { flex-shrink: 0; }
