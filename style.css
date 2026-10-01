@@ -362,3 +362,6 @@ pre {
   .doc { grid-template-columns: 1fr; gap: 20px; padding-top: 24px; }
   .doc-side { position: static; flex-direction: row; flex-wrap: wrap; max-height: none; }
 }
+/* Client logos: Simple Icons (CC0), in the text colour; trademarks are their owners'. */
+.works li { display: inline-flex; align-items: center; gap: 7px; }
+.works li svg { width: 16px; height: 16px; fill: currentColor; flex: none; }
