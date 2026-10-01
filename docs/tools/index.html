@@ -6,7 +6,7 @@
   <title>Tools and replies · keyline</title>
   <meta name="description" content="keyline's MCP tools, their replies and problem lines, output formats, server flags and rendering without an agent.">
   <link rel="canonical" href="https://keyline.dev/docs/tools/">
-  <link rel="alternate" type="text/markdown" href="/docs/tools/index.md">
+  <link rel="alternate" type="text/markdown" href="index.md">
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="keyline">
   <meta property="og:title" content="Tools and replies · keyline">
@@ -14,32 +14,32 @@
   <meta property="og:image" content="https://keyline.dev/assets/og/og-v0.png">
   <meta property="og:url" content="https://keyline.dev/docs/tools/">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="../../style.css">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Tools and replies","description":"keyline's MCP tools, their replies and problem lines, output formats, server flags and rendering without an agent.","url":"https://keyline.dev/docs/tools/","inLanguage":"en","isPartOf":{"@type":"WebSite","name":"keyline","url":"https://keyline.dev/"},"about":{"@type":"SoftwareApplication","name":"keyline","url":"https://keyline.dev/"}}</script>
 </head>
 <body>
   <header class="nav">
     <div class="wrap nav-row">
-      <a class="brand" href="/" aria-label="keyline home"><picture><source srcset="/logo/lockup-nav-dark.svg" media="(prefers-color-scheme: dark)"><img src="/logo/lockup-nav-light.svg" alt="keyline" width="90" height="26"></picture></a>
+      <a class="brand" href="../../index.html" aria-label="keyline home"><picture><source srcset="../../logo/lockup-nav-dark.svg" media="(prefers-color-scheme: dark)"><img src="../../logo/lockup-nav-light.svg" alt="keyline" width="90" height="26"></picture></a>
       <nav>
-        <a href="/#gallery">Examples</a>
-        <a href="/#how">How it works</a>
-        <a href="/#install">Install</a>
-        <a href="/docs/">Docs</a>
+        <a href="../../index.html#gallery">Examples</a>
+        <a href="../../index.html#how">How it works</a>
+        <a href="../../index.html#install">Install</a>
+        <a href="../../docs/index.html">Docs</a>
         <a href="https://github.com/keyline-dev/keyline" class="gh" aria-label="keyline on GitHub"><svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg></a>
       </nav>
     </div>
   </header>
 
   <main class="wrap doc">
-    <nav class="doc-side" aria-label="Docs"><a href="/docs/install/">Install</a><a href="/docs/">Concepts</a><a href="/docs/scene/">Scene format</a><a href="/docs/tools/" aria-current="page">Tools and replies</a><a href="/benchmark/">Benchmark</a></nav>
+    <nav class="doc-side" aria-label="Docs"><a href="../../docs/install/index.html">Install</a><a href="../../docs/index.html">Concepts</a><a href="../../docs/scene/index.html">Scene format</a><a href="../../docs/tools/index.html" aria-current="page">Tools and replies</a><a href="../../benchmark/index.html">Benchmark</a></nav>
     <article class="prose">
 <h1>Tools and replies</h1>
-<p>keyline-mcp exposes six tools. This page lists each tool&#39;s inputs and the exact shape of its replies, and how the server is configured. What the fields of a scene mean is in the <a href="/docs/scene/">scene format reference</a>; the ideas behind both are in <a href="/docs/">Concepts</a>. The <code>layer_add</code> tool description carries a compact version of the scene format for the agent.</p>
+<p>keyline-mcp exposes six tools. This page lists each tool&#39;s inputs and the exact shape of its replies, and how the server is configured. What the fields of a scene mean is in the <a href="../../docs/scene/index.html">scene format reference</a>; the ideas behind both are in <a href="../../docs/index.html">Concepts</a>. The <code>layer_add</code> tool description carries a compact version of the scene format for the agent.</p>
 <ul>
 <li><a href="#conventions">Conventions</a></li>
 <li><a href="#replies">Replies</a>: problem lines, markers, facts, drawn text, output files</li>
@@ -190,13 +190,13 @@ portrait,square toast warn shadow clipped by card
 <td>A frame that clips its content (<code>clipsContent</code>, on by default) cuts the layer&#39;s drop shadow; give it room (padding) or set <code>clipsContent: false</code></td>
 </tr>
 </tbody></table></div>
-<p>Defects need fixing; advisories need judgment (<a href="/docs/#checks-defects-advisories-facts">concepts</a>). In a scene of <a href="/docs/scene/#shots-and-transitions">shots</a>, every shot is checked, each with the layers around it.</p>
+<p>Defects need fixing; advisories need judgment (<a href="../../docs/index.html#checks-defects-advisories-facts">concepts</a>). In a scene of <a href="../../docs/scene/index.html#shots-and-transitions">shots</a>, every shot is checked, each with the layers around it.</p>
 <h3 id="facts-line"><a class="anchor" href="#facts-line">Facts line</a></h3>
 <p>The last line of an edit&#39;s reply (and of <code>scene_create</code> from a template, which is what <code>keyline-mcp render</code> prints first) states facts with no threshold, per size: the smallest text and any image drawn larger than its pixels.</p>
 <pre><code class="language-text">smallest text: instagram-portrait 28px (cta), sky 11.3px (cta); upscaled: instagram-portrait photo 1.5x
 </code></pre>
 <h3 id="hint-lines"><a class="anchor" href="#hint-lines">Hint lines</a></h3>
-<p>After the facts, one line per text that writes a token as <code>$name</code> rather than <a href="/docs/scene/#tokens"><code>{{name}}</code></a>. The text is left as it is, since <code>$29</code> or <code>$USD</code> may be meant:</p>
+<p>After the facts, one line per text that writes a token as <code>$name</code> rather than <a href="../../docs/scene/index.html#tokens"><code>{{name}}</code></a>. The text is left as it is, since <code>$29</code> or <code>$USD</code> may be meant:</p>
 <pre><code class="language-text">hint: did you mean {{price}}? (cta says $price)
 </code></pre>
 <p><code>scene_create</code> adds one per size at least twice the master&#39;s width with no <code>scale</code> (a print preset for a screen-sized master). A smaller difference gets no hint (a 1280 px size for a 1080 px master is laid out as is); if it doesn&#39;t fit, <code>!overflow</code> gives the size it needs:</p>
@@ -257,7 +257,7 @@ portrait,square toast warn shadow clipped by card
 <td><code>sizes</code></td>
 <td>array</td>
 <td>required, or the template&#39;s</td>
-<td>Target <a href="/docs/scene/#sizes">sizes</a>: a size object, a preset name, or <code>&quot;WxH&quot;</code></td>
+<td>Target <a href="../../docs/scene/index.html#sizes">sizes</a>: a size object, a preset name, or <code>&quot;WxH&quot;</code></td>
 </tr>
 <tr>
 <td><code>width</code>, <code>height</code></td>
@@ -275,7 +275,7 @@ portrait,square toast warn shadow clipped by card
 <td><code>duration</code>, <code>fps</code>, <code>loop</code></td>
 <td>number, number, boolean</td>
 <td>a still, 30, false</td>
-<td><a href="/docs/scene/#scene-timing">Scene timing</a></td>
+<td><a href="../../docs/scene/index.html#scene-timing">Scene timing</a></td>
 </tr>
 <tr>
 <td><code>url</code></td>
@@ -343,7 +343,7 @@ video off: no ffmpeg (install it or pass --ffmpeg); apng, gif work
 <td>The id layers use to refer to it; an existing id is replaced</td>
 </tr>
 </tbody></table></div>
-<p>Give exactly one of <code>url</code>, <code>path</code> or <code>base64</code>. Video clips (MP4, MOV, WebM…) and sounds (MP3, M4A, WAV…, for a <a href="/docs/scene/#soundtrack">soundtrack</a>) need <a href="#ffmpeg">ffmpeg</a> and can&#39;t come as base64. SVGs are rasterized at their drawn size, so they stay sharp.</p>
+<p>Give exactly one of <code>url</code>, <code>path</code> or <code>base64</code>. Video clips (MP4, MOV, WebM…) and sounds (MP3, M4A, WAV…, for a <a href="../../docs/scene/index.html#soundtrack">soundtrack</a>) need <a href="#ffmpeg">ffmpeg</a> and can&#39;t come as base64. SVGs are rasterized at their drawn size, so they stay sharp.</p>
 <p>Reply: the asset&#39;s id, its intrinsic size and the scene version; for a clip, also its length, frame rate and <code>sound</code> when it has any; for a sound, <code>sound</code> and its length.</p>
 <pre><code class="language-text">photo 864×530 v1
 beach 1920×1080 12.5s 30fps sound v2
@@ -369,25 +369,25 @@ song sound 184.3s v3
 <td><code>layers</code></td>
 <td>array, required</td>
 <td></td>
-<td><a href="/docs/scene/#layers">Layer</a> objects, added on top in order. A layer with <code>parent</code> goes inside that frame</td>
+<td><a href="../../docs/scene/index.html#layers">Layer</a> objects, added on top in order. A layer with <code>parent</code> goes inside that frame</td>
 </tr>
 <tr>
 <td><code>styles</code></td>
 <td>object</td>
 <td></td>
-<td><a href="/docs/scene/#styles">Styles</a> to add or replace: <code>{name: {fields}}</code></td>
+<td><a href="../../docs/scene/index.html#styles">Styles</a> to add or replace: <code>{name: {fields}}</code></td>
 </tr>
 <tr>
 <td><code>tokens</code></td>
 <td>object</td>
 <td></td>
-<td><a href="/docs/scene/#tokens">Tokens</a> to add or replace: <code>{name: value}</code></td>
+<td><a href="../../docs/scene/index.html#tokens">Tokens</a> to add or replace: <code>{name: value}</code></td>
 </tr>
 <tr>
 <td><code>components</code></td>
 <td>object</td>
 <td></td>
-<td><a href="/docs/scene/#components">Components</a> to add or replace</td>
+<td><a href="../../docs/scene/index.html#components">Components</a> to add or replace</td>
 </tr>
 </tbody></table></div>
 <p>Reply: <code>added</code>, the ids of the new top-level layers and the version; then <code>ok</code> on the same line, or <a href="#problem-lines">problem lines</a>; then the <a href="#facts-line">facts line</a>. The agent needs no <code>scene_describe</code> call after an edit.</p>
@@ -459,7 +459,7 @@ smallest text: instagram-portrait 28px (cta), sky 11.3px (cta), 1200x628 28px (c
 </tr>
 <tr>
 <td><code>{&quot;scene&quot;: true}</code></td>
-<td>The scene itself; <code>set</code> takes <code>background</code>, <code>sizes</code>, <code>width</code>, <code>height</code>, <code>duration</code>, <code>fps</code>, <code>loop</code>, <code>audio</code> (<a href="/docs/scene/#soundtrack">soundtrack</a>)</td>
+<td>The scene itself; <code>set</code> takes <code>background</code>, <code>sizes</code>, <code>width</code>, <code>height</code>, <code>duration</code>, <code>fps</code>, <code>loop</code>, <code>audio</code> (<a href="../../docs/scene/index.html#soundtrack">soundtrack</a>)</td>
 </tr>
 </tbody></table></div>
 <div class="table"><table>
@@ -598,7 +598,7 @@ fonts: Bricolage Grotesque 800, Inter 400/600
 <p>A still or PDF of a moving scene says which moment it shows, before its size: <code>at rest, shot s1</code> (or <code>at 2.5s, shot s2</code> with <code>time</code>). A PDF embeds its photos at most at 300 dpi of their drawn size, opaque ones as JPEG at <code>quality</code> (90 by default). A PDF gives its page in points (a print preset&#39;s, such as A4&#39;s 595×842, or 1 pt per px) and the lowest resolution of its photos on that page. The last line names the fonts the texts are drawn in, once per render: each family with its weights, <code>900→700</code> when the family has no face for a weight and a nearer one is drawn, <code>(fallback)</code> when the family has no face at all.</p>
 <p>A moving format gives its length, frame count and frame rate; GIF and APNG also say whether they loop (<code>loops</code>) or stop on their last frame (<code>plays once</code>), from the scene&#39;s <code>loop</code>; MP4 and WebM say <code>with sound</code> when they carry any; <code>last shot held 0.4s</code> means the scene&#39;s <code>duration</code> outlasts its shots and the last one holds. An agent opening an animated file sees only its first frame, so these facts are how it checks one. With <code>maxKB</code>, <code>quality N</code> follows when the quality was lowered (a lowered frame rate shows in the facts), or <code>!too-big</code> when even the lowest setting doesn&#39;t fit. MP4 and WebM always say how they were encoded, with any encoder: <code>quality N</code> (1–100, default 90, lower when <code>maxKB</code> needed it), or <code>bitrate Nk</code> when a hardware encoder needed a lower one for <code>maxKB</code>. With <code>rows</code>, each line starts with <code>r&lt;row&gt;</code>. With <code>preview</code>, the reply also carries the preview as an image of what was rendered, each row no wider than 2000 px: the sizes side by side, a row per row of tokens (up to 6); or, for a moving format (APNG, GIF, MP4, WebM), a row per size of up to 6 moments through it (from the first row of tokens): each shot&#39;s middle, the last frame when the scene loops or a layer leaves (its seam), then the middle of each entrance and keyframe track (or where it&#39;s biggest when it grows: a <code>pop</code>&#39;s overshoot, a pulse), earliest first, then even steps, none within a quarter second of another; named in a last line, with each shot&#39;s time for a scene of shots (<code>preview at 1 2.7 4.2 5.3 6.9 7.97s · shots 0–2 2–3.5 3.5–8</code>).</p>
 <h2 id="templates-and-variants"><a class="anchor" href="#templates-and-variants">Templates and variants</a></h2>
-<p>A template is a scene file (<a href="/docs/scene/#template-files">its format</a>) that <code>scene_create</code> loads by <code>url</code> or <code>path</code>, the same way <code>asset_add</code> loads an image. Its images are added as assets, <code>tokens</code> sets its variables, and any other <code>scene_create</code> input (<code>sizes</code>, <code>background</code> …) replaces the template&#39;s. Nothing else is kept: the template stays wherever it came from. A token named in <code>tokens</code> that the template doesn&#39;t have is an error that lists the ones it has.</p>
+<p>A template is a scene file (<a href="../../docs/scene/index.html#template-files">its format</a>) that <code>scene_create</code> loads by <code>url</code> or <code>path</code>, the same way <code>asset_add</code> loads an image. Its images are added as assets, <code>tokens</code> sets its variables, and any other <code>scene_create</code> input (<code>sizes</code>, <code>background</code> …) replaces the template&#39;s. Nothing else is kept: the template stays wherever it came from. A token named in <code>tokens</code> that the template doesn&#39;t have is an error that lists the ones it has.</p>
 <p><code>render</code> with <code>rows</code> makes variants: each row of token values is applied as <code>layer_update</code> with those <code>tokens</code> would, to a copy, and rendered, so a row changes every field bound to its tokens, sentences and image assets included; the saved scene doesn&#39;t change. A key that isn&#39;t one of the scene&#39;s tokens is an error naming the row and the tokens there are. <code>preview</code> shows the first row.</p>
 <pre><code class="language-json">{&quot;sceneId&quot;: &quot;s5b0a42a5e&quot;, &quot;rows&quot;: [{&quot;headline&quot;: &quot;Fall&quot;, &quot;price&quot;: &quot;$19&quot;}, {&quot;headline&quot;: &quot;Winter&quot;, &quot;price&quot;: &quot;$24&quot;}]}
 </code></pre>
@@ -635,7 +635,7 @@ fonts: Bricolage Grotesque 800, Inter 400/600
 <td>VP9 video. Needs <a href="#ffmpeg">ffmpeg</a></td>
 </tr>
 </tbody></table></div>
-<p>The animated and video formats need a scene that moves (a <code>duration</code>, or shots); <code>time</code> can&#39;t be combined with them. Frames are drawn in memory, several at once, and APNG and GIF frames store only the part that changed. MP4 encodes on the GPU when ffmpeg has a hardware encoder that works on the machine (VideoToolbox on macOS; NVENC, Quick Sync or AMF elsewhere), else with <code>libx264</code>; <code>--encoder</code> picks one. The scene&#39;s <a href="/docs/scene/#soundtrack">soundtrack</a> and the clips&#39; own sound come along, mixed, AAC in MP4 and Opus in WebM, unless <code>muted</code> is <code>true</code>.</p>
+<p>The animated and video formats need a scene that moves (a <code>duration</code>, or shots); <code>time</code> can&#39;t be combined with them. Frames are drawn in memory, several at once, and APNG and GIF frames store only the part that changed. MP4 encodes on the GPU when ffmpeg has a hardware encoder that works on the machine (VideoToolbox on macOS; NVENC, Quick Sync or AMF elsewhere), else with <code>libx264</code>; <code>--encoder</code> picks one. The scene&#39;s <a href="../../docs/scene/index.html#soundtrack">soundtrack</a> and the clips&#39; own sound come along, mixed, AAC in MP4 and Opus in WebM, unless <code>muted</code> is <code>true</code>.</p>
 <h2 id="server-configuration"><a class="anchor" href="#server-configuration">Server configuration</a></h2>
 <h3 id="command-line-flags"><a class="anchor" href="#command-line-flags">Command-line flags</a></h3>
 <p>Every setting is a flag; each takes its value after a space or as <code>--flag=value</code>.</p>
@@ -795,7 +795,7 @@ fonts: Bricolage Grotesque 800, Inter 400/600
 <td>384 px tall</td>
 </tr>
 </tbody></table></div>
-<p>Limits of the scene itself (grid tracks, component depth, frame rates) are in <a href="/docs/scene/#validation-and-limits">Scene format</a>.</p>
+<p>Limits of the scene itself (grid tracks, component depth, frame rates) are in <a href="../../docs/scene/index.html#validation-and-limits">Scene format</a>.</p>
 <h2 id="errors"><a class="anchor" href="#errors">Errors</a></h2>
 <p>Errors come back as an MCP tool error (<code>isError: true</code>) with one line of text that names what failed and how to fix it. They leave the scene and its version unchanged; only a font fetched on the way stays cached. A batch error names the item that failed:</p>
 <pre><code class="language-text">/Users/me/secret.png is outside the folders the server may read (--allow-read)
@@ -807,18 +807,18 @@ layers[0]: token {{big}} doesn&#39;t suit fontSize: invalid type: string &quot;h
 give exactly one of url, path or base64
 </code></pre>
 
-      <p class="doc-source">This page is built from <a href="https://github.com/keyline-dev/keyline/blob/main/docs/tools.md">docs/tools.md</a>; also as <a href="/docs/tools/index.md">Markdown</a>.</p>
+      <p class="doc-source">This page is built from <a href="https://github.com/keyline-dev/keyline/blob/main/docs/tools.md">docs/tools.md</a>; also as <a href="index.md">Markdown</a>.</p>
     </article>
     <nav class="doc-toc" aria-label="On this page"><p class="toc-title">On this page</p><a href="#conventions">Conventions</a><a href="#replies">Replies</a><a href="#scene_create">scene_create</a><a href="#asset_add">asset_add</a><a href="#layer_add">layer_add</a><a href="#layer_update">layer_update</a><a href="#scene_describe">scene_describe</a><a href="#render">render</a><a href="#templates-and-variants">Templates and variants</a><a href="#output-formats">Output formats</a><a href="#server-configuration">Server configuration</a><a href="#security">Security</a><a href="#limits">Limits</a><a href="#errors">Errors</a></nav>
   </main>
 
   <footer class="footer">
     <div class="wrap foot-row">
-      <span class="foot-brand"><picture><source srcset="/logo/lockup-nav-dark.svg" media="(prefers-color-scheme: dark)"><img src="/logo/lockup-nav-light.svg" alt="keyline" width="76" height="22"></picture><span>Every image on this page was rendered by keyline.</span></span>
+      <span class="foot-brand"><picture><source srcset="../../logo/lockup-nav-dark.svg" media="(prefers-color-scheme: dark)"><img src="../../logo/lockup-nav-light.svg" alt="keyline" width="76" height="22"></picture><span>Every image on this page was rendered by keyline.</span></span>
       <nav>
         <a href="https://github.com/keyline-dev/keyline">GitHub</a>
-        <a href="/docs/">Docs</a>
-        <a href="/license/">PolyForm Shield license</a>
+        <a href="../../docs/index.html">Docs</a>
+        <a href="../../license/index.html">PolyForm Shield license</a>
       </nav>
     </div>
   </footer>

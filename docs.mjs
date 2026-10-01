@@ -28,6 +28,19 @@ const home = readFileSync('index.html', 'utf8');
 const header = home.match(/<header class="nav">[\s\S]*?<\/header>/)[0];
 const footer = home.match(/<footer class="footer">[\s\S]*?<\/footer>/)[0];
 
+// Every path on the site is relative, so it works from any server, any
+// folder, or opened as a file. `up` climbs from a page to the site's root.
+const up = (url) => '../'.repeat(url.split('/').filter(Boolean).length);
+// A site path like /docs/tools/#replies, as seen from the page at `from`.
+function rel(from, to) {
+  const [path, hash] = to.split('#');
+  return up(from) + path.slice(1) + 'index.html' + (hash ? '#' + hash : '');
+}
+// The home page's header and footer, moved down to a page at `from`.
+const relocate = (html, from) => html
+  .replace(/(href|src|srcset)="(?![a-z]+:|#|\/)([^"]*)"/g, (_, a, v) => `${a}="${up(from)}${v}"`)
+  .replace(/href="#([^"]*)"/g, (_, id) => `href="${up(from)}index.html#${id}"`);
+
 // GitHub's heading ids, so links like tools.md#replies keep working.
 const slug = (text) => text.toLowerCase().replace(/<[^>]+>/g, '').replace(/[^\w\- ]/g, '').replace(/ /g, '-');
 const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -69,11 +82,12 @@ function render(page, md) {
       link({ href, title, tokens }) {
         const t = title ? ` title="${esc(title)}"` : '';
         const to = link(page.src, href);
+        const out = to.startsWith('/') ? rel(page.url, to) : to;
         let text = this.parser.parseInline(tokens);
         // "tools.md" reads as a file on GitHub; on the site, name the page.
         const named = PAGES.find((p) => to.split('#')[0] === p.url && /^(<code>)?[\w/.-]+\.md(<\/code>)?$/.test(text));
         if (named) text = named.title;
-        return `<a href="${esc(to)}"${t}>${text}</a>`;
+        return `<a href="${esc(out)}"${t}>${text}</a>`;
       },
     },
   });
@@ -82,8 +96,8 @@ function render(page, md) {
   return { body, toc };
 }
 
-function shell(page, { body, toc }, mdUrl) {
-  const side = PAGES.map((p) => `<a href="${p.url}"${p === page ? ' aria-current="page"' : ''}>${esc(p.title.replace(/:.*/, ''))}</a>`).join('');
+function shell(page, { body, toc }, mdName) {
+  const side = PAGES.map((p) => `<a href="${rel(page.url, p.url)}"${p === page ? ' aria-current="page"' : ''}>${esc(p.title.replace(/:.*/, ''))}</a>`).join('');
   const onPage = toc.length > 1 ? `<p class="toc-title">On this page</p>${toc.map((h) => `<a href="#${h.id}">${h.html}</a>`).join('')}` : '';
   const ld = {
     '@context': 'https://schema.org', '@type': 'TechArticle', headline: page.title,
@@ -99,7 +113,7 @@ function shell(page, { body, toc }, mdUrl) {
   <title>${esc(page.title)} · keyline</title>
   <meta name="description" content="${esc(page.description)}">
   <link rel="canonical" href="${SITE}${page.url}">
-  <link rel="alternate" type="text/markdown" href="${mdUrl}">
+  <link rel="alternate" type="text/markdown" href="${mdName}">
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="keyline">
   <meta property="og:title" content="${esc(page.title)} · keyline">
@@ -107,26 +121,26 @@ function shell(page, { body, toc }, mdUrl) {
   <meta property="og:image" content="${SITE}/assets/og/og-v0.png">
   <meta property="og:url" content="${SITE}${page.url}">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="${up(page.url)}favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="${up(page.url)}style.css">
   <script type="application/ld+json">${JSON.stringify(ld)}</script>
 </head>
 <body>
-  ${header}
+  ${relocate(header, page.url)}
 
   <main class="wrap doc">
     <nav class="doc-side" aria-label="Docs">${side}</nav>
     <article class="prose">
 ${body}
-      <p class="doc-source">This page is built from <a href="${REPO}${page.src}">${esc(page.src)}</a>; also as <a href="${mdUrl}">Markdown</a>.</p>
+      <p class="doc-source">This page is built from <a href="${REPO}${page.src}">${esc(page.src)}</a>; also as <a href="${mdName}">Markdown</a>.</p>
     </article>
     <nav class="doc-toc" aria-label="On this page">${onPage}</nav>
   </main>
 
-  ${footer}
+  ${relocate(footer, page.url)}
 </body>
 </html>
 `;
@@ -138,7 +152,7 @@ for (const page of PAGES) {
   const md = markdown(page);
   const mdUrl = page.url + 'index.md';
   write('.' + mdUrl, md);
-  write('.' + page.url + 'index.html', shell(page, render(page, md), mdUrl));
+  write('.' + page.url + 'index.html', shell(page, render(page, md), 'index.md'));
   full.push(md);
 }
 
@@ -148,7 +162,7 @@ write('license/LICENSE.txt', license);
 write('license/index.html', shell(
   { title: 'License', url: '/license/', src: 'LICENSE', description: 'keyline is source-available under the PolyForm Shield License 1.0.0.' },
   { body: `<h1>License</h1>\n<p>keyline is source-available under PolyForm Shield 1.0.0: use, change and share it, commercially too, except to compete with it.</p>\n<pre class="license">${esc(license)}</pre>`, toc: [] },
-  '/license/LICENSE.txt'));
+  'LICENSE.txt'));
 
 // llms.txt (llmstxt.org): what keyline is, then where the plain-text docs are.
 const summary = home.match(/<meta name="description" content="([^"]+)"/)[1];
