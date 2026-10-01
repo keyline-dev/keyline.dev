@@ -1,0 +1,7 @@
+{
+  "private": true,
+  "description": "Site build tooling only: docs.mjs turns keyline's Markdown docs into pages.",
+  "type": "module",
+  "scripts": { "docs": "node docs.mjs" },
+  "devDependencies": { "marked": "18.0.14" }
+}

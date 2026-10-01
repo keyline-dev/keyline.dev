@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Install · keyline</title>
+  <meta name="description" content="Install keyline for Claude Code, Claude Desktop, Codex, Cursor, VS Code and any MCP client, or run it in CI.">
+  <link rel="canonical" href="https://keyline.dev/docs/install/">
+  <link rel="alternate" type="text/markdown" href="/docs/install/index.md">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="keyline">
+  <meta property="og:title" content="Install · keyline">
+  <meta property="og:description" content="Install keyline for Claude Code, Claude Desktop, Codex, Cursor, VS Code and any MCP client, or run it in CI.">
+  <meta property="og:image" content="https://keyline.dev/assets/og/og-v0.png">
+  <meta property="og:url" content="https://keyline.dev/docs/install/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Install","description":"Install keyline for Claude Code, Claude Desktop, Codex, Cursor, VS Code and any MCP client, or run it in CI.","url":"https://keyline.dev/docs/install/","inLanguage":"en","isPartOf":{"@type":"WebSite","name":"keyline","url":"https://keyline.dev/"},"about":{"@type":"SoftwareApplication","name":"keyline","url":"https://keyline.dev/"}}</script>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-row">
+      <a class="brand" href="/" aria-label="keyline home"><picture><source srcset="/logo/lockup-nav-dark.svg" media="(prefers-color-scheme: dark)"><img src="/logo/lockup-nav-light.svg" alt="keyline" width="90" height="26"></picture></a>
+      <nav>
+        <a href="/#gallery">Examples</a>
+        <a href="/#how">How it works</a>
+        <a href="/#install">Install</a>
+        <a href="/docs/">Docs</a>
+        <a href="https://github.com/keyline-dev/keyline" class="gh" aria-label="keyline on GitHub"><svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg></a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap doc">
+    <nav class="doc-side" aria-label="Docs"><a href="/docs/install/" aria-current="page">Install</a><a href="/docs/">Concepts</a><a href="/docs/scene/">Scene format</a><a href="/docs/tools/">Tools and replies</a><a href="/benchmark/">Benchmark</a></nav>
+    <article class="prose">
+<h1>Install</h1>
+<h3 id="claude-code-and-claude-desktop"><a class="anchor" href="#claude-code-and-claude-desktop">Claude Code and Claude Desktop</a></h3>
+<p>Nothing else to install.</p>
+<p><strong>Claude Code:</strong> install the plugin. It uses <code>keyline-mcp</code> from your PATH if it&#39;s there, and otherwise downloads the matching release once and checks it against the release&#39;s <code>SHA256SUMS</code>.</p>
+<pre><code class="language-text">/plugin marketplace add keyline-dev/keyline
+/plugin install keyline@keyline
+</code></pre>
+<p><strong>Claude Desktop</strong> (Mac with Apple silicon, or Windows): download <code>keyline-mcp-&lt;version&gt;.mcpb</code> from the <a href="https://github.com/keyline-dev/keyline/releases/latest">latest release</a> and double-click it. Its settings pick the folders keyline may read and whether to leave motion out.</p>
+<h3 id="other-clients-install-then-add"><a class="anchor" href="#other-clients-install-then-add">Other clients: install, then add</a></h3>
+<p><strong>macOS</strong> (Apple silicon):</p>
+<pre><code class="language-sh">brew install keyline-dev/tap/keyline-mcp
+</code></pre>
+<p>Or download <code>keyline-mcp-&lt;version&gt;-macos-arm64.tar.gz</code> from the <a href="https://github.com/keyline-dev/keyline/releases/latest">latest release</a> and put the binary on your PATH. It isn&#39;t signed by Apple, so if you downloaded it in a browser, clear the quarantine flag once:</p>
+<pre><code class="language-sh">tar xzf keyline-mcp-&lt;version&gt;-macos-arm64.tar.gz
+sudo mv keyline-mcp-&lt;version&gt;-macos-arm64/keyline-mcp /usr/local/bin/
+xattr -d com.apple.quarantine /usr/local/bin/keyline-mcp 2&gt;/dev/null || true
+</code></pre>
+<p><strong>Linux</strong> (amd64 or arm64): the <code>.deb</code> from the <a href="https://github.com/keyline-dev/keyline/releases/latest">latest release</a> puts <code>keyline-mcp</code> in <code>/usr/bin</code>; a plain tarball is there too.</p>
+<pre><code class="language-sh">sudo apt install ./keyline-mcp_&lt;version&gt;-1_amd64.deb
+</code></pre>
+<p><strong>Windows</strong> (x64; Arm runs it emulated): download <code>keyline-mcp-&lt;version&gt;-windows-amd64.zip</code> from the <a href="https://github.com/keyline-dev/keyline/releases/latest">latest release</a>, unpack it, and put the folder holding <code>keyline-mcp.exe</code> on your PATH, or give clients its full path. The Claude Code plugin doesn&#39;t run on Windows yet; add the server with <code>claude mcp add keyline -- keyline-mcp</code> instead.</p>
+<p><strong>Docker</strong> (Linux, nothing else to install): use this as the command in your client. <code>:latest</code> includes ffmpeg for video; <code>:stills</code> leaves it out and is about a third the size.</p>
+<pre><code class="language-sh">docker run -i --rm -v keyline:/data ghcr.io/keyline-dev/keyline-mcp
+</code></pre>
+<p><strong>From source</strong> (any OS; Rust stable; Skia comes precompiled; on Linux also <code>libfontconfig1-dev libfreetype6-dev</code>): <code>cargo build --release</code>.</p>
+<p>To check a download, compare it with the release&#39;s <code>SHA256SUMS</code>, or check where it was built with the <a href="https://cli.github.com">GitHub CLI</a>; then check it runs with <code>keyline-mcp --help</code>:</p>
+<pre><code class="language-sh">sha256sum --check --ignore-missing SHA256SUMS      # macOS: shasum -a 256 --check --ignore-missing SHA256SUMS
+gh attestation verify keyline-mcp_&lt;version&gt;-1_amd64.deb --repo keyline-dev/keyline
+</code></pre>
+<p>Then add it to your client. Each block names the server <code>keyline</code>; clients prefix its tools with that name, so a short one costs fewer tokens. If a client can&#39;t find the program, give its full path (<code>which keyline-mcp</code>).</p>
+<details>
+<summary><b>Claude Code</b>, without the plugin</summary><pre><code class="language-sh">claude mcp add keyline -- keyline-mcp
+</code></pre>
+<p>Add <code>--scope user</code> to use it in every project. (<a href="https://code.claude.com/docs/en/mcp">guide</a>)</p>
+</details><details>
+<summary><b>Claude Desktop</b>, without the extension</summary><p>Settings → Developer → Edit Config opens <code>claude_desktop_config.json</code>. Claude Desktop doesn&#39;t search your shell&#39;s PATH, so give the full path, then restart it. (<a href="https://modelcontextprotocol.io/quickstart/user">guide</a>)</p>
+<pre><code class="language-json">{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;/opt/homebrew/bin/keyline-mcp&quot; } } }
+</code></pre>
+</details><details>
+<summary><b>Cursor</b></summary><p><a href="cursor://anysphere.cursor-deeplink/mcp/install?name=keyline&amp;config=eyJjb21tYW5kIjoia2V5bGluZS1tY3AifQ==">Add to Cursor</a>, or add to <code>~/.cursor/mcp.json</code> (every project) or <code>.cursor/mcp.json</code> (one project). (<a href="https://cursor.com/docs/context/mcp">guide</a>)</p>
+<pre><code class="language-json">{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot; } } }
+</code></pre>
+</details><details>
+<summary><b>VS Code</b></summary><pre><code class="language-sh">code --add-mcp &#39;{&quot;name&quot;:&quot;keyline&quot;,&quot;command&quot;:&quot;keyline-mcp&quot;}&#39;
+</code></pre>
+<p>Or add to <code>.vscode/mcp.json</code>, or your profile&#39;s (<em>MCP: Open User Configuration</em>). The key is <code>servers</code>, not <code>mcpServers</code>. (<a href="https://code.visualstudio.com/docs/copilot/customization/mcp-servers">guide</a>)</p>
+<pre><code class="language-json">{ &quot;servers&quot;: { &quot;keyline&quot;: { &quot;type&quot;: &quot;stdio&quot;, &quot;command&quot;: &quot;keyline-mcp&quot; } } }
+</code></pre>
+</details><details>
+<summary><b>Windsurf</b></summary><p>Add to <code>~/.codeium/windsurf/mcp_config.json</code>. (<a href="https://docs.windsurf.com/windsurf/cascade/mcp">guide</a>)</p>
+<pre><code class="language-json">{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot; } } }
+</code></pre>
+</details><details>
+<summary><b>Cline</b></summary><p>In Cline&#39;s MCP Servers panel, open the installed servers&#39; settings (<code>cline_mcp_settings.json</code>) and add: (<a href="https://docs.cline.bot/mcp/configuring-mcp-servers">guide</a>)</p>
+<pre><code class="language-json">{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot; } } }
+</code></pre>
+</details><details>
+<summary><b>Codex</b> (OpenAI)</summary><pre><code class="language-sh">codex mcp add keyline -- keyline-mcp
+</code></pre>
+<p>Or add to <code>~/.codex/config.toml</code>: (<a href="https://developers.openai.com/codex/mcp">guide</a>)</p>
+<pre><code class="language-toml">[mcp_servers.keyline]
+command = &quot;keyline-mcp&quot;
+</code></pre>
+<p>The ChatGPT app itself connects only to remote MCP servers over HTTP, so it can&#39;t start keyline, which runs on your machine; use Codex.</p>
+</details><details>
+<summary><b>Any other client</b></summary><p>Any MCP client that starts stdio servers works: the command is <code>keyline-mcp</code>. It runs where the client runs; to render on another machine, make the command <code>ssh that-machine keyline-mcp</code>.</p>
+</details><h3 id="then"><a class="anchor" href="#then">Then</a></h3>
+<p>Ask your agent for a design: <em>&quot;Make a vote-by-mail flyer with this photo, in 1080×1350, 1200×1000 and a 300×600 skyscraper.&quot;</em></p>
+<p><strong>Local files:</strong> to let the agent add images and templates by path (their bytes never pass through the model, far cheaper than base64), allow their folders: <code>--allow-read ~/brand ~/projects/ads</code>. With <code>claude mcp add</code>, flags go after the command (<code>claude mcp add keyline -- keyline-mcp --allow-read ~/brand</code>); in a JSON config, in <code>args</code>. Paths are resolved through every symlink before the check. In Docker, mount the folder and allow the mount: <code>-v ~/brand:/brand … --allow-read /brand</code>.</p>
+<p><strong>Video</strong> needs <a href="https://ffmpeg.org">ffmpeg</a> (<code>brew install ffmpeg</code>, <code>apt install ffmpeg</code>), looked up when a call needs it. It&#39;s optional: without it, everything else works, animated PNG and GIF included.</p>
+<p><strong>Options:</strong> every setting is a flag (<code>--allow-read</code>, <code>--no-motion</code>, <code>--data</code>, <code>--fonts</code>, <code>--renderer</code>, <code>--ffmpeg</code>, <code>--encoder</code>), listed in <a href="/docs/tools/#server-configuration">Tools and replies</a> and by <code>keyline-mcp --help</code>.</p>
+<p><strong>Without an agent:</strong> <code>keyline-mcp render scene.json --out renders/</code> renders a scene file at every size, and exits 1 on a <code>!</code> defect, for scripts and CI (<code>--check</code> checks without drawing); in GitHub Actions, <code>uses: keyline-dev/keyline@v0</code> does it for every scene in a repo (<a href="/docs/tools/#rendering-without-an-agent">Tools and replies</a>).</p>
+<p><strong>GPU on a Linux server:</strong> it needs a GPU with Vulkan drivers (NVIDIA&#39;s, or Mesa for AMD and Intel); no display is needed. In Docker, pass the GPU through (for NVIDIA: the Container Toolkit, <code>--gpus all</code>, with graphics capability). Software Vulkan drivers are skipped, since the CPU renderer is faster; without a GPU, renders use the CPU.</p>
+
+      <p class="doc-source">This page is built from <a href="https://github.com/keyline-dev/keyline/blob/main/README.md">README.md</a>; also as <a href="/docs/install/index.md">Markdown</a>.</p>
+    </article>
+    <nav class="doc-toc" aria-label="On this page"></nav>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap foot-row">
+      <span class="foot-brand"><picture><source srcset="/logo/lockup-nav-dark.svg" media="(prefers-color-scheme: dark)"><img src="/logo/lockup-nav-light.svg" alt="keyline" width="76" height="22"></picture><span>Every image on this page was rendered by keyline.</span></span>
+      <nav>
+        <a href="https://github.com/keyline-dev/keyline">GitHub</a>
+        <a href="/docs/">Docs</a>
+        <a href="/license/">PolyForm Shield license</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

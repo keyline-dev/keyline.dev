@@ -1,0 +1,1777 @@
+# Install
+
+### Claude Code and Claude Desktop
+
+Nothing else to install.
+
+**Claude Code:** install the plugin. It uses `keyline-mcp` from your PATH if it's there, and otherwise downloads the matching release once and checks it against the release's `SHA256SUMS`.
+
+```text
+/plugin marketplace add keyline-dev/keyline
+/plugin install keyline@keyline
+```
+
+**Claude Desktop** (Mac with Apple silicon, or Windows): download `keyline-mcp-<version>.mcpb` from the [latest release](https://github.com/keyline-dev/keyline/releases/latest) and double-click it. Its settings pick the folders keyline may read and whether to leave motion out.
+
+### Other clients: install, then add
+
+**macOS** (Apple silicon):
+
+```sh
+brew install keyline-dev/tap/keyline-mcp
+```
+
+Or download `keyline-mcp-<version>-macos-arm64.tar.gz` from the [latest release](https://github.com/keyline-dev/keyline/releases/latest) and put the binary on your PATH. It isn't signed by Apple, so if you downloaded it in a browser, clear the quarantine flag once:
+
+```sh
+tar xzf keyline-mcp-<version>-macos-arm64.tar.gz
+sudo mv keyline-mcp-<version>-macos-arm64/keyline-mcp /usr/local/bin/
+xattr -d com.apple.quarantine /usr/local/bin/keyline-mcp 2>/dev/null || true
+```
+
+**Linux** (amd64 or arm64): the `.deb` from the [latest release](https://github.com/keyline-dev/keyline/releases/latest) puts `keyline-mcp` in `/usr/bin`; a plain tarball is there too.
+
+```sh
+sudo apt install ./keyline-mcp_<version>-1_amd64.deb
+```
+
+**Windows** (x64; Arm runs it emulated): download `keyline-mcp-<version>-windows-amd64.zip` from the [latest release](https://github.com/keyline-dev/keyline/releases/latest), unpack it, and put the folder holding `keyline-mcp.exe` on your PATH, or give clients its full path. The Claude Code plugin doesn't run on Windows yet; add the server with `claude mcp add keyline -- keyline-mcp` instead.
+
+**Docker** (Linux, nothing else to install): use this as the command in your client. `:latest` includes ffmpeg for video; `:stills` leaves it out and is about a third the size.
+
+```sh
+docker run -i --rm -v keyline:/data ghcr.io/keyline-dev/keyline-mcp
+```
+
+**From source** (any OS; Rust stable; Skia comes precompiled; on Linux also `libfontconfig1-dev libfreetype6-dev`): `cargo build --release`.
+
+To check a download, compare it with the release's `SHA256SUMS`, or check where it was built with the [GitHub CLI](https://cli.github.com); then check it runs with `keyline-mcp --help`:
+
+```sh
+sha256sum --check --ignore-missing SHA256SUMS      # macOS: shasum -a 256 --check --ignore-missing SHA256SUMS
+gh attestation verify keyline-mcp_<version>-1_amd64.deb --repo keyline-dev/keyline
+```
+
+Then add it to your client. Each block names the server `keyline`; clients prefix its tools with that name, so a short one costs fewer tokens. If a client can't find the program, give its full path (`which keyline-mcp`).
+
+<details>
+<summary><b>Claude Code</b>, without the plugin</summary>
+
+```sh
+claude mcp add keyline -- keyline-mcp
+```
+
+Add `--scope user` to use it in every project. ([guide](https://code.claude.com/docs/en/mcp))
+</details>
+
+<details>
+<summary><b>Claude Desktop</b>, without the extension</summary>
+
+Settings → Developer → Edit Config opens `claude_desktop_config.json`. Claude Desktop doesn't search your shell's PATH, so give the full path, then restart it. ([guide](https://modelcontextprotocol.io/quickstart/user))
+
+```json
+{ "mcpServers": { "keyline": { "command": "/opt/homebrew/bin/keyline-mcp" } } }
+```
+</details>
+
+<details>
+<summary><b>Cursor</b></summary>
+
+[Add to Cursor](cursor://anysphere.cursor-deeplink/mcp/install?name=keyline&config=eyJjb21tYW5kIjoia2V5bGluZS1tY3AifQ==), or add to `~/.cursor/mcp.json` (every project) or `.cursor/mcp.json` (one project). ([guide](https://cursor.com/docs/context/mcp))
+
+```json
+{ "mcpServers": { "keyline": { "command": "keyline-mcp" } } }
+```
+</details>
+
+<details>
+<summary><b>VS Code</b></summary>
+
+```sh
+code --add-mcp '{"name":"keyline","command":"keyline-mcp"}'
+```
+
+Or add to `.vscode/mcp.json`, or your profile's (*MCP: Open User Configuration*). The key is `servers`, not `mcpServers`. ([guide](https://code.visualstudio.com/docs/copilot/customization/mcp-servers))
+
+```json
+{ "servers": { "keyline": { "type": "stdio", "command": "keyline-mcp" } } }
+```
+</details>
+
+<details>
+<summary><b>Windsurf</b></summary>
+
+Add to `~/.codeium/windsurf/mcp_config.json`. ([guide](https://docs.windsurf.com/windsurf/cascade/mcp))
+
+```json
+{ "mcpServers": { "keyline": { "command": "keyline-mcp" } } }
+```
+</details>
+
+<details>
+<summary><b>Cline</b></summary>
+
+In Cline's MCP Servers panel, open the installed servers' settings (`cline_mcp_settings.json`) and add: ([guide](https://docs.cline.bot/mcp/configuring-mcp-servers))
+
+```json
+{ "mcpServers": { "keyline": { "command": "keyline-mcp" } } }
+```
+</details>
+
+<details>
+<summary><b>Codex</b> (OpenAI)</summary>
+
+```sh
+codex mcp add keyline -- keyline-mcp
+```
+
+Or add to `~/.codex/config.toml`: ([guide](https://developers.openai.com/codex/mcp))
+
+```toml
+[mcp_servers.keyline]
+command = "keyline-mcp"
+```
+
+The ChatGPT app itself connects only to remote MCP servers over HTTP, so it can't start keyline, which runs on your machine; use Codex.
+</details>
+
+<details>
+<summary><b>Any other client</b></summary>
+
+Any MCP client that starts stdio servers works: the command is `keyline-mcp`. It runs where the client runs; to render on another machine, make the command `ssh that-machine keyline-mcp`.
+</details>
+
+### Then
+
+Ask your agent for a design: *"Make a vote-by-mail flyer with this photo, in 1080×1350, 1200×1000 and a 300×600 skyscraper."*
+
+**Local files:** to let the agent add images and templates by path (their bytes never pass through the model, far cheaper than base64), allow their folders: `--allow-read ~/brand ~/projects/ads`. With `claude mcp add`, flags go after the command (`claude mcp add keyline -- keyline-mcp --allow-read ~/brand`); in a JSON config, in `args`. Paths are resolved through every symlink before the check. In Docker, mount the folder and allow the mount: `-v ~/brand:/brand … --allow-read /brand`.
+
+**Video** needs [ffmpeg](https://ffmpeg.org) (`brew install ffmpeg`, `apt install ffmpeg`), looked up when a call needs it. It's optional: without it, everything else works, animated PNG and GIF included.
+
+**Options:** every setting is a flag (`--allow-read`, `--no-motion`, `--data`, `--fonts`, `--renderer`, `--ffmpeg`, `--encoder`), listed in [docs/tools.md](docs/tools.md#server-configuration) and by `keyline-mcp --help`.
+
+**Without an agent:** `keyline-mcp render scene.json --out renders/` renders a scene file at every size, and exits 1 on a `!` defect, for scripts and CI (`--check` checks without drawing); in GitHub Actions, `uses: keyline-dev/keyline@v0` does it for every scene in a repo ([docs/tools.md](docs/tools.md#rendering-without-an-agent)).
+
+**GPU on a Linux server:** it needs a GPU with Vulkan drivers (NVIDIA's, or Mesa for AMD and Intel); no display is needed. In Docker, pass the GPU through (for NVIDIA: the Container Toolkit, `--gpus all`, with graphics capability). Software Vulkan drivers are skipped, since the CPU renderer is faster; without a GPU, renders use the CPU.
+
+
+---
+
+# Concepts
+
+keyline is a design engine driven by an AI agent. The agent writes a design as a small JSON scene through six MCP tools; keyline lays it out at every size you need, checks it, and renders it. This page explains the ideas. The fields are in the [scene format reference](scene.md), and the calls and replies in the [tools reference](tools.md).
+
+## What a scene is
+
+A scene is one JSON document: a tree of layers (frames, text, images, shapes, icons, video), the assets they use, and shared tokens, styles and components. It is structured data, not pixels, so the agent edits it precisely instead of regenerating an image. The server keeps the scene; the agent changes it in batches of operations that apply whole or not at all, and every change bumps its version.
+
+## Master size and sizes
+
+A design is written once, at a **master size** (say 1080×1350), and lists the **sizes** it's rendered at: a square post, a wide banner and a 300×600 skyscraper from the same layers. Sizes can be named presets for common social and ad formats.
+
+Each size may carry a **scale**, like a design tool's Scale tool: everything, fonts included, shrinks by that factor before the layout adapts. A size may also have a **safe area**, the part a platform covers (a story's top and bottom bars), where text is flagged.
+
+### Aspect classes
+
+Sizes fall into aspect classes: **landscape**, **square** or **portrait**, and within those **wide** or **tall** for the extremes. Any layer can change its fields for one class (`media`), so one `tall` entry covers every skyscraper the design is ever rendered at, including sizes added later. A change for one size id is the most specific and applies last. The thresholds are in [scene.md](scene.md#aspect-classes).
+
+## How layout adapts
+
+For each size, keyline scales the master by the size's scale, then fits it to the target: free-placed layers follow their constraints, and rows, columns and grids lay out again, recursively. There is no constraint solver; that's where layout systems get slow and agent-written layouts become undebuggable.
+
+### Free, stack and grid
+
+A frame lays out its children in one of three ways:
+
+- **Free:** each child has a position and **constraints** that say how it follows the frame as it resizes (pinned left, stretched, centered…), as in Figma, or it pins to one of nine spots (`bottom-right`).
+- **Stack:** a row or column with gap, padding, alignment and wrapping, like CSS flexbox and Figma auto layout. Children size themselves with `hug`, `fill` or a percentage.
+- **Grid:** CSS-style tracks, named areas and spans.
+
+### Choosing what fits
+
+Some layouts pick between alternatives at each size. A stack can be a row where a row fits and a column elsewhere. A `firstFit` layer, like SwiftUI's `ViewThatFits`, draws the first of its children that fits with nothing wrong inside it: a long headline where there's room, a short one where there isn't.
+
+### Text that fits its box
+
+The box decides how text behaves. With a width and height, the font shrinks until the text fits, down to a floor, then ends with an ellipsis. With a width only, it wraps and the box grows down. With neither, it's one line. When text still doesn't fit, keyline says so; it never changes the design silently.
+
+## Checks: defects, advisories, facts
+
+The server measures; the agent decides. Every edit's reply checks the design at every size and reports three kinds of feedback:
+
+| Kind | Example | The agent should |
+|---|---|---|
+| Defect | `!truncated needs 400×124`, `!overflow needs 1080×1400`, `!clipped by head: bottom 8px`, `!overlaps` | Fix it: it's objectively wrong |
+| Advisory | `warn contrast 2.1:1 (WCAG 4.5)` | Judge it |
+| Fact | `smallest text: sky 8.4px (footer)`, `upscaled: photo 1.5x` | Decide whether it suits where the design runs |
+
+Defects carry the measurement that fixes them, so the agent corrects them in one step instead of guessing. Taste stays with the model: whether 8 px text is fine print or unreadable depends on the medium, so the server reports the size and doesn't judge it.
+
+Previews are opt-in. They cost more tokens and catch less: in testing, a model approved 7 px text from a 512 px preview, which the measurements catch. `render` also reports how each wrapped, shrunk or cut text was actually drawn. The markers and reply lines are listed in [tools.md](tools.md#replies).
+
+## Reuse
+
+### Tokens and binding
+
+A **token** is a named value (`navy: "#1B2A5C"`) that any field uses as `"{{navy}}"`, or inside text: `"Meet {{name}}"`. The server remembers which fields came from which token, so changing the token changes every field **bound** to it, sentences included. Setting such a field to a value of its own unbinds it.
+
+### Styles and components
+
+A **style** is a named set of layer fields, a look (`card`: fill, border radius, shadow) that layers pull in; changing it changes every layer using it. A **component** is a named layer tree placed by `use` layers, once or once per data row; its **instances** stay linked to it, so one change updates them all.
+
+### Templates and variants
+
+A **template** is a scene file, loaded from a URL or a local path the way an image is. Its tokens are its **variables**: the agent sets them when loading, and `render` can make one **variant** per row of values (a product list, a set of cities), each its own file. Nothing is stored for the template itself; it stays wherever its owner keeps it.
+
+## Motion and video
+
+### Motion that keeps the layout
+
+A scene with a duration moves. Only fields that don't change layout animate (opacity, scale, rotation, offset, skew, blur, color), so the layout is the same at every moment and every check holds throughout. Output is an animated PNG, a GIF, an MP4 or WebM video, or a still of any moment.
+
+### The timeline
+
+Layers **enter** and **exit** with named effects (`fade-up`, `pop`…) and move with **keyframes**, GSAP-style, with GSAP's eases. A frame can **stagger** its children's entrances one after another, and text can **split** into letters or words that move on their own. Strokes can **draw** themselves (a progress ring, a signature), and a number in text can **count** up in a box that holds still.
+
+### Video and shots
+
+A video clip is a layer, drawn like an image under the titles and graphics above it, trimmed, slowed or looped, and its sound carried into the video, mixed with the scene's **soundtrack** if it has one. A scene can be a sequence of **shots**: top-level frames that play one after another, each joined to the one before by a **transition** (fade, slide, push, wipe, zoom) that overlaps the two. Times inside a shot count from its start; layers outside the shots, such as a logo, stay on throughout.
+
+## How an agent works with it
+
+A typical session is four calls:
+
+1. `scene_create` with the sizes (or a template). The reply is the scene id.
+2. `asset_add` for each photo or logo, by URL or local path. The reply is its size.
+3. `layer_add` with the whole design in one batch. The reply is `ok`, or the defects to fix at each size.
+4. `layer_update` to fix what was flagged, addressing layers by **role** so no read is needed first; then `render`.
+
+Every tool is shaped to keep the agent's tokens low: few verb-shaped tools, batches instead of per-property calls, compact text replies that never echo the scene, defaults left out, and measurements instead of images. Icons and shapes come by name, so the model doesn't invent SVG paths.
+
+## Determinism
+
+No model generates pixels: the same scene renders the same design. On the CPU renderer, the same scene gives the same image on a given OS version; glyph edges differ slightly between OS versions. Random-looking effects repeat exactly: grain, torn edges and rough strokes take a `seed` (0 unless given), and `random()` in motion is seeded from each layer's id, so renaming a layer changes its values. The GPU renderer is faster but not bit-exact, so tests and reference images use the CPU.
+
+## Glossary
+
+| Term | Meaning |
+|---|---|
+| Master size | The size a scene's layers are written at |
+| Size | An output the scene renders at: an id, width, height, and optional scale and safe area |
+| Preset | A named size for a common format (`instagram-story`, `iab-skyscraper`) |
+| Aspect class | `landscape`, `square`, `portrait`, `wide` or `tall`: a group of sizes a layer can change for |
+| Safe area | The part of a size a platform covers, where text is flagged |
+| Layer | One element of the tree: a frame, text, image, video, shape, icon, spacer, `firstFit` or `use` |
+| Role | A semantic name on layers, so an edit can target every layer with it |
+| Token | A named value used as `{{name}}` in any field or text |
+| Binding | The link from a field to the token it came from |
+| Style | A named set of layer fields layers pull in |
+| Component | A named layer tree placed by `use` layers |
+| Instance | One placement of a component, linked to it |
+| Template | A scene file loaded by URL or path, whose tokens are its variables |
+| Variant | One render of a scene with one row of token values |
+| Defect | A check result that is objectively wrong: overflow, clipping, hidden or overlapping text |
+| Advisory | A check result to judge: low contrast |
+| Fact | A measurement with no threshold: smallest text, upscaled images |
+| Shot | A top-level frame that plays in turn with the others |
+| Transition | How a shot enters from the one before |
+| Version | The scene's change counter, bumped by every edit |
+
+
+---
+
+# Scene format
+
+A scene is one JSON document: a master size, the sizes it renders at, its assets, shared tokens, styles and components, and a tree of layers. This page is the reference for every field. The ideas behind it are in [concepts.md](concepts.md), and the tools that write and render it in [tools.md](tools.md).
+
+```json
+{
+  "sizes": ["instagram-square", "iab-skyscraper"],
+  "tokens": {"brand": "#D0202E"},
+  "layers": [
+    {"type": "rect", "width": "fill", "height": "fill", "fill": "#FFF4E0"},
+    {"type": "text", "text": "Cold Brew <b>Season</b>", "fontSize": 96, "fontWeight": 800,
+     "color": "{{brand}}", "width": "80%", "place": "center", "media": {"tall": {"fontSize": 64}}}
+  ]
+}
+```
+
+**Contents:** [Conventions](#conventions) · [Document](#document) · [Layers](#layers) · [Layout](#layout) · [Text](#text) · [Paint](#paint) · [Reuse](#reuse) · [Motion](#motion) · [Template files](#template-files) · [Validation and limits](#validation-and-limits) · [Example](#example) · [Names](#appendix-names)
+
+## Conventions
+
+Field names and values follow what models already know:
+
+1. **CSS names and values wherever CSS has the concept**, camelCase as in React Native: `fontWeight`, `textAlign`, `justifyContent`, `alignItems`, `gap`, `padding`, `borderRadius`, `filter`. **Figma words for sizing, pinning and clipping** (`hug`, `fill`, `constraints`, `clipsContent`), **SVG** for shapes and strokes (`fill`, `stroke`, `markerEnd`), **GSAP** for motion, **HTML media** for video, and **SwiftUI** only where none of those has the concept (`firstFit`, `layoutPriority`, `minimumScaleFactor`).
+2. **CSS names, keyline's own layout.** The names and enum values are CSS's, and colors are any CSS color (`rgba(0,0,0,.25)`, `hsl(…)`). The layout model is keyline's, documented on this page: close to flexbox and grid where it borrows from them, but not browser-exact.
+3. **Short forms.** A compound field has a one-value short form: `fill: "#fff"`, `padding: 24`, `borderRadius: 12`, `stroke: "#000"`.
+4. **Every field has a default, and defaults are omitted** in what the agent sends and in what the server stores.
+5. **Unknown fields are rejected**, with the nearest known name suggested.
+
+### Value types
+
+The tables below use these types.
+
+| Type | Values |
+|---|---|
+| px | A number of pixels at the master size; each size's `scale` scales it |
+| Length | px, `"hug"` (as big as the content), `"fill"` (the free space), or `"40%"` of the parent ([Sizing](#sizing)) |
+| Color | Any CSS color: `#RGB`, `#RRGGBBAA`, `rgb()`, `rgba()`, `hsl()` or a name |
+| Paint | A Color, or a gradient, image, pattern or grain object ([Fills](#fills)) |
+| Sides | px for all four, `[vertical, horizontal]`, `[top, horizontal, bottom]` or `[top, right, bottom, left]`, as in CSS |
+| Point | `[x, y]`, each 0–1 of the box, from its top-left |
+| Seconds | A number of seconds |
+| Degrees | A number of degrees, clockwise |
+| Ease | An easing name ([Easing](#easing)) |
+| Token | `{{name}}` as a whole value or inside text ([Tokens](#tokens)) |
+
+### Resolution order
+
+A layer's final values are built in this order; each step wins over the one before:
+
+1. **Tokens**, when the layer is written: every `{{name}}` becomes the token's value.
+2. **Components**, for a `use` layer: `{{prop}}` is filled from the instance's props (a prop wins over a token of the same name; the component's other `{{name}}`s are tokens), and the `use` layer's own fields replace the component root's, field by field.
+3. **Styles**, in the order listed; a later style wins. The layer's own fields win over all styles.
+4. **`media`**, per size: aspect classes broadest first, then the size id.
+
+`media` and `layer_update`'s `set` merge like a JSON merge patch: nested objects (an object `enter`, `constraints`) merge field by field, while lists (`fill`, `ranges`, `children`) and plain values are replaced whole, and `null` resets a field. Styles and a `use` layer's fields replace whole top-level fields, except `media`: a style's `media` and the layer's own merge, size by size and field by field, the layer's winning.
+
+## Document
+
+| Field | Type | Default | Meaning |
+|---|---|---|---|
+| `sizes` | list of Size | required | The sizes to render ([Sizes](#sizes)) |
+| `width`, `height` | px | the first size's | The master size: the layers are written at this size |
+| `background` | Color | `#FFFFFF` | Canvas color |
+| `tokens` | object | none | Named values, used as `{{name}}` ([Tokens](#tokens)) |
+| `styles` | object | none | Named sets of layer fields ([Styles](#styles)) |
+| `components` | object | none | Named layer trees ([Components](#components)) |
+| `assets` | object | none | Images, SVGs, video clips and sounds added by `asset_add`, by id: `{sha256, width, height}` (a sound's width and height are 0) |
+| `layers` | list of Layer | none | The layer tree, bottom to top |
+| `duration`, `fps`, `loop` | | a still | [Scene timing](#scene-timing) |
+| `audio` | Soundtrack | none | Music under the video ([Soundtrack](#soundtrack)) |
+
+### Sizes
+
+A size is an object, a preset name, or `"WxH"` (its id is that string: `"300x600"`).
+
+| Field | Type | Default | Meaning |
+|---|---|---|---|
+| `id` | string | required | Its name in replies, file names and `media`; letters, digits, `-` and `_` |
+| `width`, `height` | px | required | Output size |
+| `scale` | number | 1 | Shrinks everything, fonts included, before the layout adapts, like a design tool's Scale tool |
+| `safeArea` | Sides | none | The part a platform covers, such as a story's UI bars; text there is reported as `!unsafe` |
+
+### Presets
+
+| Preset | Size | Safe area |
+|---|---|---|
+| `instagram-portrait` | 1080×1350 | |
+| `instagram-square` | 1080×1080 | |
+| `instagram-story` | 1080×1920 | 250 top, 340 bottom |
+| `facebook-feed` | 1200×628 | |
+| `linkedin-post` | 1200×627 | |
+| `x-post` | 1600×900 | |
+| `youtube-thumbnail` | 1280×720 | |
+| `iab-medium-rectangle` | 300×250 | |
+| `iab-leaderboard` | 728×90 | |
+| `iab-skyscraper` | 160×600 | |
+| `iab-half-page` | 300×600 | |
+| `a4-portrait` | 2480×3508 (300 dpi) | A PDF of it is an A4 page. Give it a `scale` for a screen-sized master (2.3 for a 1080 px wide one) |
+
+A preset's id is its name.
+
+### Aspect classes
+
+With r = width ÷ height of the size:
+
+| Class | When | Examples |
+|---|---|---|
+| `landscape` | r > 1.1 | 1200×628 |
+| `square` | 0.9 ≤ r ≤ 1.1 | 1080×1080 |
+| `portrait` | r < 0.9 | 1080×1350 |
+| `wide` | r ≥ 2 | 728×90 |
+| `tall` | r ≤ 0.5 | 300×600, 160×600 |
+
+A size is in one of the first three and may also be `wide` or `tall`.
+
+## Layers
+
+Every layer has a `type`, the [common fields](#common-fields), and its type's own fields.
+
+| `type` | What it is |
+|---|---|
+| [`frame`](#frame) | A container with free, stack or grid layout |
+| [`text`](#text) | Text in a box |
+| [`image`](#image) | An image in a box |
+| [`video`](#video) | A video clip in a box, playing in a moving scene |
+| [`rect`, `ellipse`, `polygon`, `path`, `line`](#shapes) | Shapes |
+| [`icon`](#icon) | A named icon |
+| [`spacer`](#spacer) | Flexible empty space in a stack |
+| [`firstFit`](#firstfit) | Draws the first child that fits |
+| [`use`](#use) | Instances of a component |
+
+### Common fields
+
+| Field | Type | Default | Meaning |
+|---|---|---|---|
+| `id` | string | generated (`text1`, `rect2`, …) | Stable id |
+| `role` | string | none | Semantic name; an edit can target every layer with a role |
+| `parent` | string | top level | (`layer_add` only) The frame to add the layer into |
+| `x`, `y` | px or `"N%"` | 0 | Position in the parent; ignored in a stack or grid |
+| `width`, `height` | Length | by type: text and images size themselves, frames wrap their children, others (and empty frames) are 100 | Size ([Sizing](#sizing)) |
+| `minWidth`, `maxWidth`, `minHeight`, `maxHeight` | px | none | Clamps on the size; a placed layer is placed by its clamped size |
+| `aspectRatio` | number | none | Width ÷ height, kept when only one side is set |
+| `constraints` | `{horizontal, vertical}` | `left`, `top` | How the layer follows its parent in free layout ([Free layout](#free-layout)) |
+| `place` | spot | none | Pins the layer to a spot of its parent ([Free layout](#free-layout)) |
+| `margin` | px or `[x, y]` | 0 | With `place`, its distance from the parent's edges ([Free layout](#free-layout)) |
+| `hidden` | boolean | false | Not drawn and takes no space |
+| `opacity` | 0–1 | 1 | The layer and its children as one |
+| `blendMode` | name | `normal` | One of the [blend modes](#blend-modes) |
+| `fill` | Paint, or a list | none (text, lines and icons: black) | [Fills](#fills) |
+| `stroke` | Stroke, or a list | none | [Strokes](#strokes) |
+| `shadow` | Shadow, or a list | none | [Shadows](#shadows) |
+| `blur`, `backdropBlur` | px | 0 | [Blur](#blur) |
+| `borderRadius` | px, `[tl, tr, br, bl]` or `"full"` | 0 | Corners; `"full"` is a capsule at every size |
+| `mask` | Mask | none | [Masks](#masks) |
+| `edges` | Edges | none | [Edges](#edges) |
+| `rotate` | Degrees | 0 | About the box center |
+| `scale`, `translate`, `skew`, `flipX`, `flipY` | number, `[x, y]` px, `[x, y]` Degrees, boolean, boolean | 1, [0, 0], [0, 0], false, false | Visual transforms after layout, about the box center; they never move other layers |
+| `style` | string or list | none | [Styles](#styles) applied in order |
+| `media` | object | none | Changes for one size or aspect class ([Per size](#per-size)) |
+| `enter`, `exit`, `animate`, `stagger`, `split` | | none | [Motion](#motion) |
+
+In a stack, children also take the [stack child fields](#stack-children); in a grid, the [grid child fields](#grid-children).
+
+### frame
+
+| Field | Type | Default | Meaning |
+|---|---|---|---|
+| `children` | list of Layer | none | Its layers, bottom to top |
+| `clipsContent` | boolean | true | Clips children to the frame, animated ones included, as in Figma; false lets them show outside it (CSS's `overflow` reads as this) |
+| `flexDirection`, `justifyContent`, `alignItems`, `flexWrap`, `gap`, `padding` | | | A row or column ([Stacks](#stacks)) |
+| `gridTemplateColumns`, `gridTemplateRows`, `gridTemplateAreas`, `gap`, `padding` | | | A grid ([Grids](#grids)) |
+
+With neither `flexDirection` nor a grid template, children are placed freely, by their own position.
+
+`{"type": "shot", "duration": 3, "transition": "fade", …}` is a frame that plays in turn with the other shots ([Shots and transitions](#shots-and-transitions)).
+
+### text
+
+See [Text](#text).
+
+### image
+
+| Field | Type | Default | Meaning |
+|---|---|---|---|
+| `asset` | string | required | An asset id from `asset_add` |
+| `fit` | `cover`, `contain`, `fill`, `tile` | `cover` | CSS `object-fit`: cover the box (cropping), contain it (letterboxed), stretch to it; or repeat |
+| `focus` | Point | [0.5, 0.5] | The point that stays in view when `cover` crops |
+| `crop` | `{x, y, width, height}`, 0–1 of the image | none | Show only that part |
+| `tileScale` | number | 1 | Tile size for `tile`, × the image's size |
+| `filter` | Filter | none | [Filters](#filters) |
+
+SVGs are drawn at their drawn size, so they stay sharp.
+
+### video
+
+A clip added with `asset_add`, drawn like an image and under any layers above it: titles, captions, logos. Decoding it needs ffmpeg ([tools.md](tools.md#ffmpeg)).
+
+```json
+{"type": "video", "asset": "beach", "width": "fill", "height": "fill", "trimStart": 2, "playbackRate": 0.5, "muted": true}
+```
+
+| Field | Type | Default | Meaning |
+|---|---|---|---|
+| `asset` | string | required | A clip from `asset_add` (MP4, MOV, WebM…) |
+| `fit`, `focus`, `crop`, `filter` | | `cover`, center | As for [images](#image), applied to every frame |
+| `trimStart` | Seconds | 0 | Where in the clip to begin |
+| `delay` | Seconds | 0 | When the clip starts playing in the scene (in a shot, from the shot's start); before, its first frame holds |
+| `playbackRate` | number | 1 | 0.01–100: 0.5 is slow motion |
+| `loop` | boolean | false | Repeat the clip until the scene ends; otherwise its last frame holds |
+| `muted` | boolean | false | Leaves the clip's own sound out of MP4 and WebM output |
+
+A clip's sound plays with its pictures: from `trimStart`, at `playbackRate`, looping with it, and only while its shot is on; several clips' sounds are mixed. Stills (`time`, or a scene at rest) show the clip's frame at that moment.
+
+### Shapes
+
+| `type` | Field | Type | Default | Meaning |
+|---|---|---|---|---|
+| `rect` | | | | A rectangle; `borderRadius` rounds it |
+| `ellipse` | `arc` | `{start, end, inner}` | 0, 360, 0 | Part of the ellipse, Degrees from the top; `inner` is a hole, 0–1 of the radius: a ring. Filled, it's a wedge; with only a stroke, an open arc (a progress ring) |
+| `polygon` | `sides` | number ≥ 3 | 3 | A regular polygon in the box |
+| | `innerRadius` | 0–1 | none | Makes a star: the inner points' share of the outer radius (0.38 classic, 0.8 starburst) |
+| `path` | `d` | string | | SVG path data |
+| | `shape` | name | | Or a [named shape](#appendix-names) |
+| | `fillRule` | `nonzero`, `evenodd` | `nonzero` | Which regions are inside |
+| | `fit` | `contain`, `fill` | `contain` | Scaled evenly and centered, or stretched to the box |
+| `line` | | | | From the box's top-left by `width, height`, drawn by its `stroke` (black, 1 px); `color` and `strokeWidth` read as its stroke |
+
+A named shape is a real path, so every paint applies: a photo in a blob, a gradient ribbon, a dashed speech bubble.
+
+### icon
+
+| Field | Type | Default | Meaning |
+|---|---|---|---|
+| `name` | string | required | The icon's name in its set |
+| `set` | `lucide`, `solid`, `regular`, `brands` | `lucide` | [Lucide](https://lucide.dev) outline icons, or [Font Awesome Free](https://fontawesome.com) |
+| `color` | Color | black | |
+| `strokeWidth` | number | 2 | Lucide icons' line width, in the icon's 24-unit grid |
+
+An icon is 24 px tall unless sized.
+
+### spacer
+
+| Field | Type | Default | Meaning |
+|---|---|---|---|
+| `minLength` | px | 0 | Takes the leftover space in a stack, at least this much; `minHeight` or `minWidth` reads as this |
+
+### firstFit
+
+Draws the first of its `children` that fits its box at this size with nothing wrong anywhere inside it: no text overflowing, truncated or shrunk to fit, no stack squeezed. When none fits, it draws the last. Typical uses: a long and a short headline, a row CTA and a stacked CTA. `scene_describe` shows what was chosen at each size (`→ short`).
+
+### use
+
+| Field | Type | Default | Meaning |
+|---|---|---|---|
+| `component` | string | required | The component to place |
+| `props` | object | none | Values for the component's `{{prop}}` placeholders, for every instance |
+| `each` | list of objects | none | One instance per entry, in the parent's flow; each entry's values win over `props` |
+
+See [Components](#components).
+
+## Layout
+
+A frame lays out its children in one of three ways: **free** (each child's position and constraints), **stack** (a row or column, CSS flexbox) or **grid** (CSS grid). Children of a stack or grid ignore `x`, `y` and `constraints` unless they set `position: "absolute"`, which places them like a free child (a badge over a card's corner).
+
+### Sizing
+
+| Value | Meaning | Figma | SwiftUI | CSS |
+|---|---|---|---|---|
+| `320` | Fixed px (scaled by the size's `scale`) | Fixed | `.frame(width:)` | `320px` |
+| `"hug"` | As big as the content | Hug | ideal size | `fit-content` |
+| `"fill"` | The free space in a stack; in free layout, the rest of the parent from the layer's position | Fill | `maxWidth: .infinity` | `flex: 1` |
+| `"40%"` | Share of the parent: of a stack's content box (inside its padding), or of a free parent's whole box | | `containerRelativeFrame` | `40%` |
+
+In a grid, a child with a px size keeps it and sits at its cell's start; otherwise it fills its cell. Min and max clamps apply last.
+
+### Free layout
+
+| Field | Type | Default | Meaning |
+|---|---|---|---|
+| `constraints` | `{horizontal: left\|right\|center\|stretch\|scale, vertical: top\|bottom\|center\|stretch\|scale}` | `left`, `top` | How the layer follows its parent as it resizes, as in Figma |
+| `place` | `top-left`, `top`, `top-right`, `left`, `center`, `right`, `bottom-left`, `bottom`, `bottom-right` | none | Pins the layer to that spot of its parent at every size |
+| `margin` | px or `[x, y]` | 0 | Distance from the parent's edges for `place`; a placed `fill` size stops at it on both sides |
+
+Free children use the parent's whole box; its padding doesn't apply. A `"N%"` `x` or `y` is that share of the parent at every size and moves the layer without resizing it. A free frame sized by a stack with `fill` or `%` places its children on the box the stack gave it.
+
+### Stacks
+
+A frame with `flexDirection` is a stack, like CSS flexbox (`display: "flex"` alone makes a row, as in CSS):
+
+```json
+{"type": "frame", "flexDirection": "row", "gap": 16, "padding": [24, 32], "alignItems": "center", "justifyContent": "space-between", "children": ["…"]}
+```
+
+| Field | Type | Default | Meaning |
+|---|---|---|---|
+| `flexDirection` | `row`, `column`, `row-reverse`, `column-reverse`, or a list | required | Direction; a list is tried in order: `["row", "column"]` is a row where it fits, else a column |
+| `gap` | px or `[rowGap, columnGap]` | 0 | Space between children |
+| `padding` | Sides | 0 | Space inside the frame's edges |
+| `alignItems` | `stretch`, `flex-start`, `center`, `flex-end`, `baseline` | `stretch` | Across the direction; `stretch` fills the cross axis unless a child has a size there (with `flexWrap`, each line's height, as in CSS) |
+| `justifyContent` | `flex-start`, `center`, `flex-end`, `space-between`, `space-around`, `space-evenly` | `flex-start` | Along the direction |
+| `flexWrap` | `nowrap`, `wrap` | `nowrap` | Wrap onto more lines when they don't fit |
+
+`padding`, `gap`, `justifyContent`, `alignItems` and `flexWrap` on a frame without `flexDirection` or a grid template are an error that says so.
+
+As in CSS, text and frames in a column never shrink below their content's height; a stack whose children don't fit even then is reported as `!overflow needs W×H`, the size it needs.
+
+### Stack children
+
+| Field | Type | Default | Meaning |
+|---|---|---|---|
+| `alignSelf` | as `alignItems` | the stack's `alignItems` | This child's own alignment (`baseline` in a column is `flex-start`) |
+| `flexGrow` | number ≥ 0 | 1 for `fill`, else none | Its share of the free space when it `fill`s; above 0, it makes a child fill from its size along the stack, as CSS's flex-basis (from nothing when it has none: `width: 0, flexGrow: 1` shares a row evenly) |
+| `layoutPriority` | number | 0 | When a row is too narrow, lower priorities give way first, as in SwiftUI; `"low"` and `"high"` read as −1 and 1, and CSS `flexShrink: 0` as 1 |
+| `position` | `auto`, `absolute` | `auto` | `absolute` takes it out of the flow and places it like a free child |
+
+### Grids
+
+A frame with a grid template is a grid, like CSS grid:
+
+```json
+{"type": "frame", "gridTemplateColumns": "2fr 1fr", "gridTemplateRows": "2fr 1fr", "gridTemplateAreas": ["photo side", "cta side"], "gap": 24, "children": ["…"]}
+```
+
+| Field | Type | Default | Meaning |
+|---|---|---|---|
+| `gridTemplateColumns` | CSS tracks | one `1fr` per area column, else one | `200px`, `1fr`, `auto`, `25%`, `repeat(3, 1fr)`; `repeat(auto-fill, minmax(160px, 1fr))` is as many equal columns as fit at 160 px or more |
+| `gridTemplateRows` | CSS tracks | `auto` | As columns; rows beyond them are `auto` |
+| `gridTemplateAreas` | list of strings | none | Named areas, one string per row and a name per column; `.` is empty. Each name must form a rectangle |
+| `gap` | px or `[rowGap, columnGap]` | 0 | |
+| `padding` | Sides | 0 | |
+
+A size can rearrange the whole grid by changing only its templates in `media`.
+
+### Grid children
+
+| Field | Type | Default | Meaning |
+|---|---|---|---|
+| `gridArea` | string | none | The named area to fill |
+| `gridRow`, `gridColumn` | `2`, `"1 / span 2"`, `"1 / 3"` or `"span 2"`, from 1 | the next free cell, row by row, one track | Where it starts and how far it spans; given one, it takes the first free cell in that row or column. An item spanning `auto` tracks grows them evenly to fit it, as in CSS |
+
+### Per size
+
+`media` changes a layer's fields for some sizes: `"media": {"sky": {"fontSize": 20}, "tall": {"hidden": true}}`. Its keys are size ids or [aspect classes](#aspect-classes), applied broadest first: `landscape`/`square`/`portrait`, then `wide`/`tall`, then the size id. Its values merge into the layer ([Resolution order](#resolution-order)). `media` can't change a layer's `id`, `type`, `children`, `media` or `style`; a key that isn't a size or class is an error.
+
+## Text
+
+### Fields
+
+| Field | Type | Default | Meaning |
+|---|---|---|---|
+| `text` | string | required | The text, with optional [markup](#inline-markup); `\n` breaks lines |
+| `fontSize` | px | 16 | The largest size when the text shrinks to fit |
+| `minimumScaleFactor` | 0–1 | 0.5 | The smallest it shrinks to, × `fontSize`; 1 keeps its size and cuts it with an ellipsis |
+| `fontWeight` | 100–900 in 100s, or `"bold"` | 400 | |
+| `fontFamily` | string | Inter | Inter (bundled), any [Google Fonts](https://fonts.google.com) family (downloaded on first use), or a font the server loads |
+| `color` | Color | black | Text color; `fill` can paint it with a gradient, image or pattern instead |
+| `textAlign` | `left`, `center`, `right`, `justify` | `left` | |
+| `textAlignVertical` | `top`, `center` (or `middle`), `bottom` | `center` in a box with a height, else `top` | Within the box |
+| `lineHeight` | number | the font's own line spacing | × `fontSize`; a value above 4 is an error (px was likely meant) |
+| `letterSpacing` | px | 0 | |
+| `textTransform` | `uppercase`, `lowercase`, `capitalize` | none | |
+| `fontStyle` | `normal`, `italic` | `normal` | The family's italic face (Google Fonts families come with theirs); one without an italic is drawn slanted |
+| `textDecoration` | `underline`, `line-through` | none | |
+| `textWrap` | `wrap`, `balance`, `pretty` | `wrap` | `balance` evens line lengths; `pretty` avoids a lone last word |
+| `maxLines` | number | none | Lines before the ellipsis, in any box; cut text is reported `!truncated` |
+| `trim` | `cap` | none | Trims the space above cap height and below the baseline, so text centers optically in pills and buttons |
+| `padding` | Sides | 0 | Space around the text inside its box |
+| `highlight` | Color or `{color, padding, borderRadius, shape: box\|brush}` | none | A box behind each line; CSS `background-color` on text reads as this. `padding` is one number, px (4): that much on the sides, half above and below |
+| `curve` | px | none | Sets one line on a circular arc of this radius; negative bends down |
+| `leader` | string | none | A character that fills each tab's gap: `"Espresso\t$3"` with `leader: "."` draws dot leaders, the price flush right. Each side keeps its markup, on one baseline; the letters take `color` (not `fill`, strokes or `knockout`) |
+| `knockout` | boolean | false | The letters cut through their parent frame's fill, showing what's behind |
+| `direction` | `auto`, `ltr`, `rtl` | `auto` | |
+| `features` | object | none | OpenType features, e.g. `{"tnum": 1}` |
+| `ranges` | list of Range | none | [Ranges](#ranges) |
+
+`stroke` outlines the letters (`fill: []` with a stroke makes outlined text) and `shadow` follows their shapes.
+
+### Fitting
+
+The box decides how text fits:
+
+- **Width and height:** the font shrinks until the text fits, down to `minimumScaleFactor`, then ends with an ellipsis.
+- **Width only:** the text wraps and the box grows down. In a column, `alignItems: stretch` gives text the column's width, so it wraps.
+- **Neither:** one line, as wide as the text.
+
+Text that is cut is reported as `!truncated needs W×H`, with the box it needs; nothing changes silently.
+
+### Inline markup
+
+Models miscount character offsets, so text takes a small HTML subset instead:
+
+```json
+{"type": "text", "style": "h1", "text": "Proven <accent>RESULTS</accent> for <accent>WILLOWMERE</accent> Families"}
+{"type": "text", "text": "<s>$49</s> <b>$29</b><sup>99</sup> today"}
+```
+
+- Tags: `<b>` (or `<strong>`), `<i>` (or `<em>`), `<u>`, `<s>`, `<sup>`, `<sub>`, `<br>`, a style's name as a tag (`<accent>`), and `<span style="…">` with CSS: `color`, `font-weight`, `font-style`, `font-size`, `font-family`, `text-decoration`, `background-color` (a highlight). Values can be tokens (`style="color:{{red}}"`). A style's name as a tag carries the style's `color`, `fontWeight`, `fontStyle`, `fontSize`, `fontFamily`, `textDecoration` and `highlight` (a brush too).
+- A `<` that doesn't open a known tag is text; `&lt;`, `&gt;`, `&amp;` and `&quot;` are entities.
+- A `<span>` whose style doesn't parse is an error, not text.
+
+### Ranges
+
+`ranges` styles parts of the displayed text by character offset; markup is usually easier.
+
+| Field | Type | Meaning |
+|---|---|---|
+| `start`, `end` | number | Character offsets of the displayed text |
+| `color`, `fontWeight`, `fontStyle`, `fontSize`, `fontFamily`, `textDecoration`, `highlight` | as for text | That part's own values |
+
+## Paint
+
+Frames, shapes, images, text and icons take the same paint fields.
+
+### Fills
+
+`fill` is one paint or a list, bottom to top; `[]` fills nothing (outlined text, for example). Every paint takes `opacity` (0–1, default 1) and `blendMode` (default `normal`).
+
+| Paint | Example |
+|---|---|
+| Color | `"#D0202E"`, `"rgba(208, 32, 46, 0.5)"`, a CSS name, or `{"color": "{{red}}", "opacity": 0.5}` |
+| Gradient | `{"gradient": {"type": "radial", "stops": ["#0000", "#000C"]}}`, or written flat: `{"type": "linear", "angle": 180, "stops": […]}`, or as a CSS string: `"linear-gradient(180deg, #fff 0%, #fff0 100%)"` (`radial-gradient` too, centered) |
+| Image | `{"image": "photo", "fit": "cover", "focus": [0.5, 0.3], "filter": {"grayscale": 1}}`, with the [image](#image) fields |
+| Pattern | `{"pattern": "dots", "color": "#0002", "size": 12}` |
+| Grain | `{"noise": 0.08, "seed": 1}` |
+
+An image fill works on any shape: a photo in a circle is `{"type": "ellipse", "fill": {"image": "photo"}}`.
+
+### Gradients
+
+| Field | Type | Default | Meaning |
+|---|---|---|---|
+| `type` | `linear`, `radial`, `conic` | `linear` | |
+| `stops` | list of Colors, or of `{offset, color}` | required | Colors evenly spaced, or at `offset` (0–1 or `"55%"`) |
+| `angle` | Degrees | 180 (top to bottom, as in CSS) | Linear: CSS angle, 0 = up, 90 = right. Conic: where it starts, from 12 o'clock |
+| `from`, `to` | Point | [0.5, 0], [0.5, 1] | Linear, instead of `angle` |
+| `center` | Point | [0.5, 0.5] | Radial and conic |
+| `radius` | Point | [0.5, 0.5] | Radial: horizontal and vertical radius, 0–1 of the box |
+
+### Patterns and grain
+
+| Paint | Field | Type | Default | Meaning |
+|---|---|---|---|---|
+| Pattern | `pattern` | `dots`, `stripes`, `grid`, `checker`, `zigzag`, `rays` | required | |
+| | `color` | Color | `#00000033` | |
+| | `size` | px | 12 | Repeat length |
+| | `angle` | Degrees | 0 | Rotation |
+| Grain | `noise` | 0–1 | required | Film grain strength |
+| | `size` | px | 1 | Grain size |
+| | `seed` | number | 0 | Its random pattern |
+
+`rays` are hard-edged sectors, so over a photo they cut across its detail and read much stronger than over a flat color: keep them to about 3–4% there (`"color": "#FFFFFF0A"` with `blendMode: "screen"`), or put them on the flat areas.
+
+### Filters
+
+`filter` on an image, video or image fill: CSS `filter` functions on their CSS scales:
+
+| Field | Type | Default | Meaning |
+|---|---|---|---|
+| `brightness`, `contrast`, `saturate` | number ≥ 0 | 1 | 1 leaves it unchanged: `brightness: 0.8` darkens, `1.2` lightens |
+| `grayscale`, `sepia` | 0–1 | 0 | |
+| `hueRotate` | Degrees | 0 | |
+| `duotone` | `[dark, light]` Colors | none | Maps dark to light |
+| `tint` | Color | none | Recolors every visible pixel, e.g. a logo in white |
+| `halftone` | px | 0 | Redraws the image as black dots this far apart, larger where it's darker; over a dark background they barely show |
+
+### Strokes
+
+`stroke` is one stroke or a list, SVG-style; `"#000"` is a 1 px black stroke.
+
+| Field | Type | Default | Meaning |
+|---|---|---|---|
+| `width` | px, or `[top, right, bottom, left]` on rects | 1 | Line width; per side for borders |
+| `color` | Color, or `{"gradient": …}` | black | Its paint |
+| `align` | `inside`, `center`, `outside` | `inside` (`center` for lines) | Where it sits on the edge |
+| `dash` | `[on, off]` px | solid | |
+| `cap` | `butt`, `round`, `square` | `butt` | |
+| `join` | `miter`, `round`, `bevel` | `miter` | |
+| `markerStart`, `markerEnd` | `arrow`, `triangle`, `circle`, `diamond` | none | Markers on lines and paths |
+| `roughness` | px | 0 | Hand-drawn wobble |
+| `seed` | number | 0 | The wobble's random pattern |
+
+### Shadows
+
+`shadow` is one shadow or a list, like CSS `box-shadow`. A shadow follows the layer's shape: it hugs a cutout photo or the letters of a text. A glow is a shadow at `x: 0, y: 0`; a hard offset shadow has `blur: 0`.
+
+| Field | Type | Default | Meaning |
+|---|---|---|---|
+| `color` | Color | required | |
+| `x`, `y` | px | 0 | Offset |
+| `blur` | px | 0 | Blur radius, as in CSS |
+| `spread` | px | 0 | Grows the shadow's shape |
+| `inset` | boolean | false | An inner shadow |
+
+### Blur
+
+`blur` (px) blurs the layer; `backdropBlur` (px) blurs what's behind it within its shape (frosted glass).
+
+### Masks
+
+| `mask` | Shows |
+|---|---|
+| a gradient, flat (`{"angle": 180, "stops": ["#000", "#0000"]}`), as `{"gradient": …}`, or a CSS `linear-gradient(…)` | The layer faded by the gradient's alpha over its box (a photo fading out); nothing outside the box shows |
+| `"ellipse"` or a [named shape](#appendix-names) (`"blob-3"`) | The layer inside that shape |
+| `{"path": "M…"}` | The layer inside that path |
+| `{"layer": "logo"}` | The layer where another layer is; the mask layer isn't drawn itself |
+| `{"image": "torn-edge"}` | The layer where an image is opaque |
+
+| Field | Type | Default | Meaning |
+|---|---|---|---|
+| `mode` | `alpha`, `luminance` | `alpha` | What of the mask counts: its opacity or its brightness |
+| `invert` | boolean | false | Reverses the mask |
+
+### Edges
+
+| Field | Type | Default | Meaning |
+|---|---|---|---|
+| `sides` | list of `top`, `right`, `bottom`, `left` | all four | Which sides of the box tear, like ripped paper |
+| `depth` | px | 12 | How far the tears cut in |
+| `seed` | number | 0 | The tears' random pattern |
+
+### Blend modes
+
+`normal`, `multiply`, `screen`, `overlay`, `darken`, `lighten`, `color-dodge`, `color-burn`, `hard-light`, `soft-light`, `difference`, `exclusion`, `hue`, `saturation`, `color`, `luminosity`.
+
+## Reuse
+
+### Tokens
+
+`tokens` holds named values, used as `{{name}}` (a letter or `_`, then letters, digits, `_`, `.` and `-`), as in Mustache and Handlebars:
+
+```json
+"tokens": {"brand": "#D0202E", "h1": 64, "name": "Mia", "photo": "cat"}
+{"type": "text", "text": "Meet {{name}}, 7 months old", "fontSize": "{{h1}}", "color": "{{brand}}"}
+{"type": "image", "asset": "{{photo}}"}
+{"type": "text", "text": "Proven <span style=\"color:{{brand}}\">RESULTS</span>"}
+```
+
+- A string that is only `{{name}}` takes the token's value as it is: a number stays a number.
+- Inside a string (a sentence, a markup attribute), the value is spliced into the text; a token spliced in is a string, number or boolean.
+- The server remembers which fields came from which token, and a sentence's template, so changing a token in `layer_update` (or a render's `rows`) changes every field bound to it; setting such a field to a value of its own unbinds it.
+- A string without `{{name}}` is never touched, so `"$29"` and `"{curly}"` stay text. An unknown name is an error that lists the tokens there are.
+- `{{n}}` is the counting number ([Counting](#counting)), never a token.
+- A whole value written `"$name"`, for a token that exists, reads as `{{name}}`. Text with `$name` in it is left alone (it may be a price), and the edit's reply adds `hint: did you mean {{name}}?`.
+
+### Styles
+
+`styles` hold any layer fields, `media` included: a `card` style can carry `fill`, `borderRadius` and `shadow`. A layer with its own `media` keeps the style's too: `{"style": "ink", "media": {"story": {"fontSize": 40}}}` still gets `ink`'s `a4-portrait` color, and where both set a field for one size, the layer's wins. A layer's `style` takes one name or a list; a later style wins where they overlap, and the layer's own fields win over all of them. Changing a style through `layer_update` changes every layer that uses it. A style can't set `id`, `text` or children; a `type` in it is dropped.
+
+### Components
+
+```json
+"components": {
+  "candidate": {"type": "frame", "flexDirection": "column", "gap": 4, "alignItems": "center", "children": [
+    {"type": "text", "role": "name", "text": "{{name}}", "style": "name"},
+    {"type": "text", "role": "office", "text": "{{office}}", "style": "office"}]}
+}
+```
+
+```json
+{"type": "use", "id": "c", "component": "candidate", "each": [
+  {"name": "Dana Levi", "office": "Mayor"},
+  {"name": "Omar Haddad", "office": "Council"}]}
+```
+
+- `{{prop}}` (or `{{ prop }}`) in any string of a component is filled from the instance's props, as in Mustache; a string that is only `{{prop}}` takes the value as is (a number stays a number). `{{n}}` stays the counting number, never a prop. A prop wins over a token of the same name; any other `{{name}}` in the component is a token.
+- The `use` layer's own fields (width, constraints, `media`…) apply to each instance's root.
+- Instances stay linked: changing the component changes every instance. Their layers are named by the `use` id, the instance number and the inner layer's id or role, e.g. `c.1.name`, in replies. To change one, target the component (`{"component": "candidate", "role": "name"}`), or `detach` the `use` layer into plain layers.
+- Components may place other components, up to 8 levels deep.
+
+## Motion
+
+A scene with a `duration`, or made of [shots](#shots-and-transitions), moves. Only fields that don't change layout animate, so the layout is the same at every moment and every check holds throughout. A scene without motion fields is drawn at rest. A still of a moving scene (PNG, JPEG, WebP, PDF, without `time`) is also at rest: each layer as written, before its tracks (a `"scale": 1.12` written for a pan's room shows at 1.12), except `draw` and `count`, which show where they end. Output formats are in [tools.md](tools.md#output-formats).
+
+### Scene timing
+
+| Field | Type | Default | Meaning |
+|---|---|---|---|
+| `duration` | Seconds, 0.001–86,400 | none (a still), or where the last shot ends | Length; its presence makes the scene move |
+| `fps` | 1–120 | 30 | Frames per second |
+| `loop` | boolean | false | The animation repeats forever |
+
+### Enter and exit
+
+```json
+{"type": "text", "text": "…", "enter": "fade-up"}
+{"type": "frame", "enter": {"effect": "pop", "delay": 1.2, "ease": "back.out"}, "exit": {"effect": "fade", "delay": 7}}
+```
+
+`enter` and `exit` take an effect name, or an object. A layer is hidden before it enters and gone after it exits. A directional effect is named for the way the layer moves: `fade-left` moves left into place.
+
+| Field | Type | Default | Meaning |
+|---|---|---|---|
+| `effect` | name | required | `fade`, `fade-up`, `fade-down`, `fade-left`, `fade-right` (fade while moving `distance` into place), `pop` (grow from 0.6 with an overshoot), `zoom-in` (grow from 0.85), `zoom-out` (shrink from 1.15), `blur-in` (sharpen from a 12 px blur) |
+| `delay` | Seconds | `enter`: 0; `exit`: so it ends with the scene | When it starts |
+| `duration` | Seconds | 0.6 | |
+| `ease` | Ease | `power2.out` entering (`back.out` for `pop`), `power2.in` leaving | |
+| `distance` | px | 40 | How far a directional fade travels |
+
+### Keyframes
+
+`animate` sets values over time, GSAP-style: one track or a list of them.
+
+```json
+"animate": {"scale": [1, 1.06, 1], "duration": 1.6, "repeat": -1, "ease": "sine.inOut"}
+"animate": {"rotate": {"from": "random(-90, 90)"}, "translate": {"from": [0, -80]}, "duration": 0.8, "ease": "back.out"}
+```
+
+| Field | Type | Default | Meaning |
+|---|---|---|---|
+| `opacity`, `scale`, `rotate`, `blur` | list of numbers, or `{from, to}` | | Values spread over `duration`; a missing end is the layer's own value |
+| `translate`, `skew` | the same, with `[x, y]` pairs | | GSAP's `x` and `y` read as `translate` |
+| `color` | the same, with Colors | | The layer's own color |
+| `draw` | list of 0–1, or `{from, to}` | 1 | The share of the layer's strokes drawn ([Drawing strokes](#drawing-strokes)); GSAP's `drawSVG` and After Effects' `trimPath` read as this |
+| `count` | list of numbers, or `{from, to}` | 0 | The number a text's `{{n}}` shows ([Counting](#counting)) |
+| `decimals` | 0–6 | 0 | With `count`: digits after the decimal point |
+| `separator` | string | none | With `count`: put between thousands, e.g. `","`; with `"."` the decimal mark is a comma |
+| `times` | list of 0–1 | evenly spaced | Where each listed value falls, of `duration` |
+| `delay` | Seconds | 0 | When it starts |
+| `duration` | Seconds | 1 | One play |
+| `ease` | Ease | `power1.inOut` | Between each pair of values |
+| `repeat` | number | 0 | Extra plays; −1 repeats to the end |
+| `yoyo` | boolean | false | Every other play runs backwards |
+
+A number may be `"random(lo, hi)"`, as in GSAP: each target (each layer, or each piece of split text) gets its own value, seeded from its id, the same on every render. Values hold before a track starts and after it ends. Layout fields (`width`, `fontSize`, `text`, `padding`…) can't animate; to make something grow, animate `scale`.
+
+### Drawing strokes
+
+`draw` draws a share of a layer's strokes, like After Effects' trim paths: a progress ring, a line or underline drawing itself, line art signing itself.
+
+```json
+{"type": "ellipse", "width": 120, "height": 120, "stroke": {"width": 10, "color": "#0AE448", "cap": "round"}, "animate": {"draw": [0, 0.72], "duration": 1.2, "ease": "power2.out"}}
+{"type": "path", "d": "M0 40 C 40 0, 80 80, 120 40", "stroke": "#000", "animate": {"draw": {"from": 0}, "duration": 2}}
+```
+
+It works on every stroke: paths, shapes, lines, ellipses and text outlines. A line draws from its start to its end, an ellipse clockwise from the top, a path from its first point, and text letter by letter; dashes and end markers follow the drawn part, and an ellipse's dashes start at the top too. Stills at a `time` show the share drawn then; at rest, the share where the track ends (all of it without a `draw` track).
+
+### Counting
+
+`count` puts a number that counts into a text layer, wherever its text says `{{n}}`:
+
+```json
+{"type": "text", "text": "{{n}}+ teams", "animate": {"count": [0, 1250], "separator": ",", "duration": 1.5, "ease": "power2.out"}}
+```
+
+The text is measured with its widest value (usually the last), so its box holds still and nothing around it moves while the number changes; digits use the font's tabular figures when it has them. At rest, and in `scene_describe`, the text shows that value. A text that counts needs `{{n}}` in it.
+
+### Easing
+
+GSAP's names: `none`, `power1` … `power4`, `sine`, `expo`, `circ`, `back`, `elastic`, `bounce`, each with `.in`, `.out` or `.inOut` (a family alone is `.out`), and `steps(n)`. CSS's `ease`, `ease-in`, `ease-out` and `ease-in-out`, and `smooth`, `snappy` and `bouncy`, read as the nearest of those.
+
+### Stagger and split
+
+| Field | Type | On | Meaning |
+|---|---|---|---|
+| `stagger` | Seconds | a frame or `use` layer | Gives its `enter` to its children or instances one after another, this far apart, instead of entering whole |
+| `split` | `chars`, `words` | a text layer | Its `enter`, `exit`, `animate` and `stagger` apply to each letter or word, like GSAP's SplitText. The text is laid out once; each piece moves as a rigid part of it. A `highlight` stays whole, each line's arriving with its first piece |
+
+```json
+{
+  "type": "text",
+  "text": "Animate Anything",
+  "fontSize": 96,
+  "split": "chars",
+  "stagger": 0.05,
+  "animate": {
+    "translate": {
+      "from": [
+        "random(-400, 400)",
+        "random(-250, 250)"
+      ]
+    },
+    "rotate": {
+      "from": "random(-180, 180)"
+    },
+    "opacity": {
+      "from": 0
+    },
+    "duration": 1.1,
+    "ease": "back.out"
+  }
+}
+```
+
+Frames clip their children, animated ones included: give a frame `clipsContent: false` when its children move beyond its edges.
+
+### Soundtrack
+
+`audio` puts music (or any sound) under an MP4 or WebM, mixed with the clips' own sound. It starts with the video and is cut to its length.
+
+```json
+{"asset": "song", "volume": 0.8, "trimStart": 12, "fadeIn": 0.5, "fadeOut": 1.5}
+```
+
+| Field | Type | Default | Meaning |
+|---|---|---|---|
+| `asset` | asset id | required | An MP3, M4A or WAV added with `asset_add`, or a video clip whose sound plays |
+| `volume` | number | 1 | Loudness; 1 is as recorded |
+| `trimStart` | Seconds | 0 | Where in the sound to begin |
+| `fadeIn` | Seconds | 0 | Rise from silence at the start |
+| `fadeOut` | Seconds | 0 | Fall to silence at the video's end |
+
+Set it with `layer_update`'s `{target: {scene: true}, set: {audio: …}}`; `music`, `soundtrack` or an asset id alone read as it, and `null` removes it. A sound shorter than the video ends in silence. Animated PNG and GIF have no sound; `render`'s `muted` leaves it out of video.
+
+### Shots and transitions
+
+A layer of `type: "shot"` is a shot: a full-size frame that plays in turn with the other shots instead of stacking. Times inside a shot (`enter`, `animate`, a clip's `delay`) count from the shot's own start. Layers that aren't shots, such as a logo or a caption bar, stay on across all of them. At rest, the first shot shows. Every shot is checked at every size; to keep one out of a size that never plays it (an A4 page of a video's first shot), hide it there: `"media": {"a4-portrait": {"hidden": true}}`. Its checks and facts then skip that size.
+
+```json
+{"id": "s1", "type": "shot", "duration": 3, "children": ["…"]}
+{"id": "s2", "type": "shot", "duration": 3, "transition": "push-left", "children": ["…"]}
+```
+
+| Field | Type | Default | Meaning |
+|---|---|---|---|
+| `duration` | Seconds | required | On screen, including its transitions |
+| `transition` | name, or `{type, duration, ease}` | `cut` | How it enters from the shot before |
+| `children`, and a frame's fields | | | Its layers and layout |
+
+| Transition field | Type | Default | Meaning |
+|---|---|---|---|
+| `type` | name | required | `cut`, `fade`, `slide-left` … `slide-down` (slides in over the last shot), `push-left` … `push-down` (pushes the last shot out), `wipe-left` … `wipe-down` (a moving edge reveals it), `zoom` (the last shot grows as the new one fades in). A direction is the way the new shot moves |
+| `duration` | Seconds | 0.5 | Overlaps the two shots; a cut has none |
+| `ease` | Ease | `power2.inOut` | |
+
+Each shot starts where the one before ends minus its transition. The scene's length is where the last shot ends unless `duration` says otherwise; a longer `duration` holds the last shot to the end. A transition can't be longer than either shot it joins.
+
+## Template files
+
+A template is a scene file that `scene_create` loads by URL or path ([tools.md](tools.md#templates-and-variants)). It has a scene's fields, and its `assets` name files instead of hashes: a URL, or a path relative to the template. Its `tokens` are its variables.
+
+```json
+{
+  "sizes": ["instagram-square", "iab-medium-rectangle"],
+  "tokens": {"headline": "Spring sale", "price": "$29", "accent": "#D0202E"},
+  "assets": {"photo": "photo.jpg", "logo": "https://example.com/logo.svg"},
+  "layers": [
+    {"type": "image", "asset": "photo", "width": "fill", "height": "fill"},
+    {"type": "text", "text": "{{headline}}", "fontSize": 64, "fontWeight": 800, "color": "{{accent}}", "place": "center"}
+  ]
+}
+```
+
+A scene keyline saved (its `assets` by `sha256`) loads as a template too.
+
+## Validation and limits
+
+A change that breaks any of these rules is refused whole, with a one-line error ([tools.md](tools.md#errors)); what the layout does at each size (overflow, clipping, contrast) is never refused, but reported as [problems](tools.md#problem-lines).
+
+- Unknown fields, in layers and in every object inside them.
+- Values of the wrong type or out of range: opacity 0–1, `fontWeight` 100–900 in 100s, `minimumScaleFactor` above 0 and at most 1, `flexGrow` ≥ 0, polygon `sides` ≥ 3, video `playbackRate` 0.01–100, sizes at least 1 px with `scale` above 0.
+- Values whose unit was likely mistaken: a `lineHeight` above 4 (px, not × `fontSize`), a motion `duration` of 100 or more that's longer than the scene (ms, not seconds).
+- Layout fields on a frame that isn't a stack or grid (`padding` without `flexDirection`), and `margin` without `place`.
+- An unknown token, style, component, asset, parent frame or `media` key; a duplicate layer id.
+- Shots that aren't top level, have no positive `duration`, or whose transition is longer than a shot it joins; `split` on anything but text; `count` on a layer whose text has no `{{n}}`; `draw` or `count` on split text.
+- An `audio` asset without sound, or a negative `volume`, `trimStart`, `fadeIn` or `fadeOut`; a sound used as an image or video.
+
+| Limit | Value |
+|---|---|
+| Grid tracks per axis, `repeat` count, `gridRow` and `gridColumn` values | 100 |
+| Component nesting | 8 levels |
+| `fps` | 1–120 |
+| `duration` | 0.001–86,400 s |
+
+Asset and file limits are in [tools.md](tools.md#limits).
+
+## Example
+
+The reference ad from the end-to-end tests, in one `layer_add`: tokens, styles, two components placed with `each`, and a layout that adapts to a portrait post, a wide banner and a skyscraper without per-size positions.
+
+```json
+{
+  "tokens": {
+    "navy": "#1B2A5C",
+    "red": "#D0202E",
+    "grey": "#6B7280"
+  },
+  "styles": {
+    "accent": {
+      "color": "{{red}}"
+    },
+    "name": {
+      "fontSize": 36,
+      "fontWeight": 700,
+      "color": "{{navy}}",
+      "textAlign": "center"
+    },
+    "office": {
+      "fontSize": 30,
+      "fontWeight": 500,
+      "color": "{{grey}}",
+      "textAlign": "center"
+    }
+  },
+  "components": {
+    "candidate": {
+      "type": "frame",
+      "flexDirection": "column",
+      "gap": 4,
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "text",
+          "role": "name",
+          "text": "{{name}}",
+          "style": "name"
+        },
+        {
+          "type": "text",
+          "role": "office",
+          "text": "{{office}}",
+          "style": "office"
+        }
+      ]
+    },
+    "step": {
+      "type": "frame",
+      "width": "fill",
+      "flexDirection": "row",
+      "gap": 16,
+      "alignItems": "center",
+      "children": [
+        {
+          "type": "image",
+          "asset": "check",
+          "width": 40,
+          "height": 40
+        },
+        {
+          "type": "text",
+          "role": "step",
+          "text": "{{text}}",
+          "fontSize": 32,
+          "fontWeight": 500,
+          "color": "{{navy}}",
+          "width": "fill"
+        }
+      ]
+    }
+  },
+  "layers": [
+    {
+      "id": "page",
+      "type": "frame",
+      "width": "fill",
+      "height": "fill",
+      "flexDirection": "column",
+      "gap": 28,
+      "padding": [
+        48,
+        0
+      ],
+      "alignItems": "flex-start",
+      "children": [
+        {
+          "id": "headline",
+          "type": "text",
+          "width": "fill",
+          "padding": [
+            0,
+            40
+          ],
+          "fontSize": 64,
+          "fontWeight": 800,
+          "color": "{{navy}}",
+          "textAlign": "center",
+          "textWrap": "balance",
+          "text": "Proven <accent>RESULTS</accent> for <accent>WILLOWMERE</accent> Families"
+        },
+        {
+          "id": "photo",
+          "type": "image",
+          "asset": "photo",
+          "width": "fill",
+          "height": "fill",
+          "minHeight": 120
+        },
+        {
+          "id": "cands",
+          "type": "frame",
+          "width": "fill",
+          "flexDirection": [
+            "row",
+            "column"
+          ],
+          "gap": 12,
+          "alignItems": "flex-start",
+          "justifyContent": "space-evenly",
+          "children": [
+            {
+              "id": "c",
+              "type": "use",
+              "component": "candidate",
+              "each": [
+                {
+                  "name": "Dana Levi",
+                  "office": "Mayor"
+                },
+                {
+                  "name": "Omar Haddad",
+                  "office": "Council"
+                },
+                {
+                  "name": "Ruth Cohen",
+                  "office": "Council"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "cta",
+          "type": "frame",
+          "width": "fill",
+          "fill": "{{red}}",
+          "flexDirection": "row",
+          "gap": 16,
+          "padding": 22,
+          "alignItems": "center",
+          "justifyContent": "center",
+          "children": [
+            {
+              "type": "icon",
+              "name": "mail",
+              "color": "#FFFFFF",
+              "width": 48,
+              "height": 48
+            },
+            {
+              "type": "text",
+              "text": "VOTE BY MAIL",
+              "fontSize": 48,
+              "fontWeight": 800,
+              "color": "#FFFFFF"
+            }
+          ]
+        },
+        {
+          "id": "steps",
+          "type": "frame",
+          "width": "fill",
+          "flexDirection": "column",
+          "gap": 12,
+          "padding": [
+            0,
+            60
+          ],
+          "alignItems": "flex-start",
+          "children": [
+            {
+              "id": "s",
+              "type": "use",
+              "component": "step",
+              "each": [
+                {
+                  "text": "Request your ballot by October 20"
+                },
+                {
+                  "text": "Fill it out at home"
+                },
+                {
+                  "text": "Mail it back by November 3"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "footer",
+          "type": "text",
+          "width": "fill",
+          "text": "Paid for by Willowmere Forward · willowmereforward.org",
+          "fontSize": 20,
+          "color": "{{grey}}",
+          "textAlign": "center",
+          "media": {
+            "tall": {
+              "hidden": true
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+```
+
+The photo takes whatever height is left at each size, the candidates switch to a column where a row doesn't fit, and the footer is dropped on tall sizes.
+
+## Appendix: names
+
+| Kind | Names |
+|---|---|
+| Named shapes (`path` `shape`, masks) | `ribbon`, `ribbon-banner`, `bubble`, `bubble-round`, `arrow`, `arrow-curved`, `chevron`, `tag`, `arch`, `shield`, `heart`, `cloud`, `wave`, `burst`, `blob-1` … `blob-6`, `brush-stroke` |
+| Icons | About 5,000: [Lucide](https://lucide.dev) (`lucide`, about 2,100) and [Font Awesome Free](https://fontawesome.com) (`solid` about 2,000, `regular` about 270, `brands` about 610) |
+| Patterns | `dots`, `stripes`, `grid`, `checker`, `zigzag`, `rays` |
+| Enter and exit effects | `fade`, `fade-up`, `fade-down`, `fade-left`, `fade-right`, `pop`, `zoom-in`, `zoom-out`, `blur-in` |
+| Transitions | `cut`, `fade`, `slide-*`, `push-*`, `wipe-*` (each `left`, `right`, `up`, `down`), `zoom` |
+| Eases | `none`, `power1`–`power4`, `sine`, `expo`, `circ`, `back`, `elastic`, `bounce` (`.in`, `.out`, `.inOut`), `steps(n)` |
+| Blend modes | See [Blend modes](#blend-modes) |
+
+
+---
+
+# Tools and replies
+
+keyline-mcp exposes six tools. This page lists each tool's inputs and the exact shape of its replies, and how the server is configured. What the fields of a scene mean is in the [scene format reference](scene.md); the ideas behind both are in [concepts.md](concepts.md). The `layer_add` tool description carries a compact version of the scene format for the agent.
+
+- [Conventions](#conventions)
+- [Replies](#replies): problem lines, markers, facts, drawn text, output files
+- The tools: [`scene_create`](#scene_create) · [`asset_add`](#asset_add) · [`layer_add`](#layer_add) · [`layer_update`](#layer_update) · [`scene_describe`](#scene_describe) · [`render`](#render)
+- [Templates and variants](#templates-and-variants)
+- [Output formats](#output-formats)
+- [Server configuration](#server-configuration): flags, [rendering without an agent](#rendering-without-an-agent), data, fonts, ffmpeg
+- [Security](#security) · [Limits](#limits) · [Errors](#errors)
+
+| Tool | Does |
+|---|---|
+| [`scene_create`](#scene_create) | Starts a scene: sizes and background, or a template with its variables set |
+| [`asset_add`](#asset_add) | Adds an image, video clip or sound from a URL, a local path or base64 |
+| [`layer_add`](#layer_add) | Adds layers, and shared styles, tokens and components |
+| [`layer_update`](#layer_update) | Changes, deletes or detaches layers, styles and components; changes tokens |
+| [`scene_describe`](#scene_describe) | Checks the design at every size, or lists every layer's box |
+| [`render`](#render) | Writes image, animation or video files per size, a still of a moment, or one variant per row of variables |
+
+## Conventions
+
+- **Scenes are addressed by id.** `sceneId` comes from `scene_create`. Scenes, assets and renders live in the [data directory](#data-directory).
+- **Batches are atomic.** A tool that takes a list applies all of it or none of it.
+- **Every change bumps the scene's version**, shown in replies as `v3`.
+- **Defaults are omitted** in both directions: leave a field out to get its default.
+- **Unknown arguments are refused**, like unknown scene fields, so a misspelled one is never silently ignored.
+- **Replies are compact text, not JSON.** Their parts are described once, under [Replies](#replies).
+- **Errors are one line** that names what failed and how to fix it, and change nothing ([Errors](#errors)).
+
+## Replies
+
+### Versions and ids
+
+A mutation's first line names what it did, the ids it touched and the new version: `added headline,cta v2`, `changed cta v3`, `photo 864×530 v1`. It never echoes the scene.
+
+### Problem lines
+
+An edit's reply (`scene_create` from a template, `layer_add`, `layer_update`) ends its first line with `ok`, or is followed by one line per problem at each size. `scene_describe` gives the same lines on request. A problem line is the size id, the layer's line, and its markers. Its numbers are px at that size, unlike the fields, which are master px that a size's `scale` multiplies (a fix that names a field gives the field's value):
+
+```text
+sky headline text 24,360 384×70 29px 2L !clipped by canvas: right 108px
+```
+
+A text whose id the server made up (`text7`) is also named by its first words, in quotes: `sky text7 "TODAY" text …`. A contrast advisory, or a clipped shadow, that the same layer has at several sizes comes once, after the other lines, naming the sizes (`all` when every size has it), with the worst ratio and without the box, which differs per size:
+
+```text
+all text2 "Thu 14" warn contrast 2.9:1 (WCAG 4.5)
+portrait,square toast warn shadow clipped by card
+```
+
+A **layer line** is `id type x,y w×h`, in px at that size, then:
+
+- **text:** the font size drawn, `(max N, side)` when it shrank to fit, with the side that kept it from being bigger (`width` for a word too wide, `height`, or `maxLines`), and `2L` for the number of lines
+- **image** and **video:** the fit, `crop N%w` / `N%h` for how much is cut, then `left`/`right` (`top`/`bottom`) when a cover crop takes two-thirds or more of it from that side (from `focus`), and `upscaled N×` when it's enlarged past its pixels
+- **adaptive layouts:** `→ row` for the direction a stack chose, or `→ <id>` for the child a `firstFit` drew, then why it passed over its first option when it did: `→ short (long: 4L > maxLines 3)`: what disqualified it (or `shrinks to 48px`, `cut`, `overflows`, and `needs W×H` only when nothing inside it is wrong but it is bigger than the box), a text inside it named by id, the option itself not named twice. The `firstFit`'s line also comes with the problem lines whenever what it drew has a problem, since its choice may be the cause
+- `rot N°` for a rotated layer
+- **with `full`, motion:** in the layer's own clock (a shot's layers count from the shot's start), `shot 2–3.5s` on a shot's frame, `enter fade-up 0.4–1s`, each track's properties and time (`count 1.4–3s`, `×3` for repeats, `×∞` forever), `exit fade 7–7.6s` or `exit fade at the end`
+
+### Markers
+
+| Marker | Kind | Means |
+|---|---|---|
+| `!truncated needs W×H (one line: W wide)` | defect | Text doesn't fit its box, even at its smallest allowed size (cut with an ellipsis, or spilling out); it needs a box of W×H (px at that size), or W wide on one line |
+| `!truncated at maxLines N` | defect | Text was cut at its `maxLines`; allow more lines or widen the box. Without a height it adds `(a height lets it shrink instead)`: with one, text shrinks to fit before it's cut |
+| `!breaks "<word>" (needs W wide)` | defect | A word is wider than its text box, so a line breaks inside it ("Winsto" / "n"); the box needs W px |
+| `!overflow needs W×H` | defect | A stack's children don't fit it even at their smallest; the stack needs W×H. The children it pushes out aren't listed one by one, nor the breaks and overlaps inside it, which follow from its size. When a sibling with `flexGrow` and a set size along the stack grew past that size, the line names it: `(photoBox grows past its width 52%: flexGrow 1)` |
+| `!clipped by <frame or canvas>: <side> <px>` | defect | Part of the layer falls outside what shows; for text, its letters too, where they reach past its box (tall caps at a tight `lineHeight` in a frame that clips). It names the edge that cuts: the canvas or the clipping frame whose side it is. A frame that sizes to its content (no width or height, or `hug`) gets it too when it runs past what shows, since its content is lost; the text inside it, cut by the same edge, isn't listed again. A rotated, scaled or moved layer is checked by the box around it as drawn. A layer whole at rest but cut by more than 2 px while it moves (a `pop` overshooting, a scale pulse) gets it with when, in its own clock: `!clipped by info: bottom 13px during enter pop 2.1–2.7s`; only a frame that clips counts, not the canvas (entrances fly in from outside), and not past an edge the layer already fills at rest (a photo zooming in its frame), unless that frame sizes to its content (a button pulsing in the row that hugs it) |
+| `!hidden` | defect | The layer is entirely outside what shows |
+| `!overlaps <ids>` | defect | Text ink overlaps other text |
+| `!covered by <id> N%, …` | defect | A layer drawn after the text (a filled frame, a shape, a photo; an outline with no fill, by its stroke only) covers this share of its ink, or another text's highlight does (`name highlight 30%`); each one named once, the largest first |
+| `!leader "<left…>" meets "<right>"` | defect | In a `leader` line, the text before the tab runs into the text after it |
+| `!unsafe` | defect | Text's letters, as drawn (a rotation included), reach under the size's `safeArea` |
+| `warn contrast R:1 (WCAG N)` | advisory | Text contrast against what's behind it is below the WCAG level for its size. Knockout text is judged by what shows through its letters against the frame around them |
+| `warn crop cuts the image's middle (focus X%,Y%): height N shows half` | advisory | A cover crop hides more than half the image on one axis, so whatever sits in its middle is cut (a house in a band too short for it). The end names the field to write and its value in master px, like every field (the size's `scale` multiplies it): `height N` for a crop top and bottom, `height at most N` for one at the sides. A photo filling the canvas gets none: it can't grow, and its focus shows where it's set. When the parent sets the height (`fill`, a share, `flexGrow`, a stretch constraint), `minHeight N` or `maxHeight N`; when a stretch constraint shrank a fixed height, `squeezed from A to B: minHeight N` (A and B px at that size). Names "the area around its focus" when `focus` isn't the center |
+| `warn ink Npx from <id>` | advisory | This text's ink comes within N px of a neighbour's, above or beside it, closer than 15% of the smaller font size, touching included (`0px`) up to the overlap `!overlaps` reports (caps overshooting a tight `lineHeight`); on the upper or left text |
+| `warn shadow clipped by <frame>` | advisory | A frame that clips its content (`clipsContent`, on by default) cuts the layer's drop shadow; give it room (padding) or set `clipsContent: false` |
+
+Defects need fixing; advisories need judgment ([concepts](concepts.md#checks-defects-advisories-facts)). In a scene of [shots](scene.md#shots-and-transitions), every shot is checked, each with the layers around it.
+
+### Facts line
+
+The last line of an edit's reply (and of `scene_create` from a template, which is what `keyline-mcp render` prints first) states facts with no threshold, per size: the smallest text and any image drawn larger than its pixels.
+
+```text
+smallest text: instagram-portrait 28px (cta), sky 11.3px (cta); upscaled: instagram-portrait photo 1.5x
+```
+
+### Hint lines
+
+After the facts, one line per text that writes a token as `$name` rather than [`{{name}}`](scene.md#tokens). The text is left as it is, since `$29` or `$USD` may be meant:
+
+```text
+hint: did you mean {{price}}? (cta says $price)
+```
+
+`scene_create` adds one per size at least twice the master's width with no `scale` (a print preset for a screen-sized master). A smaller difference gets no hint (a 1280 px size for a 1080 px master is laid out as is); if it doesn't fit, `!overflow` gives the size it needs:
+
+```text
+hint: a4-portrait is 2.3× the master's width; give it "scale": 2.3 to keep the layout's proportions
+```
+
+And an edit, one per style used as a markup tag whose fields a tag can't carry (a tag carries `color`, `fontWeight`, `fontStyle`, `fontSize`, `fontFamily`, `textDecoration` and `highlight`). A dropped `media` adds what to do instead: `; set per-size text in the layer's media`.
+
+```text
+hint: <accent> drops letterSpacing (a tag carries color, fontWeight, fontStyle, fontSize, fontFamily, textDecoration, highlight)
+```
+
+One per text with both a `color` and a different plain `fill`, since the fill paints the letters:
+
+```text
+hint: chip fill paints the letters (its color is unused); a box behind text is a frame with a fill
+```
+
+One per image drawn as a `halftone` over a dark background (its closest frame's plain fill, else the canvas), since the dots are black:
+
+```text
+hint: photo halftone draws black dots; on #141414 it barely shows (a light fill behind it, or duotone instead)
+```
+
+### Drawn-text lines
+
+Under each size, `render` lists every text that wrapped, shrank or was cut, as actually drawn, so wording and line breaks can be checked without looking at the image, and the option each `firstFit` drew (with why it passed over its first, when it did):
+
+```text
+instagram-portrait /…/renders/sfc5e3bbb5b/instagram-portrait-v3.jpg quality 11
+ head → long
+ headline 72px: "Proven RESULTS for" / "Willowmere Families"
+```
+
+### Output files
+
+`render` writes into `<data>/renders/<sceneId>/`, one file per size, named from the size id and the scene version:
+
+| File | For |
+|---|---|
+| `<size>-v<n>.<ext>` | A render: `png`, `jpg`, `webp`, `pdf`, `gif`, `mp4`, `webm` |
+| `<size>-v<n>.anim.png` | An animated PNG |
+| `<size>-v<n>.at<time>s.<ext>` | A still at `time` seconds |
+| `<size>-v<n>.r<row>.<ext>` | One row of `rows` |
+
+## scene_create
+
+| Input | Type | Default | Meaning |
+|---|---|---|---|
+| `sizes` | array | required, or the template's | Target [sizes](scene.md#sizes): a size object, a preset name, or `"WxH"` |
+| `width`, `height` | number | the first size's | The master size, px |
+| `background` | color | `#FFFFFF` | Canvas color |
+| `duration`, `fps`, `loop` | number, number, boolean | a still, 30, false | [Scene timing](scene.md#scene-timing) |
+| `url` | string | | A [template](#templates-and-variants) at a public http(s) URL |
+| `path` | string | | Or a template file in an allowed folder; offered only with [`--allow-read`](#command-line-flags) |
+| `tokens` | object | | The template's variables to set, `{name: value}` |
+
+Reply: the new scene's id and version. From a template, also its variables, then `ok` or [problem lines](#problem-lines), so a value that doesn't fit shows at once. When ffmpeg can't be found (and motion is on), a second line says so up front, so the agent doesn't plan a video it can't make:
+
+```text
+s5b0a42a5e v0 tokens: accent, headline, price ok
+```
+
+```text
+sfc5e3bbb5b v0
+video off: no ffmpeg (install it or pass --ffmpeg); apng, gif work
+```
+
+## asset_add
+
+| Input | Type | Default | Meaning |
+|---|---|---|---|
+| `sceneId` | string, required | | The scene |
+| `url` | string | | Public http(s) URL of a PNG, JPEG, SVG, video clip or sound, or a `data:` URL (an inline SVG) |
+| `path` | string | | Or a local file in an allowed folder; offered only with [`--allow-read`](#command-line-flags), and its description names the folders |
+| `base64` | string | | Or a still image's bytes, base64. They pass through the model, so keep this for small files |
+| `id` | string | generated | The id layers use to refer to it; an existing id is replaced |
+
+Give exactly one of `url`, `path` or `base64`. Video clips (MP4, MOV, WebM…) and sounds (MP3, M4A, WAV…, for a [soundtrack](scene.md#soundtrack)) need [ffmpeg](#ffmpeg) and can't come as base64. SVGs are rasterized at their drawn size, so they stay sharp.
+
+Reply: the asset's id, its intrinsic size and the scene version; for a clip, also its length, frame rate and `sound` when it has any; for a sound, `sound` and its length.
+
+```text
+photo 864×530 v1
+beach 1920×1080 12.5s 30fps sound v2
+song sound 184.3s v3
+```
+
+## layer_add
+
+| Input | Type | Default | Meaning |
+|---|---|---|---|
+| `sceneId` | string, required | | The scene |
+| `layers` | array, required | | [Layer](scene.md#layers) objects, added on top in order. A layer with `parent` goes inside that frame |
+| `styles` | object | | [Styles](scene.md#styles) to add or replace: `{name: {fields}}` |
+| `tokens` | object | | [Tokens](scene.md#tokens) to add or replace: `{name: value}` |
+| `components` | object | | [Components](scene.md#components) to add or replace |
+
+Reply: `added`, the ids of the new top-level layers and the version; then `ok` on the same line, or [problem lines](#problem-lines); then the [facts line](#facts-line). The agent needs no `scene_describe` call after an edit.
+
+```text
+added headline,cta v1 ok
+smallest text: instagram-portrait 40px (cta), 1200x628 40px (cta)
+```
+
+```text
+added photo,headline,cta v2
+instagram-portrait cta text 60,1180 300×60 28px (max 48, height) warn contrast 1.2:1 (WCAG 3)
+sky headline text 24,360 384×70 29px 2L !clipped by canvas: right 108px
+1200x628 headline text 60,900 960×174 72px 2L !hidden
+smallest text: instagram-portrait 28px (cta), sky 11.3px (cta), 1200x628 28px (cta); upscaled: instagram-portrait photo 1.5x
+```
+
+## layer_update
+
+| Input | Type | Default | Meaning |
+|---|---|---|---|
+| `sceneId` | string, required | | The scene |
+| `ops` | array, required | | Changes, applied in order, all or none |
+| `tokens` | object | | Tokens to change: every field bound to one follows it |
+
+Each op has a `target` and exactly one action:
+
+| Target | Picks |
+|---|---|
+| `{"id": "cta"}` | One layer |
+| `{"role": "price"}` | Every layer with that role |
+| `{"style": "title"}` | A named style; `set` creates or changes it, so every layer using it follows |
+| `{"component": "card"}` | A component's tree; every instance follows |
+| `{"component": "card", "role": "name"}` | One layer inside a component's tree |
+| `{"scene": true}` | The scene itself; `set` takes `background`, `sizes`, `width`, `height`, `duration`, `fps`, `loop`, `audio` ([soundtrack](scene.md#soundtrack)) |
+
+| Action | Does |
+|---|---|
+| `"set": {fields}` | Merges the fields in; `null` resets a field to its default |
+| `"delete": true` | Removes the target (and a layer's children) |
+| `"detach": true` | With an `{id}` target of a `use` layer: turns its instances into plain layers that no longer follow the component |
+
+Reply: like `layer_add`, starting with `changed` and the ids of every layer changed or deleted, then any tokens changed, as `{{name}}`.
+
+```text
+changed cta v3
+sky headline text 24,360 384×70 29px 2L !clipped by canvas: right 108px
+smallest text: instagram-portrait 48px (cta), sky 19px (cta)
+```
+
+## scene_describe
+
+| Input | Type | Default | Meaning |
+|---|---|---|---|
+| `sceneId` | string, required | | The scene |
+| `size` | string | all sizes | One size id |
+| `full` | boolean | false | Every layer's box, not just the problems |
+
+Reply: `ok`, or one [problem line](#problem-lines) per problem. With `full`, the assets (a clip with its length and `sound`), then each size and every [layer line](#problem-lines) at it, indented by nesting:
+
+```text
+assets photo 864×530
+instagram-portrait 1080×1350
+ photo image 0,0 1080×810 cover crop 18%w upscaled 1.5x
+ headline text 60,900 960×174 72px 2L
+ cta text 60,1180 600×60 48px
+```
+
+## render
+
+| Input | Type | Default | Meaning |
+|---|---|---|---|
+| `sceneId` | string, required | | The scene |
+| `sizes` | array of strings | all sizes | Size ids to render |
+| `format` | `png` \| `jpeg` \| `webp` \| `pdf` \| `apng` \| `gif` \| `mp4` \| `webm` | `png` | See [Output formats](#output-formats) |
+| `quality` | 0–100 | 90 | JPEG, WebP, MP4 and WebM quality |
+| `maxKB` | number | | File-size cap: JPEG and WebP lower their quality, PDF its photos' quality (90, 75, 60, 45, 30), APNG and GIF their frame rate, until the file fits. MP4 and WebM try up to three more encodes, each measured, aiming just under the cap (85–100% of it): libx264 and VP9 at a lower quality, a hardware encoder at a bitrate, and when that still doesn't fit (some ignore a low bitrate), libx264 at a lower quality. They keep the largest that fits, else the smallest, with `!too-big` |
+| `preview` | boolean | false | Also returns one small image of all sizes side by side |
+| `time` | number | | Seconds into a moving scene: a still at that moment |
+| `muted` | boolean | false | `true` leaves all sound out of `mp4` and `webm`: the soundtrack and every clip's (a clip's own `muted` leaves out one) |
+| `rows` | array of objects | | [Variants](#templates-and-variants): one render per row of token values |
+
+Reply: per size, the size id, the file's path ([Output files](#output-files)) and, in parentheses, what the file holds, then its [drawn-text lines](#drawn-text-lines):
+
+```text
+wide /…/renders/s1a2b3c4d5/wide-v3.png (1200×628, 212 KB)
+wide /…/renders/s1a2b3c4d5/wide-v3.gif (1200×628, 2s, 60 frames at 30 fps, plays once, 1840 KB)
+wide /…/renders/s1a2b3c4d5/wide-v3.mp4 (1200×628, 2s, 60 frames at 30 fps, with sound, 610 KB) quality 90
+a4-portrait /…/renders/s1a2b3c4d5/a4-portrait-v3.pdf (595×842 pt, images ≥ 212 dpi, 1840 KB)
+fonts: Bricolage Grotesque 800, Inter 400/600
+```
+
+A still or PDF of a moving scene says which moment it shows, before its size: `at rest, shot s1` (or `at 2.5s, shot s2` with `time`). A PDF embeds its photos at most at 300 dpi of their drawn size, opaque ones as JPEG at `quality` (90 by default). A PDF gives its page in points (a print preset's, such as A4's 595×842, or 1 pt per px) and the lowest resolution of its photos on that page. The last line names the fonts the texts are drawn in, once per render: each family with its weights, `900→700` when the family has no face for a weight and a nearer one is drawn, `(fallback)` when the family has no face at all.
+
+A moving format gives its length, frame count and frame rate; GIF and APNG also say whether they loop (`loops`) or stop on their last frame (`plays once`), from the scene's `loop`; MP4 and WebM say `with sound` when they carry any; `last shot held 0.4s` means the scene's `duration` outlasts its shots and the last one holds. An agent opening an animated file sees only its first frame, so these facts are how it checks one. With `maxKB`, `quality N` follows when the quality was lowered (a lowered frame rate shows in the facts), or `!too-big` when even the lowest setting doesn't fit. MP4 and WebM always say how they were encoded, with any encoder: `quality N` (1–100, default 90, lower when `maxKB` needed it), or `bitrate Nk` when a hardware encoder needed a lower one for `maxKB`. With `rows`, each line starts with `r<row>`. With `preview`, the reply also carries the preview as an image of what was rendered, each row no wider than 2000 px: the sizes side by side, a row per row of tokens (up to 6); or, for a moving format (APNG, GIF, MP4, WebM), a row per size of up to 6 moments through it (from the first row of tokens): each shot's middle, the last frame when the scene loops or a layer leaves (its seam), then the middle of each entrance and keyframe track (or where it's biggest when it grows: a `pop`'s overshoot, a pulse), earliest first, then even steps, none within a quarter second of another; named in a last line, with each shot's time for a scene of shots (`preview at 1 2.7 4.2 5.3 6.9 7.97s · shots 0–2 2–3.5 3.5–8`).
+
+## Templates and variants
+
+A template is a scene file ([its format](scene.md#template-files)) that `scene_create` loads by `url` or `path`, the same way `asset_add` loads an image. Its images are added as assets, `tokens` sets its variables, and any other `scene_create` input (`sizes`, `background` …) replaces the template's. Nothing else is kept: the template stays wherever it came from. A token named in `tokens` that the template doesn't have is an error that lists the ones it has.
+
+`render` with `rows` makes variants: each row of token values is applied as `layer_update` with those `tokens` would, to a copy, and rendered, so a row changes every field bound to its tokens, sentences and image assets included; the saved scene doesn't change. A key that isn't one of the scene's tokens is an error naming the row and the tokens there are. `preview` shows the first row.
+
+```json
+{"sceneId": "s5b0a42a5e", "rows": [{"headline": "Fall", "price": "$19"}, {"headline": "Winter", "price": "$24"}]}
+```
+
+## Output formats
+
+| Format | What it is |
+|---|---|
+| `png`, `jpeg`, `webp` | A still per size. A scene with motion is drawn at rest, or at `time` |
+| `pdf` | Vector, one page per size (1 px = 1 pt; `a4-portrait` makes an A4 page). Refuses scenes with video |
+| `apng` | Animated PNG: lossless, fully transparent, plays in browsers |
+| `gif` | Animated GIF: plays everywhere, including email and chat, in 256 colors per frame |
+| `mp4` | H.264 video, plays everywhere. Needs [ffmpeg](#ffmpeg) |
+| `webm` | VP9 video. Needs [ffmpeg](#ffmpeg) |
+
+The animated and video formats need a scene that moves (a `duration`, or shots); `time` can't be combined with them. Frames are drawn in memory, several at once, and APNG and GIF frames store only the part that changed. MP4 encodes on the GPU when ffmpeg has a hardware encoder that works on the machine (VideoToolbox on macOS; NVENC, Quick Sync or AMF elsewhere), else with `libx264`; `--encoder` picks one. The scene's [soundtrack](scene.md#soundtrack) and the clips' own sound come along, mixed, AAC in MP4 and Opus in WebM, unless `muted` is `true`.
+
+## Server configuration
+
+### Command-line flags
+
+Every setting is a flag; each takes its value after a space or as `--flag=value`.
+
+| Flag | Default | Does |
+|---|---|---|
+| `--allow-read <folder>...` | none | Lets `asset_add` and `scene_create` read local files inside these folders: every folder up to the next flag, and repeatable. Without it, `path` isn't offered to the agent at all |
+| `--no-motion[=true\|false]` | motion on | Leaves motion out of the tools: `duration`, `fps`, `loop`, `time`, `muted`, video, shots and the motion fields. Fewer tokens per turn, for stills-only use |
+| `--data <folder>` | `~/.keyline-mcp` | The [data directory](#data-directory) |
+| `--fonts <folder>` | none | An extra folder of `.ttf` and `.otf` fonts (repeatable) |
+| `--renderer gpu\|cpu` | `gpu` | `gpu` renders on the GPU and falls back to the CPU; `cpu` always uses the CPU |
+| `--ffmpeg <path>` | `ffmpeg` on the PATH | The ffmpeg program; ffprobe is looked for next to it, else on the PATH |
+| `--encoder <name>` | `auto` | H.264 encoder: `auto` (a GPU encoder that works, else `libx264`), `software`, or an ffmpeg encoder name |
+| `-h`, `--help` | | Prints the flags |
+
+An MCP client passes them in `args`:
+
+```json
+{"mcpServers": {"keyline": {"command": "keyline-mcp", "args": ["--data", "/srv/keyline", "--allow-read", "/srv/brand"]}}}
+```
+
+### Rendering without an agent
+
+`keyline-mcp render <scene.json>` loads a scene file the way `scene_create` loads a [template](#templates-and-variants), renders it like the `render` tool, and copies the files into a folder, for scripts and CI:
+
+```sh
+keyline-mcp render campaign.json --out renders/ --size wide --rows rows.json --format webp
+```
+
+| Flag | Default | Does |
+|---|---|---|
+| `--out <folder>` | the current folder | Where the files go, named by size id (`<size>-v<n>.<ext>`): give each scene its own folder |
+| `--size <id>` | every size | A size to draw (repeatable) |
+| `--rows <rows.json>` | none | A JSON list of token values, `[{"headline": "Sale"}, …]`: one render per row, as the tool's `rows` |
+| `--format <format>` | `png` | As the tool's `format` |
+| `--time <s>` | none | A still of that moment of an animated scene, as the tool's `time`; the file is named `<size>-v<n>.at<s>s.<ext>` |
+| `--quality <1-100>` | the format's | As the tool's `quality` |
+| `--max-kb <n>` | none | As the tool's `maxKB` (`--maxKB` works too) |
+| `--preview` | off | Also writes `<scene>-preview.png`, as the tool's `preview`: every size, or with an animated `--format`, key moments of each size |
+| `--check` | off | Prints the problem, fact and hint lines and exits 1 on a `!` defect, without drawing or encoding anything: a check costs a layout, not a render (a video's encode included) |
+
+The problem and fact lines cover only the sizes drawn (`--size`), and with `--rows`, each row's are tagged `r<n>`.
+
+In GitHub Actions, the repo is an action that installs a release and runs this on every scene a glob matches, failing the job on a `!` defect:
+
+```yaml
+- uses: keyline-dev/keyline@v0
+  with:
+    scenes: campaigns/*.json   # each scene's files go to renders/<name>/
+    args: --format webp        # any render flags
+```
+
+It may read files in the scene file's folder, and takes the server's flags too (`--allow-read`, `--data`, `--renderer`…). It prints the tool's reply, each problem line first, and exits 1 when any drawn size (of any row) has a `!` defect, so a broken design fails the job; `warn` advisories don't.
+
+### Data directory
+
+Scenes are saved as JSON under `<data>/scenes/`, assets under `<data>/assets/` by content hash, renders under `<data>/renders/<sceneId>/`, and downloaded fonts under `<data>/fonts/`.
+
+### Fonts
+
+Inter is bundled. A `fontFamily` that isn't installed is fetched from [Google Fonts](https://fonts.google.com) once and cached in `<data>/fonts/` (tracked in `fonts/index.json`); the reply then starts with `fetched font <family> (<n> files)`. Fonts in `<data>/fonts/` and the `--fonts` folders are loaded too. Fonts are never taken from the machine's system fonts, so renders don't vary with what's installed.
+
+### ffmpeg
+
+Video clips, sounds, and MP4 and WebM output need [ffmpeg](https://ffmpeg.org) (`brew install ffmpeg`, `apt install ffmpeg`), run as a separate program. It's looked up on every call that needs it (`--ffmpeg`, else the PATH), so it can be installed without a restart. Without it, those calls are refused with how to install it, `scene_create` says `video off` up front, and everything else works, APNG and GIF included.
+
+## Security
+
+- **Local files** are read only with `--allow-read`. A `path` is resolved through every symlink and `..` first, then must lie inside an allowed folder and be a regular file, so a link inside the folder can't lead outside it.
+- **URLs** are fetched only over http(s); private and local addresses are refused, and every redirect is checked again.
+- **Templates** follow the same rules for their images: a template from a URL reads images from the web only, never local files; one from a path reads only inside the allowed folders.
+- **Base64** is taken only for still images.
+
+## Limits
+
+| What | Limit |
+|---|---|
+| An image, by any source | 50 MB |
+| A video clip or sound, by `path` | 500 MB |
+| A template file | 50 MB |
+| `preview` | 384 px tall |
+
+Limits of the scene itself (grid tracks, component depth, frame rates) are in [scene.md](scene.md#validation-and-limits).
+
+## Errors
+
+Errors come back as an MCP tool error (`isError: true`) with one line of text that names what failed and how to fix it. They leave the scene and its version unchanged; only a font fetched on the way stays cached. A batch error names the item that failed:
+
+```text
+/Users/me/secret.png is outside the folders the server may read (--allow-read)
+layers[0]: unknown field(s) fontsize for text layer; did you mean fontsize → fontSize
+ops[0]: no layer with id nope
+layers[0]: unknown token {{blue}}; tokens: brand, headline
+row 2: no token headlin; tokens: accent, headline
+layers[0]: token {{big}} doesn't suit fontSize: invalid type: string "huge", expected f32
+give exactly one of url, path or base64
+```
+
+
+---
+
+# Benchmark: keyline vs a headless browser
+
+The same model, in Claude Code (headless, on a Claude subscription), makes the same images three ways, and every run is kept here: prompt, event log, final PNGs, the agent's own files, a summary and the blind judge's verdict.
+
+| Arm | Tools the agent has | How it sees its work |
+|---|---|---|
+| `keyline` | the keyline MCP server only | keyline's measured replies (problems per size); renders on request |
+| `browser-cli` | Bash, Write, Edit, Read; Playwright's screenshot CLI on PATH | opens its PNGs with Read |
+| `browser-mcp` | Playwright MCP (`--headless --isolated --browser chromium`), Write, Edit, Read; the folder served over HTTP | Playwright MCP's screenshots and snapshots, or Read |
+
+## Method
+
+- **One prompt for every arm** (version `vs1`, in `tests/versus_browser/prompts.rs`): the same system prompt ("You make images. Work autonomously; don't ask questions."), the same task text without keyline vocabulary, and one tools paragraph that differs per arm. Each run's `prompt.md` has the exact text.
+- **The same bytes everywhere:** the photo, icons, logo and portrait come from the test code; the browser arms also get `Inter.ttf` (the font keyline bundles), so Chrome doesn't fall back to Times. The keyline arm's scene gets the sizes and assets before the agent starts, since uploading isn't what's tested.
+- **Two tasks, reported separately:** `reference-ad` (the vote-by-mail flyer from `tests/llm_e2e.rs`, at 1080×1350, 1200×1000 at 0.85× and 300×600 at 0.28×) and `speaker-card` (a conference speaker card at 1080×1080, 1920×1080 and 1080×1920, written and committed before any run).
+- **Same limits:** `--max-turns 60`, `--max-budget-usd 8`, a 30-minute timeout, `--setting-sources ""`, `--no-session-persistence`, `--strict-mcp-config`, one pinned model and Claude Code build, one machine.
+- **Every run counts.** A run that stops early, hits a cap or makes wrong files counts as incorrect, and its tokens count. Only infrastructure failures (a Chrome crash, an API error, a harness bug) are rerun, and they're listed below.
+- **Interleaved:** each block is one run of every arm on every task, in rotating order, so drift over the day hits every arm alike.
+
+### What's measured
+
+From Claude Code's `result` event (`modelUsage`, so Haiku side calls count too):
+
+- **Total tokens:** input + cache writes + cache reads + output, over every model. Caching doesn't change it. Thinking is part of output and is shown on its own, not added twice.
+- **Cost:** Claude Code's API-equivalent `total_cost_usd`, and a *cold* cost re-priced as if nothing had been cached (list-price ratios: cache read 0.1×, cache write 1.25× or 2×, output 5× the input price). Neither is what a subscription costs.
+- **Turns, tool calls by name, wall-clock** (`duration_ms`, setup excluded), **images the model saw** (image blocks in tool results, Read included), **fixed overhead** (the first request's input: system prompt plus tool definitions), **peak context** (the largest single request), and for the browser arms whether they measured with JavaScript (Playwright MCP's evaluate or run-code tools, or Node run from Bash).
+
+### Correctness, the same for every arm, from the final PNGs only
+
+1. **Files:** all three PNGs at exactly the right pixel size, or the run fails. The keyline arm's PNGs are rendered by the harness from the scene the agent left; the browser arms' are the files the agent saved.
+2. **Blind judge:** a separate `claude -p` call (Read only, prompt in `judge-prompt.md`, model `claude-opus-5`) sees each run's PNGs under random names and fills in a checklist per size: each content item present and readable, items cut off or overflowing, items overlapping, smallest text legible, and the task's own checks (photo distorted, bands full width, columns even; or the portrait a true circle). It never learns the arm, and its tokens aren't counted. **A run is correct** when, at every size, every item is present and none is cut off or overflowing.
+3. **Owner's blind review:** `export_review` writes anonymised PNG sets to `review/<task>/` and a `review.tsv` to fill in (pass 1 or 0, look 1–5); `judge_runs` then prints how often owner and judge agree.
+4. **Likeness** (reference ad only, secondary, never claimed): 0–255, lower is closer, against two references, the reference ad built in keyline (`build_reference_ad`) and the same by hand in HTML (`reference-ad/reference.html`) rendered by Chrome, since either alone favours its own renderer. It catches blank or garbage output.
+
+## Reproduce
+
+Pinned tooling (Playwright 1.63.0 and `@playwright/mcp` 0.0.83, bench-only, never a keyline dependency):
+
+```sh
+cd bench/versus-browser/tooling
+npm ci
+npx playwright install chromium-headless-shell
+node node_modules/@playwright/mcp/node_modules/playwright/cli.js install chromium chromium-headless-shell
+```
+
+One run (labels are never reused; a run's folder is `<task>/<arm>-<label>/`):
+
+```sh
+CLAUDE_BIN=<claude> KEYLINE_MCP_TEST_MODEL=<model> \
+KEYLINE_BENCH_ARM=keyline|browser-cli|browser-mcp KEYLINE_BENCH_TASK=reference-ad|speaker-card \
+KEYLINE_MCP_BENCH=<label> \
+  cargo test --release --test versus_browser claude_makes_the_images -- --ignored --nocapture
+```
+
+Then judge the unjudged runs, rewrite `results.tsv` and print the medians:
+
+```sh
+cargo test --release --test versus_browser judge_runs -- --ignored --nocapture
+```
+
+## Prompt version vs2
+
+The same protocol (prompts, tasks, judge, tooling unchanged; only the version label) rerun on keyline `43d4acd`. The `commit` column says `f386138`, the commit that bumped the label; its `src/` is identical to `43d4acd`.
+
+**In progress:** blocks 1–4 ran (24 runs, all judged); the runner stopped before block 5 because another change landed in the working tree's `src/` and rebuilt the binary. All 24 runs used the binary built from `43d4acd` at 14:06 (the next release build was at 15:27, after block 4); `reference-ad/*-v2-4` say `+dirty` only because `src/` changed while they were being saved. No results table or claim until all five blocks have run.
+
+## Prompt version vs1 (stopped, superseded by vs2)
+
+**vs1 stopped after 29 runs so keyline changes could land; a full rerun follows as vs2.** Blocks 1–4 ran in full, and block 5 got five of its six runs (`speaker-card/keyline-5` never ran). Every run that ran is kept here and in `results.tsv`, and judged. vs1 numbers are not compared with vs2's.
+
+- **Commit:** keyline at `d098e31`; blocks 3–5 ran after `46fda5b`, which changed one unit-test assertion only (the shipped binary is identical). The `commit` column says which.
+- **Model and client:** `claude-opus-5[1m]` in Claude Code 2.1.251, pinned with `KEYLINE_MCP_TEST_MODEL`, the same build as the `bench/reference-ad/` runs. The judge used `claude-opus-5`.
+- **Browsers:** the CLI arm's Playwright 1.63.0 uses Chrome Headless Shell 153; `@playwright/mcp` 0.0.83 brings its own Playwright (1.64 alpha) and Chromium 155.
+- **Machine:** one Apple-silicon Mac, macOS 27, runs one at a time, on 2026-09-30.
+- **Pilot:** one run per arm and task (`*-pilot1`) before the counted runs, not counted. After it, only the harness changed: event logs drop base64 image bytes, since the PNGs are kept beside them.
+- **Infrastructure reruns:** none.

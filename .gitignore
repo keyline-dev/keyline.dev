@@ -1,3 +1,4 @@
 .DS_Store
 # Logo drafts and the designer's working files; the final logo is in logo/.
 brand/
+node_modules/

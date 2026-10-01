@@ -1,0 +1,2352 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Scene format · keyline</title>
+  <meta name="description" content="The keyline scene format: every layer, field, default and unit, from layout and text to motion and video.">
+  <link rel="canonical" href="https://keyline.dev/docs/scene/">
+  <link rel="alternate" type="text/markdown" href="/docs/scene/index.md">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="keyline">
+  <meta property="og:title" content="Scene format · keyline">
+  <meta property="og:description" content="The keyline scene format: every layer, field, default and unit, from layout and text to motion and video.">
+  <meta property="og:image" content="https://keyline.dev/assets/og/og-v0.png">
+  <meta property="og:url" content="https://keyline.dev/docs/scene/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Scene format","description":"The keyline scene format: every layer, field, default and unit, from layout and text to motion and video.","url":"https://keyline.dev/docs/scene/","inLanguage":"en","isPartOf":{"@type":"WebSite","name":"keyline","url":"https://keyline.dev/"},"about":{"@type":"SoftwareApplication","name":"keyline","url":"https://keyline.dev/"}}</script>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-row">
+      <a class="brand" href="/" aria-label="keyline home"><picture><source srcset="/logo/lockup-nav-dark.svg" media="(prefers-color-scheme: dark)"><img src="/logo/lockup-nav-light.svg" alt="keyline" width="90" height="26"></picture></a>
+      <nav>
+        <a href="/#gallery">Examples</a>
+        <a href="/#how">How it works</a>
+        <a href="/#install">Install</a>
+        <a href="/docs/">Docs</a>
+        <a href="https://github.com/keyline-dev/keyline" class="gh" aria-label="keyline on GitHub"><svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg></a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap doc">
+    <nav class="doc-side" aria-label="Docs"><a href="/docs/install/">Install</a><a href="/docs/">Concepts</a><a href="/docs/scene/" aria-current="page">Scene format</a><a href="/docs/tools/">Tools and replies</a><a href="/benchmark/">Benchmark</a></nav>
+    <article class="prose">
+<h1>Scene format</h1>
+<p>A scene is one JSON document: a master size, the sizes it renders at, its assets, shared tokens, styles and components, and a tree of layers. This page is the reference for every field. The ideas behind it are in <a href="/docs/">Concepts</a>, and the tools that write and render it in <a href="/docs/tools/">Tools and replies</a>.</p>
+<pre><code class="language-json">{
+  &quot;sizes&quot;: [&quot;instagram-square&quot;, &quot;iab-skyscraper&quot;],
+  &quot;tokens&quot;: {&quot;brand&quot;: &quot;#D0202E&quot;},
+  &quot;layers&quot;: [
+    {&quot;type&quot;: &quot;rect&quot;, &quot;width&quot;: &quot;fill&quot;, &quot;height&quot;: &quot;fill&quot;, &quot;fill&quot;: &quot;#FFF4E0&quot;},
+    {&quot;type&quot;: &quot;text&quot;, &quot;text&quot;: &quot;Cold Brew &lt;b&gt;Season&lt;/b&gt;&quot;, &quot;fontSize&quot;: 96, &quot;fontWeight&quot;: 800,
+     &quot;color&quot;: &quot;{{brand}}&quot;, &quot;width&quot;: &quot;80%&quot;, &quot;place&quot;: &quot;center&quot;, &quot;media&quot;: {&quot;tall&quot;: {&quot;fontSize&quot;: 64}}}
+  ]
+}
+</code></pre>
+<p><strong>Contents:</strong> <a href="#conventions">Conventions</a> · <a href="#document">Document</a> · <a href="#layers">Layers</a> · <a href="#layout">Layout</a> · <a href="#text">Text</a> · <a href="#paint">Paint</a> · <a href="#reuse">Reuse</a> · <a href="#motion">Motion</a> · <a href="#template-files">Template files</a> · <a href="#validation-and-limits">Validation and limits</a> · <a href="#example">Example</a> · <a href="#appendix-names">Names</a></p>
+<h2 id="conventions"><a class="anchor" href="#conventions">Conventions</a></h2>
+<p>Field names and values follow what models already know:</p>
+<ol>
+<li><strong>CSS names and values wherever CSS has the concept</strong>, camelCase as in React Native: <code>fontWeight</code>, <code>textAlign</code>, <code>justifyContent</code>, <code>alignItems</code>, <code>gap</code>, <code>padding</code>, <code>borderRadius</code>, <code>filter</code>. <strong>Figma words for sizing, pinning and clipping</strong> (<code>hug</code>, <code>fill</code>, <code>constraints</code>, <code>clipsContent</code>), <strong>SVG</strong> for shapes and strokes (<code>fill</code>, <code>stroke</code>, <code>markerEnd</code>), <strong>GSAP</strong> for motion, <strong>HTML media</strong> for video, and <strong>SwiftUI</strong> only where none of those has the concept (<code>firstFit</code>, <code>layoutPriority</code>, <code>minimumScaleFactor</code>).</li>
+<li><strong>CSS names, keyline&#39;s own layout.</strong> The names and enum values are CSS&#39;s, and colors are any CSS color (<code>rgba(0,0,0,.25)</code>, <code>hsl(…)</code>). The layout model is keyline&#39;s, documented on this page: close to flexbox and grid where it borrows from them, but not browser-exact.</li>
+<li><strong>Short forms.</strong> A compound field has a one-value short form: <code>fill: &quot;#fff&quot;</code>, <code>padding: 24</code>, <code>borderRadius: 12</code>, <code>stroke: &quot;#000&quot;</code>.</li>
+<li><strong>Every field has a default, and defaults are omitted</strong> in what the agent sends and in what the server stores.</li>
+<li><strong>Unknown fields are rejected</strong>, with the nearest known name suggested.</li>
+</ol>
+<h3 id="value-types"><a class="anchor" href="#value-types">Value types</a></h3>
+<p>The tables below use these types.</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Values</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>px</td>
+<td>A number of pixels at the master size; each size&#39;s <code>scale</code> scales it</td>
+</tr>
+<tr>
+<td>Length</td>
+<td>px, <code>&quot;hug&quot;</code> (as big as the content), <code>&quot;fill&quot;</code> (the free space), or <code>&quot;40%&quot;</code> of the parent (<a href="#sizing">Sizing</a>)</td>
+</tr>
+<tr>
+<td>Color</td>
+<td>Any CSS color: <code>#RGB</code>, <code>#RRGGBBAA</code>, <code>rgb()</code>, <code>rgba()</code>, <code>hsl()</code> or a name</td>
+</tr>
+<tr>
+<td>Paint</td>
+<td>A Color, or a gradient, image, pattern or grain object (<a href="#fills">Fills</a>)</td>
+</tr>
+<tr>
+<td>Sides</td>
+<td>px for all four, <code>[vertical, horizontal]</code>, <code>[top, horizontal, bottom]</code> or <code>[top, right, bottom, left]</code>, as in CSS</td>
+</tr>
+<tr>
+<td>Point</td>
+<td><code>[x, y]</code>, each 0–1 of the box, from its top-left</td>
+</tr>
+<tr>
+<td>Seconds</td>
+<td>A number of seconds</td>
+</tr>
+<tr>
+<td>Degrees</td>
+<td>A number of degrees, clockwise</td>
+</tr>
+<tr>
+<td>Ease</td>
+<td>An easing name (<a href="#easing">Easing</a>)</td>
+</tr>
+<tr>
+<td>Token</td>
+<td><code>{{name}}</code> as a whole value or inside text (<a href="#tokens">Tokens</a>)</td>
+</tr>
+</tbody></table></div>
+<h3 id="resolution-order"><a class="anchor" href="#resolution-order">Resolution order</a></h3>
+<p>A layer&#39;s final values are built in this order; each step wins over the one before:</p>
+<ol>
+<li><strong>Tokens</strong>, when the layer is written: every <code>{{name}}</code> becomes the token&#39;s value.</li>
+<li><strong>Components</strong>, for a <code>use</code> layer: <code>{{prop}}</code> is filled from the instance&#39;s props (a prop wins over a token of the same name; the component&#39;s other <code>{{name}}</code>s are tokens), and the <code>use</code> layer&#39;s own fields replace the component root&#39;s, field by field.</li>
+<li><strong>Styles</strong>, in the order listed; a later style wins. The layer&#39;s own fields win over all styles.</li>
+<li><strong><code>media</code></strong>, per size: aspect classes broadest first, then the size id.</li>
+</ol>
+<p><code>media</code> and <code>layer_update</code>&#39;s <code>set</code> merge like a JSON merge patch: nested objects (an object <code>enter</code>, <code>constraints</code>) merge field by field, while lists (<code>fill</code>, <code>ranges</code>, <code>children</code>) and plain values are replaced whole, and <code>null</code> resets a field. Styles and a <code>use</code> layer&#39;s fields replace whole top-level fields, except <code>media</code>: a style&#39;s <code>media</code> and the layer&#39;s own merge, size by size and field by field, the layer&#39;s winning.</p>
+<h2 id="document"><a class="anchor" href="#document">Document</a></h2>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>sizes</code></td>
+<td>list of Size</td>
+<td>required</td>
+<td>The sizes to render (<a href="#sizes">Sizes</a>)</td>
+</tr>
+<tr>
+<td><code>width</code>, <code>height</code></td>
+<td>px</td>
+<td>the first size&#39;s</td>
+<td>The master size: the layers are written at this size</td>
+</tr>
+<tr>
+<td><code>background</code></td>
+<td>Color</td>
+<td><code>#FFFFFF</code></td>
+<td>Canvas color</td>
+</tr>
+<tr>
+<td><code>tokens</code></td>
+<td>object</td>
+<td>none</td>
+<td>Named values, used as <code>{{name}}</code> (<a href="#tokens">Tokens</a>)</td>
+</tr>
+<tr>
+<td><code>styles</code></td>
+<td>object</td>
+<td>none</td>
+<td>Named sets of layer fields (<a href="#styles">Styles</a>)</td>
+</tr>
+<tr>
+<td><code>components</code></td>
+<td>object</td>
+<td>none</td>
+<td>Named layer trees (<a href="#components">Components</a>)</td>
+</tr>
+<tr>
+<td><code>assets</code></td>
+<td>object</td>
+<td>none</td>
+<td>Images, SVGs, video clips and sounds added by <code>asset_add</code>, by id: <code>{sha256, width, height}</code> (a sound&#39;s width and height are 0)</td>
+</tr>
+<tr>
+<td><code>layers</code></td>
+<td>list of Layer</td>
+<td>none</td>
+<td>The layer tree, bottom to top</td>
+</tr>
+<tr>
+<td><code>duration</code>, <code>fps</code>, <code>loop</code></td>
+<td></td>
+<td>a still</td>
+<td><a href="#scene-timing">Scene timing</a></td>
+</tr>
+<tr>
+<td><code>audio</code></td>
+<td>Soundtrack</td>
+<td>none</td>
+<td>Music under the video (<a href="#soundtrack">Soundtrack</a>)</td>
+</tr>
+</tbody></table></div>
+<h3 id="sizes"><a class="anchor" href="#sizes">Sizes</a></h3>
+<p>A size is an object, a preset name, or <code>&quot;WxH&quot;</code> (its id is that string: <code>&quot;300x600&quot;</code>).</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>id</code></td>
+<td>string</td>
+<td>required</td>
+<td>Its name in replies, file names and <code>media</code>; letters, digits, <code>-</code> and <code>_</code></td>
+</tr>
+<tr>
+<td><code>width</code>, <code>height</code></td>
+<td>px</td>
+<td>required</td>
+<td>Output size</td>
+</tr>
+<tr>
+<td><code>scale</code></td>
+<td>number</td>
+<td>1</td>
+<td>Shrinks everything, fonts included, before the layout adapts, like a design tool&#39;s Scale tool</td>
+</tr>
+<tr>
+<td><code>safeArea</code></td>
+<td>Sides</td>
+<td>none</td>
+<td>The part a platform covers, such as a story&#39;s UI bars; text there is reported as <code>!unsafe</code></td>
+</tr>
+</tbody></table></div>
+<h3 id="presets"><a class="anchor" href="#presets">Presets</a></h3>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Preset</th>
+<th>Size</th>
+<th>Safe area</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>instagram-portrait</code></td>
+<td>1080×1350</td>
+<td></td>
+</tr>
+<tr>
+<td><code>instagram-square</code></td>
+<td>1080×1080</td>
+<td></td>
+</tr>
+<tr>
+<td><code>instagram-story</code></td>
+<td>1080×1920</td>
+<td>250 top, 340 bottom</td>
+</tr>
+<tr>
+<td><code>facebook-feed</code></td>
+<td>1200×628</td>
+<td></td>
+</tr>
+<tr>
+<td><code>linkedin-post</code></td>
+<td>1200×627</td>
+<td></td>
+</tr>
+<tr>
+<td><code>x-post</code></td>
+<td>1600×900</td>
+<td></td>
+</tr>
+<tr>
+<td><code>youtube-thumbnail</code></td>
+<td>1280×720</td>
+<td></td>
+</tr>
+<tr>
+<td><code>iab-medium-rectangle</code></td>
+<td>300×250</td>
+<td></td>
+</tr>
+<tr>
+<td><code>iab-leaderboard</code></td>
+<td>728×90</td>
+<td></td>
+</tr>
+<tr>
+<td><code>iab-skyscraper</code></td>
+<td>160×600</td>
+<td></td>
+</tr>
+<tr>
+<td><code>iab-half-page</code></td>
+<td>300×600</td>
+<td></td>
+</tr>
+<tr>
+<td><code>a4-portrait</code></td>
+<td>2480×3508 (300 dpi)</td>
+<td>A PDF of it is an A4 page. Give it a <code>scale</code> for a screen-sized master (2.3 for a 1080 px wide one)</td>
+</tr>
+</tbody></table></div>
+<p>A preset&#39;s id is its name.</p>
+<h3 id="aspect-classes"><a class="anchor" href="#aspect-classes">Aspect classes</a></h3>
+<p>With r = width ÷ height of the size:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Class</th>
+<th>When</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>landscape</code></td>
+<td>r &gt; 1.1</td>
+<td>1200×628</td>
+</tr>
+<tr>
+<td><code>square</code></td>
+<td>0.9 ≤ r ≤ 1.1</td>
+<td>1080×1080</td>
+</tr>
+<tr>
+<td><code>portrait</code></td>
+<td>r &lt; 0.9</td>
+<td>1080×1350</td>
+</tr>
+<tr>
+<td><code>wide</code></td>
+<td>r ≥ 2</td>
+<td>728×90</td>
+</tr>
+<tr>
+<td><code>tall</code></td>
+<td>r ≤ 0.5</td>
+<td>300×600, 160×600</td>
+</tr>
+</tbody></table></div>
+<p>A size is in one of the first three and may also be <code>wide</code> or <code>tall</code>.</p>
+<h2 id="layers"><a class="anchor" href="#layers">Layers</a></h2>
+<p>Every layer has a <code>type</code>, the <a href="#common-fields">common fields</a>, and its type&#39;s own fields.</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th><code>type</code></th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="#frame"><code>frame</code></a></td>
+<td>A container with free, stack or grid layout</td>
+</tr>
+<tr>
+<td><a href="#text"><code>text</code></a></td>
+<td>Text in a box</td>
+</tr>
+<tr>
+<td><a href="#image"><code>image</code></a></td>
+<td>An image in a box</td>
+</tr>
+<tr>
+<td><a href="#video"><code>video</code></a></td>
+<td>A video clip in a box, playing in a moving scene</td>
+</tr>
+<tr>
+<td><a href="#shapes"><code>rect</code>, <code>ellipse</code>, <code>polygon</code>, <code>path</code>, <code>line</code></a></td>
+<td>Shapes</td>
+</tr>
+<tr>
+<td><a href="#icon"><code>icon</code></a></td>
+<td>A named icon</td>
+</tr>
+<tr>
+<td><a href="#spacer"><code>spacer</code></a></td>
+<td>Flexible empty space in a stack</td>
+</tr>
+<tr>
+<td><a href="#firstfit"><code>firstFit</code></a></td>
+<td>Draws the first child that fits</td>
+</tr>
+<tr>
+<td><a href="#use"><code>use</code></a></td>
+<td>Instances of a component</td>
+</tr>
+</tbody></table></div>
+<h3 id="common-fields"><a class="anchor" href="#common-fields">Common fields</a></h3>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>id</code></td>
+<td>string</td>
+<td>generated (<code>text1</code>, <code>rect2</code>, …)</td>
+<td>Stable id</td>
+</tr>
+<tr>
+<td><code>role</code></td>
+<td>string</td>
+<td>none</td>
+<td>Semantic name; an edit can target every layer with a role</td>
+</tr>
+<tr>
+<td><code>parent</code></td>
+<td>string</td>
+<td>top level</td>
+<td>(<code>layer_add</code> only) The frame to add the layer into</td>
+</tr>
+<tr>
+<td><code>x</code>, <code>y</code></td>
+<td>px or <code>&quot;N%&quot;</code></td>
+<td>0</td>
+<td>Position in the parent; ignored in a stack or grid</td>
+</tr>
+<tr>
+<td><code>width</code>, <code>height</code></td>
+<td>Length</td>
+<td>by type: text and images size themselves, frames wrap their children, others (and empty frames) are 100</td>
+<td>Size (<a href="#sizing">Sizing</a>)</td>
+</tr>
+<tr>
+<td><code>minWidth</code>, <code>maxWidth</code>, <code>minHeight</code>, <code>maxHeight</code></td>
+<td>px</td>
+<td>none</td>
+<td>Clamps on the size; a placed layer is placed by its clamped size</td>
+</tr>
+<tr>
+<td><code>aspectRatio</code></td>
+<td>number</td>
+<td>none</td>
+<td>Width ÷ height, kept when only one side is set</td>
+</tr>
+<tr>
+<td><code>constraints</code></td>
+<td><code>{horizontal, vertical}</code></td>
+<td><code>left</code>, <code>top</code></td>
+<td>How the layer follows its parent in free layout (<a href="#free-layout">Free layout</a>)</td>
+</tr>
+<tr>
+<td><code>place</code></td>
+<td>spot</td>
+<td>none</td>
+<td>Pins the layer to a spot of its parent (<a href="#free-layout">Free layout</a>)</td>
+</tr>
+<tr>
+<td><code>margin</code></td>
+<td>px or <code>[x, y]</code></td>
+<td>0</td>
+<td>With <code>place</code>, its distance from the parent&#39;s edges (<a href="#free-layout">Free layout</a>)</td>
+</tr>
+<tr>
+<td><code>hidden</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Not drawn and takes no space</td>
+</tr>
+<tr>
+<td><code>opacity</code></td>
+<td>0–1</td>
+<td>1</td>
+<td>The layer and its children as one</td>
+</tr>
+<tr>
+<td><code>blendMode</code></td>
+<td>name</td>
+<td><code>normal</code></td>
+<td>One of the <a href="#blend-modes">blend modes</a></td>
+</tr>
+<tr>
+<td><code>fill</code></td>
+<td>Paint, or a list</td>
+<td>none (text, lines and icons: black)</td>
+<td><a href="#fills">Fills</a></td>
+</tr>
+<tr>
+<td><code>stroke</code></td>
+<td>Stroke, or a list</td>
+<td>none</td>
+<td><a href="#strokes">Strokes</a></td>
+</tr>
+<tr>
+<td><code>shadow</code></td>
+<td>Shadow, or a list</td>
+<td>none</td>
+<td><a href="#shadows">Shadows</a></td>
+</tr>
+<tr>
+<td><code>blur</code>, <code>backdropBlur</code></td>
+<td>px</td>
+<td>0</td>
+<td><a href="#blur">Blur</a></td>
+</tr>
+<tr>
+<td><code>borderRadius</code></td>
+<td>px, <code>[tl, tr, br, bl]</code> or <code>&quot;full&quot;</code></td>
+<td>0</td>
+<td>Corners; <code>&quot;full&quot;</code> is a capsule at every size</td>
+</tr>
+<tr>
+<td><code>mask</code></td>
+<td>Mask</td>
+<td>none</td>
+<td><a href="#masks">Masks</a></td>
+</tr>
+<tr>
+<td><code>edges</code></td>
+<td>Edges</td>
+<td>none</td>
+<td><a href="#edges">Edges</a></td>
+</tr>
+<tr>
+<td><code>rotate</code></td>
+<td>Degrees</td>
+<td>0</td>
+<td>About the box center</td>
+</tr>
+<tr>
+<td><code>scale</code>, <code>translate</code>, <code>skew</code>, <code>flipX</code>, <code>flipY</code></td>
+<td>number, <code>[x, y]</code> px, <code>[x, y]</code> Degrees, boolean, boolean</td>
+<td>1, [0, 0], [0, 0], false, false</td>
+<td>Visual transforms after layout, about the box center; they never move other layers</td>
+</tr>
+<tr>
+<td><code>style</code></td>
+<td>string or list</td>
+<td>none</td>
+<td><a href="#styles">Styles</a> applied in order</td>
+</tr>
+<tr>
+<td><code>media</code></td>
+<td>object</td>
+<td>none</td>
+<td>Changes for one size or aspect class (<a href="#per-size">Per size</a>)</td>
+</tr>
+<tr>
+<td><code>enter</code>, <code>exit</code>, <code>animate</code>, <code>stagger</code>, <code>split</code></td>
+<td></td>
+<td>none</td>
+<td><a href="#motion">Motion</a></td>
+</tr>
+</tbody></table></div>
+<p>In a stack, children also take the <a href="#stack-children">stack child fields</a>; in a grid, the <a href="#grid-children">grid child fields</a>.</p>
+<h3 id="frame"><a class="anchor" href="#frame">frame</a></h3>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>children</code></td>
+<td>list of Layer</td>
+<td>none</td>
+<td>Its layers, bottom to top</td>
+</tr>
+<tr>
+<td><code>clipsContent</code></td>
+<td>boolean</td>
+<td>true</td>
+<td>Clips children to the frame, animated ones included, as in Figma; false lets them show outside it (CSS&#39;s <code>overflow</code> reads as this)</td>
+</tr>
+<tr>
+<td><code>flexDirection</code>, <code>justifyContent</code>, <code>alignItems</code>, <code>flexWrap</code>, <code>gap</code>, <code>padding</code></td>
+<td></td>
+<td></td>
+<td>A row or column (<a href="#stacks">Stacks</a>)</td>
+</tr>
+<tr>
+<td><code>gridTemplateColumns</code>, <code>gridTemplateRows</code>, <code>gridTemplateAreas</code>, <code>gap</code>, <code>padding</code></td>
+<td></td>
+<td></td>
+<td>A grid (<a href="#grids">Grids</a>)</td>
+</tr>
+</tbody></table></div>
+<p>With neither <code>flexDirection</code> nor a grid template, children are placed freely, by their own position.</p>
+<p><code>{&quot;type&quot;: &quot;shot&quot;, &quot;duration&quot;: 3, &quot;transition&quot;: &quot;fade&quot;, …}</code> is a frame that plays in turn with the other shots (<a href="#shots-and-transitions">Shots and transitions</a>).</p>
+<h3 id="text"><a class="anchor" href="#text">text</a></h3>
+<p>See <a href="#text">Text</a>.</p>
+<h3 id="image"><a class="anchor" href="#image">image</a></h3>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>asset</code></td>
+<td>string</td>
+<td>required</td>
+<td>An asset id from <code>asset_add</code></td>
+</tr>
+<tr>
+<td><code>fit</code></td>
+<td><code>cover</code>, <code>contain</code>, <code>fill</code>, <code>tile</code></td>
+<td><code>cover</code></td>
+<td>CSS <code>object-fit</code>: cover the box (cropping), contain it (letterboxed), stretch to it; or repeat</td>
+</tr>
+<tr>
+<td><code>focus</code></td>
+<td>Point</td>
+<td>[0.5, 0.5]</td>
+<td>The point that stays in view when <code>cover</code> crops</td>
+</tr>
+<tr>
+<td><code>crop</code></td>
+<td><code>{x, y, width, height}</code>, 0–1 of the image</td>
+<td>none</td>
+<td>Show only that part</td>
+</tr>
+<tr>
+<td><code>tileScale</code></td>
+<td>number</td>
+<td>1</td>
+<td>Tile size for <code>tile</code>, × the image&#39;s size</td>
+</tr>
+<tr>
+<td><code>filter</code></td>
+<td>Filter</td>
+<td>none</td>
+<td><a href="#filters">Filters</a></td>
+</tr>
+</tbody></table></div>
+<p>SVGs are drawn at their drawn size, so they stay sharp.</p>
+<h3 id="video"><a class="anchor" href="#video">video</a></h3>
+<p>A clip added with <code>asset_add</code>, drawn like an image and under any layers above it: titles, captions, logos. Decoding it needs ffmpeg (<a href="/docs/tools/#ffmpeg">Tools and replies</a>).</p>
+<pre><code class="language-json">{&quot;type&quot;: &quot;video&quot;, &quot;asset&quot;: &quot;beach&quot;, &quot;width&quot;: &quot;fill&quot;, &quot;height&quot;: &quot;fill&quot;, &quot;trimStart&quot;: 2, &quot;playbackRate&quot;: 0.5, &quot;muted&quot;: true}
+</code></pre>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>asset</code></td>
+<td>string</td>
+<td>required</td>
+<td>A clip from <code>asset_add</code> (MP4, MOV, WebM…)</td>
+</tr>
+<tr>
+<td><code>fit</code>, <code>focus</code>, <code>crop</code>, <code>filter</code></td>
+<td></td>
+<td><code>cover</code>, center</td>
+<td>As for <a href="#image">images</a>, applied to every frame</td>
+</tr>
+<tr>
+<td><code>trimStart</code></td>
+<td>Seconds</td>
+<td>0</td>
+<td>Where in the clip to begin</td>
+</tr>
+<tr>
+<td><code>delay</code></td>
+<td>Seconds</td>
+<td>0</td>
+<td>When the clip starts playing in the scene (in a shot, from the shot&#39;s start); before, its first frame holds</td>
+</tr>
+<tr>
+<td><code>playbackRate</code></td>
+<td>number</td>
+<td>1</td>
+<td>0.01–100: 0.5 is slow motion</td>
+</tr>
+<tr>
+<td><code>loop</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Repeat the clip until the scene ends; otherwise its last frame holds</td>
+</tr>
+<tr>
+<td><code>muted</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Leaves the clip&#39;s own sound out of MP4 and WebM output</td>
+</tr>
+</tbody></table></div>
+<p>A clip&#39;s sound plays with its pictures: from <code>trimStart</code>, at <code>playbackRate</code>, looping with it, and only while its shot is on; several clips&#39; sounds are mixed. Stills (<code>time</code>, or a scene at rest) show the clip&#39;s frame at that moment.</p>
+<h3 id="shapes"><a class="anchor" href="#shapes">Shapes</a></h3>
+<div class="table"><table>
+<thead>
+<tr>
+<th><code>type</code></th>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>rect</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td>A rectangle; <code>borderRadius</code> rounds it</td>
+</tr>
+<tr>
+<td><code>ellipse</code></td>
+<td><code>arc</code></td>
+<td><code>{start, end, inner}</code></td>
+<td>0, 360, 0</td>
+<td>Part of the ellipse, Degrees from the top; <code>inner</code> is a hole, 0–1 of the radius: a ring. Filled, it&#39;s a wedge; with only a stroke, an open arc (a progress ring)</td>
+</tr>
+<tr>
+<td><code>polygon</code></td>
+<td><code>sides</code></td>
+<td>number ≥ 3</td>
+<td>3</td>
+<td>A regular polygon in the box</td>
+</tr>
+<tr>
+<td></td>
+<td><code>innerRadius</code></td>
+<td>0–1</td>
+<td>none</td>
+<td>Makes a star: the inner points&#39; share of the outer radius (0.38 classic, 0.8 starburst)</td>
+</tr>
+<tr>
+<td><code>path</code></td>
+<td><code>d</code></td>
+<td>string</td>
+<td></td>
+<td>SVG path data</td>
+</tr>
+<tr>
+<td></td>
+<td><code>shape</code></td>
+<td>name</td>
+<td></td>
+<td>Or a <a href="#appendix-names">named shape</a></td>
+</tr>
+<tr>
+<td></td>
+<td><code>fillRule</code></td>
+<td><code>nonzero</code>, <code>evenodd</code></td>
+<td><code>nonzero</code></td>
+<td>Which regions are inside</td>
+</tr>
+<tr>
+<td></td>
+<td><code>fit</code></td>
+<td><code>contain</code>, <code>fill</code></td>
+<td><code>contain</code></td>
+<td>Scaled evenly and centered, or stretched to the box</td>
+</tr>
+<tr>
+<td><code>line</code></td>
+<td></td>
+<td></td>
+<td></td>
+<td>From the box&#39;s top-left by <code>width, height</code>, drawn by its <code>stroke</code> (black, 1 px); <code>color</code> and <code>strokeWidth</code> read as its stroke</td>
+</tr>
+</tbody></table></div>
+<p>A named shape is a real path, so every paint applies: a photo in a blob, a gradient ribbon, a dashed speech bubble.</p>
+<h3 id="icon"><a class="anchor" href="#icon">icon</a></h3>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>required</td>
+<td>The icon&#39;s name in its set</td>
+</tr>
+<tr>
+<td><code>set</code></td>
+<td><code>lucide</code>, <code>solid</code>, <code>regular</code>, <code>brands</code></td>
+<td><code>lucide</code></td>
+<td><a href="https://lucide.dev">Lucide</a> outline icons, or <a href="https://fontawesome.com">Font Awesome Free</a></td>
+</tr>
+<tr>
+<td><code>color</code></td>
+<td>Color</td>
+<td>black</td>
+<td></td>
+</tr>
+<tr>
+<td><code>strokeWidth</code></td>
+<td>number</td>
+<td>2</td>
+<td>Lucide icons&#39; line width, in the icon&#39;s 24-unit grid</td>
+</tr>
+</tbody></table></div>
+<p>An icon is 24 px tall unless sized.</p>
+<h3 id="spacer"><a class="anchor" href="#spacer">spacer</a></h3>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>minLength</code></td>
+<td>px</td>
+<td>0</td>
+<td>Takes the leftover space in a stack, at least this much; <code>minHeight</code> or <code>minWidth</code> reads as this</td>
+</tr>
+</tbody></table></div>
+<h3 id="firstfit"><a class="anchor" href="#firstfit">firstFit</a></h3>
+<p>Draws the first of its <code>children</code> that fits its box at this size with nothing wrong anywhere inside it: no text overflowing, truncated or shrunk to fit, no stack squeezed. When none fits, it draws the last. Typical uses: a long and a short headline, a row CTA and a stacked CTA. <code>scene_describe</code> shows what was chosen at each size (<code>→ short</code>).</p>
+<h3 id="use"><a class="anchor" href="#use">use</a></h3>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>component</code></td>
+<td>string</td>
+<td>required</td>
+<td>The component to place</td>
+</tr>
+<tr>
+<td><code>props</code></td>
+<td>object</td>
+<td>none</td>
+<td>Values for the component&#39;s <code>{{prop}}</code> placeholders, for every instance</td>
+</tr>
+<tr>
+<td><code>each</code></td>
+<td>list of objects</td>
+<td>none</td>
+<td>One instance per entry, in the parent&#39;s flow; each entry&#39;s values win over <code>props</code></td>
+</tr>
+</tbody></table></div>
+<p>See <a href="#components">Components</a>.</p>
+<h2 id="layout"><a class="anchor" href="#layout">Layout</a></h2>
+<p>A frame lays out its children in one of three ways: <strong>free</strong> (each child&#39;s position and constraints), <strong>stack</strong> (a row or column, CSS flexbox) or <strong>grid</strong> (CSS grid). Children of a stack or grid ignore <code>x</code>, <code>y</code> and <code>constraints</code> unless they set <code>position: &quot;absolute&quot;</code>, which places them like a free child (a badge over a card&#39;s corner).</p>
+<h3 id="sizing"><a class="anchor" href="#sizing">Sizing</a></h3>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Value</th>
+<th>Meaning</th>
+<th>Figma</th>
+<th>SwiftUI</th>
+<th>CSS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>320</code></td>
+<td>Fixed px (scaled by the size&#39;s <code>scale</code>)</td>
+<td>Fixed</td>
+<td><code>.frame(width:)</code></td>
+<td><code>320px</code></td>
+</tr>
+<tr>
+<td><code>&quot;hug&quot;</code></td>
+<td>As big as the content</td>
+<td>Hug</td>
+<td>ideal size</td>
+<td><code>fit-content</code></td>
+</tr>
+<tr>
+<td><code>&quot;fill&quot;</code></td>
+<td>The free space in a stack; in free layout, the rest of the parent from the layer&#39;s position</td>
+<td>Fill</td>
+<td><code>maxWidth: .infinity</code></td>
+<td><code>flex: 1</code></td>
+</tr>
+<tr>
+<td><code>&quot;40%&quot;</code></td>
+<td>Share of the parent: of a stack&#39;s content box (inside its padding), or of a free parent&#39;s whole box</td>
+<td></td>
+<td><code>containerRelativeFrame</code></td>
+<td><code>40%</code></td>
+</tr>
+</tbody></table></div>
+<p>In a grid, a child with a px size keeps it and sits at its cell&#39;s start; otherwise it fills its cell. Min and max clamps apply last.</p>
+<h3 id="free-layout"><a class="anchor" href="#free-layout">Free layout</a></h3>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>constraints</code></td>
+<td><code>{horizontal: left|right|center|stretch|scale, vertical: top|bottom|center|stretch|scale}</code></td>
+<td><code>left</code>, <code>top</code></td>
+<td>How the layer follows its parent as it resizes, as in Figma</td>
+</tr>
+<tr>
+<td><code>place</code></td>
+<td><code>top-left</code>, <code>top</code>, <code>top-right</code>, <code>left</code>, <code>center</code>, <code>right</code>, <code>bottom-left</code>, <code>bottom</code>, <code>bottom-right</code></td>
+<td>none</td>
+<td>Pins the layer to that spot of its parent at every size</td>
+</tr>
+<tr>
+<td><code>margin</code></td>
+<td>px or <code>[x, y]</code></td>
+<td>0</td>
+<td>Distance from the parent&#39;s edges for <code>place</code>; a placed <code>fill</code> size stops at it on both sides</td>
+</tr>
+</tbody></table></div>
+<p>Free children use the parent&#39;s whole box; its padding doesn&#39;t apply. A <code>&quot;N%&quot;</code> <code>x</code> or <code>y</code> is that share of the parent at every size and moves the layer without resizing it. A free frame sized by a stack with <code>fill</code> or <code>%</code> places its children on the box the stack gave it.</p>
+<h3 id="stacks"><a class="anchor" href="#stacks">Stacks</a></h3>
+<p>A frame with <code>flexDirection</code> is a stack, like CSS flexbox (<code>display: &quot;flex&quot;</code> alone makes a row, as in CSS):</p>
+<pre><code class="language-json">{&quot;type&quot;: &quot;frame&quot;, &quot;flexDirection&quot;: &quot;row&quot;, &quot;gap&quot;: 16, &quot;padding&quot;: [24, 32], &quot;alignItems&quot;: &quot;center&quot;, &quot;justifyContent&quot;: &quot;space-between&quot;, &quot;children&quot;: [&quot;…&quot;]}
+</code></pre>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>flexDirection</code></td>
+<td><code>row</code>, <code>column</code>, <code>row-reverse</code>, <code>column-reverse</code>, or a list</td>
+<td>required</td>
+<td>Direction; a list is tried in order: <code>[&quot;row&quot;, &quot;column&quot;]</code> is a row where it fits, else a column</td>
+</tr>
+<tr>
+<td><code>gap</code></td>
+<td>px or <code>[rowGap, columnGap]</code></td>
+<td>0</td>
+<td>Space between children</td>
+</tr>
+<tr>
+<td><code>padding</code></td>
+<td>Sides</td>
+<td>0</td>
+<td>Space inside the frame&#39;s edges</td>
+</tr>
+<tr>
+<td><code>alignItems</code></td>
+<td><code>stretch</code>, <code>flex-start</code>, <code>center</code>, <code>flex-end</code>, <code>baseline</code></td>
+<td><code>stretch</code></td>
+<td>Across the direction; <code>stretch</code> fills the cross axis unless a child has a size there (with <code>flexWrap</code>, each line&#39;s height, as in CSS)</td>
+</tr>
+<tr>
+<td><code>justifyContent</code></td>
+<td><code>flex-start</code>, <code>center</code>, <code>flex-end</code>, <code>space-between</code>, <code>space-around</code>, <code>space-evenly</code></td>
+<td><code>flex-start</code></td>
+<td>Along the direction</td>
+</tr>
+<tr>
+<td><code>flexWrap</code></td>
+<td><code>nowrap</code>, <code>wrap</code></td>
+<td><code>nowrap</code></td>
+<td>Wrap onto more lines when they don&#39;t fit</td>
+</tr>
+</tbody></table></div>
+<p><code>padding</code>, <code>gap</code>, <code>justifyContent</code>, <code>alignItems</code> and <code>flexWrap</code> on a frame without <code>flexDirection</code> or a grid template are an error that says so.</p>
+<p>As in CSS, text and frames in a column never shrink below their content&#39;s height; a stack whose children don&#39;t fit even then is reported as <code>!overflow needs W×H</code>, the size it needs.</p>
+<h3 id="stack-children"><a class="anchor" href="#stack-children">Stack children</a></h3>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>alignSelf</code></td>
+<td>as <code>alignItems</code></td>
+<td>the stack&#39;s <code>alignItems</code></td>
+<td>This child&#39;s own alignment (<code>baseline</code> in a column is <code>flex-start</code>)</td>
+</tr>
+<tr>
+<td><code>flexGrow</code></td>
+<td>number ≥ 0</td>
+<td>1 for <code>fill</code>, else none</td>
+<td>Its share of the free space when it <code>fill</code>s; above 0, it makes a child fill from its size along the stack, as CSS&#39;s flex-basis (from nothing when it has none: <code>width: 0, flexGrow: 1</code> shares a row evenly)</td>
+</tr>
+<tr>
+<td><code>layoutPriority</code></td>
+<td>number</td>
+<td>0</td>
+<td>When a row is too narrow, lower priorities give way first, as in SwiftUI; <code>&quot;low&quot;</code> and <code>&quot;high&quot;</code> read as −1 and 1, and CSS <code>flexShrink: 0</code> as 1</td>
+</tr>
+<tr>
+<td><code>position</code></td>
+<td><code>auto</code>, <code>absolute</code></td>
+<td><code>auto</code></td>
+<td><code>absolute</code> takes it out of the flow and places it like a free child</td>
+</tr>
+</tbody></table></div>
+<h3 id="grids"><a class="anchor" href="#grids">Grids</a></h3>
+<p>A frame with a grid template is a grid, like CSS grid:</p>
+<pre><code class="language-json">{&quot;type&quot;: &quot;frame&quot;, &quot;gridTemplateColumns&quot;: &quot;2fr 1fr&quot;, &quot;gridTemplateRows&quot;: &quot;2fr 1fr&quot;, &quot;gridTemplateAreas&quot;: [&quot;photo side&quot;, &quot;cta side&quot;], &quot;gap&quot;: 24, &quot;children&quot;: [&quot;…&quot;]}
+</code></pre>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>gridTemplateColumns</code></td>
+<td>CSS tracks</td>
+<td>one <code>1fr</code> per area column, else one</td>
+<td><code>200px</code>, <code>1fr</code>, <code>auto</code>, <code>25%</code>, <code>repeat(3, 1fr)</code>; <code>repeat(auto-fill, minmax(160px, 1fr))</code> is as many equal columns as fit at 160 px or more</td>
+</tr>
+<tr>
+<td><code>gridTemplateRows</code></td>
+<td>CSS tracks</td>
+<td><code>auto</code></td>
+<td>As columns; rows beyond them are <code>auto</code></td>
+</tr>
+<tr>
+<td><code>gridTemplateAreas</code></td>
+<td>list of strings</td>
+<td>none</td>
+<td>Named areas, one string per row and a name per column; <code>.</code> is empty. Each name must form a rectangle</td>
+</tr>
+<tr>
+<td><code>gap</code></td>
+<td>px or <code>[rowGap, columnGap]</code></td>
+<td>0</td>
+<td></td>
+</tr>
+<tr>
+<td><code>padding</code></td>
+<td>Sides</td>
+<td>0</td>
+<td></td>
+</tr>
+</tbody></table></div>
+<p>A size can rearrange the whole grid by changing only its templates in <code>media</code>.</p>
+<h3 id="grid-children"><a class="anchor" href="#grid-children">Grid children</a></h3>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>gridArea</code></td>
+<td>string</td>
+<td>none</td>
+<td>The named area to fill</td>
+</tr>
+<tr>
+<td><code>gridRow</code>, <code>gridColumn</code></td>
+<td><code>2</code>, <code>&quot;1 / span 2&quot;</code>, <code>&quot;1 / 3&quot;</code> or <code>&quot;span 2&quot;</code>, from 1</td>
+<td>the next free cell, row by row, one track</td>
+<td>Where it starts and how far it spans; given one, it takes the first free cell in that row or column. An item spanning <code>auto</code> tracks grows them evenly to fit it, as in CSS</td>
+</tr>
+</tbody></table></div>
+<h3 id="per-size"><a class="anchor" href="#per-size">Per size</a></h3>
+<p><code>media</code> changes a layer&#39;s fields for some sizes: <code>&quot;media&quot;: {&quot;sky&quot;: {&quot;fontSize&quot;: 20}, &quot;tall&quot;: {&quot;hidden&quot;: true}}</code>. Its keys are size ids or <a href="#aspect-classes">aspect classes</a>, applied broadest first: <code>landscape</code>/<code>square</code>/<code>portrait</code>, then <code>wide</code>/<code>tall</code>, then the size id. Its values merge into the layer (<a href="#resolution-order">Resolution order</a>). <code>media</code> can&#39;t change a layer&#39;s <code>id</code>, <code>type</code>, <code>children</code>, <code>media</code> or <code>style</code>; a key that isn&#39;t a size or class is an error.</p>
+<h2 id="text"><a class="anchor" href="#text">Text</a></h2>
+<h3 id="fields"><a class="anchor" href="#fields">Fields</a></h3>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>text</code></td>
+<td>string</td>
+<td>required</td>
+<td>The text, with optional <a href="#inline-markup">markup</a>; <code>\n</code> breaks lines</td>
+</tr>
+<tr>
+<td><code>fontSize</code></td>
+<td>px</td>
+<td>16</td>
+<td>The largest size when the text shrinks to fit</td>
+</tr>
+<tr>
+<td><code>minimumScaleFactor</code></td>
+<td>0–1</td>
+<td>0.5</td>
+<td>The smallest it shrinks to, × <code>fontSize</code>; 1 keeps its size and cuts it with an ellipsis</td>
+</tr>
+<tr>
+<td><code>fontWeight</code></td>
+<td>100–900 in 100s, or <code>&quot;bold&quot;</code></td>
+<td>400</td>
+<td></td>
+</tr>
+<tr>
+<td><code>fontFamily</code></td>
+<td>string</td>
+<td>Inter</td>
+<td>Inter (bundled), any <a href="https://fonts.google.com">Google Fonts</a> family (downloaded on first use), or a font the server loads</td>
+</tr>
+<tr>
+<td><code>color</code></td>
+<td>Color</td>
+<td>black</td>
+<td>Text color; <code>fill</code> can paint it with a gradient, image or pattern instead</td>
+</tr>
+<tr>
+<td><code>textAlign</code></td>
+<td><code>left</code>, <code>center</code>, <code>right</code>, <code>justify</code></td>
+<td><code>left</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>textAlignVertical</code></td>
+<td><code>top</code>, <code>center</code> (or <code>middle</code>), <code>bottom</code></td>
+<td><code>center</code> in a box with a height, else <code>top</code></td>
+<td>Within the box</td>
+</tr>
+<tr>
+<td><code>lineHeight</code></td>
+<td>number</td>
+<td>the font&#39;s own line spacing</td>
+<td>× <code>fontSize</code>; a value above 4 is an error (px was likely meant)</td>
+</tr>
+<tr>
+<td><code>letterSpacing</code></td>
+<td>px</td>
+<td>0</td>
+<td></td>
+</tr>
+<tr>
+<td><code>textTransform</code></td>
+<td><code>uppercase</code>, <code>lowercase</code>, <code>capitalize</code></td>
+<td>none</td>
+<td></td>
+</tr>
+<tr>
+<td><code>fontStyle</code></td>
+<td><code>normal</code>, <code>italic</code></td>
+<td><code>normal</code></td>
+<td>The family&#39;s italic face (Google Fonts families come with theirs); one without an italic is drawn slanted</td>
+</tr>
+<tr>
+<td><code>textDecoration</code></td>
+<td><code>underline</code>, <code>line-through</code></td>
+<td>none</td>
+<td></td>
+</tr>
+<tr>
+<td><code>textWrap</code></td>
+<td><code>wrap</code>, <code>balance</code>, <code>pretty</code></td>
+<td><code>wrap</code></td>
+<td><code>balance</code> evens line lengths; <code>pretty</code> avoids a lone last word</td>
+</tr>
+<tr>
+<td><code>maxLines</code></td>
+<td>number</td>
+<td>none</td>
+<td>Lines before the ellipsis, in any box; cut text is reported <code>!truncated</code></td>
+</tr>
+<tr>
+<td><code>trim</code></td>
+<td><code>cap</code></td>
+<td>none</td>
+<td>Trims the space above cap height and below the baseline, so text centers optically in pills and buttons</td>
+</tr>
+<tr>
+<td><code>padding</code></td>
+<td>Sides</td>
+<td>0</td>
+<td>Space around the text inside its box</td>
+</tr>
+<tr>
+<td><code>highlight</code></td>
+<td>Color or <code>{color, padding, borderRadius, shape: box|brush}</code></td>
+<td>none</td>
+<td>A box behind each line; CSS <code>background-color</code> on text reads as this. <code>padding</code> is one number, px (4): that much on the sides, half above and below</td>
+</tr>
+<tr>
+<td><code>curve</code></td>
+<td>px</td>
+<td>none</td>
+<td>Sets one line on a circular arc of this radius; negative bends down</td>
+</tr>
+<tr>
+<td><code>leader</code></td>
+<td>string</td>
+<td>none</td>
+<td>A character that fills each tab&#39;s gap: <code>&quot;Espresso\t$3&quot;</code> with <code>leader: &quot;.&quot;</code> draws dot leaders, the price flush right. Each side keeps its markup, on one baseline; the letters take <code>color</code> (not <code>fill</code>, strokes or <code>knockout</code>)</td>
+</tr>
+<tr>
+<td><code>knockout</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>The letters cut through their parent frame&#39;s fill, showing what&#39;s behind</td>
+</tr>
+<tr>
+<td><code>direction</code></td>
+<td><code>auto</code>, <code>ltr</code>, <code>rtl</code></td>
+<td><code>auto</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>features</code></td>
+<td>object</td>
+<td>none</td>
+<td>OpenType features, e.g. <code>{&quot;tnum&quot;: 1}</code></td>
+</tr>
+<tr>
+<td><code>ranges</code></td>
+<td>list of Range</td>
+<td>none</td>
+<td><a href="#ranges">Ranges</a></td>
+</tr>
+</tbody></table></div>
+<p><code>stroke</code> outlines the letters (<code>fill: []</code> with a stroke makes outlined text) and <code>shadow</code> follows their shapes.</p>
+<h3 id="fitting"><a class="anchor" href="#fitting">Fitting</a></h3>
+<p>The box decides how text fits:</p>
+<ul>
+<li><strong>Width and height:</strong> the font shrinks until the text fits, down to <code>minimumScaleFactor</code>, then ends with an ellipsis.</li>
+<li><strong>Width only:</strong> the text wraps and the box grows down. In a column, <code>alignItems: stretch</code> gives text the column&#39;s width, so it wraps.</li>
+<li><strong>Neither:</strong> one line, as wide as the text.</li>
+</ul>
+<p>Text that is cut is reported as <code>!truncated needs W×H</code>, with the box it needs; nothing changes silently.</p>
+<h3 id="inline-markup"><a class="anchor" href="#inline-markup">Inline markup</a></h3>
+<p>Models miscount character offsets, so text takes a small HTML subset instead:</p>
+<pre><code class="language-json">{&quot;type&quot;: &quot;text&quot;, &quot;style&quot;: &quot;h1&quot;, &quot;text&quot;: &quot;Proven &lt;accent&gt;RESULTS&lt;/accent&gt; for &lt;accent&gt;WILLOWMERE&lt;/accent&gt; Families&quot;}
+{&quot;type&quot;: &quot;text&quot;, &quot;text&quot;: &quot;&lt;s&gt;$49&lt;/s&gt; &lt;b&gt;$29&lt;/b&gt;&lt;sup&gt;99&lt;/sup&gt; today&quot;}
+</code></pre>
+<ul>
+<li>Tags: <code>&lt;b&gt;</code> (or <code>&lt;strong&gt;</code>), <code>&lt;i&gt;</code> (or <code>&lt;em&gt;</code>), <code>&lt;u&gt;</code>, <code>&lt;s&gt;</code>, <code>&lt;sup&gt;</code>, <code>&lt;sub&gt;</code>, <code>&lt;br&gt;</code>, a style&#39;s name as a tag (<code>&lt;accent&gt;</code>), and <code>&lt;span style=&quot;…&quot;&gt;</code> with CSS: <code>color</code>, <code>font-weight</code>, <code>font-style</code>, <code>font-size</code>, <code>font-family</code>, <code>text-decoration</code>, <code>background-color</code> (a highlight). Values can be tokens (<code>style=&quot;color:{{red}}&quot;</code>). A style&#39;s name as a tag carries the style&#39;s <code>color</code>, <code>fontWeight</code>, <code>fontStyle</code>, <code>fontSize</code>, <code>fontFamily</code>, <code>textDecoration</code> and <code>highlight</code> (a brush too).</li>
+<li>A <code>&lt;</code> that doesn&#39;t open a known tag is text; <code>&amp;lt;</code>, <code>&amp;gt;</code>, <code>&amp;amp;</code> and <code>&amp;quot;</code> are entities.</li>
+<li>A <code>&lt;span&gt;</code> whose style doesn&#39;t parse is an error, not text.</li>
+</ul>
+<h3 id="ranges"><a class="anchor" href="#ranges">Ranges</a></h3>
+<p><code>ranges</code> styles parts of the displayed text by character offset; markup is usually easier.</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>start</code>, <code>end</code></td>
+<td>number</td>
+<td>Character offsets of the displayed text</td>
+</tr>
+<tr>
+<td><code>color</code>, <code>fontWeight</code>, <code>fontStyle</code>, <code>fontSize</code>, <code>fontFamily</code>, <code>textDecoration</code>, <code>highlight</code></td>
+<td>as for text</td>
+<td>That part&#39;s own values</td>
+</tr>
+</tbody></table></div>
+<h2 id="paint"><a class="anchor" href="#paint">Paint</a></h2>
+<p>Frames, shapes, images, text and icons take the same paint fields.</p>
+<h3 id="fills"><a class="anchor" href="#fills">Fills</a></h3>
+<p><code>fill</code> is one paint or a list, bottom to top; <code>[]</code> fills nothing (outlined text, for example). Every paint takes <code>opacity</code> (0–1, default 1) and <code>blendMode</code> (default <code>normal</code>).</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Paint</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Color</td>
+<td><code>&quot;#D0202E&quot;</code>, <code>&quot;rgba(208, 32, 46, 0.5)&quot;</code>, a CSS name, or <code>{&quot;color&quot;: &quot;{{red}}&quot;, &quot;opacity&quot;: 0.5}</code></td>
+</tr>
+<tr>
+<td>Gradient</td>
+<td><code>{&quot;gradient&quot;: {&quot;type&quot;: &quot;radial&quot;, &quot;stops&quot;: [&quot;#0000&quot;, &quot;#000C&quot;]}}</code>, or written flat: <code>{&quot;type&quot;: &quot;linear&quot;, &quot;angle&quot;: 180, &quot;stops&quot;: […]}</code>, or as a CSS string: <code>&quot;linear-gradient(180deg, #fff 0%, #fff0 100%)&quot;</code> (<code>radial-gradient</code> too, centered)</td>
+</tr>
+<tr>
+<td>Image</td>
+<td><code>{&quot;image&quot;: &quot;photo&quot;, &quot;fit&quot;: &quot;cover&quot;, &quot;focus&quot;: [0.5, 0.3], &quot;filter&quot;: {&quot;grayscale&quot;: 1}}</code>, with the <a href="#image">image</a> fields</td>
+</tr>
+<tr>
+<td>Pattern</td>
+<td><code>{&quot;pattern&quot;: &quot;dots&quot;, &quot;color&quot;: &quot;#0002&quot;, &quot;size&quot;: 12}</code></td>
+</tr>
+<tr>
+<td>Grain</td>
+<td><code>{&quot;noise&quot;: 0.08, &quot;seed&quot;: 1}</code></td>
+</tr>
+</tbody></table></div>
+<p>An image fill works on any shape: a photo in a circle is <code>{&quot;type&quot;: &quot;ellipse&quot;, &quot;fill&quot;: {&quot;image&quot;: &quot;photo&quot;}}</code>.</p>
+<h3 id="gradients"><a class="anchor" href="#gradients">Gradients</a></h3>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>type</code></td>
+<td><code>linear</code>, <code>radial</code>, <code>conic</code></td>
+<td><code>linear</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>stops</code></td>
+<td>list of Colors, or of <code>{offset, color}</code></td>
+<td>required</td>
+<td>Colors evenly spaced, or at <code>offset</code> (0–1 or <code>&quot;55%&quot;</code>)</td>
+</tr>
+<tr>
+<td><code>angle</code></td>
+<td>Degrees</td>
+<td>180 (top to bottom, as in CSS)</td>
+<td>Linear: CSS angle, 0 = up, 90 = right. Conic: where it starts, from 12 o&#39;clock</td>
+</tr>
+<tr>
+<td><code>from</code>, <code>to</code></td>
+<td>Point</td>
+<td>[0.5, 0], [0.5, 1]</td>
+<td>Linear, instead of <code>angle</code></td>
+</tr>
+<tr>
+<td><code>center</code></td>
+<td>Point</td>
+<td>[0.5, 0.5]</td>
+<td>Radial and conic</td>
+</tr>
+<tr>
+<td><code>radius</code></td>
+<td>Point</td>
+<td>[0.5, 0.5]</td>
+<td>Radial: horizontal and vertical radius, 0–1 of the box</td>
+</tr>
+</tbody></table></div>
+<h3 id="patterns-and-grain"><a class="anchor" href="#patterns-and-grain">Patterns and grain</a></h3>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Paint</th>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Pattern</td>
+<td><code>pattern</code></td>
+<td><code>dots</code>, <code>stripes</code>, <code>grid</code>, <code>checker</code>, <code>zigzag</code>, <code>rays</code></td>
+<td>required</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>color</code></td>
+<td>Color</td>
+<td><code>#00000033</code></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td><code>size</code></td>
+<td>px</td>
+<td>12</td>
+<td>Repeat length</td>
+</tr>
+<tr>
+<td></td>
+<td><code>angle</code></td>
+<td>Degrees</td>
+<td>0</td>
+<td>Rotation</td>
+</tr>
+<tr>
+<td>Grain</td>
+<td><code>noise</code></td>
+<td>0–1</td>
+<td>required</td>
+<td>Film grain strength</td>
+</tr>
+<tr>
+<td></td>
+<td><code>size</code></td>
+<td>px</td>
+<td>1</td>
+<td>Grain size</td>
+</tr>
+<tr>
+<td></td>
+<td><code>seed</code></td>
+<td>number</td>
+<td>0</td>
+<td>Its random pattern</td>
+</tr>
+</tbody></table></div>
+<p><code>rays</code> are hard-edged sectors, so over a photo they cut across its detail and read much stronger than over a flat color: keep them to about 3–4% there (<code>&quot;color&quot;: &quot;#FFFFFF0A&quot;</code> with <code>blendMode: &quot;screen&quot;</code>), or put them on the flat areas.</p>
+<h3 id="filters"><a class="anchor" href="#filters">Filters</a></h3>
+<p><code>filter</code> on an image, video or image fill: CSS <code>filter</code> functions on their CSS scales:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>brightness</code>, <code>contrast</code>, <code>saturate</code></td>
+<td>number ≥ 0</td>
+<td>1</td>
+<td>1 leaves it unchanged: <code>brightness: 0.8</code> darkens, <code>1.2</code> lightens</td>
+</tr>
+<tr>
+<td><code>grayscale</code>, <code>sepia</code></td>
+<td>0–1</td>
+<td>0</td>
+<td></td>
+</tr>
+<tr>
+<td><code>hueRotate</code></td>
+<td>Degrees</td>
+<td>0</td>
+<td></td>
+</tr>
+<tr>
+<td><code>duotone</code></td>
+<td><code>[dark, light]</code> Colors</td>
+<td>none</td>
+<td>Maps dark to light</td>
+</tr>
+<tr>
+<td><code>tint</code></td>
+<td>Color</td>
+<td>none</td>
+<td>Recolors every visible pixel, e.g. a logo in white</td>
+</tr>
+<tr>
+<td><code>halftone</code></td>
+<td>px</td>
+<td>0</td>
+<td>Redraws the image as black dots this far apart, larger where it&#39;s darker; over a dark background they barely show</td>
+</tr>
+</tbody></table></div>
+<h3 id="strokes"><a class="anchor" href="#strokes">Strokes</a></h3>
+<p><code>stroke</code> is one stroke or a list, SVG-style; <code>&quot;#000&quot;</code> is a 1 px black stroke.</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>width</code></td>
+<td>px, or <code>[top, right, bottom, left]</code> on rects</td>
+<td>1</td>
+<td>Line width; per side for borders</td>
+</tr>
+<tr>
+<td><code>color</code></td>
+<td>Color, or <code>{&quot;gradient&quot;: …}</code></td>
+<td>black</td>
+<td>Its paint</td>
+</tr>
+<tr>
+<td><code>align</code></td>
+<td><code>inside</code>, <code>center</code>, <code>outside</code></td>
+<td><code>inside</code> (<code>center</code> for lines)</td>
+<td>Where it sits on the edge</td>
+</tr>
+<tr>
+<td><code>dash</code></td>
+<td><code>[on, off]</code> px</td>
+<td>solid</td>
+<td></td>
+</tr>
+<tr>
+<td><code>cap</code></td>
+<td><code>butt</code>, <code>round</code>, <code>square</code></td>
+<td><code>butt</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>join</code></td>
+<td><code>miter</code>, <code>round</code>, <code>bevel</code></td>
+<td><code>miter</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>markerStart</code>, <code>markerEnd</code></td>
+<td><code>arrow</code>, <code>triangle</code>, <code>circle</code>, <code>diamond</code></td>
+<td>none</td>
+<td>Markers on lines and paths</td>
+</tr>
+<tr>
+<td><code>roughness</code></td>
+<td>px</td>
+<td>0</td>
+<td>Hand-drawn wobble</td>
+</tr>
+<tr>
+<td><code>seed</code></td>
+<td>number</td>
+<td>0</td>
+<td>The wobble&#39;s random pattern</td>
+</tr>
+</tbody></table></div>
+<h3 id="shadows"><a class="anchor" href="#shadows">Shadows</a></h3>
+<p><code>shadow</code> is one shadow or a list, like CSS <code>box-shadow</code>. A shadow follows the layer&#39;s shape: it hugs a cutout photo or the letters of a text. A glow is a shadow at <code>x: 0, y: 0</code>; a hard offset shadow has <code>blur: 0</code>.</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>color</code></td>
+<td>Color</td>
+<td>required</td>
+<td></td>
+</tr>
+<tr>
+<td><code>x</code>, <code>y</code></td>
+<td>px</td>
+<td>0</td>
+<td>Offset</td>
+</tr>
+<tr>
+<td><code>blur</code></td>
+<td>px</td>
+<td>0</td>
+<td>Blur radius, as in CSS</td>
+</tr>
+<tr>
+<td><code>spread</code></td>
+<td>px</td>
+<td>0</td>
+<td>Grows the shadow&#39;s shape</td>
+</tr>
+<tr>
+<td><code>inset</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>An inner shadow</td>
+</tr>
+</tbody></table></div>
+<h3 id="blur"><a class="anchor" href="#blur">Blur</a></h3>
+<p><code>blur</code> (px) blurs the layer; <code>backdropBlur</code> (px) blurs what&#39;s behind it within its shape (frosted glass).</p>
+<h3 id="masks"><a class="anchor" href="#masks">Masks</a></h3>
+<div class="table"><table>
+<thead>
+<tr>
+<th><code>mask</code></th>
+<th>Shows</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>a gradient, flat (<code>{&quot;angle&quot;: 180, &quot;stops&quot;: [&quot;#000&quot;, &quot;#0000&quot;]}</code>), as <code>{&quot;gradient&quot;: …}</code>, or a CSS <code>linear-gradient(…)</code></td>
+<td>The layer faded by the gradient&#39;s alpha over its box (a photo fading out); nothing outside the box shows</td>
+</tr>
+<tr>
+<td><code>&quot;ellipse&quot;</code> or a <a href="#appendix-names">named shape</a> (<code>&quot;blob-3&quot;</code>)</td>
+<td>The layer inside that shape</td>
+</tr>
+<tr>
+<td><code>{&quot;path&quot;: &quot;M…&quot;}</code></td>
+<td>The layer inside that path</td>
+</tr>
+<tr>
+<td><code>{&quot;layer&quot;: &quot;logo&quot;}</code></td>
+<td>The layer where another layer is; the mask layer isn&#39;t drawn itself</td>
+</tr>
+<tr>
+<td><code>{&quot;image&quot;: &quot;torn-edge&quot;}</code></td>
+<td>The layer where an image is opaque</td>
+</tr>
+</tbody></table></div>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>mode</code></td>
+<td><code>alpha</code>, <code>luminance</code></td>
+<td><code>alpha</code></td>
+<td>What of the mask counts: its opacity or its brightness</td>
+</tr>
+<tr>
+<td><code>invert</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Reverses the mask</td>
+</tr>
+</tbody></table></div>
+<h3 id="edges"><a class="anchor" href="#edges">Edges</a></h3>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>sides</code></td>
+<td>list of <code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code></td>
+<td>all four</td>
+<td>Which sides of the box tear, like ripped paper</td>
+</tr>
+<tr>
+<td><code>depth</code></td>
+<td>px</td>
+<td>12</td>
+<td>How far the tears cut in</td>
+</tr>
+<tr>
+<td><code>seed</code></td>
+<td>number</td>
+<td>0</td>
+<td>The tears&#39; random pattern</td>
+</tr>
+</tbody></table></div>
+<h3 id="blend-modes"><a class="anchor" href="#blend-modes">Blend modes</a></h3>
+<p><code>normal</code>, <code>multiply</code>, <code>screen</code>, <code>overlay</code>, <code>darken</code>, <code>lighten</code>, <code>color-dodge</code>, <code>color-burn</code>, <code>hard-light</code>, <code>soft-light</code>, <code>difference</code>, <code>exclusion</code>, <code>hue</code>, <code>saturation</code>, <code>color</code>, <code>luminosity</code>.</p>
+<h2 id="reuse"><a class="anchor" href="#reuse">Reuse</a></h2>
+<h3 id="tokens"><a class="anchor" href="#tokens">Tokens</a></h3>
+<p><code>tokens</code> holds named values, used as <code>{{name}}</code> (a letter or <code>_</code>, then letters, digits, <code>_</code>, <code>.</code> and <code>-</code>), as in Mustache and Handlebars:</p>
+<pre><code class="language-json">&quot;tokens&quot;: {&quot;brand&quot;: &quot;#D0202E&quot;, &quot;h1&quot;: 64, &quot;name&quot;: &quot;Mia&quot;, &quot;photo&quot;: &quot;cat&quot;}
+{&quot;type&quot;: &quot;text&quot;, &quot;text&quot;: &quot;Meet {{name}}, 7 months old&quot;, &quot;fontSize&quot;: &quot;{{h1}}&quot;, &quot;color&quot;: &quot;{{brand}}&quot;}
+{&quot;type&quot;: &quot;image&quot;, &quot;asset&quot;: &quot;{{photo}}&quot;}
+{&quot;type&quot;: &quot;text&quot;, &quot;text&quot;: &quot;Proven &lt;span style=\&quot;color:{{brand}}\&quot;&gt;RESULTS&lt;/span&gt;&quot;}
+</code></pre>
+<ul>
+<li>A string that is only <code>{{name}}</code> takes the token&#39;s value as it is: a number stays a number.</li>
+<li>Inside a string (a sentence, a markup attribute), the value is spliced into the text; a token spliced in is a string, number or boolean.</li>
+<li>The server remembers which fields came from which token, and a sentence&#39;s template, so changing a token in <code>layer_update</code> (or a render&#39;s <code>rows</code>) changes every field bound to it; setting such a field to a value of its own unbinds it.</li>
+<li>A string without <code>{{name}}</code> is never touched, so <code>&quot;$29&quot;</code> and <code>&quot;{curly}&quot;</code> stay text. An unknown name is an error that lists the tokens there are.</li>
+<li><code>{{n}}</code> is the counting number (<a href="#counting">Counting</a>), never a token.</li>
+<li>A whole value written <code>&quot;$name&quot;</code>, for a token that exists, reads as <code>{{name}}</code>. Text with <code>$name</code> in it is left alone (it may be a price), and the edit&#39;s reply adds <code>hint: did you mean {{name}}?</code>.</li>
+</ul>
+<h3 id="styles"><a class="anchor" href="#styles">Styles</a></h3>
+<p><code>styles</code> hold any layer fields, <code>media</code> included: a <code>card</code> style can carry <code>fill</code>, <code>borderRadius</code> and <code>shadow</code>. A layer with its own <code>media</code> keeps the style&#39;s too: <code>{&quot;style&quot;: &quot;ink&quot;, &quot;media&quot;: {&quot;story&quot;: {&quot;fontSize&quot;: 40}}}</code> still gets <code>ink</code>&#39;s <code>a4-portrait</code> color, and where both set a field for one size, the layer&#39;s wins. A layer&#39;s <code>style</code> takes one name or a list; a later style wins where they overlap, and the layer&#39;s own fields win over all of them. Changing a style through <code>layer_update</code> changes every layer that uses it. A style can&#39;t set <code>id</code>, <code>text</code> or children; a <code>type</code> in it is dropped.</p>
+<h3 id="components"><a class="anchor" href="#components">Components</a></h3>
+<pre><code class="language-json">&quot;components&quot;: {
+  &quot;candidate&quot;: {&quot;type&quot;: &quot;frame&quot;, &quot;flexDirection&quot;: &quot;column&quot;, &quot;gap&quot;: 4, &quot;alignItems&quot;: &quot;center&quot;, &quot;children&quot;: [
+    {&quot;type&quot;: &quot;text&quot;, &quot;role&quot;: &quot;name&quot;, &quot;text&quot;: &quot;{{name}}&quot;, &quot;style&quot;: &quot;name&quot;},
+    {&quot;type&quot;: &quot;text&quot;, &quot;role&quot;: &quot;office&quot;, &quot;text&quot;: &quot;{{office}}&quot;, &quot;style&quot;: &quot;office&quot;}]}
+}
+</code></pre>
+<pre><code class="language-json">{&quot;type&quot;: &quot;use&quot;, &quot;id&quot;: &quot;c&quot;, &quot;component&quot;: &quot;candidate&quot;, &quot;each&quot;: [
+  {&quot;name&quot;: &quot;Dana Levi&quot;, &quot;office&quot;: &quot;Mayor&quot;},
+  {&quot;name&quot;: &quot;Omar Haddad&quot;, &quot;office&quot;: &quot;Council&quot;}]}
+</code></pre>
+<ul>
+<li><code>{{prop}}</code> (or <code>{{ prop }}</code>) in any string of a component is filled from the instance&#39;s props, as in Mustache; a string that is only <code>{{prop}}</code> takes the value as is (a number stays a number). <code>{{n}}</code> stays the counting number, never a prop. A prop wins over a token of the same name; any other <code>{{name}}</code> in the component is a token.</li>
+<li>The <code>use</code> layer&#39;s own fields (width, constraints, <code>media</code>…) apply to each instance&#39;s root.</li>
+<li>Instances stay linked: changing the component changes every instance. Their layers are named by the <code>use</code> id, the instance number and the inner layer&#39;s id or role, e.g. <code>c.1.name</code>, in replies. To change one, target the component (<code>{&quot;component&quot;: &quot;candidate&quot;, &quot;role&quot;: &quot;name&quot;}</code>), or <code>detach</code> the <code>use</code> layer into plain layers.</li>
+<li>Components may place other components, up to 8 levels deep.</li>
+</ul>
+<h2 id="motion"><a class="anchor" href="#motion">Motion</a></h2>
+<p>A scene with a <code>duration</code>, or made of <a href="#shots-and-transitions">shots</a>, moves. Only fields that don&#39;t change layout animate, so the layout is the same at every moment and every check holds throughout. A scene without motion fields is drawn at rest. A still of a moving scene (PNG, JPEG, WebP, PDF, without <code>time</code>) is also at rest: each layer as written, before its tracks (a <code>&quot;scale&quot;: 1.12</code> written for a pan&#39;s room shows at 1.12), except <code>draw</code> and <code>count</code>, which show where they end. Output formats are in <a href="/docs/tools/#output-formats">Tools and replies</a>.</p>
+<h3 id="scene-timing"><a class="anchor" href="#scene-timing">Scene timing</a></h3>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>duration</code></td>
+<td>Seconds, 0.001–86,400</td>
+<td>none (a still), or where the last shot ends</td>
+<td>Length; its presence makes the scene move</td>
+</tr>
+<tr>
+<td><code>fps</code></td>
+<td>1–120</td>
+<td>30</td>
+<td>Frames per second</td>
+</tr>
+<tr>
+<td><code>loop</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>The animation repeats forever</td>
+</tr>
+</tbody></table></div>
+<h3 id="enter-and-exit"><a class="anchor" href="#enter-and-exit">Enter and exit</a></h3>
+<pre><code class="language-json">{&quot;type&quot;: &quot;text&quot;, &quot;text&quot;: &quot;…&quot;, &quot;enter&quot;: &quot;fade-up&quot;}
+{&quot;type&quot;: &quot;frame&quot;, &quot;enter&quot;: {&quot;effect&quot;: &quot;pop&quot;, &quot;delay&quot;: 1.2, &quot;ease&quot;: &quot;back.out&quot;}, &quot;exit&quot;: {&quot;effect&quot;: &quot;fade&quot;, &quot;delay&quot;: 7}}
+</code></pre>
+<p><code>enter</code> and <code>exit</code> take an effect name, or an object. A layer is hidden before it enters and gone after it exits. A directional effect is named for the way the layer moves: <code>fade-left</code> moves left into place.</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>effect</code></td>
+<td>name</td>
+<td>required</td>
+<td><code>fade</code>, <code>fade-up</code>, <code>fade-down</code>, <code>fade-left</code>, <code>fade-right</code> (fade while moving <code>distance</code> into place), <code>pop</code> (grow from 0.6 with an overshoot), <code>zoom-in</code> (grow from 0.85), <code>zoom-out</code> (shrink from 1.15), <code>blur-in</code> (sharpen from a 12 px blur)</td>
+</tr>
+<tr>
+<td><code>delay</code></td>
+<td>Seconds</td>
+<td><code>enter</code>: 0; <code>exit</code>: so it ends with the scene</td>
+<td>When it starts</td>
+</tr>
+<tr>
+<td><code>duration</code></td>
+<td>Seconds</td>
+<td>0.6</td>
+<td></td>
+</tr>
+<tr>
+<td><code>ease</code></td>
+<td>Ease</td>
+<td><code>power2.out</code> entering (<code>back.out</code> for <code>pop</code>), <code>power2.in</code> leaving</td>
+<td></td>
+</tr>
+<tr>
+<td><code>distance</code></td>
+<td>px</td>
+<td>40</td>
+<td>How far a directional fade travels</td>
+</tr>
+</tbody></table></div>
+<h3 id="keyframes"><a class="anchor" href="#keyframes">Keyframes</a></h3>
+<p><code>animate</code> sets values over time, GSAP-style: one track or a list of them.</p>
+<pre><code class="language-json">&quot;animate&quot;: {&quot;scale&quot;: [1, 1.06, 1], &quot;duration&quot;: 1.6, &quot;repeat&quot;: -1, &quot;ease&quot;: &quot;sine.inOut&quot;}
+&quot;animate&quot;: {&quot;rotate&quot;: {&quot;from&quot;: &quot;random(-90, 90)&quot;}, &quot;translate&quot;: {&quot;from&quot;: [0, -80]}, &quot;duration&quot;: 0.8, &quot;ease&quot;: &quot;back.out&quot;}
+</code></pre>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>opacity</code>, <code>scale</code>, <code>rotate</code>, <code>blur</code></td>
+<td>list of numbers, or <code>{from, to}</code></td>
+<td></td>
+<td>Values spread over <code>duration</code>; a missing end is the layer&#39;s own value</td>
+</tr>
+<tr>
+<td><code>translate</code>, <code>skew</code></td>
+<td>the same, with <code>[x, y]</code> pairs</td>
+<td></td>
+<td>GSAP&#39;s <code>x</code> and <code>y</code> read as <code>translate</code></td>
+</tr>
+<tr>
+<td><code>color</code></td>
+<td>the same, with Colors</td>
+<td></td>
+<td>The layer&#39;s own color</td>
+</tr>
+<tr>
+<td><code>draw</code></td>
+<td>list of 0–1, or <code>{from, to}</code></td>
+<td>1</td>
+<td>The share of the layer&#39;s strokes drawn (<a href="#drawing-strokes">Drawing strokes</a>); GSAP&#39;s <code>drawSVG</code> and After Effects&#39; <code>trimPath</code> read as this</td>
+</tr>
+<tr>
+<td><code>count</code></td>
+<td>list of numbers, or <code>{from, to}</code></td>
+<td>0</td>
+<td>The number a text&#39;s <code>{{n}}</code> shows (<a href="#counting">Counting</a>)</td>
+</tr>
+<tr>
+<td><code>decimals</code></td>
+<td>0–6</td>
+<td>0</td>
+<td>With <code>count</code>: digits after the decimal point</td>
+</tr>
+<tr>
+<td><code>separator</code></td>
+<td>string</td>
+<td>none</td>
+<td>With <code>count</code>: put between thousands, e.g. <code>&quot;,&quot;</code>; with <code>&quot;.&quot;</code> the decimal mark is a comma</td>
+</tr>
+<tr>
+<td><code>times</code></td>
+<td>list of 0–1</td>
+<td>evenly spaced</td>
+<td>Where each listed value falls, of <code>duration</code></td>
+</tr>
+<tr>
+<td><code>delay</code></td>
+<td>Seconds</td>
+<td>0</td>
+<td>When it starts</td>
+</tr>
+<tr>
+<td><code>duration</code></td>
+<td>Seconds</td>
+<td>1</td>
+<td>One play</td>
+</tr>
+<tr>
+<td><code>ease</code></td>
+<td>Ease</td>
+<td><code>power1.inOut</code></td>
+<td>Between each pair of values</td>
+</tr>
+<tr>
+<td><code>repeat</code></td>
+<td>number</td>
+<td>0</td>
+<td>Extra plays; −1 repeats to the end</td>
+</tr>
+<tr>
+<td><code>yoyo</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Every other play runs backwards</td>
+</tr>
+</tbody></table></div>
+<p>A number may be <code>&quot;random(lo, hi)&quot;</code>, as in GSAP: each target (each layer, or each piece of split text) gets its own value, seeded from its id, the same on every render. Values hold before a track starts and after it ends. Layout fields (<code>width</code>, <code>fontSize</code>, <code>text</code>, <code>padding</code>…) can&#39;t animate; to make something grow, animate <code>scale</code>.</p>
+<h3 id="drawing-strokes"><a class="anchor" href="#drawing-strokes">Drawing strokes</a></h3>
+<p><code>draw</code> draws a share of a layer&#39;s strokes, like After Effects&#39; trim paths: a progress ring, a line or underline drawing itself, line art signing itself.</p>
+<pre><code class="language-json">{&quot;type&quot;: &quot;ellipse&quot;, &quot;width&quot;: 120, &quot;height&quot;: 120, &quot;stroke&quot;: {&quot;width&quot;: 10, &quot;color&quot;: &quot;#0AE448&quot;, &quot;cap&quot;: &quot;round&quot;}, &quot;animate&quot;: {&quot;draw&quot;: [0, 0.72], &quot;duration&quot;: 1.2, &quot;ease&quot;: &quot;power2.out&quot;}}
+{&quot;type&quot;: &quot;path&quot;, &quot;d&quot;: &quot;M0 40 C 40 0, 80 80, 120 40&quot;, &quot;stroke&quot;: &quot;#000&quot;, &quot;animate&quot;: {&quot;draw&quot;: {&quot;from&quot;: 0}, &quot;duration&quot;: 2}}
+</code></pre>
+<p>It works on every stroke: paths, shapes, lines, ellipses and text outlines. A line draws from its start to its end, an ellipse clockwise from the top, a path from its first point, and text letter by letter; dashes and end markers follow the drawn part, and an ellipse&#39;s dashes start at the top too. Stills at a <code>time</code> show the share drawn then; at rest, the share where the track ends (all of it without a <code>draw</code> track).</p>
+<h3 id="counting"><a class="anchor" href="#counting">Counting</a></h3>
+<p><code>count</code> puts a number that counts into a text layer, wherever its text says <code>{{n}}</code>:</p>
+<pre><code class="language-json">{&quot;type&quot;: &quot;text&quot;, &quot;text&quot;: &quot;{{n}}+ teams&quot;, &quot;animate&quot;: {&quot;count&quot;: [0, 1250], &quot;separator&quot;: &quot;,&quot;, &quot;duration&quot;: 1.5, &quot;ease&quot;: &quot;power2.out&quot;}}
+</code></pre>
+<p>The text is measured with its widest value (usually the last), so its box holds still and nothing around it moves while the number changes; digits use the font&#39;s tabular figures when it has them. At rest, and in <code>scene_describe</code>, the text shows that value. A text that counts needs <code>{{n}}</code> in it.</p>
+<h3 id="easing"><a class="anchor" href="#easing">Easing</a></h3>
+<p>GSAP&#39;s names: <code>none</code>, <code>power1</code> … <code>power4</code>, <code>sine</code>, <code>expo</code>, <code>circ</code>, <code>back</code>, <code>elastic</code>, <code>bounce</code>, each with <code>.in</code>, <code>.out</code> or <code>.inOut</code> (a family alone is <code>.out</code>), and <code>steps(n)</code>. CSS&#39;s <code>ease</code>, <code>ease-in</code>, <code>ease-out</code> and <code>ease-in-out</code>, and <code>smooth</code>, <code>snappy</code> and <code>bouncy</code>, read as the nearest of those.</p>
+<h3 id="stagger-and-split"><a class="anchor" href="#stagger-and-split">Stagger and split</a></h3>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>On</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>stagger</code></td>
+<td>Seconds</td>
+<td>a frame or <code>use</code> layer</td>
+<td>Gives its <code>enter</code> to its children or instances one after another, this far apart, instead of entering whole</td>
+</tr>
+<tr>
+<td><code>split</code></td>
+<td><code>chars</code>, <code>words</code></td>
+<td>a text layer</td>
+<td>Its <code>enter</code>, <code>exit</code>, <code>animate</code> and <code>stagger</code> apply to each letter or word, like GSAP&#39;s SplitText. The text is laid out once; each piece moves as a rigid part of it. A <code>highlight</code> stays whole, each line&#39;s arriving with its first piece</td>
+</tr>
+</tbody></table></div>
+<pre><code class="language-json">{
+  &quot;type&quot;: &quot;text&quot;,
+  &quot;text&quot;: &quot;Animate Anything&quot;,
+  &quot;fontSize&quot;: 96,
+  &quot;split&quot;: &quot;chars&quot;,
+  &quot;stagger&quot;: 0.05,
+  &quot;animate&quot;: {
+    &quot;translate&quot;: {
+      &quot;from&quot;: [
+        &quot;random(-400, 400)&quot;,
+        &quot;random(-250, 250)&quot;
+      ]
+    },
+    &quot;rotate&quot;: {
+      &quot;from&quot;: &quot;random(-180, 180)&quot;
+    },
+    &quot;opacity&quot;: {
+      &quot;from&quot;: 0
+    },
+    &quot;duration&quot;: 1.1,
+    &quot;ease&quot;: &quot;back.out&quot;
+  }
+}
+</code></pre>
+<p>Frames clip their children, animated ones included: give a frame <code>clipsContent: false</code> when its children move beyond its edges.</p>
+<h3 id="soundtrack"><a class="anchor" href="#soundtrack">Soundtrack</a></h3>
+<p><code>audio</code> puts music (or any sound) under an MP4 or WebM, mixed with the clips&#39; own sound. It starts with the video and is cut to its length.</p>
+<pre><code class="language-json">{&quot;asset&quot;: &quot;song&quot;, &quot;volume&quot;: 0.8, &quot;trimStart&quot;: 12, &quot;fadeIn&quot;: 0.5, &quot;fadeOut&quot;: 1.5}
+</code></pre>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>asset</code></td>
+<td>asset id</td>
+<td>required</td>
+<td>An MP3, M4A or WAV added with <code>asset_add</code>, or a video clip whose sound plays</td>
+</tr>
+<tr>
+<td><code>volume</code></td>
+<td>number</td>
+<td>1</td>
+<td>Loudness; 1 is as recorded</td>
+</tr>
+<tr>
+<td><code>trimStart</code></td>
+<td>Seconds</td>
+<td>0</td>
+<td>Where in the sound to begin</td>
+</tr>
+<tr>
+<td><code>fadeIn</code></td>
+<td>Seconds</td>
+<td>0</td>
+<td>Rise from silence at the start</td>
+</tr>
+<tr>
+<td><code>fadeOut</code></td>
+<td>Seconds</td>
+<td>0</td>
+<td>Fall to silence at the video&#39;s end</td>
+</tr>
+</tbody></table></div>
+<p>Set it with <code>layer_update</code>&#39;s <code>{target: {scene: true}, set: {audio: …}}</code>; <code>music</code>, <code>soundtrack</code> or an asset id alone read as it, and <code>null</code> removes it. A sound shorter than the video ends in silence. Animated PNG and GIF have no sound; <code>render</code>&#39;s <code>muted</code> leaves it out of video.</p>
+<h3 id="shots-and-transitions"><a class="anchor" href="#shots-and-transitions">Shots and transitions</a></h3>
+<p>A layer of <code>type: &quot;shot&quot;</code> is a shot: a full-size frame that plays in turn with the other shots instead of stacking. Times inside a shot (<code>enter</code>, <code>animate</code>, a clip&#39;s <code>delay</code>) count from the shot&#39;s own start. Layers that aren&#39;t shots, such as a logo or a caption bar, stay on across all of them. At rest, the first shot shows. Every shot is checked at every size; to keep one out of a size that never plays it (an A4 page of a video&#39;s first shot), hide it there: <code>&quot;media&quot;: {&quot;a4-portrait&quot;: {&quot;hidden&quot;: true}}</code>. Its checks and facts then skip that size.</p>
+<pre><code class="language-json">{&quot;id&quot;: &quot;s1&quot;, &quot;type&quot;: &quot;shot&quot;, &quot;duration&quot;: 3, &quot;children&quot;: [&quot;…&quot;]}
+{&quot;id&quot;: &quot;s2&quot;, &quot;type&quot;: &quot;shot&quot;, &quot;duration&quot;: 3, &quot;transition&quot;: &quot;push-left&quot;, &quot;children&quot;: [&quot;…&quot;]}
+</code></pre>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>duration</code></td>
+<td>Seconds</td>
+<td>required</td>
+<td>On screen, including its transitions</td>
+</tr>
+<tr>
+<td><code>transition</code></td>
+<td>name, or <code>{type, duration, ease}</code></td>
+<td><code>cut</code></td>
+<td>How it enters from the shot before</td>
+</tr>
+<tr>
+<td><code>children</code>, and a frame&#39;s fields</td>
+<td></td>
+<td></td>
+<td>Its layers and layout</td>
+</tr>
+</tbody></table></div>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Transition field</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>type</code></td>
+<td>name</td>
+<td>required</td>
+<td><code>cut</code>, <code>fade</code>, <code>slide-left</code> … <code>slide-down</code> (slides in over the last shot), <code>push-left</code> … <code>push-down</code> (pushes the last shot out), <code>wipe-left</code> … <code>wipe-down</code> (a moving edge reveals it), <code>zoom</code> (the last shot grows as the new one fades in). A direction is the way the new shot moves</td>
+</tr>
+<tr>
+<td><code>duration</code></td>
+<td>Seconds</td>
+<td>0.5</td>
+<td>Overlaps the two shots; a cut has none</td>
+</tr>
+<tr>
+<td><code>ease</code></td>
+<td>Ease</td>
+<td><code>power2.inOut</code></td>
+<td></td>
+</tr>
+</tbody></table></div>
+<p>Each shot starts where the one before ends minus its transition. The scene&#39;s length is where the last shot ends unless <code>duration</code> says otherwise; a longer <code>duration</code> holds the last shot to the end. A transition can&#39;t be longer than either shot it joins.</p>
+<h2 id="template-files"><a class="anchor" href="#template-files">Template files</a></h2>
+<p>A template is a scene file that <code>scene_create</code> loads by URL or path (<a href="/docs/tools/#templates-and-variants">Tools and replies</a>). It has a scene&#39;s fields, and its <code>assets</code> name files instead of hashes: a URL, or a path relative to the template. Its <code>tokens</code> are its variables.</p>
+<pre><code class="language-json">{
+  &quot;sizes&quot;: [&quot;instagram-square&quot;, &quot;iab-medium-rectangle&quot;],
+  &quot;tokens&quot;: {&quot;headline&quot;: &quot;Spring sale&quot;, &quot;price&quot;: &quot;$29&quot;, &quot;accent&quot;: &quot;#D0202E&quot;},
+  &quot;assets&quot;: {&quot;photo&quot;: &quot;photo.jpg&quot;, &quot;logo&quot;: &quot;https://example.com/logo.svg&quot;},
+  &quot;layers&quot;: [
+    {&quot;type&quot;: &quot;image&quot;, &quot;asset&quot;: &quot;photo&quot;, &quot;width&quot;: &quot;fill&quot;, &quot;height&quot;: &quot;fill&quot;},
+    {&quot;type&quot;: &quot;text&quot;, &quot;text&quot;: &quot;{{headline}}&quot;, &quot;fontSize&quot;: 64, &quot;fontWeight&quot;: 800, &quot;color&quot;: &quot;{{accent}}&quot;, &quot;place&quot;: &quot;center&quot;}
+  ]
+}
+</code></pre>
+<p>A scene keyline saved (its <code>assets</code> by <code>sha256</code>) loads as a template too.</p>
+<h2 id="validation-and-limits"><a class="anchor" href="#validation-and-limits">Validation and limits</a></h2>
+<p>A change that breaks any of these rules is refused whole, with a one-line error (<a href="/docs/tools/#errors">Tools and replies</a>); what the layout does at each size (overflow, clipping, contrast) is never refused, but reported as <a href="/docs/tools/#problem-lines">problems</a>.</p>
+<ul>
+<li>Unknown fields, in layers and in every object inside them.</li>
+<li>Values of the wrong type or out of range: opacity 0–1, <code>fontWeight</code> 100–900 in 100s, <code>minimumScaleFactor</code> above 0 and at most 1, <code>flexGrow</code> ≥ 0, polygon <code>sides</code> ≥ 3, video <code>playbackRate</code> 0.01–100, sizes at least 1 px with <code>scale</code> above 0.</li>
+<li>Values whose unit was likely mistaken: a <code>lineHeight</code> above 4 (px, not × <code>fontSize</code>), a motion <code>duration</code> of 100 or more that&#39;s longer than the scene (ms, not seconds).</li>
+<li>Layout fields on a frame that isn&#39;t a stack or grid (<code>padding</code> without <code>flexDirection</code>), and <code>margin</code> without <code>place</code>.</li>
+<li>An unknown token, style, component, asset, parent frame or <code>media</code> key; a duplicate layer id.</li>
+<li>Shots that aren&#39;t top level, have no positive <code>duration</code>, or whose transition is longer than a shot it joins; <code>split</code> on anything but text; <code>count</code> on a layer whose text has no <code>{{n}}</code>; <code>draw</code> or <code>count</code> on split text.</li>
+<li>An <code>audio</code> asset without sound, or a negative <code>volume</code>, <code>trimStart</code>, <code>fadeIn</code> or <code>fadeOut</code>; a sound used as an image or video.</li>
+</ul>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Limit</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Grid tracks per axis, <code>repeat</code> count, <code>gridRow</code> and <code>gridColumn</code> values</td>
+<td>100</td>
+</tr>
+<tr>
+<td>Component nesting</td>
+<td>8 levels</td>
+</tr>
+<tr>
+<td><code>fps</code></td>
+<td>1–120</td>
+</tr>
+<tr>
+<td><code>duration</code></td>
+<td>0.001–86,400 s</td>
+</tr>
+</tbody></table></div>
+<p>Asset and file limits are in <a href="/docs/tools/#limits">Tools and replies</a>.</p>
+<h2 id="example"><a class="anchor" href="#example">Example</a></h2>
+<p>The reference ad from the end-to-end tests, in one <code>layer_add</code>: tokens, styles, two components placed with <code>each</code>, and a layout that adapts to a portrait post, a wide banner and a skyscraper without per-size positions.</p>
+<pre><code class="language-json">{
+  &quot;tokens&quot;: {
+    &quot;navy&quot;: &quot;#1B2A5C&quot;,
+    &quot;red&quot;: &quot;#D0202E&quot;,
+    &quot;grey&quot;: &quot;#6B7280&quot;
+  },
+  &quot;styles&quot;: {
+    &quot;accent&quot;: {
+      &quot;color&quot;: &quot;{{red}}&quot;
+    },
+    &quot;name&quot;: {
+      &quot;fontSize&quot;: 36,
+      &quot;fontWeight&quot;: 700,
+      &quot;color&quot;: &quot;{{navy}}&quot;,
+      &quot;textAlign&quot;: &quot;center&quot;
+    },
+    &quot;office&quot;: {
+      &quot;fontSize&quot;: 30,
+      &quot;fontWeight&quot;: 500,
+      &quot;color&quot;: &quot;{{grey}}&quot;,
+      &quot;textAlign&quot;: &quot;center&quot;
+    }
+  },
+  &quot;components&quot;: {
+    &quot;candidate&quot;: {
+      &quot;type&quot;: &quot;frame&quot;,
+      &quot;flexDirection&quot;: &quot;column&quot;,
+      &quot;gap&quot;: 4,
+      &quot;alignItems&quot;: &quot;center&quot;,
+      &quot;children&quot;: [
+        {
+          &quot;type&quot;: &quot;text&quot;,
+          &quot;role&quot;: &quot;name&quot;,
+          &quot;text&quot;: &quot;{{name}}&quot;,
+          &quot;style&quot;: &quot;name&quot;
+        },
+        {
+          &quot;type&quot;: &quot;text&quot;,
+          &quot;role&quot;: &quot;office&quot;,
+          &quot;text&quot;: &quot;{{office}}&quot;,
+          &quot;style&quot;: &quot;office&quot;
+        }
+      ]
+    },
+    &quot;step&quot;: {
+      &quot;type&quot;: &quot;frame&quot;,
+      &quot;width&quot;: &quot;fill&quot;,
+      &quot;flexDirection&quot;: &quot;row&quot;,
+      &quot;gap&quot;: 16,
+      &quot;alignItems&quot;: &quot;center&quot;,
+      &quot;children&quot;: [
+        {
+          &quot;type&quot;: &quot;image&quot;,
+          &quot;asset&quot;: &quot;check&quot;,
+          &quot;width&quot;: 40,
+          &quot;height&quot;: 40
+        },
+        {
+          &quot;type&quot;: &quot;text&quot;,
+          &quot;role&quot;: &quot;step&quot;,
+          &quot;text&quot;: &quot;{{text}}&quot;,
+          &quot;fontSize&quot;: 32,
+          &quot;fontWeight&quot;: 500,
+          &quot;color&quot;: &quot;{{navy}}&quot;,
+          &quot;width&quot;: &quot;fill&quot;
+        }
+      ]
+    }
+  },
+  &quot;layers&quot;: [
+    {
+      &quot;id&quot;: &quot;page&quot;,
+      &quot;type&quot;: &quot;frame&quot;,
+      &quot;width&quot;: &quot;fill&quot;,
+      &quot;height&quot;: &quot;fill&quot;,
+      &quot;flexDirection&quot;: &quot;column&quot;,
+      &quot;gap&quot;: 28,
+      &quot;padding&quot;: [
+        48,
+        0
+      ],
+      &quot;alignItems&quot;: &quot;flex-start&quot;,
+      &quot;children&quot;: [
+        {
+          &quot;id&quot;: &quot;headline&quot;,
+          &quot;type&quot;: &quot;text&quot;,
+          &quot;width&quot;: &quot;fill&quot;,
+          &quot;padding&quot;: [
+            0,
+            40
+          ],
+          &quot;fontSize&quot;: 64,
+          &quot;fontWeight&quot;: 800,
+          &quot;color&quot;: &quot;{{navy}}&quot;,
+          &quot;textAlign&quot;: &quot;center&quot;,
+          &quot;textWrap&quot;: &quot;balance&quot;,
+          &quot;text&quot;: &quot;Proven &lt;accent&gt;RESULTS&lt;/accent&gt; for &lt;accent&gt;WILLOWMERE&lt;/accent&gt; Families&quot;
+        },
+        {
+          &quot;id&quot;: &quot;photo&quot;,
+          &quot;type&quot;: &quot;image&quot;,
+          &quot;asset&quot;: &quot;photo&quot;,
+          &quot;width&quot;: &quot;fill&quot;,
+          &quot;height&quot;: &quot;fill&quot;,
+          &quot;minHeight&quot;: 120
+        },
+        {
+          &quot;id&quot;: &quot;cands&quot;,
+          &quot;type&quot;: &quot;frame&quot;,
+          &quot;width&quot;: &quot;fill&quot;,
+          &quot;flexDirection&quot;: [
+            &quot;row&quot;,
+            &quot;column&quot;
+          ],
+          &quot;gap&quot;: 12,
+          &quot;alignItems&quot;: &quot;flex-start&quot;,
+          &quot;justifyContent&quot;: &quot;space-evenly&quot;,
+          &quot;children&quot;: [
+            {
+              &quot;id&quot;: &quot;c&quot;,
+              &quot;type&quot;: &quot;use&quot;,
+              &quot;component&quot;: &quot;candidate&quot;,
+              &quot;each&quot;: [
+                {
+                  &quot;name&quot;: &quot;Dana Levi&quot;,
+                  &quot;office&quot;: &quot;Mayor&quot;
+                },
+                {
+                  &quot;name&quot;: &quot;Omar Haddad&quot;,
+                  &quot;office&quot;: &quot;Council&quot;
+                },
+                {
+                  &quot;name&quot;: &quot;Ruth Cohen&quot;,
+                  &quot;office&quot;: &quot;Council&quot;
+                }
+              ]
+            }
+          ]
+        },
+        {
+          &quot;id&quot;: &quot;cta&quot;,
+          &quot;type&quot;: &quot;frame&quot;,
+          &quot;width&quot;: &quot;fill&quot;,
+          &quot;fill&quot;: &quot;{{red}}&quot;,
+          &quot;flexDirection&quot;: &quot;row&quot;,
+          &quot;gap&quot;: 16,
+          &quot;padding&quot;: 22,
+          &quot;alignItems&quot;: &quot;center&quot;,
+          &quot;justifyContent&quot;: &quot;center&quot;,
+          &quot;children&quot;: [
+            {
+              &quot;type&quot;: &quot;icon&quot;,
+              &quot;name&quot;: &quot;mail&quot;,
+              &quot;color&quot;: &quot;#FFFFFF&quot;,
+              &quot;width&quot;: 48,
+              &quot;height&quot;: 48
+            },
+            {
+              &quot;type&quot;: &quot;text&quot;,
+              &quot;text&quot;: &quot;VOTE BY MAIL&quot;,
+              &quot;fontSize&quot;: 48,
+              &quot;fontWeight&quot;: 800,
+              &quot;color&quot;: &quot;#FFFFFF&quot;
+            }
+          ]
+        },
+        {
+          &quot;id&quot;: &quot;steps&quot;,
+          &quot;type&quot;: &quot;frame&quot;,
+          &quot;width&quot;: &quot;fill&quot;,
+          &quot;flexDirection&quot;: &quot;column&quot;,
+          &quot;gap&quot;: 12,
+          &quot;padding&quot;: [
+            0,
+            60
+          ],
+          &quot;alignItems&quot;: &quot;flex-start&quot;,
+          &quot;children&quot;: [
+            {
+              &quot;id&quot;: &quot;s&quot;,
+              &quot;type&quot;: &quot;use&quot;,
+              &quot;component&quot;: &quot;step&quot;,
+              &quot;each&quot;: [
+                {
+                  &quot;text&quot;: &quot;Request your ballot by October 20&quot;
+                },
+                {
+                  &quot;text&quot;: &quot;Fill it out at home&quot;
+                },
+                {
+                  &quot;text&quot;: &quot;Mail it back by November 3&quot;
+                }
+              ]
+            }
+          ]
+        },
+        {
+          &quot;id&quot;: &quot;footer&quot;,
+          &quot;type&quot;: &quot;text&quot;,
+          &quot;width&quot;: &quot;fill&quot;,
+          &quot;text&quot;: &quot;Paid for by Willowmere Forward · willowmereforward.org&quot;,
+          &quot;fontSize&quot;: 20,
+          &quot;color&quot;: &quot;{{grey}}&quot;,
+          &quot;textAlign&quot;: &quot;center&quot;,
+          &quot;media&quot;: {
+            &quot;tall&quot;: {
+              &quot;hidden&quot;: true
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+</code></pre>
+<p>The photo takes whatever height is left at each size, the candidates switch to a column where a row doesn&#39;t fit, and the footer is dropped on tall sizes.</p>
+<h2 id="appendix-names"><a class="anchor" href="#appendix-names">Appendix: names</a></h2>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Kind</th>
+<th>Names</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Named shapes (<code>path</code> <code>shape</code>, masks)</td>
+<td><code>ribbon</code>, <code>ribbon-banner</code>, <code>bubble</code>, <code>bubble-round</code>, <code>arrow</code>, <code>arrow-curved</code>, <code>chevron</code>, <code>tag</code>, <code>arch</code>, <code>shield</code>, <code>heart</code>, <code>cloud</code>, <code>wave</code>, <code>burst</code>, <code>blob-1</code> … <code>blob-6</code>, <code>brush-stroke</code></td>
+</tr>
+<tr>
+<td>Icons</td>
+<td>About 5,000: <a href="https://lucide.dev">Lucide</a> (<code>lucide</code>, about 2,100) and <a href="https://fontawesome.com">Font Awesome Free</a> (<code>solid</code> about 2,000, <code>regular</code> about 270, <code>brands</code> about 610)</td>
+</tr>
+<tr>
+<td>Patterns</td>
+<td><code>dots</code>, <code>stripes</code>, <code>grid</code>, <code>checker</code>, <code>zigzag</code>, <code>rays</code></td>
+</tr>
+<tr>
+<td>Enter and exit effects</td>
+<td><code>fade</code>, <code>fade-up</code>, <code>fade-down</code>, <code>fade-left</code>, <code>fade-right</code>, <code>pop</code>, <code>zoom-in</code>, <code>zoom-out</code>, <code>blur-in</code></td>
+</tr>
+<tr>
+<td>Transitions</td>
+<td><code>cut</code>, <code>fade</code>, <code>slide-*</code>, <code>push-*</code>, <code>wipe-*</code> (each <code>left</code>, <code>right</code>, <code>up</code>, <code>down</code>), <code>zoom</code></td>
+</tr>
+<tr>
+<td>Eases</td>
+<td><code>none</code>, <code>power1</code>–<code>power4</code>, <code>sine</code>, <code>expo</code>, <code>circ</code>, <code>back</code>, <code>elastic</code>, <code>bounce</code> (<code>.in</code>, <code>.out</code>, <code>.inOut</code>), <code>steps(n)</code></td>
+</tr>
+<tr>
+<td>Blend modes</td>
+<td>See <a href="#blend-modes">Blend modes</a></td>
+</tr>
+</tbody></table></div>
+
+      <p class="doc-source">This page is built from <a href="https://github.com/keyline-dev/keyline/blob/main/docs/scene.md">docs/scene.md</a>; also as <a href="/docs/scene/index.md">Markdown</a>.</p>
+    </article>
+    <nav class="doc-toc" aria-label="On this page"><p class="toc-title">On this page</p><a href="#conventions">Conventions</a><a href="#document">Document</a><a href="#layers">Layers</a><a href="#layout">Layout</a><a href="#text">Text</a><a href="#paint">Paint</a><a href="#reuse">Reuse</a><a href="#motion">Motion</a><a href="#template-files">Template files</a><a href="#validation-and-limits">Validation and limits</a><a href="#example">Example</a><a href="#appendix-names">Appendix: names</a></nav>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap foot-row">
+      <span class="foot-brand"><picture><source srcset="/logo/lockup-nav-dark.svg" media="(prefers-color-scheme: dark)"><img src="/logo/lockup-nav-light.svg" alt="keyline" width="76" height="22"></picture><span>Every image on this page was rendered by keyline.</span></span>
+      <nav>
+        <a href="https://github.com/keyline-dev/keyline">GitHub</a>
+        <a href="/docs/">Docs</a>
+        <a href="/license/">PolyForm Shield license</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,18 @@
+# keyline
+
+> Design engine for AI agents: images and video at every size, no Chrome needed. One native binary, driven over MCP.
+
+keyline is an MCP server (one native Rust binary on Skia) that an AI agent drives to compose images and video: the agent writes a small JSON scene, keyline lays it out at every requested size, measures it (text fit, overflow, contrast, safe areas) and replies with problems to fix, then renders PNG, JPEG, WebP, PDF, GIF, animated PNG, MP4 or WebM. Source-available under PolyForm Shield 1.0.0.
+
+## Docs
+
+- [Install](https://keyline.dev/docs/install/index.md): Install keyline for Claude Code, Claude Desktop, Codex, Cursor, VS Code and any MCP client, or run it in CI.
+- [Concepts](https://keyline.dev/docs/index.md): How keyline works: scenes, sizes, layout, checks and renders, the ideas behind the design engine for AI agents.
+- [Scene format](https://keyline.dev/docs/scene/index.md): The keyline scene format: every layer, field, default and unit, from layout and text to motion and video.
+- [Tools and replies](https://keyline.dev/docs/tools/index.md): keyline's MCP tools, their replies and problem lines, output formats, server flags and rendering without an agent.
+
+## Optional
+
+- [Benchmark: keyline vs a headless browser](https://keyline.dev/benchmark/index.md): The same model makes the same images with keyline and with headless Chrome: method, every run and the results.
+- [All docs in one file](https://keyline.dev/llms-full.txt)
+- [Source](https://github.com/keyline-dev/keyline)

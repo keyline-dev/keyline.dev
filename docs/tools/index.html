@@ -1,0 +1,826 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Tools and replies · keyline</title>
+  <meta name="description" content="keyline's MCP tools, their replies and problem lines, output formats, server flags and rendering without an agent.">
+  <link rel="canonical" href="https://keyline.dev/docs/tools/">
+  <link rel="alternate" type="text/markdown" href="/docs/tools/index.md">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="keyline">
+  <meta property="og:title" content="Tools and replies · keyline">
+  <meta property="og:description" content="keyline's MCP tools, their replies and problem lines, output formats, server flags and rendering without an agent.">
+  <meta property="og:image" content="https://keyline.dev/assets/og/og-v0.png">
+  <meta property="og:url" content="https://keyline.dev/docs/tools/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Tools and replies","description":"keyline's MCP tools, their replies and problem lines, output formats, server flags and rendering without an agent.","url":"https://keyline.dev/docs/tools/","inLanguage":"en","isPartOf":{"@type":"WebSite","name":"keyline","url":"https://keyline.dev/"},"about":{"@type":"SoftwareApplication","name":"keyline","url":"https://keyline.dev/"}}</script>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-row">
+      <a class="brand" href="/" aria-label="keyline home"><picture><source srcset="/logo/lockup-nav-dark.svg" media="(prefers-color-scheme: dark)"><img src="/logo/lockup-nav-light.svg" alt="keyline" width="90" height="26"></picture></a>
+      <nav>
+        <a href="/#gallery">Examples</a>
+        <a href="/#how">How it works</a>
+        <a href="/#install">Install</a>
+        <a href="/docs/">Docs</a>
+        <a href="https://github.com/keyline-dev/keyline" class="gh" aria-label="keyline on GitHub"><svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg></a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap doc">
+    <nav class="doc-side" aria-label="Docs"><a href="/docs/install/">Install</a><a href="/docs/">Concepts</a><a href="/docs/scene/">Scene format</a><a href="/docs/tools/" aria-current="page">Tools and replies</a><a href="/benchmark/">Benchmark</a></nav>
+    <article class="prose">
+<h1>Tools and replies</h1>
+<p>keyline-mcp exposes six tools. This page lists each tool&#39;s inputs and the exact shape of its replies, and how the server is configured. What the fields of a scene mean is in the <a href="/docs/scene/">scene format reference</a>; the ideas behind both are in <a href="/docs/">Concepts</a>. The <code>layer_add</code> tool description carries a compact version of the scene format for the agent.</p>
+<ul>
+<li><a href="#conventions">Conventions</a></li>
+<li><a href="#replies">Replies</a>: problem lines, markers, facts, drawn text, output files</li>
+<li>The tools: <a href="#scene_create"><code>scene_create</code></a> · <a href="#asset_add"><code>asset_add</code></a> · <a href="#layer_add"><code>layer_add</code></a> · <a href="#layer_update"><code>layer_update</code></a> · <a href="#scene_describe"><code>scene_describe</code></a> · <a href="#render"><code>render</code></a></li>
+<li><a href="#templates-and-variants">Templates and variants</a></li>
+<li><a href="#output-formats">Output formats</a></li>
+<li><a href="#server-configuration">Server configuration</a>: flags, <a href="#rendering-without-an-agent">rendering without an agent</a>, data, fonts, ffmpeg</li>
+<li><a href="#security">Security</a> · <a href="#limits">Limits</a> · <a href="#errors">Errors</a></li>
+</ul>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="#scene_create"><code>scene_create</code></a></td>
+<td>Starts a scene: sizes and background, or a template with its variables set</td>
+</tr>
+<tr>
+<td><a href="#asset_add"><code>asset_add</code></a></td>
+<td>Adds an image, video clip or sound from a URL, a local path or base64</td>
+</tr>
+<tr>
+<td><a href="#layer_add"><code>layer_add</code></a></td>
+<td>Adds layers, and shared styles, tokens and components</td>
+</tr>
+<tr>
+<td><a href="#layer_update"><code>layer_update</code></a></td>
+<td>Changes, deletes or detaches layers, styles and components; changes tokens</td>
+</tr>
+<tr>
+<td><a href="#scene_describe"><code>scene_describe</code></a></td>
+<td>Checks the design at every size, or lists every layer&#39;s box</td>
+</tr>
+<tr>
+<td><a href="#render"><code>render</code></a></td>
+<td>Writes image, animation or video files per size, a still of a moment, or one variant per row of variables</td>
+</tr>
+</tbody></table></div>
+<h2 id="conventions"><a class="anchor" href="#conventions">Conventions</a></h2>
+<ul>
+<li><strong>Scenes are addressed by id.</strong> <code>sceneId</code> comes from <code>scene_create</code>. Scenes, assets and renders live in the <a href="#data-directory">data directory</a>.</li>
+<li><strong>Batches are atomic.</strong> A tool that takes a list applies all of it or none of it.</li>
+<li><strong>Every change bumps the scene&#39;s version</strong>, shown in replies as <code>v3</code>.</li>
+<li><strong>Defaults are omitted</strong> in both directions: leave a field out to get its default.</li>
+<li><strong>Unknown arguments are refused</strong>, like unknown scene fields, so a misspelled one is never silently ignored.</li>
+<li><strong>Replies are compact text, not JSON.</strong> Their parts are described once, under <a href="#replies">Replies</a>.</li>
+<li><strong>Errors are one line</strong> that names what failed and how to fix it, and change nothing (<a href="#errors">Errors</a>).</li>
+</ul>
+<h2 id="replies"><a class="anchor" href="#replies">Replies</a></h2>
+<h3 id="versions-and-ids"><a class="anchor" href="#versions-and-ids">Versions and ids</a></h3>
+<p>A mutation&#39;s first line names what it did, the ids it touched and the new version: <code>added headline,cta v2</code>, <code>changed cta v3</code>, <code>photo 864×530 v1</code>. It never echoes the scene.</p>
+<h3 id="problem-lines"><a class="anchor" href="#problem-lines">Problem lines</a></h3>
+<p>An edit&#39;s reply (<code>scene_create</code> from a template, <code>layer_add</code>, <code>layer_update</code>) ends its first line with <code>ok</code>, or is followed by one line per problem at each size. <code>scene_describe</code> gives the same lines on request. A problem line is the size id, the layer&#39;s line, and its markers. Its numbers are px at that size, unlike the fields, which are master px that a size&#39;s <code>scale</code> multiplies (a fix that names a field gives the field&#39;s value):</p>
+<pre><code class="language-text">sky headline text 24,360 384×70 29px 2L !clipped by canvas: right 108px
+</code></pre>
+<p>A text whose id the server made up (<code>text7</code>) is also named by its first words, in quotes: <code>sky text7 &quot;TODAY&quot; text …</code>. A contrast advisory, or a clipped shadow, that the same layer has at several sizes comes once, after the other lines, naming the sizes (<code>all</code> when every size has it), with the worst ratio and without the box, which differs per size:</p>
+<pre><code class="language-text">all text2 &quot;Thu 14&quot; warn contrast 2.9:1 (WCAG 4.5)
+portrait,square toast warn shadow clipped by card
+</code></pre>
+<p>A <strong>layer line</strong> is <code>id type x,y w×h</code>, in px at that size, then:</p>
+<ul>
+<li><strong>text:</strong> the font size drawn, <code>(max N, side)</code> when it shrank to fit, with the side that kept it from being bigger (<code>width</code> for a word too wide, <code>height</code>, or <code>maxLines</code>), and <code>2L</code> for the number of lines</li>
+<li><strong>image</strong> and <strong>video:</strong> the fit, <code>crop N%w</code> / <code>N%h</code> for how much is cut, then <code>left</code>/<code>right</code> (<code>top</code>/<code>bottom</code>) when a cover crop takes two-thirds or more of it from that side (from <code>focus</code>), and <code>upscaled N×</code> when it&#39;s enlarged past its pixels</li>
+<li><strong>adaptive layouts:</strong> <code>→ row</code> for the direction a stack chose, or <code>→ &lt;id&gt;</code> for the child a <code>firstFit</code> drew, then why it passed over its first option when it did: <code>→ short (long: 4L &gt; maxLines 3)</code>: what disqualified it (or <code>shrinks to 48px</code>, <code>cut</code>, <code>overflows</code>, and <code>needs W×H</code> only when nothing inside it is wrong but it is bigger than the box), a text inside it named by id, the option itself not named twice. The <code>firstFit</code>&#39;s line also comes with the problem lines whenever what it drew has a problem, since its choice may be the cause</li>
+<li><code>rot N°</code> for a rotated layer</li>
+<li><strong>with <code>full</code>, motion:</strong> in the layer&#39;s own clock (a shot&#39;s layers count from the shot&#39;s start), <code>shot 2–3.5s</code> on a shot&#39;s frame, <code>enter fade-up 0.4–1s</code>, each track&#39;s properties and time (<code>count 1.4–3s</code>, <code>×3</code> for repeats, <code>×∞</code> forever), <code>exit fade 7–7.6s</code> or <code>exit fade at the end</code></li>
+</ul>
+<h3 id="markers"><a class="anchor" href="#markers">Markers</a></h3>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Marker</th>
+<th>Kind</th>
+<th>Means</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>!truncated needs W×H (one line: W wide)</code></td>
+<td>defect</td>
+<td>Text doesn&#39;t fit its box, even at its smallest allowed size (cut with an ellipsis, or spilling out); it needs a box of W×H (px at that size), or W wide on one line</td>
+</tr>
+<tr>
+<td><code>!truncated at maxLines N</code></td>
+<td>defect</td>
+<td>Text was cut at its <code>maxLines</code>; allow more lines or widen the box. Without a height it adds <code>(a height lets it shrink instead)</code>: with one, text shrinks to fit before it&#39;s cut</td>
+</tr>
+<tr>
+<td><code>!breaks &quot;&lt;word&gt;&quot; (needs W wide)</code></td>
+<td>defect</td>
+<td>A word is wider than its text box, so a line breaks inside it (&quot;Winsto&quot; / &quot;n&quot;); the box needs W px</td>
+</tr>
+<tr>
+<td><code>!overflow needs W×H</code></td>
+<td>defect</td>
+<td>A stack&#39;s children don&#39;t fit it even at their smallest; the stack needs W×H. The children it pushes out aren&#39;t listed one by one, nor the breaks and overlaps inside it, which follow from its size. When a sibling with <code>flexGrow</code> and a set size along the stack grew past that size, the line names it: <code>(photoBox grows past its width 52%: flexGrow 1)</code></td>
+</tr>
+<tr>
+<td><code>!clipped by &lt;frame or canvas&gt;: &lt;side&gt; &lt;px&gt;</code></td>
+<td>defect</td>
+<td>Part of the layer falls outside what shows; for text, its letters too, where they reach past its box (tall caps at a tight <code>lineHeight</code> in a frame that clips). It names the edge that cuts: the canvas or the clipping frame whose side it is. A frame that sizes to its content (no width or height, or <code>hug</code>) gets it too when it runs past what shows, since its content is lost; the text inside it, cut by the same edge, isn&#39;t listed again. A rotated, scaled or moved layer is checked by the box around it as drawn. A layer whole at rest but cut by more than 2 px while it moves (a <code>pop</code> overshooting, a scale pulse) gets it with when, in its own clock: <code>!clipped by info: bottom 13px during enter pop 2.1–2.7s</code>; only a frame that clips counts, not the canvas (entrances fly in from outside), and not past an edge the layer already fills at rest (a photo zooming in its frame), unless that frame sizes to its content (a button pulsing in the row that hugs it)</td>
+</tr>
+<tr>
+<td><code>!hidden</code></td>
+<td>defect</td>
+<td>The layer is entirely outside what shows</td>
+</tr>
+<tr>
+<td><code>!overlaps &lt;ids&gt;</code></td>
+<td>defect</td>
+<td>Text ink overlaps other text</td>
+</tr>
+<tr>
+<td><code>!covered by &lt;id&gt; N%, …</code></td>
+<td>defect</td>
+<td>A layer drawn after the text (a filled frame, a shape, a photo; an outline with no fill, by its stroke only) covers this share of its ink, or another text&#39;s highlight does (<code>name highlight 30%</code>); each one named once, the largest first</td>
+</tr>
+<tr>
+<td><code>!leader &quot;&lt;left…&gt;&quot; meets &quot;&lt;right&gt;&quot;</code></td>
+<td>defect</td>
+<td>In a <code>leader</code> line, the text before the tab runs into the text after it</td>
+</tr>
+<tr>
+<td><code>!unsafe</code></td>
+<td>defect</td>
+<td>Text&#39;s letters, as drawn (a rotation included), reach under the size&#39;s <code>safeArea</code></td>
+</tr>
+<tr>
+<td><code>warn contrast R:1 (WCAG N)</code></td>
+<td>advisory</td>
+<td>Text contrast against what&#39;s behind it is below the WCAG level for its size. Knockout text is judged by what shows through its letters against the frame around them</td>
+</tr>
+<tr>
+<td><code>warn crop cuts the image&#39;s middle (focus X%,Y%): height N shows half</code></td>
+<td>advisory</td>
+<td>A cover crop hides more than half the image on one axis, so whatever sits in its middle is cut (a house in a band too short for it). The end names the field to write and its value in master px, like every field (the size&#39;s <code>scale</code> multiplies it): <code>height N</code> for a crop top and bottom, <code>height at most N</code> for one at the sides. A photo filling the canvas gets none: it can&#39;t grow, and its focus shows where it&#39;s set. When the parent sets the height (<code>fill</code>, a share, <code>flexGrow</code>, a stretch constraint), <code>minHeight N</code> or <code>maxHeight N</code>; when a stretch constraint shrank a fixed height, <code>squeezed from A to B: minHeight N</code> (A and B px at that size). Names &quot;the area around its focus&quot; when <code>focus</code> isn&#39;t the center</td>
+</tr>
+<tr>
+<td><code>warn ink Npx from &lt;id&gt;</code></td>
+<td>advisory</td>
+<td>This text&#39;s ink comes within N px of a neighbour&#39;s, above or beside it, closer than 15% of the smaller font size, touching included (<code>0px</code>) up to the overlap <code>!overlaps</code> reports (caps overshooting a tight <code>lineHeight</code>); on the upper or left text</td>
+</tr>
+<tr>
+<td><code>warn shadow clipped by &lt;frame&gt;</code></td>
+<td>advisory</td>
+<td>A frame that clips its content (<code>clipsContent</code>, on by default) cuts the layer&#39;s drop shadow; give it room (padding) or set <code>clipsContent: false</code></td>
+</tr>
+</tbody></table></div>
+<p>Defects need fixing; advisories need judgment (<a href="/docs/#checks-defects-advisories-facts">concepts</a>). In a scene of <a href="/docs/scene/#shots-and-transitions">shots</a>, every shot is checked, each with the layers around it.</p>
+<h3 id="facts-line"><a class="anchor" href="#facts-line">Facts line</a></h3>
+<p>The last line of an edit&#39;s reply (and of <code>scene_create</code> from a template, which is what <code>keyline-mcp render</code> prints first) states facts with no threshold, per size: the smallest text and any image drawn larger than its pixels.</p>
+<pre><code class="language-text">smallest text: instagram-portrait 28px (cta), sky 11.3px (cta); upscaled: instagram-portrait photo 1.5x
+</code></pre>
+<h3 id="hint-lines"><a class="anchor" href="#hint-lines">Hint lines</a></h3>
+<p>After the facts, one line per text that writes a token as <code>$name</code> rather than <a href="/docs/scene/#tokens"><code>{{name}}</code></a>. The text is left as it is, since <code>$29</code> or <code>$USD</code> may be meant:</p>
+<pre><code class="language-text">hint: did you mean {{price}}? (cta says $price)
+</code></pre>
+<p><code>scene_create</code> adds one per size at least twice the master&#39;s width with no <code>scale</code> (a print preset for a screen-sized master). A smaller difference gets no hint (a 1280 px size for a 1080 px master is laid out as is); if it doesn&#39;t fit, <code>!overflow</code> gives the size it needs:</p>
+<pre><code class="language-text">hint: a4-portrait is 2.3× the master&#39;s width; give it &quot;scale&quot;: 2.3 to keep the layout&#39;s proportions
+</code></pre>
+<p>And an edit, one per style used as a markup tag whose fields a tag can&#39;t carry (a tag carries <code>color</code>, <code>fontWeight</code>, <code>fontStyle</code>, <code>fontSize</code>, <code>fontFamily</code>, <code>textDecoration</code> and <code>highlight</code>). A dropped <code>media</code> adds what to do instead: <code>; set per-size text in the layer&#39;s media</code>.</p>
+<pre><code class="language-text">hint: &lt;accent&gt; drops letterSpacing (a tag carries color, fontWeight, fontStyle, fontSize, fontFamily, textDecoration, highlight)
+</code></pre>
+<p>One per text with both a <code>color</code> and a different plain <code>fill</code>, since the fill paints the letters:</p>
+<pre><code class="language-text">hint: chip fill paints the letters (its color is unused); a box behind text is a frame with a fill
+</code></pre>
+<p>One per image drawn as a <code>halftone</code> over a dark background (its closest frame&#39;s plain fill, else the canvas), since the dots are black:</p>
+<pre><code class="language-text">hint: photo halftone draws black dots; on #141414 it barely shows (a light fill behind it, or duotone instead)
+</code></pre>
+<h3 id="drawn-text-lines"><a class="anchor" href="#drawn-text-lines">Drawn-text lines</a></h3>
+<p>Under each size, <code>render</code> lists every text that wrapped, shrank or was cut, as actually drawn, so wording and line breaks can be checked without looking at the image, and the option each <code>firstFit</code> drew (with why it passed over its first, when it did):</p>
+<pre><code class="language-text">instagram-portrait /…/renders/sfc5e3bbb5b/instagram-portrait-v3.jpg quality 11
+ head → long
+ headline 72px: &quot;Proven RESULTS for&quot; / &quot;Willowmere Families&quot;
+</code></pre>
+<h3 id="output-files"><a class="anchor" href="#output-files">Output files</a></h3>
+<p><code>render</code> writes into <code>&lt;data&gt;/renders/&lt;sceneId&gt;/</code>, one file per size, named from the size id and the scene version:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>File</th>
+<th>For</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&lt;size&gt;-v&lt;n&gt;.&lt;ext&gt;</code></td>
+<td>A render: <code>png</code>, <code>jpg</code>, <code>webp</code>, <code>pdf</code>, <code>gif</code>, <code>mp4</code>, <code>webm</code></td>
+</tr>
+<tr>
+<td><code>&lt;size&gt;-v&lt;n&gt;.anim.png</code></td>
+<td>An animated PNG</td>
+</tr>
+<tr>
+<td><code>&lt;size&gt;-v&lt;n&gt;.at&lt;time&gt;s.&lt;ext&gt;</code></td>
+<td>A still at <code>time</code> seconds</td>
+</tr>
+<tr>
+<td><code>&lt;size&gt;-v&lt;n&gt;.r&lt;row&gt;.&lt;ext&gt;</code></td>
+<td>One row of <code>rows</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="scene_create"><a class="anchor" href="#scene_create">scene_create</a></h2>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>sizes</code></td>
+<td>array</td>
+<td>required, or the template&#39;s</td>
+<td>Target <a href="/docs/scene/#sizes">sizes</a>: a size object, a preset name, or <code>&quot;WxH&quot;</code></td>
+</tr>
+<tr>
+<td><code>width</code>, <code>height</code></td>
+<td>number</td>
+<td>the first size&#39;s</td>
+<td>The master size, px</td>
+</tr>
+<tr>
+<td><code>background</code></td>
+<td>color</td>
+<td><code>#FFFFFF</code></td>
+<td>Canvas color</td>
+</tr>
+<tr>
+<td><code>duration</code>, <code>fps</code>, <code>loop</code></td>
+<td>number, number, boolean</td>
+<td>a still, 30, false</td>
+<td><a href="/docs/scene/#scene-timing">Scene timing</a></td>
+</tr>
+<tr>
+<td><code>url</code></td>
+<td>string</td>
+<td></td>
+<td>A <a href="#templates-and-variants">template</a> at a public http(s) URL</td>
+</tr>
+<tr>
+<td><code>path</code></td>
+<td>string</td>
+<td></td>
+<td>Or a template file in an allowed folder; offered only with <a href="#command-line-flags"><code>--allow-read</code></a></td>
+</tr>
+<tr>
+<td><code>tokens</code></td>
+<td>object</td>
+<td></td>
+<td>The template&#39;s variables to set, <code>{name: value}</code></td>
+</tr>
+</tbody></table></div>
+<p>Reply: the new scene&#39;s id and version. From a template, also its variables, then <code>ok</code> or <a href="#problem-lines">problem lines</a>, so a value that doesn&#39;t fit shows at once. When ffmpeg can&#39;t be found (and motion is on), a second line says so up front, so the agent doesn&#39;t plan a video it can&#39;t make:</p>
+<pre><code class="language-text">s5b0a42a5e v0 tokens: accent, headline, price ok
+</code></pre>
+<pre><code class="language-text">sfc5e3bbb5b v0
+video off: no ffmpeg (install it or pass --ffmpeg); apng, gif work
+</code></pre>
+<h2 id="asset_add"><a class="anchor" href="#asset_add">asset_add</a></h2>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>sceneId</code></td>
+<td>string, required</td>
+<td></td>
+<td>The scene</td>
+</tr>
+<tr>
+<td><code>url</code></td>
+<td>string</td>
+<td></td>
+<td>Public http(s) URL of a PNG, JPEG, SVG, video clip or sound, or a <code>data:</code> URL (an inline SVG)</td>
+</tr>
+<tr>
+<td><code>path</code></td>
+<td>string</td>
+<td></td>
+<td>Or a local file in an allowed folder; offered only with <a href="#command-line-flags"><code>--allow-read</code></a>, and its description names the folders</td>
+</tr>
+<tr>
+<td><code>base64</code></td>
+<td>string</td>
+<td></td>
+<td>Or a still image&#39;s bytes, base64. They pass through the model, so keep this for small files</td>
+</tr>
+<tr>
+<td><code>id</code></td>
+<td>string</td>
+<td>generated</td>
+<td>The id layers use to refer to it; an existing id is replaced</td>
+</tr>
+</tbody></table></div>
+<p>Give exactly one of <code>url</code>, <code>path</code> or <code>base64</code>. Video clips (MP4, MOV, WebM…) and sounds (MP3, M4A, WAV…, for a <a href="/docs/scene/#soundtrack">soundtrack</a>) need <a href="#ffmpeg">ffmpeg</a> and can&#39;t come as base64. SVGs are rasterized at their drawn size, so they stay sharp.</p>
+<p>Reply: the asset&#39;s id, its intrinsic size and the scene version; for a clip, also its length, frame rate and <code>sound</code> when it has any; for a sound, <code>sound</code> and its length.</p>
+<pre><code class="language-text">photo 864×530 v1
+beach 1920×1080 12.5s 30fps sound v2
+song sound 184.3s v3
+</code></pre>
+<h2 id="layer_add"><a class="anchor" href="#layer_add">layer_add</a></h2>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>sceneId</code></td>
+<td>string, required</td>
+<td></td>
+<td>The scene</td>
+</tr>
+<tr>
+<td><code>layers</code></td>
+<td>array, required</td>
+<td></td>
+<td><a href="/docs/scene/#layers">Layer</a> objects, added on top in order. A layer with <code>parent</code> goes inside that frame</td>
+</tr>
+<tr>
+<td><code>styles</code></td>
+<td>object</td>
+<td></td>
+<td><a href="/docs/scene/#styles">Styles</a> to add or replace: <code>{name: {fields}}</code></td>
+</tr>
+<tr>
+<td><code>tokens</code></td>
+<td>object</td>
+<td></td>
+<td><a href="/docs/scene/#tokens">Tokens</a> to add or replace: <code>{name: value}</code></td>
+</tr>
+<tr>
+<td><code>components</code></td>
+<td>object</td>
+<td></td>
+<td><a href="/docs/scene/#components">Components</a> to add or replace</td>
+</tr>
+</tbody></table></div>
+<p>Reply: <code>added</code>, the ids of the new top-level layers and the version; then <code>ok</code> on the same line, or <a href="#problem-lines">problem lines</a>; then the <a href="#facts-line">facts line</a>. The agent needs no <code>scene_describe</code> call after an edit.</p>
+<pre><code class="language-text">added headline,cta v1 ok
+smallest text: instagram-portrait 40px (cta), 1200x628 40px (cta)
+</code></pre>
+<pre><code class="language-text">added photo,headline,cta v2
+instagram-portrait cta text 60,1180 300×60 28px (max 48, height) warn contrast 1.2:1 (WCAG 3)
+sky headline text 24,360 384×70 29px 2L !clipped by canvas: right 108px
+1200x628 headline text 60,900 960×174 72px 2L !hidden
+smallest text: instagram-portrait 28px (cta), sky 11.3px (cta), 1200x628 28px (cta); upscaled: instagram-portrait photo 1.5x
+</code></pre>
+<h2 id="layer_update"><a class="anchor" href="#layer_update">layer_update</a></h2>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>sceneId</code></td>
+<td>string, required</td>
+<td></td>
+<td>The scene</td>
+</tr>
+<tr>
+<td><code>ops</code></td>
+<td>array, required</td>
+<td></td>
+<td>Changes, applied in order, all or none</td>
+</tr>
+<tr>
+<td><code>tokens</code></td>
+<td>object</td>
+<td></td>
+<td>Tokens to change: every field bound to one follows it</td>
+</tr>
+</tbody></table></div>
+<p>Each op has a <code>target</code> and exactly one action:</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Target</th>
+<th>Picks</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>{&quot;id&quot;: &quot;cta&quot;}</code></td>
+<td>One layer</td>
+</tr>
+<tr>
+<td><code>{&quot;role&quot;: &quot;price&quot;}</code></td>
+<td>Every layer with that role</td>
+</tr>
+<tr>
+<td><code>{&quot;style&quot;: &quot;title&quot;}</code></td>
+<td>A named style; <code>set</code> creates or changes it, so every layer using it follows</td>
+</tr>
+<tr>
+<td><code>{&quot;component&quot;: &quot;card&quot;}</code></td>
+<td>A component&#39;s tree; every instance follows</td>
+</tr>
+<tr>
+<td><code>{&quot;component&quot;: &quot;card&quot;, &quot;role&quot;: &quot;name&quot;}</code></td>
+<td>One layer inside a component&#39;s tree</td>
+</tr>
+<tr>
+<td><code>{&quot;scene&quot;: true}</code></td>
+<td>The scene itself; <code>set</code> takes <code>background</code>, <code>sizes</code>, <code>width</code>, <code>height</code>, <code>duration</code>, <code>fps</code>, <code>loop</code>, <code>audio</code> (<a href="/docs/scene/#soundtrack">soundtrack</a>)</td>
+</tr>
+</tbody></table></div>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>&quot;set&quot;: {fields}</code></td>
+<td>Merges the fields in; <code>null</code> resets a field to its default</td>
+</tr>
+<tr>
+<td><code>&quot;delete&quot;: true</code></td>
+<td>Removes the target (and a layer&#39;s children)</td>
+</tr>
+<tr>
+<td><code>&quot;detach&quot;: true</code></td>
+<td>With an <code>{id}</code> target of a <code>use</code> layer: turns its instances into plain layers that no longer follow the component</td>
+</tr>
+</tbody></table></div>
+<p>Reply: like <code>layer_add</code>, starting with <code>changed</code> and the ids of every layer changed or deleted, then any tokens changed, as <code>{{name}}</code>.</p>
+<pre><code class="language-text">changed cta v3
+sky headline text 24,360 384×70 29px 2L !clipped by canvas: right 108px
+smallest text: instagram-portrait 48px (cta), sky 19px (cta)
+</code></pre>
+<h2 id="scene_describe"><a class="anchor" href="#scene_describe">scene_describe</a></h2>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>sceneId</code></td>
+<td>string, required</td>
+<td></td>
+<td>The scene</td>
+</tr>
+<tr>
+<td><code>size</code></td>
+<td>string</td>
+<td>all sizes</td>
+<td>One size id</td>
+</tr>
+<tr>
+<td><code>full</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Every layer&#39;s box, not just the problems</td>
+</tr>
+</tbody></table></div>
+<p>Reply: <code>ok</code>, or one <a href="#problem-lines">problem line</a> per problem. With <code>full</code>, the assets (a clip with its length and <code>sound</code>), then each size and every <a href="#problem-lines">layer line</a> at it, indented by nesting:</p>
+<pre><code class="language-text">assets photo 864×530
+instagram-portrait 1080×1350
+ photo image 0,0 1080×810 cover crop 18%w upscaled 1.5x
+ headline text 60,900 960×174 72px 2L
+ cta text 60,1180 600×60 48px
+</code></pre>
+<h2 id="render"><a class="anchor" href="#render">render</a></h2>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Input</th>
+<th>Type</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>sceneId</code></td>
+<td>string, required</td>
+<td></td>
+<td>The scene</td>
+</tr>
+<tr>
+<td><code>sizes</code></td>
+<td>array of strings</td>
+<td>all sizes</td>
+<td>Size ids to render</td>
+</tr>
+<tr>
+<td><code>format</code></td>
+<td><code>png</code> | <code>jpeg</code> | <code>webp</code> | <code>pdf</code> | <code>apng</code> | <code>gif</code> | <code>mp4</code> | <code>webm</code></td>
+<td><code>png</code></td>
+<td>See <a href="#output-formats">Output formats</a></td>
+</tr>
+<tr>
+<td><code>quality</code></td>
+<td>0–100</td>
+<td>90</td>
+<td>JPEG, WebP, MP4 and WebM quality</td>
+</tr>
+<tr>
+<td><code>maxKB</code></td>
+<td>number</td>
+<td></td>
+<td>File-size cap: JPEG and WebP lower their quality, PDF its photos&#39; quality (90, 75, 60, 45, 30), APNG and GIF their frame rate, until the file fits. MP4 and WebM try up to three more encodes, each measured, aiming just under the cap (85–100% of it): libx264 and VP9 at a lower quality, a hardware encoder at a bitrate, and when that still doesn&#39;t fit (some ignore a low bitrate), libx264 at a lower quality. They keep the largest that fits, else the smallest, with <code>!too-big</code></td>
+</tr>
+<tr>
+<td><code>preview</code></td>
+<td>boolean</td>
+<td>false</td>
+<td>Also returns one small image of all sizes side by side</td>
+</tr>
+<tr>
+<td><code>time</code></td>
+<td>number</td>
+<td></td>
+<td>Seconds into a moving scene: a still at that moment</td>
+</tr>
+<tr>
+<td><code>muted</code></td>
+<td>boolean</td>
+<td>false</td>
+<td><code>true</code> leaves all sound out of <code>mp4</code> and <code>webm</code>: the soundtrack and every clip&#39;s (a clip&#39;s own <code>muted</code> leaves out one)</td>
+</tr>
+<tr>
+<td><code>rows</code></td>
+<td>array of objects</td>
+<td></td>
+<td><a href="#templates-and-variants">Variants</a>: one render per row of token values</td>
+</tr>
+</tbody></table></div>
+<p>Reply: per size, the size id, the file&#39;s path (<a href="#output-files">Output files</a>) and, in parentheses, what the file holds, then its <a href="#drawn-text-lines">drawn-text lines</a>:</p>
+<pre><code class="language-text">wide /…/renders/s1a2b3c4d5/wide-v3.png (1200×628, 212 KB)
+wide /…/renders/s1a2b3c4d5/wide-v3.gif (1200×628, 2s, 60 frames at 30 fps, plays once, 1840 KB)
+wide /…/renders/s1a2b3c4d5/wide-v3.mp4 (1200×628, 2s, 60 frames at 30 fps, with sound, 610 KB) quality 90
+a4-portrait /…/renders/s1a2b3c4d5/a4-portrait-v3.pdf (595×842 pt, images ≥ 212 dpi, 1840 KB)
+fonts: Bricolage Grotesque 800, Inter 400/600
+</code></pre>
+<p>A still or PDF of a moving scene says which moment it shows, before its size: <code>at rest, shot s1</code> (or <code>at 2.5s, shot s2</code> with <code>time</code>). A PDF embeds its photos at most at 300 dpi of their drawn size, opaque ones as JPEG at <code>quality</code> (90 by default). A PDF gives its page in points (a print preset&#39;s, such as A4&#39;s 595×842, or 1 pt per px) and the lowest resolution of its photos on that page. The last line names the fonts the texts are drawn in, once per render: each family with its weights, <code>900→700</code> when the family has no face for a weight and a nearer one is drawn, <code>(fallback)</code> when the family has no face at all.</p>
+<p>A moving format gives its length, frame count and frame rate; GIF and APNG also say whether they loop (<code>loops</code>) or stop on their last frame (<code>plays once</code>), from the scene&#39;s <code>loop</code>; MP4 and WebM say <code>with sound</code> when they carry any; <code>last shot held 0.4s</code> means the scene&#39;s <code>duration</code> outlasts its shots and the last one holds. An agent opening an animated file sees only its first frame, so these facts are how it checks one. With <code>maxKB</code>, <code>quality N</code> follows when the quality was lowered (a lowered frame rate shows in the facts), or <code>!too-big</code> when even the lowest setting doesn&#39;t fit. MP4 and WebM always say how they were encoded, with any encoder: <code>quality N</code> (1–100, default 90, lower when <code>maxKB</code> needed it), or <code>bitrate Nk</code> when a hardware encoder needed a lower one for <code>maxKB</code>. With <code>rows</code>, each line starts with <code>r&lt;row&gt;</code>. With <code>preview</code>, the reply also carries the preview as an image of what was rendered, each row no wider than 2000 px: the sizes side by side, a row per row of tokens (up to 6); or, for a moving format (APNG, GIF, MP4, WebM), a row per size of up to 6 moments through it (from the first row of tokens): each shot&#39;s middle, the last frame when the scene loops or a layer leaves (its seam), then the middle of each entrance and keyframe track (or where it&#39;s biggest when it grows: a <code>pop</code>&#39;s overshoot, a pulse), earliest first, then even steps, none within a quarter second of another; named in a last line, with each shot&#39;s time for a scene of shots (<code>preview at 1 2.7 4.2 5.3 6.9 7.97s · shots 0–2 2–3.5 3.5–8</code>).</p>
+<h2 id="templates-and-variants"><a class="anchor" href="#templates-and-variants">Templates and variants</a></h2>
+<p>A template is a scene file (<a href="/docs/scene/#template-files">its format</a>) that <code>scene_create</code> loads by <code>url</code> or <code>path</code>, the same way <code>asset_add</code> loads an image. Its images are added as assets, <code>tokens</code> sets its variables, and any other <code>scene_create</code> input (<code>sizes</code>, <code>background</code> …) replaces the template&#39;s. Nothing else is kept: the template stays wherever it came from. A token named in <code>tokens</code> that the template doesn&#39;t have is an error that lists the ones it has.</p>
+<p><code>render</code> with <code>rows</code> makes variants: each row of token values is applied as <code>layer_update</code> with those <code>tokens</code> would, to a copy, and rendered, so a row changes every field bound to its tokens, sentences and image assets included; the saved scene doesn&#39;t change. A key that isn&#39;t one of the scene&#39;s tokens is an error naming the row and the tokens there are. <code>preview</code> shows the first row.</p>
+<pre><code class="language-json">{&quot;sceneId&quot;: &quot;s5b0a42a5e&quot;, &quot;rows&quot;: [{&quot;headline&quot;: &quot;Fall&quot;, &quot;price&quot;: &quot;$19&quot;}, {&quot;headline&quot;: &quot;Winter&quot;, &quot;price&quot;: &quot;$24&quot;}]}
+</code></pre>
+<h2 id="output-formats"><a class="anchor" href="#output-formats">Output formats</a></h2>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Format</th>
+<th>What it is</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>png</code>, <code>jpeg</code>, <code>webp</code></td>
+<td>A still per size. A scene with motion is drawn at rest, or at <code>time</code></td>
+</tr>
+<tr>
+<td><code>pdf</code></td>
+<td>Vector, one page per size (1 px = 1 pt; <code>a4-portrait</code> makes an A4 page). Refuses scenes with video</td>
+</tr>
+<tr>
+<td><code>apng</code></td>
+<td>Animated PNG: lossless, fully transparent, plays in browsers</td>
+</tr>
+<tr>
+<td><code>gif</code></td>
+<td>Animated GIF: plays everywhere, including email and chat, in 256 colors per frame</td>
+</tr>
+<tr>
+<td><code>mp4</code></td>
+<td>H.264 video, plays everywhere. Needs <a href="#ffmpeg">ffmpeg</a></td>
+</tr>
+<tr>
+<td><code>webm</code></td>
+<td>VP9 video. Needs <a href="#ffmpeg">ffmpeg</a></td>
+</tr>
+</tbody></table></div>
+<p>The animated and video formats need a scene that moves (a <code>duration</code>, or shots); <code>time</code> can&#39;t be combined with them. Frames are drawn in memory, several at once, and APNG and GIF frames store only the part that changed. MP4 encodes on the GPU when ffmpeg has a hardware encoder that works on the machine (VideoToolbox on macOS; NVENC, Quick Sync or AMF elsewhere), else with <code>libx264</code>; <code>--encoder</code> picks one. The scene&#39;s <a href="/docs/scene/#soundtrack">soundtrack</a> and the clips&#39; own sound come along, mixed, AAC in MP4 and Opus in WebM, unless <code>muted</code> is <code>true</code>.</p>
+<h2 id="server-configuration"><a class="anchor" href="#server-configuration">Server configuration</a></h2>
+<h3 id="command-line-flags"><a class="anchor" href="#command-line-flags">Command-line flags</a></h3>
+<p>Every setting is a flag; each takes its value after a space or as <code>--flag=value</code>.</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>--allow-read &lt;folder&gt;...</code></td>
+<td>none</td>
+<td>Lets <code>asset_add</code> and <code>scene_create</code> read local files inside these folders: every folder up to the next flag, and repeatable. Without it, <code>path</code> isn&#39;t offered to the agent at all</td>
+</tr>
+<tr>
+<td><code>--no-motion[=true|false]</code></td>
+<td>motion on</td>
+<td>Leaves motion out of the tools: <code>duration</code>, <code>fps</code>, <code>loop</code>, <code>time</code>, <code>muted</code>, video, shots and the motion fields. Fewer tokens per turn, for stills-only use</td>
+</tr>
+<tr>
+<td><code>--data &lt;folder&gt;</code></td>
+<td><code>~/.keyline-mcp</code></td>
+<td>The <a href="#data-directory">data directory</a></td>
+</tr>
+<tr>
+<td><code>--fonts &lt;folder&gt;</code></td>
+<td>none</td>
+<td>An extra folder of <code>.ttf</code> and <code>.otf</code> fonts (repeatable)</td>
+</tr>
+<tr>
+<td><code>--renderer gpu|cpu</code></td>
+<td><code>gpu</code></td>
+<td><code>gpu</code> renders on the GPU and falls back to the CPU; <code>cpu</code> always uses the CPU</td>
+</tr>
+<tr>
+<td><code>--ffmpeg &lt;path&gt;</code></td>
+<td><code>ffmpeg</code> on the PATH</td>
+<td>The ffmpeg program; ffprobe is looked for next to it, else on the PATH</td>
+</tr>
+<tr>
+<td><code>--encoder &lt;name&gt;</code></td>
+<td><code>auto</code></td>
+<td>H.264 encoder: <code>auto</code> (a GPU encoder that works, else <code>libx264</code>), <code>software</code>, or an ffmpeg encoder name</td>
+</tr>
+<tr>
+<td><code>-h</code>, <code>--help</code></td>
+<td></td>
+<td>Prints the flags</td>
+</tr>
+</tbody></table></div>
+<p>An MCP client passes them in <code>args</code>:</p>
+<pre><code class="language-json">{&quot;mcpServers&quot;: {&quot;keyline&quot;: {&quot;command&quot;: &quot;keyline-mcp&quot;, &quot;args&quot;: [&quot;--data&quot;, &quot;/srv/keyline&quot;, &quot;--allow-read&quot;, &quot;/srv/brand&quot;]}}}
+</code></pre>
+<h3 id="rendering-without-an-agent"><a class="anchor" href="#rendering-without-an-agent">Rendering without an agent</a></h3>
+<p><code>keyline-mcp render &lt;scene.json&gt;</code> loads a scene file the way <code>scene_create</code> loads a <a href="#templates-and-variants">template</a>, renders it like the <code>render</code> tool, and copies the files into a folder, for scripts and CI:</p>
+<pre><code class="language-sh">keyline-mcp render campaign.json --out renders/ --size wide --rows rows.json --format webp
+</code></pre>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Flag</th>
+<th>Default</th>
+<th>Does</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>--out &lt;folder&gt;</code></td>
+<td>the current folder</td>
+<td>Where the files go, named by size id (<code>&lt;size&gt;-v&lt;n&gt;.&lt;ext&gt;</code>): give each scene its own folder</td>
+</tr>
+<tr>
+<td><code>--size &lt;id&gt;</code></td>
+<td>every size</td>
+<td>A size to draw (repeatable)</td>
+</tr>
+<tr>
+<td><code>--rows &lt;rows.json&gt;</code></td>
+<td>none</td>
+<td>A JSON list of token values, <code>[{&quot;headline&quot;: &quot;Sale&quot;}, …]</code>: one render per row, as the tool&#39;s <code>rows</code></td>
+</tr>
+<tr>
+<td><code>--format &lt;format&gt;</code></td>
+<td><code>png</code></td>
+<td>As the tool&#39;s <code>format</code></td>
+</tr>
+<tr>
+<td><code>--time &lt;s&gt;</code></td>
+<td>none</td>
+<td>A still of that moment of an animated scene, as the tool&#39;s <code>time</code>; the file is named <code>&lt;size&gt;-v&lt;n&gt;.at&lt;s&gt;s.&lt;ext&gt;</code></td>
+</tr>
+<tr>
+<td><code>--quality &lt;1-100&gt;</code></td>
+<td>the format&#39;s</td>
+<td>As the tool&#39;s <code>quality</code></td>
+</tr>
+<tr>
+<td><code>--max-kb &lt;n&gt;</code></td>
+<td>none</td>
+<td>As the tool&#39;s <code>maxKB</code> (<code>--maxKB</code> works too)</td>
+</tr>
+<tr>
+<td><code>--preview</code></td>
+<td>off</td>
+<td>Also writes <code>&lt;scene&gt;-preview.png</code>, as the tool&#39;s <code>preview</code>: every size, or with an animated <code>--format</code>, key moments of each size</td>
+</tr>
+<tr>
+<td><code>--check</code></td>
+<td>off</td>
+<td>Prints the problem, fact and hint lines and exits 1 on a <code>!</code> defect, without drawing or encoding anything: a check costs a layout, not a render (a video&#39;s encode included)</td>
+</tr>
+</tbody></table></div>
+<p>The problem and fact lines cover only the sizes drawn (<code>--size</code>), and with <code>--rows</code>, each row&#39;s are tagged <code>r&lt;n&gt;</code>.</p>
+<p>In GitHub Actions, the repo is an action that installs a release and runs this on every scene a glob matches, failing the job on a <code>!</code> defect:</p>
+<pre><code class="language-yaml">- uses: keyline-dev/keyline@v0
+  with:
+    scenes: campaigns/*.json   # each scene&#39;s files go to renders/&lt;name&gt;/
+    args: --format webp        # any render flags
+</code></pre>
+<p>It may read files in the scene file&#39;s folder, and takes the server&#39;s flags too (<code>--allow-read</code>, <code>--data</code>, <code>--renderer</code>…). It prints the tool&#39;s reply, each problem line first, and exits 1 when any drawn size (of any row) has a <code>!</code> defect, so a broken design fails the job; <code>warn</code> advisories don&#39;t.</p>
+<h3 id="data-directory"><a class="anchor" href="#data-directory">Data directory</a></h3>
+<p>Scenes are saved as JSON under <code>&lt;data&gt;/scenes/</code>, assets under <code>&lt;data&gt;/assets/</code> by content hash, renders under <code>&lt;data&gt;/renders/&lt;sceneId&gt;/</code>, and downloaded fonts under <code>&lt;data&gt;/fonts/</code>.</p>
+<h3 id="fonts"><a class="anchor" href="#fonts">Fonts</a></h3>
+<p>Inter is bundled. A <code>fontFamily</code> that isn&#39;t installed is fetched from <a href="https://fonts.google.com">Google Fonts</a> once and cached in <code>&lt;data&gt;/fonts/</code> (tracked in <code>fonts/index.json</code>); the reply then starts with <code>fetched font &lt;family&gt; (&lt;n&gt; files)</code>. Fonts in <code>&lt;data&gt;/fonts/</code> and the <code>--fonts</code> folders are loaded too. Fonts are never taken from the machine&#39;s system fonts, so renders don&#39;t vary with what&#39;s installed.</p>
+<h3 id="ffmpeg"><a class="anchor" href="#ffmpeg">ffmpeg</a></h3>
+<p>Video clips, sounds, and MP4 and WebM output need <a href="https://ffmpeg.org">ffmpeg</a> (<code>brew install ffmpeg</code>, <code>apt install ffmpeg</code>), run as a separate program. It&#39;s looked up on every call that needs it (<code>--ffmpeg</code>, else the PATH), so it can be installed without a restart. Without it, those calls are refused with how to install it, <code>scene_create</code> says <code>video off</code> up front, and everything else works, APNG and GIF included.</p>
+<h2 id="security"><a class="anchor" href="#security">Security</a></h2>
+<ul>
+<li><strong>Local files</strong> are read only with <code>--allow-read</code>. A <code>path</code> is resolved through every symlink and <code>..</code> first, then must lie inside an allowed folder and be a regular file, so a link inside the folder can&#39;t lead outside it.</li>
+<li><strong>URLs</strong> are fetched only over http(s); private and local addresses are refused, and every redirect is checked again.</li>
+<li><strong>Templates</strong> follow the same rules for their images: a template from a URL reads images from the web only, never local files; one from a path reads only inside the allowed folders.</li>
+<li><strong>Base64</strong> is taken only for still images.</li>
+</ul>
+<h2 id="limits"><a class="anchor" href="#limits">Limits</a></h2>
+<div class="table"><table>
+<thead>
+<tr>
+<th>What</th>
+<th>Limit</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>An image, by any source</td>
+<td>50 MB</td>
+</tr>
+<tr>
+<td>A video clip or sound, by <code>path</code></td>
+<td>500 MB</td>
+</tr>
+<tr>
+<td>A template file</td>
+<td>50 MB</td>
+</tr>
+<tr>
+<td><code>preview</code></td>
+<td>384 px tall</td>
+</tr>
+</tbody></table></div>
+<p>Limits of the scene itself (grid tracks, component depth, frame rates) are in <a href="/docs/scene/#validation-and-limits">Scene format</a>.</p>
+<h2 id="errors"><a class="anchor" href="#errors">Errors</a></h2>
+<p>Errors come back as an MCP tool error (<code>isError: true</code>) with one line of text that names what failed and how to fix it. They leave the scene and its version unchanged; only a font fetched on the way stays cached. A batch error names the item that failed:</p>
+<pre><code class="language-text">/Users/me/secret.png is outside the folders the server may read (--allow-read)
+layers[0]: unknown field(s) fontsize for text layer; did you mean fontsize → fontSize
+ops[0]: no layer with id nope
+layers[0]: unknown token {{blue}}; tokens: brand, headline
+row 2: no token headlin; tokens: accent, headline
+layers[0]: token {{big}} doesn&#39;t suit fontSize: invalid type: string &quot;huge&quot;, expected f32
+give exactly one of url, path or base64
+</code></pre>
+
+      <p class="doc-source">This page is built from <a href="https://github.com/keyline-dev/keyline/blob/main/docs/tools.md">docs/tools.md</a>; also as <a href="/docs/tools/index.md">Markdown</a>.</p>
+    </article>
+    <nav class="doc-toc" aria-label="On this page"><p class="toc-title">On this page</p><a href="#conventions">Conventions</a><a href="#replies">Replies</a><a href="#scene_create">scene_create</a><a href="#asset_add">asset_add</a><a href="#layer_add">layer_add</a><a href="#layer_update">layer_update</a><a href="#scene_describe">scene_describe</a><a href="#render">render</a><a href="#templates-and-variants">Templates and variants</a><a href="#output-formats">Output formats</a><a href="#server-configuration">Server configuration</a><a href="#security">Security</a><a href="#limits">Limits</a><a href="#errors">Errors</a></nav>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap foot-row">
+      <span class="foot-brand"><picture><source srcset="/logo/lockup-nav-dark.svg" media="(prefers-color-scheme: dark)"><img src="/logo/lockup-nav-light.svg" alt="keyline" width="76" height="22"></picture><span>Every image on this page was rendered by keyline.</span></span>
+      <nav>
+        <a href="https://github.com/keyline-dev/keyline">GitHub</a>
+        <a href="/docs/">Docs</a>
+        <a href="/license/">PolyForm Shield license</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Benchmark: keyline vs a headless browser · keyline</title>
+  <meta name="description" content="The same model makes the same images with keyline and with headless Chrome: method, every run and the results.">
+  <link rel="canonical" href="https://keyline.dev/benchmark/">
+  <link rel="alternate" type="text/markdown" href="/benchmark/index.md">
+  <meta property="og:type" content="article">
+  <meta property="og:site_name" content="keyline">
+  <meta property="og:title" content="Benchmark: keyline vs a headless browser · keyline">
+  <meta property="og:description" content="The same model makes the same images with keyline and with headless Chrome: method, every run and the results.">
+  <meta property="og:image" content="https://keyline.dev/assets/og/og-v0.png">
+  <meta property="og:url" content="https://keyline.dev/benchmark/">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/style.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Benchmark: keyline vs a headless browser","description":"The same model makes the same images with keyline and with headless Chrome: method, every run and the results.","url":"https://keyline.dev/benchmark/","inLanguage":"en","isPartOf":{"@type":"WebSite","name":"keyline","url":"https://keyline.dev/"},"about":{"@type":"SoftwareApplication","name":"keyline","url":"https://keyline.dev/"}}</script>
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-row">
+      <a class="brand" href="/" aria-label="keyline home"><picture><source srcset="/logo/lockup-nav-dark.svg" media="(prefers-color-scheme: dark)"><img src="/logo/lockup-nav-light.svg" alt="keyline" width="90" height="26"></picture></a>
+      <nav>
+        <a href="/#gallery">Examples</a>
+        <a href="/#how">How it works</a>
+        <a href="/#install">Install</a>
+        <a href="/docs/">Docs</a>
+        <a href="https://github.com/keyline-dev/keyline" class="gh" aria-label="keyline on GitHub"><svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg></a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap doc">
+    <nav class="doc-side" aria-label="Docs"><a href="/docs/install/">Install</a><a href="/docs/">Concepts</a><a href="/docs/scene/">Scene format</a><a href="/docs/tools/">Tools and replies</a><a href="/benchmark/" aria-current="page">Benchmark</a></nav>
+    <article class="prose">
+<h1>Benchmark: keyline vs a headless browser</h1>
+<p>The same model, in Claude Code (headless, on a Claude subscription), makes the same images three ways, and every run is kept here: prompt, event log, final PNGs, the agent&#39;s own files, a summary and the blind judge&#39;s verdict.</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Arm</th>
+<th>Tools the agent has</th>
+<th>How it sees its work</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>keyline</code></td>
+<td>the keyline MCP server only</td>
+<td>keyline&#39;s measured replies (problems per size); renders on request</td>
+</tr>
+<tr>
+<td><code>browser-cli</code></td>
+<td>Bash, Write, Edit, Read; Playwright&#39;s screenshot CLI on PATH</td>
+<td>opens its PNGs with Read</td>
+</tr>
+<tr>
+<td><code>browser-mcp</code></td>
+<td>Playwright MCP (<code>--headless --isolated --browser chromium</code>), Write, Edit, Read; the folder served over HTTP</td>
+<td>Playwright MCP&#39;s screenshots and snapshots, or Read</td>
+</tr>
+</tbody></table></div>
+<h2 id="method"><a class="anchor" href="#method">Method</a></h2>
+<ul>
+<li><strong>One prompt for every arm</strong> (version <code>vs1</code>, in <code>tests/versus_browser/prompts.rs</code>): the same system prompt (&quot;You make images. Work autonomously; don&#39;t ask questions.&quot;), the same task text without keyline vocabulary, and one tools paragraph that differs per arm. Each run&#39;s <code>prompt.md</code> has the exact text.</li>
+<li><strong>The same bytes everywhere:</strong> the photo, icons, logo and portrait come from the test code; the browser arms also get <code>Inter.ttf</code> (the font keyline bundles), so Chrome doesn&#39;t fall back to Times. The keyline arm&#39;s scene gets the sizes and assets before the agent starts, since uploading isn&#39;t what&#39;s tested.</li>
+<li><strong>Two tasks, reported separately:</strong> <code>reference-ad</code> (the vote-by-mail flyer from <code>tests/llm_e2e.rs</code>, at 1080×1350, 1200×1000 at 0.85× and 300×600 at 0.28×) and <code>speaker-card</code> (a conference speaker card at 1080×1080, 1920×1080 and 1080×1920, written and committed before any run).</li>
+<li><strong>Same limits:</strong> <code>--max-turns 60</code>, <code>--max-budget-usd 8</code>, a 30-minute timeout, <code>--setting-sources &quot;&quot;</code>, <code>--no-session-persistence</code>, <code>--strict-mcp-config</code>, one pinned model and Claude Code build, one machine.</li>
+<li><strong>Every run counts.</strong> A run that stops early, hits a cap or makes wrong files counts as incorrect, and its tokens count. Only infrastructure failures (a Chrome crash, an API error, a harness bug) are rerun, and they&#39;re listed below.</li>
+<li><strong>Interleaved:</strong> each block is one run of every arm on every task, in rotating order, so drift over the day hits every arm alike.</li>
+</ul>
+<h3 id="what39s-measured"><a class="anchor" href="#what39s-measured">What&#39;s measured</a></h3>
+<p>From Claude Code&#39;s <code>result</code> event (<code>modelUsage</code>, so Haiku side calls count too):</p>
+<ul>
+<li><strong>Total tokens:</strong> input + cache writes + cache reads + output, over every model. Caching doesn&#39;t change it. Thinking is part of output and is shown on its own, not added twice.</li>
+<li><strong>Cost:</strong> Claude Code&#39;s API-equivalent <code>total_cost_usd</code>, and a <em>cold</em> cost re-priced as if nothing had been cached (list-price ratios: cache read 0.1×, cache write 1.25× or 2×, output 5× the input price). Neither is what a subscription costs.</li>
+<li><strong>Turns, tool calls by name, wall-clock</strong> (<code>duration_ms</code>, setup excluded), <strong>images the model saw</strong> (image blocks in tool results, Read included), <strong>fixed overhead</strong> (the first request&#39;s input: system prompt plus tool definitions), <strong>peak context</strong> (the largest single request), and for the browser arms whether they measured with JavaScript (Playwright MCP&#39;s evaluate or run-code tools, or Node run from Bash).</li>
+</ul>
+<h3 id="correctness-the-same-for-every-arm-from-the-final-pngs-only"><a class="anchor" href="#correctness-the-same-for-every-arm-from-the-final-pngs-only">Correctness, the same for every arm, from the final PNGs only</a></h3>
+<ol>
+<li><strong>Files:</strong> all three PNGs at exactly the right pixel size, or the run fails. The keyline arm&#39;s PNGs are rendered by the harness from the scene the agent left; the browser arms&#39; are the files the agent saved.</li>
+<li><strong>Blind judge:</strong> a separate <code>claude -p</code> call (Read only, prompt in <code>judge-prompt.md</code>, model <code>claude-opus-5</code>) sees each run&#39;s PNGs under random names and fills in a checklist per size: each content item present and readable, items cut off or overflowing, items overlapping, smallest text legible, and the task&#39;s own checks (photo distorted, bands full width, columns even; or the portrait a true circle). It never learns the arm, and its tokens aren&#39;t counted. <strong>A run is correct</strong> when, at every size, every item is present and none is cut off or overflowing.</li>
+<li><strong>Owner&#39;s blind review:</strong> <code>export_review</code> writes anonymised PNG sets to <code>review/&lt;task&gt;/</code> and a <code>review.tsv</code> to fill in (pass 1 or 0, look 1–5); <code>judge_runs</code> then prints how often owner and judge agree.</li>
+<li><strong>Likeness</strong> (reference ad only, secondary, never claimed): 0–255, lower is closer, against two references, the reference ad built in keyline (<code>build_reference_ad</code>) and the same by hand in HTML (<code>reference-ad/reference.html</code>) rendered by Chrome, since either alone favours its own renderer. It catches blank or garbage output.</li>
+</ol>
+<h2 id="reproduce"><a class="anchor" href="#reproduce">Reproduce</a></h2>
+<p>Pinned tooling (Playwright 1.63.0 and <code>@playwright/mcp</code> 0.0.83, bench-only, never a keyline dependency):</p>
+<pre><code class="language-sh">cd bench/versus-browser/tooling
+npm ci
+npx playwright install chromium-headless-shell
+node node_modules/@playwright/mcp/node_modules/playwright/cli.js install chromium chromium-headless-shell
+</code></pre>
+<p>One run (labels are never reused; a run&#39;s folder is <code>&lt;task&gt;/&lt;arm&gt;-&lt;label&gt;/</code>):</p>
+<pre><code class="language-sh">CLAUDE_BIN=&lt;claude&gt; KEYLINE_MCP_TEST_MODEL=&lt;model&gt; \
+KEYLINE_BENCH_ARM=keyline|browser-cli|browser-mcp KEYLINE_BENCH_TASK=reference-ad|speaker-card \
+KEYLINE_MCP_BENCH=&lt;label&gt; \
+  cargo test --release --test versus_browser claude_makes_the_images -- --ignored --nocapture
+</code></pre>
+<p>Then judge the unjudged runs, rewrite <code>results.tsv</code> and print the medians:</p>
+<pre><code class="language-sh">cargo test --release --test versus_browser judge_runs -- --ignored --nocapture
+</code></pre>
+<h2 id="prompt-version-vs2"><a class="anchor" href="#prompt-version-vs2">Prompt version vs2</a></h2>
+<p>The same protocol (prompts, tasks, judge, tooling unchanged; only the version label) rerun on keyline <code>43d4acd</code>. The <code>commit</code> column says <code>f386138</code>, the commit that bumped the label; its <code>src/</code> is identical to <code>43d4acd</code>.</p>
+<p><strong>In progress:</strong> blocks 1–4 ran (24 runs, all judged); the runner stopped before block 5 because another change landed in the working tree&#39;s <code>src/</code> and rebuilt the binary. All 24 runs used the binary built from <code>43d4acd</code> at 14:06 (the next release build was at 15:27, after block 4); <code>reference-ad/*-v2-4</code> say <code>+dirty</code> only because <code>src/</code> changed while they were being saved. No results table or claim until all five blocks have run.</p>
+<h2 id="prompt-version-vs1-stopped-superseded-by-vs2"><a class="anchor" href="#prompt-version-vs1-stopped-superseded-by-vs2">Prompt version vs1 (stopped, superseded by vs2)</a></h2>
+<p><strong>vs1 stopped after 29 runs so keyline changes could land; a full rerun follows as vs2.</strong> Blocks 1–4 ran in full, and block 5 got five of its six runs (<code>speaker-card/keyline-5</code> never ran). Every run that ran is kept here and in <code>results.tsv</code>, and judged. vs1 numbers are not compared with vs2&#39;s.</p>
+<ul>
+<li><strong>Commit:</strong> keyline at <code>d098e31</code>; blocks 3–5 ran after <code>46fda5b</code>, which changed one unit-test assertion only (the shipped binary is identical). The <code>commit</code> column says which.</li>
+<li><strong>Model and client:</strong> <code>claude-opus-5[1m]</code> in Claude Code 2.1.251, pinned with <code>KEYLINE_MCP_TEST_MODEL</code>, the same build as the <code>bench/reference-ad/</code> runs. The judge used <code>claude-opus-5</code>.</li>
+<li><strong>Browsers:</strong> the CLI arm&#39;s Playwright 1.63.0 uses Chrome Headless Shell 153; <code>@playwright/mcp</code> 0.0.83 brings its own Playwright (1.64 alpha) and Chromium 155.</li>
+<li><strong>Machine:</strong> one Apple-silicon Mac, macOS 27, runs one at a time, on 2026-09-30.</li>
+<li><strong>Pilot:</strong> one run per arm and task (<code>*-pilot1</code>) before the counted runs, not counted. After it, only the harness changed: event logs drop base64 image bytes, since the PNGs are kept beside them.</li>
+<li><strong>Infrastructure reruns:</strong> none.</li>
+</ul>
+
+      <p class="doc-source">This page is built from <a href="https://github.com/keyline-dev/keyline/blob/main/bench/versus-browser/README.md">bench/versus-browser/README.md</a>; also as <a href="/benchmark/index.md">Markdown</a>.</p>
+    </article>
+    <nav class="doc-toc" aria-label="On this page"><p class="toc-title">On this page</p><a href="#method">Method</a><a href="#reproduce">Reproduce</a><a href="#prompt-version-vs2">Prompt version vs2</a><a href="#prompt-version-vs1-stopped-superseded-by-vs2">Prompt version vs1 (stopped, superseded by vs2)</a></nav>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap foot-row">
+      <span class="foot-brand"><picture><source srcset="/logo/lockup-nav-dark.svg" media="(prefers-color-scheme: dark)"><img src="/logo/lockup-nav-light.svg" alt="keyline" width="76" height="22"></picture><span>Every image on this page was rendered by keyline.</span></span>
+      <nav>
+        <a href="https://github.com/keyline-dev/keyline">GitHub</a>
+        <a href="/docs/">Docs</a>
+        <a href="/license/">PolyForm Shield license</a>
+      </nav>
+    </div>
+  </footer>
+</body>
+</html>
