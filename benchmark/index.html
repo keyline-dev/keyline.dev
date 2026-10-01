@@ -105,7 +105,178 @@ KEYLINE_MCP_BENCH=&lt;label&gt; \
 </code></pre>
 <h2 id="prompt-version-vs2"><a class="anchor" href="#prompt-version-vs2">Prompt version vs2</a></h2>
 <p>The same protocol (prompts, tasks, judge, tooling unchanged; only the version label) rerun on keyline <code>43d4acd</code>. The <code>commit</code> column says <code>f386138</code>, the commit that bumped the label; its <code>src/</code> is identical to <code>43d4acd</code>.</p>
-<p><strong>In progress:</strong> blocks 1–4 ran (24 runs, all judged); the runner stopped before block 5 because another change landed in the working tree&#39;s <code>src/</code> and rebuilt the binary. All 24 runs used the binary built from <code>43d4acd</code> at 14:06 (the next release build was at 15:27, after block 4); <code>reference-ad/*-v2-4</code> say <code>+dirty</code> only because <code>src/</code> changed while they were being saved. No results table or claim until all five blocks have run.</p>
+<p>30 counted runs, 5 per arm and task in five interleaved blocks, on 2026-10-01. Blocks 1–4 ran 14:07–15:28; the runner then stopped because uncommitted changes appeared in the working tree&#39;s <code>src/</code>, and block 5 ran 15:54–16:14 once <code>src/</code> was identical to <code>43d4acd</code> again and the binary was rebuilt from it. Blocks 1–4 used the 14:06 build from <code>43d4acd</code>, block 5 a 15:54 rebuild of the same source (the commit column says <code>5447e97</code>, a commit that only added runs). <code>reference-ad/*-v2-4</code> say <code>+dirty</code> only because <code>src/</code> changed while they were being saved. Every run ended normally; there were no timeouts and no infrastructure reruns.</p>
+<h3 id="results"><a class="anchor" href="#results">Results</a></h3>
+<p>Medians (min–max) over all 30 runs. Ratios are browser ÷ keyline: the ratio of the medians, then the range between the extremes.</p>
+<h4 id="reference-ad"><a class="anchor" href="#reference-ad">reference-ad</a></h4>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Arm</th>
+<th>Correct</th>
+<th>Total tokens</th>
+<th>Cost</th>
+<th>Cold cost</th>
+<th>Turns</th>
+<th>Time (s)</th>
+<th>Images seen</th>
+<th>Fixed overhead</th>
+<th>Peak context</th>
+<th>Measured with JS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>keyline</td>
+<td>4/5</td>
+<td>169k (115k–185k)</td>
+<td>$0.47 ($0.37–0.71)</td>
+<td>$1.01</td>
+<td>10 (9–12)</td>
+<td>128 (102–288)</td>
+<td>1 (1–4)</td>
+<td>5.2k</td>
+<td>19k</td>
+<td>–</td>
+</tr>
+<tr>
+<td>browser-cli</td>
+<td>5/5</td>
+<td>308k (172k–634k)</td>
+<td>$0.83 ($0.57–1.23)</td>
+<td>$1.83</td>
+<td>19 (14–32)</td>
+<td>225 (158–317)</td>
+<td>8 (6–8)</td>
+<td>3.6k</td>
+<td>34k</td>
+<td>5/5</td>
+</tr>
+<tr>
+<td>browser-mcp</td>
+<td>5/5</td>
+<td>1,056k (618k–1,485k)</td>
+<td>$1.17 ($0.80–1.56)</td>
+<td>$5.55</td>
+<td>43 (29–53)</td>
+<td>225 (175–274)</td>
+<td>6 (4–8)</td>
+<td>9.3k</td>
+<td>38k</td>
+<td>5/5</td>
+</tr>
+</tbody></table></div>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Browser ÷ keyline</th>
+<th>Total tokens</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>browser-cli</td>
+<td>1.8× (0.9–5.5×)</td>
+<td>1.8× (0.8–3.3×)</td>
+</tr>
+<tr>
+<td>browser-mcp</td>
+<td>6.3× (3.3–12.9×)</td>
+<td>2.5× (1.1–4.2×)</td>
+</tr>
+</tbody></table></div>
+<h4 id="speaker-card"><a class="anchor" href="#speaker-card">speaker-card</a></h4>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Arm</th>
+<th>Correct</th>
+<th>Total tokens</th>
+<th>Cost</th>
+<th>Cold cost</th>
+<th>Turns</th>
+<th>Time (s)</th>
+<th>Images seen</th>
+<th>Fixed overhead</th>
+<th>Peak context</th>
+<th>Measured with JS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>keyline</td>
+<td>5/5</td>
+<td>199k (93k–290k)</td>
+<td>$0.51 ($0.31–0.69)</td>
+<td>$1.18</td>
+<td>13 (8–16)</td>
+<td>121 (92–187)</td>
+<td>4 (2–6)</td>
+<td>5.2k</td>
+<td>21k</td>
+<td>–</td>
+</tr>
+<tr>
+<td>browser-cli</td>
+<td>5/5</td>
+<td>536k (237k–574k)</td>
+<td>$1.03 ($0.61–1.19)</td>
+<td>$3.02</td>
+<td>24 (17–28)</td>
+<td>222 (141–311)</td>
+<td>7 (5–8)</td>
+<td>3.6k</td>
+<td>39k</td>
+<td>5/5</td>
+</tr>
+<tr>
+<td>browser-mcp</td>
+<td>5/5</td>
+<td>1,087k (571k–1,824k)</td>
+<td>$1.25 ($1.14–1.82)</td>
+<td>$5.69</td>
+<td>39 (26–56)</td>
+<td>255 (176–270)</td>
+<td>8 (7–11)</td>
+<td>9.3k</td>
+<td>47k</td>
+<td>5/5</td>
+</tr>
+</tbody></table></div>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Browser ÷ keyline</th>
+<th>Total tokens</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>browser-cli</td>
+<td>2.7× (0.8–6.1×)</td>
+<td>2.0× (0.9–3.8×)</td>
+</tr>
+<tr>
+<td>browser-mcp</td>
+<td>5.5× (2.0–19.5×)</td>
+<td>2.4× (1.7–5.8×)</td>
+</tr>
+</tbody></table></div>
+<p>Every run is in <code>results.tsv</code>, likeness scores included, and the medians over correct runs only are printed by <code>judge_runs</code>. On reference-ad they are 170k tokens for keyline&#39;s 4 correct runs against 308k for browser-cli.</p>
+<h3 id="reading-it"><a class="anchor" href="#reading-it">Reading it</a></h3>
+<ul>
+<li><strong>The stronger browser arm is browser-cli,</strong> with the lower median total tokens on both tasks, so it&#39;s the comparison. browser-mcp&#39;s tool definitions add 9.3k tokens to every request, and it took about twice as many turns.</li>
+<li><strong>reference-ad:</strong> keyline used fewer tokens (1.8×) but was correct less often (4/5 against 5/5). The run that failed, <code>keyline-v2-1</code>, left the wide size&#39;s photo band cropped to 53% of its height, and the judge marked the photo cut off. <code>keyline-v2-5</code> has the same 53% crop and keyline&#39;s <code>warn crop</code> too, and the judge passed it. The agent acted on neither warning.</li>
+<li><strong>speaker-card:</strong> keyline used 2.7× fewer tokens, and all three arms were correct 5/5.</li>
+<li><strong>The ranges overlap:</strong> browser-cli&#39;s cheapest run on each task used fewer tokens than keyline&#39;s most expensive one.</li>
+<li><strong>Elsewhere:</strong> keyline was faster on median time on both tasks (128 s against 225 s, and 121 s against 222 s) and looked at fewer images. Every browser run measured its page with JavaScript.</li>
+</ul>
+<h3 id="what-the-rules-allow"><a class="anchor" href="#what-the-rules-allow">What the rules allow</a></h3>
+<p>reference-ad allows no token claim, because the browser arm was correct more often. speaker-card allows one by name, rounded down to one significant figure:</p>
+<blockquote>
+<p>On a speaker-card task, keyline used 2× fewer tokens than a headless-browser agent (median of 5 runs, Claude Opus 5, October 2026).</p>
+</blockquote>
+<p>There is no general &quot;X× fewer tokens&quot; claim, since that would need keyline to win on both tasks with correctness at least as high.</p>
+<h3 id="owner39s-blind-review"><a class="anchor" href="#owner39s-blind-review">Owner&#39;s blind review</a></h3>
+<p><code>export_review</code> wrote 15 anonymised sets per task to <code>review/&lt;task&gt;/</code> (the PNGs are gitignored copies). Fill in <code>review.tsv</code>, without opening <code>key.tsv</code>, then run <code>judge_runs</code>, which prints how often owner and judge agree.</p>
 <h2 id="prompt-version-vs1-stopped-superseded-by-vs2"><a class="anchor" href="#prompt-version-vs1-stopped-superseded-by-vs2">Prompt version vs1 (stopped, superseded by vs2)</a></h2>
 <p><strong>vs1 stopped after 29 runs so keyline changes could land; a full rerun follows as vs2.</strong> Blocks 1–4 ran in full, and block 5 got five of its six runs (<code>speaker-card/keyline-5</code> never ran). Every run that ran is kept here and in <code>results.tsv</code>, and judged. vs1 numbers are not compared with vs2&#39;s.</p>
 <ul>
