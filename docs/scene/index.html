@@ -937,7 +937,7 @@
 <td><code>flexDirection</code></td>
 <td><code>row</code>, <code>column</code>, <code>row-reverse</code>, <code>column-reverse</code>, or a list</td>
 <td>required</td>
-<td>Direction; a list is tried in order: <code>[&quot;row&quot;, &quot;column&quot;]</code> is a row where it fits, else a column</td>
+<td>Direction; a list is tried in order: <code>[&quot;row&quot;, &quot;column&quot;]</code> is a row where it fits, else a column. A reversed stack starts at its far edge, as in CSS: the plain one mirrored</td>
 </tr>
 <tr>
 <td><code>gap</code></td>
@@ -955,7 +955,7 @@
 <td><code>alignItems</code></td>
 <td><code>stretch</code>, <code>flex-start</code>, <code>center</code>, <code>flex-end</code>, <code>baseline</code></td>
 <td><code>stretch</code></td>
-<td>Across the direction; <code>stretch</code> fills the cross axis unless a child has a size there (with <code>flexWrap</code>, each line&#39;s height, as in CSS)</td>
+<td>Across the direction; <code>stretch</code> fills the cross axis unless a child has a size there (with <code>flexWrap</code>, each line&#39;s height, as in CSS); an <code>aspectRatio</code> with one side set isn&#39;t a size there, so give <code>alignSelf</code> too</td>
 </tr>
 <tr>
 <td><code>justifyContent</code></td>
@@ -971,7 +971,7 @@
 </tr>
 </tbody></table></div>
 <p><code>padding</code>, <code>gap</code>, <code>justifyContent</code>, <code>alignItems</code> and <code>flexWrap</code> on a frame without <code>flexDirection</code> or a grid template are an error that says so.</p>
-<p>As in CSS, text and frames in a column never shrink below their content&#39;s height; a stack whose children don&#39;t fit even then is reported as <code>!overflow needs W×H</code>, the size it needs.</p>
+<p>As in CSS, text and frames in a column never shrink below their content&#39;s height, and text without a width wraps at a column&#39;s width rather than run past it; a stack whose children don&#39;t fit even then is reported as <code>!overflow needs W×H</code>, the size it needs.</p>
 <h3 id="stack-children"><a class="anchor" href="#stack-children">Stack children</a></h3>
 <div class="table"><table>
 <thead>
@@ -992,7 +992,7 @@
 <td><code>flexGrow</code></td>
 <td>number ≥ 0</td>
 <td>1 for <code>fill</code>, else none</td>
-<td>Its share of the free space when it <code>fill</code>s; above 0, it makes a child fill from its size along the stack, as CSS&#39;s flex-basis (from nothing when it has none: <code>width: 0, flexGrow: 1</code> shares a row evenly)</td>
+<td>Its share of the free space when it <code>fill</code>s; above 0, it makes a child fill from its size along the stack, as CSS&#39;s flex-basis (from nothing when it has none: <code>width: 0, flexGrow: 1</code> shares a row evenly). A text never gets narrower than its longest word; the others share what&#39;s left</td>
 </tr>
 <tr>
 <td><code>layoutPriority</code></td>
@@ -1024,7 +1024,7 @@
 <td><code>gridTemplateColumns</code></td>
 <td>CSS tracks</td>
 <td>one <code>1fr</code> per area column, else one</td>
-<td><code>200px</code>, <code>1fr</code>, <code>auto</code>, <code>25%</code>, <code>repeat(3, 1fr)</code>; <code>repeat(auto-fill, minmax(160px, 1fr))</code> is as many equal columns as fit at 160 px or more</td>
+<td><code>200px</code>, <code>1fr</code>, <code>auto</code>, <code>25%</code>, <code>repeat(3, 1fr)</code>; <code>repeat(auto-fill, minmax(160px, 1fr))</code> is as many equal columns as fit at 160 px or more. <code>fr</code> tracks share all the space left, even when they add up to less than 1, and never get narrower than a px width or a text&#39;s longest word in them (rows: shorter than a px height); a grid that hugs keeps their ratio around its content</td>
 </tr>
 <tr>
 <td><code>gridTemplateRows</code></td>
@@ -1051,7 +1051,7 @@
 <td></td>
 </tr>
 </tbody></table></div>
-<p>A size can rearrange the whole grid by changing only its templates in <code>media</code>.</p>
+<p>A size can rearrange the whole grid by changing only its templates in <code>media</code>. A grid whose tracks don&#39;t fit it is reported as <code>!overflow needs W×H</code>, as a stack is.</p>
 <h3 id="grid-children"><a class="anchor" href="#grid-children">Grid children</a></h3>
 <div class="table"><table>
 <thead>
@@ -1071,7 +1071,7 @@
 <tr>
 <td><code>gridRow</code>, <code>gridColumn</code></td>
 <td><code>2</code>, <code>&quot;1 / span 2&quot;</code>, <code>&quot;1 / 3&quot;</code> or <code>&quot;span 2&quot;</code>, from 1</td>
-<td>the next free cell, row by row, one track</td>
+<td>the next free cell, row by row, one track; a later child fills an earlier gap (CSS&#39;s <code>dense</code>)</td>
 <td>Where it starts and how far it spans; given one, it takes the first free cell in that row or column. An item spanning <code>auto</code> tracks grows them evenly to fit it, as in CSS</td>
 </tr>
 </tbody></table></div>
@@ -1239,7 +1239,7 @@
 <ul>
 <li><strong>Width and height:</strong> the font shrinks until the text fits, down to <code>minimumScaleFactor</code>, then ends with an ellipsis.</li>
 <li><strong>Width only:</strong> the text wraps and the box grows down. In a column, <code>alignItems: stretch</code> gives text the column&#39;s width, so it wraps.</li>
-<li><strong>Neither:</strong> one line, as wide as the text.</li>
+<li><strong>Neither:</strong> one line, as wide as the text; in a column narrower than that, it wraps at the column&#39;s width.</li>
 </ul>
 <p>Text that is cut is reported as <code>!truncated needs W×H</code>, with the box it needs; nothing changes silently.</p>
 <h3 id="inline-markup"><a class="anchor" href="#inline-markup">Inline markup</a></h3>
