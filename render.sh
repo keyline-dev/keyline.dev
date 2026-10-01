@@ -30,7 +30,7 @@ r scenes/festival-thumb.json --out assets/festival --format webp
 r scenes/campaign.json --out assets/campaign --format webp --rows scenes/campaign-rows.json
 r scenes/cadence.json --out assets/cadence --format webp --size x-post --size linkedin --size square
 r scenes/cadence.json --out assets/cadence --format mp4 --size web
-r scenes/menu.json --out assets/menu --size a4 --format pdf
+r scenes/menu.json --out assets/menu --size a4 --format pdf --max-kb 300
 r scenes/menu.json --out assets/menu --size instagram-portrait --size a4 --format webp
 r scenes/menu.json --out assets/menu --size story-loop --format mp4
 
