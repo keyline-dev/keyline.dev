@@ -3,34 +3,41 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Install · keyline</title>
+  <title>Install the keyline MCP server: Claude Code, Cursor, VS Code, Codex</title>
   <meta name="description" content="Install keyline for Claude Code, Claude Desktop, Codex, Cursor, VS Code and any MCP client, or run it in CI.">
   <link rel="canonical" href="https://keyline.dev/docs/install/">
   <link rel="alternate" type="text/markdown" href="index.md">
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="keyline">
-  <meta property="og:title" content="Install · keyline">
+  <meta property="og:title" content="Install the keyline MCP server: Claude Code, Cursor, VS Code, Codex">
   <meta property="og:description" content="Install keyline for Claude Code, Claude Desktop, Codex, Cursor, VS Code and any MCP client, or run it in CI.">
   <meta property="og:image" content="https://keyline.dev/assets/og/og-v0.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="keyline: design engine for AI agents">
   <meta property="og:url" content="https://keyline.dev/docs/install/">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Install the keyline MCP server: Claude Code, Cursor, VS Code, Codex">
+  <meta name="twitter:description" content="Install keyline for Claude Code, Claude Desktop, Codex, Cursor, VS Code and any MCP client, or run it in CI.">
+  <meta name="twitter:image" content="https://keyline.dev/assets/og/og-v0.png">
   <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../favicon-48.png" sizes="48x48" type="image/png">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../style.css">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Install","description":"Install keyline for Claude Code, Claude Desktop, Codex, Cursor, VS Code and any MCP client, or run it in CI.","url":"https://keyline.dev/docs/install/","inLanguage":"en","isPartOf":{"@type":"WebSite","name":"keyline","url":"https://keyline.dev/"},"about":{"@type":"SoftwareApplication","name":"keyline","url":"https://keyline.dev/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Install","description":"Install keyline for Claude Code, Claude Desktop, Codex, Cursor, VS Code and any MCP client, or run it in CI.","url":"https://keyline.dev/docs/install/","inLanguage":"en","isPartOf":{"@id":"https://keyline.dev/#site"},"about":{"@id":"https://keyline.dev/#app"},"publisher":{"@id":"https://keyline.dev/#org"}}</script>
 </head>
 <body>
   <header class="nav">
     <div class="wrap nav-row">
       <a class="brand" href="../../index.html" aria-label="keyline home"><picture><source srcset="../../logo/lockup-nav-dark.svg" media="(prefers-color-scheme: dark)"><img src="../../logo/lockup-nav-light.svg" alt="keyline" width="90" height="26"></picture></a>
       <nav>
-        <a href="../../index.html#gallery">Examples</a>
         <a href="../../index.html#how">How it works</a>
-        <a href="../../index.html#install">Install</a>
+        <a href="../../index.html#gallery">Examples</a>
         <a href="../../docs/index.html">Docs</a>
-        <a href="https://github.com/keyline-dev/keyline" class="gh" aria-label="keyline on GitHub"><svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg></a>
+        <a href="https://github.com/keyline-dev/keyline" class="gh" aria-label="keyline on GitHub"><svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg><span id="stars"></span></a>
       </nav>
     </div>
   </header>
@@ -39,14 +46,15 @@
     <nav class="doc-side" aria-label="Docs"><a href="../../docs/install/index.html" aria-current="page">Install</a><a href="../../docs/index.html">Concepts</a><a href="../../docs/scene/index.html">Scene format</a><a href="../../docs/tools/index.html">Tools and replies</a><a href="../../benchmark/index.html">Benchmark</a></nav>
     <article class="prose">
 <h1>Install</h1>
-<h3 id="claude-code-and-claude-desktop"><a class="anchor" href="#claude-code-and-claude-desktop">Claude Code and Claude Desktop</a></h3>
+<p>keyline is a free, source-available MCP server that lets AI agents (Claude Code, Cursor, Codex, VS Code) design social posts, display ads, banners, flyers and video at every size from one JSON scene. It measures text fit and overflow before rendering, and renders with Skia instead of a headless browser.</p>
+<h2 id="claude-code-and-claude-desktop"><a class="anchor" href="#claude-code-and-claude-desktop">Claude Code and Claude Desktop</a></h2>
 <p>Nothing else to install.</p>
 <p><strong>Claude Code:</strong> install the plugin. It uses <code>keyline-mcp</code> from your PATH if it&#39;s there, and otherwise downloads the matching release once and checks it against the release&#39;s <code>SHA256SUMS</code>.</p>
 <pre><code class="language-text">/plugin marketplace add keyline-dev/keyline
 /plugin install keyline@keyline
 </code></pre>
 <p><strong>Claude Desktop</strong> (Mac with Apple silicon, or Windows): download <code>keyline-mcp-&lt;version&gt;.mcpb</code> from the <a href="https://github.com/keyline-dev/keyline/releases/latest">latest release</a> and double-click it. Its settings pick the folders keyline may read and whether to leave motion out.</p>
-<h3 id="other-clients-install-then-add"><a class="anchor" href="#other-clients-install-then-add">Other clients: install, then add</a></h3>
+<h2 id="other-clients-install-then-add"><a class="anchor" href="#other-clients-install-then-add">Other clients: install, then add</a></h2>
 <p><strong>macOS</strong> (Apple silicon):</p>
 <pre><code class="language-sh">brew install keyline-dev/tap/keyline-mcp
 </code></pre>
@@ -104,7 +112,7 @@ command = &quot;keyline-mcp&quot;
 <p>The ChatGPT app itself connects only to remote MCP servers over HTTP, so it can&#39;t start keyline, which runs on your machine; use Codex.</p>
 </details><details>
 <summary><b>Any other client</b></summary><p>Any MCP client that starts stdio servers works: the command is <code>keyline-mcp</code>. It runs where the client runs; to render on another machine, make the command <code>ssh that-machine keyline-mcp</code>.</p>
-</details><h3 id="then"><a class="anchor" href="#then">Then</a></h3>
+</details><h2 id="then"><a class="anchor" href="#then">Then</a></h2>
 <p>Ask your agent for a design: <em>&quot;Make a vote-by-mail flyer with this photo, in 1080×1350, 1200×1000 and a 300×600 skyscraper.&quot;</em></p>
 <p><strong>Local files:</strong> to let the agent add images and templates by path (their bytes never pass through the model, far cheaper than base64), allow their folders: <code>--allow-read ~/brand ~/projects/ads</code>. With <code>claude mcp add</code>, flags go after the command (<code>claude mcp add keyline -- keyline-mcp --allow-read ~/brand</code>); in a JSON config, in <code>args</code>. Paths are resolved through every symlink before the check. In Docker, mount the folder and allow the mount: <code>-v ~/brand:/brand … --allow-read /brand</code>.</p>
 <p><strong>Video</strong> needs <a href="https://ffmpeg.org">ffmpeg</a> (<code>brew install ffmpeg</code>, <code>apt install ffmpeg</code>), looked up when a call needs it. It&#39;s optional: without it, everything else works, animated PNG and GIF included.</p>
@@ -114,7 +122,7 @@ command = &quot;keyline-mcp&quot;
 
       <p class="doc-source">This page is built from <a href="https://github.com/keyline-dev/keyline/blob/main/README.md">README.md</a>; also as <a href="index.md">Markdown</a>.</p>
     </article>
-    <nav class="doc-toc" aria-label="On this page"></nav>
+    <nav class="doc-toc" aria-label="On this page"><p class="toc-title">On this page</p><a href="#claude-code-and-claude-desktop">Claude Code and Claude Desktop</a><a href="#other-clients-install-then-add">Other clients: install, then add</a><a href="#then">Then</a></nav>
   </main>
 
   <footer class="footer">
@@ -122,6 +130,7 @@ command = &quot;keyline-mcp&quot;
       <span class="foot-brand"><picture><source srcset="../../logo/lockup-nav-dark.svg" media="(prefers-color-scheme: dark)"><img src="../../logo/lockup-nav-light.svg" alt="keyline" width="76" height="22"></picture><span>Every image on this page was rendered by keyline.</span></span>
       <nav>
         <a href="https://github.com/keyline-dev/keyline">GitHub</a>
+        <a href="https://github.com/keyline-dev/keyline/releases">Releases</a>
         <a href="../../docs/index.html">Docs</a>
         <a href="../../license/index.html">PolyForm Shield license</a>
       </nav>

@@ -1,6 +1,6 @@
 # Concepts
 
-keyline is a design engine driven by an AI agent. The agent writes a design as a small JSON scene through six MCP tools; keyline lays it out at every size you need, checks it, and renders it. This page explains the ideas. The fields are in the [scene format reference](scene.md), and the calls and replies in the [tools reference](tools.md).
+keyline is a design engine driven by an AI agent. The agent writes a design as a small JSON scene through six MCP tools; keyline lays it out at every size you need, checks it, and renders it. This page explains the ideas. The fields are in the [scene format reference](https://keyline.dev/docs/scene/index.md), and the calls and replies in the [tools reference](https://keyline.dev/docs/tools/index.md).
 
 ## What a scene is
 
@@ -14,7 +14,7 @@ Each size may carry a **scale**, like a design tool's Scale tool: everything, fo
 
 ### Aspect classes
 
-Sizes fall into aspect classes: **landscape**, **square** or **portrait**, and within those **wide** or **tall** for the extremes. Any layer can change its fields for one class (`media`), so one `tall` entry covers every skyscraper the design is ever rendered at, including sizes added later. A change for one size id is the most specific and applies last. The thresholds are in [scene.md](scene.md#aspect-classes).
+Sizes fall into aspect classes: **landscape**, **square** or **portrait**, and within those **wide** or **tall** for the extremes. Any layer can change its fields for one class (`media`), so one `tall` entry covers every skyscraper the design is ever rendered at, including sizes added later. A change for one size id is the most specific and applies last. The thresholds are in [scene.md](https://keyline.dev/docs/scene/index.md#aspect-classes).
 
 ## How layout adapts
 
@@ -48,7 +48,7 @@ The server measures; the agent decides. Every edit's reply checks the design at 
 
 Defects carry the measurement that fixes them, so the agent corrects them in one step instead of guessing. Taste stays with the model: whether 8 px text is fine print or unreadable depends on the medium, so the server reports the size and doesn't judge it.
 
-Previews are opt-in. They cost more tokens and catch less: in testing, a model approved 7 px text from a 512 px preview, which the measurements catch. `render` also reports how each wrapped, shrunk or cut text was actually drawn. The markers and reply lines are listed in [tools.md](tools.md#replies).
+Previews are opt-in. They cost more tokens and catch less: in testing, a model approved 7 px text from a 512 px preview, which the measurements catch. `render` also reports how each wrapped, shrunk or cut text was actually drawn. The markers and reply lines are listed in [tools.md](https://keyline.dev/docs/tools/index.md#replies).
 
 ## Reuse
 

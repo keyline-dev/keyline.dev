@@ -25,11 +25,23 @@ for (const button of document.querySelectorAll('.copy')) {
 }
 
 // Visitors who ask for less motion get the still poster, not the video.
-if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (still) {
   for (const v of document.querySelectorAll('video[autoplay]')) {
     v.removeAttribute('autoplay');
     v.pause();
   }
+}
+
+// Gallery videos load and play only near the screen, so the page stays light.
+if (!still && 'IntersectionObserver' in window) {
+  const seen = new IntersectionObserver((entries) => {
+    for (const e of entries) {
+      if (e.isIntersecting) e.target.play().catch(() => {});
+      else e.target.pause();
+    }
+  }, { rootMargin: '200px' });
+  for (const v of document.querySelectorAll('video[data-lazy]')) seen.observe(v);
 }
 
 // Star count and latest version from GitHub; without them the nav shows

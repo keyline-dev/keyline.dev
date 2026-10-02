@@ -228,7 +228,7 @@ section h2 {
 }
 .section-lead { color: var(--muted); max-width: 40em; margin: 12px 0 0; }
 .section-lead, .case-lead, .vs-note, .panel p, .feature p, .steps p { text-wrap: pretty; }
-.how, .features, .gallery, .versus, .install { padding-top: 120px; }
+.how, .features, .gallery, .versus, .faq, .install { padding-top: 120px; }
 .hero { padding-bottom: 8px; }
 
 .steps { list-style: none; padding: 0; margin: 40px 0 0; display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: auto auto 1fr; gap: 0 20px; }
@@ -291,6 +291,16 @@ pre {
 .bar { display: block; flex: none; height: 10px; width: calc(var(--w) * 0.78); border-radius: 0 4px 4px 0; }
 .vs-note { margin: 16px 0 0; color: var(--muted); font-size: 15px; }
 
+.feature h3 a { text-decoration: none; }
+.feature h3 a:hover { text-decoration: underline; }
+.faq-list { margin-top: 32px; border-top: 1px solid var(--line); max-width: 860px; }
+.faq details { border-bottom: 1px solid var(--line); }
+.faq summary { cursor: pointer; padding: 18px 0; font-size: 17px; font-weight: 600; list-style: none; display: flex; justify-content: space-between; gap: 16px; }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; color: var(--muted); font-weight: 400; }
+.faq details[open] summary::after { content: "−"; }
+.faq summary:focus-visible { outline: 2px solid var(--pink); outline-offset: 2px; }
+.faq details p { margin: 0 0 18px; color: var(--muted); font-size: 15px; max-width: 46em; text-wrap: pretty; }
 .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin-top: 40px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
 .feature { background: var(--surface); padding: 28px; }
 .feature h3 { font-size: 17px; margin: 0 0 8px; }
@@ -346,7 +356,7 @@ pre {
   .proves { font-size: 12px; margin-top: 4px; flex-basis: 100%; text-wrap: balance; }
   .hero { padding-top: 56px; }
   .calls i { display: none; }
-  .how, .features, .gallery, .versus, .install { padding-top: 88px; }
+  .how, .features, .gallery, .versus, .faq, .install { padding-top: 88px; }
   .steps { grid-template-columns: 1fr; grid-template-rows: none; gap: 16px; }
   .steps li { display: flex; flex-direction: column; grid-row: auto; }
   .steps pre { margin-top: 16px; align-self: stretch; }

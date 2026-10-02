@@ -3,34 +3,41 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Tools and replies · keyline</title>
+  <title>keyline MCP tools, replies and server flags</title>
   <meta name="description" content="keyline's MCP tools, their replies and problem lines, output formats, server flags and rendering without an agent.">
   <link rel="canonical" href="https://keyline.dev/docs/tools/">
   <link rel="alternate" type="text/markdown" href="index.md">
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="keyline">
-  <meta property="og:title" content="Tools and replies · keyline">
+  <meta property="og:title" content="keyline MCP tools, replies and server flags">
   <meta property="og:description" content="keyline's MCP tools, their replies and problem lines, output formats, server flags and rendering without an agent.">
   <meta property="og:image" content="https://keyline.dev/assets/og/og-v0.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="keyline: design engine for AI agents">
   <meta property="og:url" content="https://keyline.dev/docs/tools/">
   <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="keyline MCP tools, replies and server flags">
+  <meta name="twitter:description" content="keyline's MCP tools, their replies and problem lines, output formats, server flags and rendering without an agent.">
+  <meta name="twitter:image" content="https://keyline.dev/assets/og/og-v0.png">
   <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="../../favicon-48.png" sizes="48x48" type="image/png">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../../style.css">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Tools and replies","description":"keyline's MCP tools, their replies and problem lines, output formats, server flags and rendering without an agent.","url":"https://keyline.dev/docs/tools/","inLanguage":"en","isPartOf":{"@type":"WebSite","name":"keyline","url":"https://keyline.dev/"},"about":{"@type":"SoftwareApplication","name":"keyline","url":"https://keyline.dev/"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"TechArticle","headline":"Tools and replies","description":"keyline's MCP tools, their replies and problem lines, output formats, server flags and rendering without an agent.","url":"https://keyline.dev/docs/tools/","inLanguage":"en","isPartOf":{"@id":"https://keyline.dev/#site"},"about":{"@id":"https://keyline.dev/#app"},"publisher":{"@id":"https://keyline.dev/#org"}}</script>
 </head>
 <body>
   <header class="nav">
     <div class="wrap nav-row">
       <a class="brand" href="../../index.html" aria-label="keyline home"><picture><source srcset="../../logo/lockup-nav-dark.svg" media="(prefers-color-scheme: dark)"><img src="../../logo/lockup-nav-light.svg" alt="keyline" width="90" height="26"></picture></a>
       <nav>
-        <a href="../../index.html#gallery">Examples</a>
         <a href="../../index.html#how">How it works</a>
-        <a href="../../index.html#install">Install</a>
+        <a href="../../index.html#gallery">Examples</a>
         <a href="../../docs/index.html">Docs</a>
-        <a href="https://github.com/keyline-dev/keyline" class="gh" aria-label="keyline on GitHub"><svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg></a>
+        <a href="https://github.com/keyline-dev/keyline" class="gh" aria-label="keyline on GitHub"><svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg><span id="stars"></span></a>
       </nav>
     </div>
   </header>
@@ -175,9 +182,14 @@ portrait,square toast warn shadow clipped by card
 <td>Text contrast against what&#39;s behind it is below the WCAG level for its size. Knockout text is judged by what shows through its letters against the frame around them</td>
 </tr>
 <tr>
-<td><code>warn crop cuts the image&#39;s middle (focus X%,Y%): height N shows half</code></td>
+<td><code>!crop cuts the image&#39;s middle (focus X%,Y%): height A shows all, B half</code></td>
+<td>defect</td>
+<td>A cover crop hides more than half the image top and bottom, so whatever sits in its middle is cut (a house in a band too short for it). The end names the field to write and its values in master px, like every field (the size&#39;s <code>scale</code> multiplies it): the height that shows the whole image, and the one that shows half. When the parent sets the height (<code>fill</code>, a share, <code>flexGrow</code>, a stretch constraint), <code>minHeight A shows all, B half</code>; when a stretch constraint shrank a fixed height, <code>squeezed from C to D: minHeight …</code> (C and D px at that size). A photo filling the canvas gets none: it can&#39;t grow, and its focus shows where it&#39;s set. Names &quot;the area around its focus&quot; when <code>focus</code> isn&#39;t the center</td>
+</tr>
+<tr>
+<td><code>warn crop cuts the image&#39;s middle (focus X%,Y%): height at most A shows all, B half</code></td>
 <td>advisory</td>
-<td>A cover crop hides more than half the image on one axis, so whatever sits in its middle is cut (a house in a band too short for it). The end names the field to write and its value in master px, like every field (the size&#39;s <code>scale</code> multiplies it): <code>height N</code> for a crop top and bottom, <code>height at most N</code> for one at the sides. A photo filling the canvas gets none: it can&#39;t grow, and its focus shows where it&#39;s set. When the parent sets the height (<code>fill</code>, a share, <code>flexGrow</code>, a stretch constraint), <code>minHeight N</code> or <code>maxHeight N</code>; when a stretch constraint shrank a fixed height, <code>squeezed from A to B: minHeight N</code> (A and B px at that size). Names &quot;the area around its focus&quot; when <code>focus</code> isn&#39;t the center</td>
+<td>The same at the sides (a landscape photo in a tall box, common in skyscraper ads): <code>height at most N</code>, or <code>maxHeight N</code> when the parent sets the height</td>
 </tr>
 <tr>
 <td><code>warn ink Npx from &lt;id&gt;</code></td>
@@ -472,6 +484,14 @@ smallest text: instagram-portrait 28px (cta), sky 11.3px (cta), 1200x628 28px (c
 <tbody><tr>
 <td><code>&quot;set&quot;: {fields}</code></td>
 <td>Merges the fields in; <code>null</code> resets a field to its default</td>
+</tr>
+<tr>
+<td><code>&quot;set&quot;: {&quot;children&quot;: [layers]}</code></td>
+<td>With an <code>{id}</code> target of a frame: replaces its children, checked and given ids as <code>layer_add</code> does; <code>null</code> empties it</td>
+</tr>
+<tr>
+<td><code>&quot;set&quot;: {&quot;parent&quot;: &quot;bg&quot;, &quot;index&quot;: 0}</code></td>
+<td>With an <code>{id}</code> target: moves the layer into frame <code>bg</code> (<code>null</code>: the scene&#39;s top level), at <code>index</code> from the bottom (0) up; either alone works, <code>index</code> alone moving it within its own parent. Other fields in the same <code>set</code> apply too</td>
 </tr>
 <tr>
 <td><code>&quot;delete&quot;: true</code></td>
@@ -817,6 +837,7 @@ give exactly one of url, path or base64
       <span class="foot-brand"><picture><source srcset="../../logo/lockup-nav-dark.svg" media="(prefers-color-scheme: dark)"><img src="../../logo/lockup-nav-light.svg" alt="keyline" width="76" height="22"></picture><span>Every image on this page was rendered by keyline.</span></span>
       <nav>
         <a href="https://github.com/keyline-dev/keyline">GitHub</a>
+        <a href="https://github.com/keyline-dev/keyline/releases">Releases</a>
         <a href="../../docs/index.html">Docs</a>
         <a href="../../license/index.html">PolyForm Shield license</a>
       </nav>

@@ -1,8 +1,19 @@
 # keyline
 
-> Design engine for AI agents: images and video at every size, no Chrome needed. One native binary, driven over MCP.
+> keyline is a free, source-available MCP server that lets AI agents (Claude Code, Cursor, Codex, VS Code) design social posts, display ads, banners, flyers and video at every size from one JSON scene. It measures text fit and overflow before rendering, and renders with Skia instead of a headless browser.
 
-keyline is an MCP server (one native Rust binary on Skia) that an AI agent drives to compose images and video: the agent writes a small JSON scene, keyline lays it out at every requested size, measures it (text fit, overflow, contrast, safe areas) and replies with problems to fix, then renders PNG, JPEG, WebP, PDF, GIF, animated PNG, MP4 or WebM. Source-available under PolyForm Shield 1.0.0.
+- Works with Claude Code, Claude Desktop, Cursor, Codex, VS Code, Windsurf, Cline and any stdio MCP client; on macOS, Linux, Windows, Docker and GitHub Actions.
+- Outputs PNG, JPEG, WebP, vector PDF, GIF, animated PNG, MP4 and WebM, at every size from one master layout.
+- Deterministic: no model generates pixels; the same scene always renders the same design.
+- In a benchmark (Claude Opus 5, 5 runs each, all correct) an agent used 2× fewer tokens making the same card than with HTML + headless Chrome, and 5× fewer than with Playwright MCP.
+- An alternative to Puppeteer or Playwright HTML-to-image screenshots, hosted image APIs like Bannerbear or Placid, and the Canva or Figma APIs, for agents.
+- Free and source-available under PolyForm Shield 1.0.0.
+
+## Install
+
+- Claude Code: `/plugin marketplace add keyline-dev/keyline`, then `/plugin install keyline@keyline`
+- Cursor: install the binary (`brew install keyline-dev/tap/keyline-mcp`, or a download from https://github.com/keyline-dev/keyline/releases/latest), then add `{ "mcpServers": { "keyline": { "command": "keyline-mcp" } } }` to `~/.cursor/mcp.json`
+- Every other client: [Install](https://keyline.dev/docs/install/index.md)
 
 ## Docs
 
@@ -13,6 +24,6 @@ keyline is an MCP server (one native Rust binary on Skia) that an AI agent drive
 
 ## Optional
 
-- [Benchmark: keyline vs a headless browser](https://keyline.dev/benchmark/index.md): The same model makes the same images with keyline and with headless Chrome: method, every run and the results.
+- [Benchmark: keyline vs a headless browser](https://keyline.dev/benchmark/index.md): The same model makes the same images with keyline, HTML + headless Chrome and Playwright MCP: method, every run, tokens, turns and time.
 - [All docs in one file](https://keyline.dev/llms-full.txt)
 - [Source](https://github.com/keyline-dev/keyline)

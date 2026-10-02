@@ -1,6 +1,8 @@
 # Install
 
-### Claude Code and Claude Desktop
+keyline is a free, source-available MCP server that lets AI agents (Claude Code, Cursor, Codex, VS Code) design social posts, display ads, banners, flyers and video at every size from one JSON scene. It measures text fit and overflow before rendering, and renders with Skia instead of a headless browser.
+
+## Claude Code and Claude Desktop
 
 Nothing else to install.
 
@@ -13,7 +15,7 @@ Nothing else to install.
 
 **Claude Desktop** (Mac with Apple silicon, or Windows): download `keyline-mcp-<version>.mcpb` from the [latest release](https://github.com/keyline-dev/keyline/releases/latest) and double-click it. Its settings pick the folders keyline may read and whether to leave motion out.
 
-### Other clients: install, then add
+## Other clients: install, then add
 
 **macOS** (Apple silicon):
 
@@ -141,7 +143,7 @@ The ChatGPT app itself connects only to remote MCP servers over HTTP, so it can'
 Any MCP client that starts stdio servers works: the command is `keyline-mcp`. It runs where the client runs; to render on another machine, make the command `ssh that-machine keyline-mcp`.
 </details>
 
-### Then
+## Then
 
 Ask your agent for a design: *"Make a vote-by-mail flyer with this photo, in 1080×1350, 1200×1000 and a 300×600 skyscraper."*
 
@@ -149,8 +151,8 @@ Ask your agent for a design: *"Make a vote-by-mail flyer with this photo, in 108
 
 **Video** needs [ffmpeg](https://ffmpeg.org) (`brew install ffmpeg`, `apt install ffmpeg`), looked up when a call needs it. It's optional: without it, everything else works, animated PNG and GIF included.
 
-**Options:** every setting is a flag (`--allow-read`, `--no-motion`, `--data`, `--fonts`, `--renderer`, `--ffmpeg`, `--encoder`), listed in [docs/tools.md](docs/tools.md#server-configuration) and by `keyline-mcp --help`.
+**Options:** every setting is a flag (`--allow-read`, `--no-motion`, `--data`, `--fonts`, `--renderer`, `--ffmpeg`, `--encoder`), listed in [docs/tools.md](https://keyline.dev/docs/tools/index.md#server-configuration) and by `keyline-mcp --help`.
 
-**Without an agent:** `keyline-mcp render scene.json --out renders/` renders a scene file at every size, and exits 1 on a `!` defect, for scripts and CI (`--check` checks without drawing); in GitHub Actions, `uses: keyline-dev/keyline@v0` does it for every scene in a repo ([docs/tools.md](docs/tools.md#rendering-without-an-agent)).
+**Without an agent:** `keyline-mcp render scene.json --out renders/` renders a scene file at every size, and exits 1 on a `!` defect, for scripts and CI (`--check` checks without drawing); in GitHub Actions, `uses: keyline-dev/keyline@v0` does it for every scene in a repo ([docs/tools.md](https://keyline.dev/docs/tools/index.md#rendering-without-an-agent)).
 
 **GPU on a Linux server:** it needs a GPU with Vulkan drivers (NVIDIA's, or Mesa for AMD and Intel); no display is needed. In Docker, pass the GPU through (for NVIDIA: the Container Toolkit, `--gpus all`, with graphics capability). Software Vulkan drivers are skipped, since the CPU renderer is faster; without a GPU, renders use the CPU.

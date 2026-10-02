@@ -1,3 +1,36 @@
-# Cloudflare Pages: renders change only with a new file name or a deploy.
+# Cloudflare Pages. Renders and logos change only under a new file name
+# (-v0, .r1), so they cache for good; the page's own CSS and JS revalidate.
 /assets/*
-  Cache-Control: public, max-age=86400
+  Cache-Control: public, max-age=31536000, immutable
+/logo/*
+  Cache-Control: public, max-age=31536000, immutable
+/style.css
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+/site.js
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+
+# Plain-text copies of the docs are for LLMs, not search results: each
+# points Google at its HTML page.
+/docs/:p/index.md
+  X-Robots-Tag: noindex
+  Link: <https://keyline.dev/docs/:p/>; rel="canonical"
+/docs/index.md
+  X-Robots-Tag: noindex
+  Link: <https://keyline.dev/docs/>; rel="canonical"
+/benchmark/index.md
+  X-Robots-Tag: noindex
+  Link: <https://keyline.dev/benchmark/>; rel="canonical"
+/llms-full.txt
+  X-Robots-Tag: noindex
+
+# Files that are only here because the site deploys its repo.
+/README.md
+  X-Robots-Tag: noindex
+/docs.mjs
+  X-Robots-Tag: noindex
+/render.sh
+  X-Robots-Tag: noindex
+/package.json
+  X-Robots-Tag: noindex
+/scenes/*
+  X-Robots-Tag: noindex

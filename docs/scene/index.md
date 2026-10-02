@@ -1,6 +1,6 @@
 # Scene format
 
-A scene is one JSON document: a master size, the sizes it renders at, its assets, shared tokens, styles and components, and a tree of layers. This page is the reference for every field. The ideas behind it are in [concepts.md](concepts.md), and the tools that write and render it in [tools.md](tools.md).
+A scene is one JSON document: a master size, the sizes it renders at, its assets, shared tokens, styles and components, and a tree of layers. This page is the reference for every field. The ideas behind it are in [concepts.md](https://keyline.dev/docs/index.md), and the tools that write and render it in [tools.md](https://keyline.dev/docs/tools/index.md).
 
 ```json
 {
@@ -23,6 +23,7 @@ Field names and values follow what models already know:
 1. **CSS names and values wherever CSS has the concept**, camelCase as in React Native: `fontWeight`, `textAlign`, `justifyContent`, `alignItems`, `gap`, `padding`, `borderRadius`, `filter`. **Figma words for sizing, pinning and clipping** (`hug`, `fill`, `constraints`, `clipsContent`), **SVG** for shapes and strokes (`fill`, `stroke`, `markerEnd`), **GSAP** for motion, **HTML media** for video, and **SwiftUI** only where none of those has the concept (`firstFit`, `layoutPriority`, `minimumScaleFactor`).
 2. **CSS names, keyline's own layout.** The names and enum values are CSS's, and colors are any CSS color (`rgba(0,0,0,.25)`, `hsl(…)`). The layout model is keyline's, documented on this page: close to flexbox and grid where it borrows from them, but not browser-exact.
 3. **Short forms.** A compound field has a one-value short form: `fill: "#fff"`, `padding: 24`, `borderRadius: 12`, `stroke: "#000"`.
+   CSS written CSS's way reads as meant: `padding: "48px 40px"` (one to four values) and `paddingTop`…`paddingLeft`, `"12px"` for `gap`, `borderRadius` and `fontSize`, a `box-shadow` string as `shadow`, `border: "2px solid #fff"` as `stroke`, and gradient stops by `position`. A `stack` is a frame laid out as a column, a `rectangle` a `rect`, and `layout: "row"` (or `"column"`, `"horizontal"`, `"vertical"`) is `flexDirection`. A frame with `padding`, `gap` or alignment but no direction is a column, as a padded `<div>` stacks its children, when none of its children is placed by `x`, `y` or `place`, no two fill it (layers over each other) and it has no `style`; otherwise those fields need a `flexDirection`.
 4. **Every field has a default, and defaults are omitted** in what the agent sends and in what the server stores.
 5. **Unknown fields are rejected**, with the nearest known name suggested.
 
@@ -193,7 +194,7 @@ SVGs are drawn at their drawn size, so they stay sharp.
 
 ### video
 
-A clip added with `asset_add`, drawn like an image and under any layers above it: titles, captions, logos. Decoding it needs ffmpeg ([tools.md](tools.md#ffmpeg)).
+A clip added with `asset_add`, drawn like an image and under any layers above it: titles, captions, logos. Decoding it needs ffmpeg ([tools.md](https://keyline.dev/docs/tools/index.md#ffmpeg)).
 
 ```json
 {"type": "video", "asset": "beach", "width": "fill", "height": "fill", "trimStart": 2, "playbackRate": 0.5, "muted": true}
@@ -418,7 +419,7 @@ Frames, shapes, images, text and icons take the same paint fields.
 | Paint | Example |
 |---|---|
 | Color | `"#D0202E"`, `"rgba(208, 32, 46, 0.5)"`, a CSS name, or `{"color": "{{red}}", "opacity": 0.5}` |
-| Gradient | `{"gradient": {"type": "radial", "stops": ["#0000", "#000C"]}}`, or written flat: `{"type": "linear", "angle": 180, "stops": […]}`, or as a CSS string: `"linear-gradient(180deg, #fff 0%, #fff0 100%)"` (`radial-gradient` too, centered) |
+| Gradient | `{"gradient": {"type": "radial", "stops": ["#0000", "#000C"]}}`, or written flat: `{"type": "linear", "angle": 180, "stops": […]}`, or as a CSS string: `"linear-gradient(180deg, #fff 0%, #fff0 100%)"` (`radial-gradient` too, with its size and position: `radial-gradient(60% 50% at 90% 10%, #7C5CFF55, #0000)` is a corner glow) |
 | Image | `{"image": "photo", "fit": "cover", "focus": [0.5, 0.3], "filter": {"grayscale": 1}}`, with the [image](#image) fields |
 | Pattern | `{"pattern": "dots", "color": "#0002", "size": 12}` |
 | Grain | `{"noise": 0.08, "seed": 1}` |
@@ -569,7 +570,7 @@ An image fill works on any shape: a photo in a circle is `{"type": "ellipse", "f
 
 ## Motion
 
-A scene with a `duration`, or made of [shots](#shots-and-transitions), moves. Only fields that don't change layout animate, so the layout is the same at every moment and every check holds throughout. A scene without motion fields is drawn at rest. A still of a moving scene (PNG, JPEG, WebP, PDF, without `time`) is also at rest: each layer as written, before its tracks (a `"scale": 1.12` written for a pan's room shows at 1.12), except `draw` and `count`, which show where they end. Output formats are in [tools.md](tools.md#output-formats).
+A scene with a `duration`, or made of [shots](#shots-and-transitions), moves. Only fields that don't change layout animate, so the layout is the same at every moment and every check holds throughout. A scene without motion fields is drawn at rest. A still of a moving scene (PNG, JPEG, WebP, PDF, without `time`) is also at rest: each layer as written, before its tracks (a `"scale": 1.12` written for a pan's room shows at 1.12), except `draw` and `count`, which show where they end. Output formats are in [tools.md](https://keyline.dev/docs/tools/index.md#output-formats).
 
 ### Scene timing
 
@@ -726,7 +727,7 @@ Each shot starts where the one before ends minus its transition. The scene's len
 
 ## Template files
 
-A template is a scene file that `scene_create` loads by URL or path ([tools.md](tools.md#templates-and-variants)). It has a scene's fields, and its `assets` name files instead of hashes: a URL, or a path relative to the template. Its `tokens` are its variables.
+A template is a scene file that `scene_create` loads by URL or path ([tools.md](https://keyline.dev/docs/tools/index.md#templates-and-variants)). It has a scene's fields, and its `assets` name files instead of hashes: a URL, or a path relative to the template. Its `tokens` are its variables.
 
 ```json
 {
@@ -744,7 +745,7 @@ A scene keyline saved (its `assets` by `sha256`) loads as a template too.
 
 ## Validation and limits
 
-A change that breaks any of these rules is refused whole, with a one-line error ([tools.md](tools.md#errors)); what the layout does at each size (overflow, clipping, contrast) is never refused, but reported as [problems](tools.md#problem-lines).
+A change that breaks any of these rules is refused whole, with a one-line error ([tools.md](https://keyline.dev/docs/tools/index.md#errors)); what the layout does at each size (overflow, clipping, contrast) is never refused, but reported as [problems](https://keyline.dev/docs/tools/index.md#problem-lines).
 
 - Unknown fields, in layers and in every object inside them.
 - Values of the wrong type or out of range: opacity 0–1, `fontWeight` 100–900 in 100s, `minimumScaleFactor` above 0 and at most 1, `flexGrow` ≥ 0, polygon `sides` ≥ 3, video `playbackRate` 0.01–100, sizes at least 1 px with `scale` above 0.
@@ -761,7 +762,7 @@ A change that breaks any of these rules is refused whole, with a one-line error 
 | `fps` | 1–120 |
 | `duration` | 0.001–86,400 s |
 
-Asset and file limits are in [tools.md](tools.md#limits).
+Asset and file limits are in [tools.md](https://keyline.dev/docs/tools/index.md#limits).
 
 ## Example
 

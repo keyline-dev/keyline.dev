@@ -3,26 +3,34 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>keyline: design engine for AI agents</title>
-  <meta name="description" content="Design engine for AI agents: images and video at every size, no Chrome needed. One native binary, driven over MCP.">
+  <title>keyline: MCP server that designs images and video for AI agents</title>
+  <meta name="description" content="Free MCP server for Claude Code, Cursor and Codex: your agent designs social posts, ads, banners and video at every size from one JSON scene. No headless Chrome.">
   <link rel="canonical" href="https://keyline.dev/">
   <meta name="theme-color" content="#0b0b0c">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="keyline">
-  <meta property="og:title" content="keyline: design engine for AI agents">
-  <meta property="og:description" content="Your AI agent designs social posts, ads and banners; keyline renders them at every size. No Chrome needed.">
+  <meta property="og:title" content="keyline: MCP server that designs images and video for AI agents">
+  <meta property="og:description" content="Free MCP server for Claude Code, Cursor and Codex: your agent designs social posts, ads, banners and video at every size from one JSON scene. No headless Chrome.">
   <meta property="og:image" content="https://keyline.dev/assets/og/og-v0.png">
-  <meta property="og:url" content="https://keyline.dev">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="keyline: design engine for AI agents">
+  <meta property="og:url" content="https://keyline.dev/">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="keyline: design engine for AI agents">
-  <meta name="twitter:description" content="Your AI agent designs social posts, ads and banners; keyline renders them at every size. No Chrome needed.">
+  <meta name="twitter:title" content="keyline: MCP server that designs images and video for AI agents">
+  <meta name="twitter:description" content="Free MCP server for Claude Code, Cursor and Codex: your agent designs social posts, ads, banners and video at every size from one JSON scene. No headless Chrome.">
+  <meta name="twitter:image" content="https://keyline.dev/assets/og/og-v0.png">
   <link rel="alternate" type="text/plain" href="llms.txt" title="llms.txt">
-  <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"keyline","alternateName":"keyline-mcp","description":"Design engine for AI agents: an MCP server that composes images and video at every size from one JSON scene, measures text fit, overflow and contrast, and renders without a browser.","url":"https://keyline.dev/","applicationCategory":"DesignApplication","operatingSystem":"macOS, Linux, Windows","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://polyformproject.org/licenses/shield/1.0.0","codeRepository":"https://github.com/keyline-dev/keyline","image":"https://keyline.dev/assets/og/og-v0.png","author":{"@type":"Person","name":"Yuval Tal"}}</script>
+  <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://keyline.dev/#site","url":"https://keyline.dev/","name":"keyline","publisher":{"@id":"https://keyline.dev/#org"}},{"@type":"Organization","@id":"https://keyline.dev/#org","name":"keyline","url":"https://keyline.dev/","logo":"https://keyline.dev/apple-touch-icon.png","sameAs":["https://github.com/keyline-dev"]},{"@type":"SoftwareApplication","@id":"https://keyline.dev/#app","name":"keyline","alternateName":["keyline-mcp","keyline MCP server"],"description":"keyline is a free, source-available MCP server that lets AI agents (Claude Code, Cursor, Codex, VS Code) design social posts, display ads, banners, flyers and video at every size from one JSON scene. It measures text fit and overflow before rendering, and renders with Skia instead of a headless browser.","url":"https://keyline.dev/","applicationCategory":"DeveloperApplication","applicationSubCategory":"MCP server","operatingSystem":"macOS, Linux, Windows","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://polyformproject.org/licenses/shield/1.0.0","downloadUrl":"https://github.com/keyline-dev/keyline/releases/latest","installUrl":"https://keyline.dev/docs/install/","softwareHelp":"https://keyline.dev/docs/","sameAs":["https://github.com/keyline-dev/keyline"],"screenshot":"https://keyline.dev/assets/ebike/feed-v0.webp","featureList":["Every size from one JSON scene","Text fit, overflow, contrast and safe-area checks","PNG, JPEG, WebP, PDF, GIF, APNG, MP4, WebM","No headless browser: native Rust on Skia","Works with Claude Code, Cursor, Codex, VS Code, Windsurf, Cline"],"author":{"@type":"Person","name":"Yuval Tal"},"publisher":{"@id":"https://keyline.dev/#org"}}]}</script>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="favicon-48.png" sizes="48x48" type="image/png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <link rel="preload" as="image" href="assets/villa/portrait-v0.webp" fetchpriority="high">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is keyline?","acceptedAnswer":{"@type":"Answer","text":"keyline is a free, source-available MCP server that lets AI agents (Claude Code, Cursor, Codex, VS Code) design social posts, display ads, banners, flyers and video at every size from one JSON scene. It measures text fit and overflow before rendering, and renders with Skia instead of a headless browser."}},{"@type":"Question","name":"How is it different from Puppeteer or Playwright screenshots?","acceptedAnswer":{"@type":"Answer","text":"There's no browser to install, run or patch: keyline is one native binary. It measures text fit, overflow and contrast itself, so the agent fixes a layout without taking screenshots. In our benchmark an agent used 2× fewer tokens than with HTML and headless Chrome, and 5× fewer than with Playwright MCP."}},{"@type":"Question","name":"How is it different from Bannerbear or Placid?","acceptedAnswer":{"@type":"Answer","text":"keyline runs on your machine or in CI, for free, with no hosted templates and no API key. The agent writes the design itself, as a JSON scene, instead of filling in a template someone made in a web editor."}},{"@type":"Question","name":"Does it generate images with AI?","acceptedAnswer":{"@type":"Answer","text":"No. keyline renders deterministically: the agent writes the scene, and the same scene always renders the same pixels. Photos and logos are your own files."}},{"@type":"Question","name":"How do I install keyline in Cursor?","acceptedAnswer":{"@type":"Answer","text":"Install the binary (brew install keyline-dev/tap/keyline-mcp, or a release download), then add { \"mcpServers\": { \"keyline\": { \"command\": \"keyline-mcp\" } } } to ~/.cursor/mcp.json. The install guide has every other client."}},{"@type":"Question","name":"Is it free?","acceptedAnswer":{"@type":"Answer","text":"Yes. keyline is source-available under PolyForm Shield 1.0.0: use it, change it and share it, commercially too, except to build a product that competes with it."}}]}</script>
 </head>
 <body>
   <header class="nav">
@@ -41,7 +49,7 @@
     <section class="hero wrap">
       <p class="eyebrow">Canva for your agent</p>
       <h1>Design engine for AI&nbsp;agents.</h1>
-      <p class="lead">Your agent describes a social post, ad or banner once. keyline renders it as images and video at every size, with real text in your fonts and colors, the same every run.</p>
+      <p class="lead">A free MCP server for Claude Code, Cursor and Codex. Your agent describes a social post, ad or banner once; keyline renders it as images and video at every size, with real text in your fonts and colors, the same every run.</p>
       <div class="cta">
         <a class="btn primary" href="#install">Install</a>
       </div>
@@ -81,15 +89,15 @@
       <p class="section-lead">Everything an agent needs to ship a campaign, and nothing it has to guess.</p>
       <div class="grid">
         <div class="feature">
-          <h3>Every size from one layout</h3>
+          <h3><a href="docs/index.html#how-layout-adapts">Every size from one layout</a></h3>
           <p>Stacks, grids and constraints adapt one design to a post, a banner and a skyscraper ad, and any size can be tweaked on its own.</p>
         </div>
         <div class="feature">
-          <h3>Checks before pixels</h3>
+          <h3><a href="docs/index.html#checks-defects-advisories-facts">Checks before pixels</a></h3>
           <p>The server measures text, overflow, contrast and safe areas, so the agent verifies with numbers instead of screenshots.</p>
         </div>
         <div class="feature">
-          <h3>Motion and video</h3>
+          <h3><a href="docs/index.html#motion-and-video">Motion and video</a></h3>
           <p>Entrance effects, keyframes, staggered text and video clips, rendered as GIF, animated PNG, MP4 or WebM.</p>
         </div>
         <div class="feature">
@@ -101,7 +109,7 @@
           <p>No model generates pixels: a scene always renders the same way, on every machine.</p>
         </div>
         <div class="feature">
-          <h3>Built for tokens</h3>
+          <h3><a href="docs/tools/index.html">Built for tokens</a></h3>
           <p>Six tools, batched edits and terse replies, so the agent spends its tokens on the design, not on reading the scene.</p>
         </div>
       </div>
@@ -110,7 +118,7 @@
     <!-- Figures: vs2 medians per arm, from keyline-dev/keyline bench/versus-browser/results.tsv.
          Cards: the run closest to its arm's median total tokens. -->
     <section id="versus" class="versus wrap">
-      <h2>Same card, no browser</h2>
+      <h2>keyline vs headless Chrome and Playwright</h2>
       <p class="section-lead">We gave Claude one brief, a conference speaker card at three sizes, and three ways to make it: keyline, HTML screenshotted by headless Chrome, or a browser driven through Playwright MCP. All three made the card. Here's what each took.</p>
       <p class="vs-stat"><strong>2×</strong> fewer tokens than headless Chrome, <strong>5×</strong> fewer than Playwright MCP.</p>
       <div class="vs-body">
@@ -180,20 +188,20 @@ square …/square-v5.mp4
       <article class="case">
         <header><h3>Kindlepaw Rescue <span>Adoption posts</span></h3><p class="proves"><span>1 template ·</span> <span>4 dogs ·</span> <span>a post and an animated story</span></p></header>
         <p class="case-lead">The same card, one row per dog: name, age, traits and photo come from the data.</p>
-        <div class="strip"><figure class="m" style="flex: 1.0000 1 0; aspect-ratio: 1080 / 1080"><img src="assets/adoption/instagram-square-v0.r1.webp" width="1080" height="1080" loading="lazy" alt="Meet Biscuit: a pug wrapped in a blanket"><figcaption>Biscuit</figcaption></figure><figure class="m" style="flex: 1.0000 1 0; aspect-ratio: 1080 / 1080"><img src="assets/adoption/instagram-square-v0.r2.webp" width="1080" height="1080" loading="lazy" alt="Meet Pepper: a black lab puppy"><figcaption>Pepper</figcaption></figure><figure class="m" style="flex: 1.0000 1 0; aspect-ratio: 1080 / 1080"><img src="assets/adoption/instagram-square-v0.r3.webp" width="1080" height="1080" loading="lazy" alt="Meet Juno: a husky"><figcaption>Juno</figcaption></figure><figure class="m" style="flex: 1.0000 1 0; aspect-ratio: 1080 / 1080"><img src="assets/adoption/instagram-square-v0.r4.webp" width="1080" height="1080" loading="lazy" alt="Meet Sir Winston: a bulldog"><figcaption>Sir Winston</figcaption></figure><figure class="m" style="flex: 0.5625 1 0; aspect-ratio: 540 / 960"><video src="assets/adoption/story-loop-v0.r1.mp4" poster="assets/adoption/instagram-story-v0.r1.webp" width="540" height="960" autoplay muted loop playsinline preload="none" aria-label="Biscuit's animated story"></video><figcaption>Story · animated</figcaption></figure></div>
+        <div class="strip"><figure class="m" style="flex: 1.0000 1 0; aspect-ratio: 1080 / 1080"><img src="assets/adoption/instagram-square-v0.r1.webp" width="1080" height="1080" loading="lazy" alt="Meet Biscuit: a pug wrapped in a blanket"><figcaption>Biscuit</figcaption></figure><figure class="m" style="flex: 1.0000 1 0; aspect-ratio: 1080 / 1080"><img src="assets/adoption/instagram-square-v0.r2.webp" width="1080" height="1080" loading="lazy" alt="Meet Pepper: a black lab puppy"><figcaption>Pepper</figcaption></figure><figure class="m" style="flex: 1.0000 1 0; aspect-ratio: 1080 / 1080"><img src="assets/adoption/instagram-square-v0.r3.webp" width="1080" height="1080" loading="lazy" alt="Meet Juno: a husky"><figcaption>Juno</figcaption></figure><figure class="m" style="flex: 1.0000 1 0; aspect-ratio: 1080 / 1080"><img src="assets/adoption/instagram-square-v0.r4.webp" width="1080" height="1080" loading="lazy" alt="Meet Sir Winston: a bulldog"><figcaption>Sir Winston</figcaption></figure><figure class="m" style="flex: 0.5625 1 0; aspect-ratio: 540 / 960"><video src="assets/adoption/story-loop-v0.r1.mp4" poster="assets/adoption/instagram-story-v0.r1.webp" width="540" height="960" data-lazy muted loop playsinline preload="none" aria-label="Biscuit's animated story"></video><figcaption>Story · animated</figcaption></figure></div>
         <p class="credit">Photos: Matthew Wiebe, André Spieker, Alexander Dimitrov, Yamon Figurs / Unsplash</p>
       </article>
       <article class="case">
         <header><h3>Loam Cargo <span>E-bike launch</span></h3><p class="proves"><span>1 scene ·</span> <span>5 sizes, down to 728×90 ·</span> <span>a pan that follows the rider</span></p></header>
         <p class="case-lead">The layout reflows from a post to a leaderboard banner; the checks confirm every size.</p>
-        <div class="strip"><figure class="m" style="flex: 0.8000 1 0; aspect-ratio: 540 / 675"><video src="assets/ebike/web-v0.mp4" poster="assets/ebike/portrait-v0.webp" width="540" height="675" autoplay muted loop playsinline preload="none" aria-label="Loam Cargo post, animated: the photo pans with the rider"></video><figcaption>Post · animated</figcaption></figure><figure class="m" style="flex: 1.9108 1 0; aspect-ratio: 1200 / 628"><img src="assets/ebike/feed-v0.webp" width="1200" height="628" loading="lazy" alt="Loam Cargo banner: photo left, headline and prices right"><figcaption>Feed · 1200×628</figcaption></figure><figure class="m" style="flex: 0.5000 1 0; aspect-ratio: 300 / 600"><img src="assets/ebike/half-page-v0.webp" width="300" height="600" loading="lazy" alt="Loam Cargo half-page ad"><figcaption>300×600</figcaption></figure><figure class="m" style="flex: 1.2000 1 0; aspect-ratio: 300 / 250"><img src="assets/ebike/mpu-v0.webp" width="300" height="250" loading="lazy" alt="Loam Cargo medium rectangle"><figcaption>300×250</figcaption></figure></div>
+        <div class="strip"><figure class="m" style="flex: 0.8000 1 0; aspect-ratio: 540 / 675"><video src="assets/ebike/web-v0.mp4" poster="assets/ebike/portrait-v0.webp" width="540" height="675" data-lazy muted loop playsinline preload="none" aria-label="Loam Cargo post, animated: the photo pans with the rider"></video><figcaption>Post · animated</figcaption></figure><figure class="m" style="flex: 1.9108 1 0; aspect-ratio: 1200 / 628"><img src="assets/ebike/feed-v0.webp" width="1200" height="628" loading="lazy" alt="Loam Cargo banner: photo left, headline and prices right"><figcaption>Feed · 1200×628</figcaption></figure><figure class="m" style="flex: 0.5000 1 0; aspect-ratio: 300 / 600"><img src="assets/ebike/half-page-v0.webp" width="300" height="600" loading="lazy" alt="Loam Cargo half-page ad"><figcaption>300×600</figcaption></figure><figure class="m" style="flex: 1.2000 1 0; aspect-ratio: 300 / 250"><img src="assets/ebike/mpu-v0.webp" width="300" height="250" loading="lazy" alt="Loam Cargo medium rectangle"><figcaption>300×250</figcaption></figure></div>
         <div class="strip strip-wide"><figure class="m" style="flex: 1 1 0; aspect-ratio: 728 / 90; max-width: 728px"><img src="assets/ebike/leaderboard-v0.webp" width="728" height="90" loading="lazy" alt="Loam Cargo leaderboard: one line with photo, headline, prices and button"><figcaption>728×90</figcaption></figure></div>
         <p class="credit">Photo: Abigail Keenan / Unsplash</p>
       </article>
       <article class="case">
         <header><h3>Nightline <span>Festival teaser</span></h3><p class="proves"><span>4 shots ·</span> <span>duotone photos ·</span> <span>letters that fly in</span></p></header>
         <p class="case-lead">Three unrelated photos read as one campaign; the headliner's letters land in place.</p>
-        <div class="strip"><figure class="m" style="flex: 0.5625 1 0; aspect-ratio: 540 / 960"><video src="assets/festival/story-v0.mp4" poster="assets/festival/story-v0.at7s.webp" width="540" height="960" autoplay muted loop playsinline preload="none" aria-label="Nightline festival story: stage shots in magenta, then the lineup"></video><figcaption>Story · animated</figcaption></figure><figure class="m" style="flex: 1.7778 1 0; aspect-ratio: 800 / 450"><video src="assets/festival/land-v0.mp4" poster="assets/festival/land-v0.at7s.webp" width="800" height="450" autoplay muted loop playsinline preload="none" aria-label="Nightline festival, landscape"></video><figcaption>Landscape · animated</figcaption></figure><figure class="m" style="flex: 1.7778 1 0; aspect-ratio: 1280 / 720"><img src="assets/festival/thumb-v0.webp" width="1280" height="720" loading="lazy" alt="Nightline lineup thumbnail"><figcaption>Thumbnail</figcaption></figure></div>
+        <div class="strip"><figure class="m" style="flex: 0.5625 1 0; aspect-ratio: 540 / 960"><video src="assets/festival/story-v0.mp4" poster="assets/festival/story-v0.at7s.webp" width="540" height="960" data-lazy muted loop playsinline preload="none" aria-label="Nightline festival story: stage shots in magenta, then the lineup"></video><figcaption>Story · animated</figcaption></figure><figure class="m" style="flex: 1.7778 1 0; aspect-ratio: 800 / 450"><video src="assets/festival/land-v0.mp4" poster="assets/festival/land-v0.at7s.webp" width="800" height="450" data-lazy muted loop playsinline preload="none" aria-label="Nightline festival, landscape"></video><figcaption>Landscape · animated</figcaption></figure><figure class="m" style="flex: 1.7778 1 0; aspect-ratio: 1280 / 720"><img src="assets/festival/thumb-v0.webp" width="1280" height="720" loading="lazy" alt="Nightline lineup thumbnail"><figcaption>Thumbnail</figcaption></figure></div>
         <p class="credit">Photos: Daniel Robert, Gonzalo Poblete, Desi Mendoza / Unsplash</p>
       </article>
       <article class="case">
@@ -205,15 +213,45 @@ square …/square-v5.mp4
       <article class="case">
         <header><h3>Quillday <span>App launch</span></h3><p class="proves"><span>A UI built from layers ·</span> <span>a focus ring that draws itself ·</span> <span>hours that count up</span></p></header>
         <p class="case-lead">No screenshot: the app's interface is built in the scene, so it stays sharp at every size.</p>
-        <div class="strip"><figure class="m" style="flex: 1.7778 1 0; aspect-ratio: 800 / 450"><video src="assets/cadence/web-v0.mp4" poster="assets/cadence/x-post-v0.webp" width="800" height="450" autoplay muted loop playsinline preload="none" aria-label="Quillday launch video: calendar cards pop in, the focus ring fills, hours count up"></video><figcaption>Animated</figcaption></figure><figure class="m" style="flex: 1.0000 1 0; aspect-ratio: 1080 / 1080"><img src="assets/cadence/square-v0.webp" width="1080" height="1080" loading="lazy" alt="Quillday square post"><figcaption>Square</figcaption></figure></div>
+        <div class="strip"><figure class="m" style="flex: 1.7778 1 0; aspect-ratio: 800 / 450"><video src="assets/cadence/web-v0.mp4" poster="assets/cadence/x-post-v0.webp" width="800" height="450" data-lazy muted loop playsinline preload="none" aria-label="Quillday launch video: calendar cards pop in, the focus ring fills, hours count up"></video><figcaption>Animated</figcaption></figure><figure class="m" style="flex: 1.0000 1 0; aspect-ratio: 1080 / 1080"><img src="assets/cadence/square-v0.webp" width="1080" height="1080" loading="lazy" alt="Quillday square post"><figcaption>Square</figcaption></figure></div>
         <p class="credit">Photo: William Iven / Unsplash</p>
       </article>
       <article class="case">
         <header><h3>Cinder &amp; Thyme <span>Supper-club menu</span></h3><p class="proves"><span>1 scene ·</span> <span>a print PDF, a post and a story</span></p></header>
         <p class="case-lead">The same menu as vector A4 for the printer and as social posts; dot leaders run to the prices.</p>
-        <div class="strip"><figure class="m" style="flex: 0.7067 1 0; aspect-ratio: 595 / 842"><a href="assets/menu/a4-v0.pdf"><img src="assets/menu/a4-v0.webp" width="595" height="842" loading="lazy" alt="Cinder & Thyme menu, A4"></a><figcaption>A4 · PDF</figcaption></figure><figure class="m" style="flex: 0.8000 1 0; aspect-ratio: 1080 / 1350"><img src="assets/menu/instagram-portrait-v0.webp" width="1080" height="1350" loading="lazy" alt="Cinder & Thyme menu post"><figcaption>Post</figcaption></figure><figure class="m" style="flex: 0.5625 1 0; aspect-ratio: 540 / 960"><video src="assets/menu/story-loop-v0.mp4" poster="assets/menu/story-loop-v0.at5s.webp" width="540" height="960" autoplay muted loop playsinline preload="none" aria-label="Cinder & Thyme story, animated"></video><figcaption>Story · animated</figcaption></figure></div>
+        <div class="strip"><figure class="m" style="flex: 0.7067 1 0; aspect-ratio: 595 / 842"><a href="assets/menu/a4-v0.pdf"><img src="assets/menu/a4-v0.webp" width="595" height="842" loading="lazy" alt="Cinder & Thyme menu, A4"></a><figcaption>A4 · PDF</figcaption></figure><figure class="m" style="flex: 0.8000 1 0; aspect-ratio: 1080 / 1350"><img src="assets/menu/instagram-portrait-v0.webp" width="1080" height="1350" loading="lazy" alt="Cinder & Thyme menu post"><figcaption>Post</figcaption></figure><figure class="m" style="flex: 0.5625 1 0; aspect-ratio: 540 / 960"><video src="assets/menu/story-loop-v0.mp4" poster="assets/menu/story-loop-v0.at5s.webp" width="540" height="960" data-lazy muted loop playsinline preload="none" aria-label="Cinder & Thyme story, animated"></video><figcaption>Story · animated</figcaption></figure></div>
         <p class="credit">Photos: Todd Quackenbush, Annie Spratt / Unsplash</p>
       </article>
+    </section>
+
+    <section id="faq" class="faq wrap">
+      <h2>Questions</h2>
+      <div class="faq-list">
+        <details>
+          <summary>What is keyline?</summary>
+          <p>keyline is a free, source-available MCP server that lets AI agents (Claude Code, Cursor, Codex, VS Code) design social posts, display ads, banners, flyers and video at every size from one JSON scene. It measures text fit and overflow before rendering, and renders with Skia instead of a headless browser.</p>
+        </details>
+        <details>
+          <summary>How is it different from Puppeteer or Playwright screenshots?</summary>
+          <p>There's no browser to install, run or patch: keyline is one native binary. It measures text fit, overflow and contrast itself, so the agent fixes a layout without taking screenshots. In <a href="#versus">our benchmark</a> an agent used 2× fewer tokens than with HTML and headless Chrome, and 5× fewer than with Playwright MCP.</p>
+        </details>
+        <details>
+          <summary>How is it different from Bannerbear or Placid?</summary>
+          <p>keyline runs on your machine or in CI, for free, with no hosted templates and no API key. The agent writes the design itself, as a JSON scene, instead of filling in a template someone made in a web editor.</p>
+        </details>
+        <details>
+          <summary>Does it generate images with AI?</summary>
+          <p>No. keyline renders deterministically: the agent writes the scene, and the same scene always renders the same pixels. Photos and logos are your own files.</p>
+        </details>
+        <details>
+          <summary>How do I install keyline in Cursor?</summary>
+          <p>Install the binary (<code>brew install keyline-dev/tap/keyline-mcp</code>, or a <a href="https://github.com/keyline-dev/keyline/releases/latest">release download</a>), then add <code>{ "mcpServers": { "keyline": { "command": "keyline-mcp" } } }</code> to <code>~/.cursor/mcp.json</code>. The <a href="docs/install/index.html">install guide</a> has every other client.</p>
+        </details>
+        <details>
+          <summary>Is it free?</summary>
+          <p>Yes. keyline is source-available under <a href="license/index.html">PolyForm Shield 1.0.0</a>: use it, change it and share it, commercially too, except to build a product that competes with it.</p>
+        </details>
+      </div>
     </section>
 
     <section id="install" class="install wrap">

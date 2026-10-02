@@ -1,6 +1,6 @@
 # Tools and replies
 
-keyline-mcp exposes six tools. This page lists each tool's inputs and the exact shape of its replies, and how the server is configured. What the fields of a scene mean is in the [scene format reference](scene.md); the ideas behind both are in [concepts.md](concepts.md). The `layer_add` tool description carries a compact version of the scene format for the agent.
+keyline-mcp exposes six tools. This page lists each tool's inputs and the exact shape of its replies, and how the server is configured. What the fields of a scene mean is in the [scene format reference](https://keyline.dev/docs/scene/index.md); the ideas behind both are in [concepts.md](https://keyline.dev/docs/index.md). The `layer_add` tool description carries a compact version of the scene format for the agent.
 
 - [Conventions](#conventions)
 - [Replies](#replies): problem lines, markers, facts, drawn text, output files
@@ -73,11 +73,12 @@ A **layer line** is `id type x,y w×h`, in px at that size, then:
 | `!leader "<left…>" meets "<right>"` | defect | In a `leader` line, the text before the tab runs into the text after it |
 | `!unsafe` | defect | Text's letters, as drawn (a rotation included), reach under the size's `safeArea` |
 | `warn contrast R:1 (WCAG N)` | advisory | Text contrast against what's behind it is below the WCAG level for its size. Knockout text is judged by what shows through its letters against the frame around them |
-| `warn crop cuts the image's middle (focus X%,Y%): height N shows half` | advisory | A cover crop hides more than half the image on one axis, so whatever sits in its middle is cut (a house in a band too short for it). The end names the field to write and its value in master px, like every field (the size's `scale` multiplies it): `height N` for a crop top and bottom, `height at most N` for one at the sides. A photo filling the canvas gets none: it can't grow, and its focus shows where it's set. When the parent sets the height (`fill`, a share, `flexGrow`, a stretch constraint), `minHeight N` or `maxHeight N`; when a stretch constraint shrank a fixed height, `squeezed from A to B: minHeight N` (A and B px at that size). Names "the area around its focus" when `focus` isn't the center |
+| `!crop cuts the image's middle (focus X%,Y%): height A shows all, B half` | defect | A cover crop hides more than half the image top and bottom, so whatever sits in its middle is cut (a house in a band too short for it). The end names the field to write and its values in master px, like every field (the size's `scale` multiplies it): the height that shows the whole image, and the one that shows half. When the parent sets the height (`fill`, a share, `flexGrow`, a stretch constraint), `minHeight A shows all, B half`; when a stretch constraint shrank a fixed height, `squeezed from C to D: minHeight …` (C and D px at that size). A photo filling the canvas gets none: it can't grow, and its focus shows where it's set. Names "the area around its focus" when `focus` isn't the center |
+| `warn crop cuts the image's middle (focus X%,Y%): height at most A shows all, B half` | advisory | The same at the sides (a landscape photo in a tall box, common in skyscraper ads): `height at most N`, or `maxHeight N` when the parent sets the height |
 | `warn ink Npx from <id>` | advisory | This text's ink comes within N px of a neighbour's, above or beside it, closer than 15% of the smaller font size, touching included (`0px`) up to the overlap `!overlaps` reports (caps overshooting a tight `lineHeight`); on the upper or left text |
 | `warn shadow clipped by <frame>` | advisory | A frame that clips its content (`clipsContent`, on by default) cuts the layer's drop shadow; give it room (padding) or set `clipsContent: false` |
 
-Defects need fixing; advisories need judgment ([concepts](concepts.md#checks-defects-advisories-facts)). In a scene of [shots](scene.md#shots-and-transitions), every shot is checked, each with the layers around it.
+Defects need fixing; advisories need judgment ([concepts](https://keyline.dev/docs/index.md#checks-defects-advisories-facts)). In a scene of [shots](https://keyline.dev/docs/scene/index.md#shots-and-transitions), every shot is checked, each with the layers around it.
 
 ### Facts line
 
@@ -89,7 +90,7 @@ smallest text: instagram-portrait 28px (cta), sky 11.3px (cta); upscaled: instag
 
 ### Hint lines
 
-After the facts, one line per text that writes a token as `$name` rather than [`{{name}}`](scene.md#tokens). The text is left as it is, since `$29` or `$USD` may be meant:
+After the facts, one line per text that writes a token as `$name` rather than [`{{name}}`](https://keyline.dev/docs/scene/index.md#tokens). The text is left as it is, since `$29` or `$USD` may be meant:
 
 ```text
 hint: did you mean {{price}}? (cta says $price)
@@ -144,10 +145,10 @@ instagram-portrait /…/renders/sfc5e3bbb5b/instagram-portrait-v3.jpg quality 11
 
 | Input | Type | Default | Meaning |
 |---|---|---|---|
-| `sizes` | array | required, or the template's | Target [sizes](scene.md#sizes): a size object, a preset name, or `"WxH"` |
+| `sizes` | array | required, or the template's | Target [sizes](https://keyline.dev/docs/scene/index.md#sizes): a size object, a preset name, or `"WxH"` |
 | `width`, `height` | number | the first size's | The master size, px |
 | `background` | color | `#FFFFFF` | Canvas color |
-| `duration`, `fps`, `loop` | number, number, boolean | a still, 30, false | [Scene timing](scene.md#scene-timing) |
+| `duration`, `fps`, `loop` | number, number, boolean | a still, 30, false | [Scene timing](https://keyline.dev/docs/scene/index.md#scene-timing) |
 | `url` | string | | A [template](#templates-and-variants) at a public http(s) URL |
 | `path` | string | | Or a template file in an allowed folder; offered only with [`--allow-read`](#command-line-flags) |
 | `tokens` | object | | The template's variables to set, `{name: value}` |
@@ -173,7 +174,7 @@ video off: no ffmpeg (install it or pass --ffmpeg); apng, gif work
 | `base64` | string | | Or a still image's bytes, base64. They pass through the model, so keep this for small files |
 | `id` | string | generated | The id layers use to refer to it; an existing id is replaced |
 
-Give exactly one of `url`, `path` or `base64`. Video clips (MP4, MOV, WebM…) and sounds (MP3, M4A, WAV…, for a [soundtrack](scene.md#soundtrack)) need [ffmpeg](#ffmpeg) and can't come as base64. SVGs are rasterized at their drawn size, so they stay sharp.
+Give exactly one of `url`, `path` or `base64`. Video clips (MP4, MOV, WebM…) and sounds (MP3, M4A, WAV…, for a [soundtrack](https://keyline.dev/docs/scene/index.md#soundtrack)) need [ffmpeg](#ffmpeg) and can't come as base64. SVGs are rasterized at their drawn size, so they stay sharp.
 
 Reply: the asset's id, its intrinsic size and the scene version; for a clip, also its length, frame rate and `sound` when it has any; for a sound, `sound` and its length.
 
@@ -188,10 +189,10 @@ song sound 184.3s v3
 | Input | Type | Default | Meaning |
 |---|---|---|---|
 | `sceneId` | string, required | | The scene |
-| `layers` | array, required | | [Layer](scene.md#layers) objects, added on top in order. A layer with `parent` goes inside that frame |
-| `styles` | object | | [Styles](scene.md#styles) to add or replace: `{name: {fields}}` |
-| `tokens` | object | | [Tokens](scene.md#tokens) to add or replace: `{name: value}` |
-| `components` | object | | [Components](scene.md#components) to add or replace |
+| `layers` | array, required | | [Layer](https://keyline.dev/docs/scene/index.md#layers) objects, added on top in order. A layer with `parent` goes inside that frame |
+| `styles` | object | | [Styles](https://keyline.dev/docs/scene/index.md#styles) to add or replace: `{name: {fields}}` |
+| `tokens` | object | | [Tokens](https://keyline.dev/docs/scene/index.md#tokens) to add or replace: `{name: value}` |
+| `components` | object | | [Components](https://keyline.dev/docs/scene/index.md#components) to add or replace |
 
 Reply: `added`, the ids of the new top-level layers and the version; then `ok` on the same line, or [problem lines](#problem-lines); then the [facts line](#facts-line). The agent needs no `scene_describe` call after an edit.
 
@@ -225,11 +226,13 @@ Each op has a `target` and exactly one action:
 | `{"style": "title"}` | A named style; `set` creates or changes it, so every layer using it follows |
 | `{"component": "card"}` | A component's tree; every instance follows |
 | `{"component": "card", "role": "name"}` | One layer inside a component's tree |
-| `{"scene": true}` | The scene itself; `set` takes `background`, `sizes`, `width`, `height`, `duration`, `fps`, `loop`, `audio` ([soundtrack](scene.md#soundtrack)) |
+| `{"scene": true}` | The scene itself; `set` takes `background`, `sizes`, `width`, `height`, `duration`, `fps`, `loop`, `audio` ([soundtrack](https://keyline.dev/docs/scene/index.md#soundtrack)) |
 
 | Action | Does |
 |---|---|
 | `"set": {fields}` | Merges the fields in; `null` resets a field to its default |
+| `"set": {"children": [layers]}` | With an `{id}` target of a frame: replaces its children, checked and given ids as `layer_add` does; `null` empties it |
+| `"set": {"parent": "bg", "index": 0}` | With an `{id}` target: moves the layer into frame `bg` (`null`: the scene's top level), at `index` from the bottom (0) up; either alone works, `index` alone moving it within its own parent. Other fields in the same `set` apply too |
 | `"delete": true` | Removes the target (and a layer's children) |
 | `"detach": true` | With an `{id}` target of a `use` layer: turns its instances into plain layers that no longer follow the component |
 
@@ -289,7 +292,7 @@ A moving format gives its length, frame count and frame rate; GIF and APNG also 
 
 ## Templates and variants
 
-A template is a scene file ([its format](scene.md#template-files)) that `scene_create` loads by `url` or `path`, the same way `asset_add` loads an image. Its images are added as assets, `tokens` sets its variables, and any other `scene_create` input (`sizes`, `background` …) replaces the template's. Nothing else is kept: the template stays wherever it came from. A token named in `tokens` that the template doesn't have is an error that lists the ones it has.
+A template is a scene file ([its format](https://keyline.dev/docs/scene/index.md#template-files)) that `scene_create` loads by `url` or `path`, the same way `asset_add` loads an image. Its images are added as assets, `tokens` sets its variables, and any other `scene_create` input (`sizes`, `background` …) replaces the template's. Nothing else is kept: the template stays wherever it came from. A token named in `tokens` that the template doesn't have is an error that lists the ones it has.
 
 `render` with `rows` makes variants: each row of token values is applied as `layer_update` with those `tokens` would, to a copy, and rendered, so a row changes every field bound to its tokens, sentences and image assets included; the saved scene doesn't change. A key that isn't one of the scene's tokens is an error naming the row and the tokens there are. `preview` shows the first row.
 
@@ -308,7 +311,7 @@ A template is a scene file ([its format](scene.md#template-files)) that `scene_c
 | `mp4` | H.264 video, plays everywhere. Needs [ffmpeg](#ffmpeg) |
 | `webm` | VP9 video. Needs [ffmpeg](#ffmpeg) |
 
-The animated and video formats need a scene that moves (a `duration`, or shots); `time` can't be combined with them. Frames are drawn in memory, several at once, and APNG and GIF frames store only the part that changed. MP4 encodes on the GPU when ffmpeg has a hardware encoder that works on the machine (VideoToolbox on macOS; NVENC, Quick Sync or AMF elsewhere), else with `libx264`; `--encoder` picks one. The scene's [soundtrack](scene.md#soundtrack) and the clips' own sound come along, mixed, AAC in MP4 and Opus in WebM, unless `muted` is `true`.
+The animated and video formats need a scene that moves (a `duration`, or shots); `time` can't be combined with them. Frames are drawn in memory, several at once, and APNG and GIF frames store only the part that changed. MP4 encodes on the GPU when ffmpeg has a hardware encoder that works on the machine (VideoToolbox on macOS; NVENC, Quick Sync or AMF elsewhere), else with `libx264`; `--encoder` picks one. The scene's [soundtrack](https://keyline.dev/docs/scene/index.md#soundtrack) and the clips' own sound come along, mixed, AAC in MP4 and Opus in WebM, unless `muted` is `true`.
 
 ## Server configuration
 
@@ -394,7 +397,7 @@ Video clips, sounds, and MP4 and WebM output need [ffmpeg](https://ffmpeg.org) (
 | A template file | 50 MB |
 | `preview` | 384 px tall |
 
-Limits of the scene itself (grid tracks, component depth, frame rates) are in [scene.md](scene.md#validation-and-limits).
+Limits of the scene itself (grid tracks, component depth, frame rates) are in [scene.md](https://keyline.dev/docs/scene/index.md#validation-and-limits).
 
 ## Errors
 
