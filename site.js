@@ -31,3 +31,15 @@ if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
     v.pause();
   }
 }
+
+// Star count and latest version from GitHub; without them the nav shows
+// only the GitHub icon and the hero "Latest release".
+const gh = (path) => fetch(`https://api.github.com/repos/keyline-dev/keyline${path}`).then((r) => r.ok ? r.json() : Promise.reject());
+// ponytail: hidden below 50 stars, where a count argues against us.
+gh('').then((repo) => {
+  if (repo.stargazers_count < 50) return;
+  document.getElementById('stars').textContent = `★ ${repo.stargazers_count.toLocaleString('en')}`;
+}).catch(() => {});
+gh('/releases/latest').then((rel) => {
+  document.getElementById('release').textContent = `Latest: ${rel.tag_name} · release notes`;
+}).catch(() => {});

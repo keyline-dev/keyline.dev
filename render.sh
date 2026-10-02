@@ -20,12 +20,14 @@ for s in portrait banner sky; do
   rm "assets/villa/$s-v0.mp4"
 done
 
-# The gallery. Motion pieces render at half-size "web" or "*-loop" sizes.
+# The gallery. Motion pieces render at half-size "web" or "*-loop" sizes;
+# a video with no still of its own gets one from --time, as its poster.
 r scenes/adoption.json --out assets/adoption --format webp --size instagram-square --size instagram-story --rows scenes/adoption-rows.json
 r scenes/adoption.json --out assets/adoption --format mp4 --size story-loop --rows scenes/adoption-rows.json
 r scenes/ebike.json --out assets/ebike --format webp --size portrait --size feed --size half-page --size mpu --size leaderboard
 r scenes/ebike.json --out assets/ebike --format mp4 --size web
 r scenes/festival.json --out assets/festival --format mp4
+r scenes/festival.json --out assets/festival --format webp --time 7
 r scenes/festival-thumb.json --out assets/festival --format webp
 r scenes/campaign.json --out assets/campaign --format webp --rows scenes/campaign-rows.json
 r scenes/cadence.json --out assets/cadence --format webp --size x-post --size linkedin --size square
@@ -33,6 +35,7 @@ r scenes/cadence.json --out assets/cadence --format mp4 --size web
 r scenes/menu.json --out assets/menu --size a4 --format pdf --max-kb 300
 r scenes/menu.json --out assets/menu --size instagram-portrait --size a4 --format webp
 r scenes/menu.json --out assets/menu --size story-loop --format mp4
+r scenes/menu.json --out assets/menu --size story-loop --format webp --time 5
 
 # The preview shown when the site is shared.
 r scenes/og.json --out assets/og --format png

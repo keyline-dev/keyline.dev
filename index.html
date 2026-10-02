@@ -10,12 +10,12 @@
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="keyline">
   <meta property="og:title" content="keyline: design engine for AI agents">
-  <meta property="og:description" content="Images and video at every size. No Chrome needed.">
+  <meta property="og:description" content="Your AI agent designs social posts, ads and banners; keyline renders them at every size. No Chrome needed.">
   <meta property="og:image" content="https://keyline.dev/assets/og/og-v0.png">
   <meta property="og:url" content="https://keyline.dev">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="keyline: design engine for AI agents">
-  <meta name="twitter:description" content="Images and video at every size. No Chrome needed.">
+  <meta name="twitter:description" content="Your AI agent designs social posts, ads and banners; keyline renders them at every size. No Chrome needed.">
   <link rel="alternate" type="text/plain" href="llms.txt" title="llms.txt">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareApplication","name":"keyline","alternateName":"keyline-mcp","description":"Design engine for AI agents: an MCP server that composes images and video at every size from one JSON scene, measures text fit, overflow and contrast, and renders without a browser.","url":"https://keyline.dev/","applicationCategory":"DesignApplication","operatingSystem":"macOS, Linux, Windows","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"license":"https://polyformproject.org/licenses/shield/1.0.0","codeRepository":"https://github.com/keyline-dev/keyline","image":"https://keyline.dev/assets/og/og-v0.png","author":{"@type":"Person","name":"Yuval Tal"}}</script>
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -29,24 +29,23 @@
     <div class="wrap nav-row">
       <a class="brand" href="index.html" aria-label="keyline home"><picture><source srcset="logo/lockup-nav-dark.svg" media="(prefers-color-scheme: dark)"><img src="logo/lockup-nav-light.svg" alt="keyline" width="90" height="26"></picture></a>
       <nav>
-        <a href="#gallery">Examples</a>
         <a href="#how">How it works</a>
-        <a href="#install">Install</a>
+        <a href="#gallery">Examples</a>
         <a href="docs/index.html">Docs</a>
-        <a href="https://github.com/keyline-dev/keyline" class="gh" aria-label="keyline on GitHub"><svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg></a>
+        <a href="https://github.com/keyline-dev/keyline" class="gh" aria-label="keyline on GitHub"><svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg><span id="stars"></span></a>
       </nav>
     </div>
   </header>
 
   <main>
     <section class="hero wrap">
-      <p class="eyebrow">An MCP server for Claude, Codex, Cursor and any agent</p>
+      <p class="eyebrow">Canva for your agent</p>
       <h1>Design engine for AI&nbsp;agents.</h1>
-      <p class="lead">Your agent describes a design once. keyline renders it as images and video at every size you need. No Chrome needed.</p>
+      <p class="lead">Your agent describes a social post, ad or banner once. keyline renders it as images and video at every size, with real text in your fonts and colors, the same every run.</p>
       <div class="cta">
         <a class="btn primary" href="#install">Install</a>
-        <a class="btn" href="https://github.com/keyline-dev/keyline">View on GitHub</a>
       </div>
+      <p class="release">Free and source-available · <a id="release" href="https://github.com/keyline-dev/keyline/releases/latest">Latest release</a></p>
 
       <div class="app" aria-label="A conversation with an agent using keyline">
         <div class="app-bar"><span></span><span></span><span></span><em>Claude · keyline</em></div>
@@ -62,131 +61,28 @@
           <div class="sizes">
             <figure class="size">
               <video src="assets/villa/portrait-web.mp4" poster="assets/villa/portrait-v0.webp" width="1080" height="1350" autoplay muted loop playsinline aria-label="Instagram post: Villa Lefka, Oia, a white Cycladic tower, with a slow zoom"></video>
-              <figcaption>Post · 1080×1350</figcaption>
+              <figcaption><span class="sz-name">Post · </span>1080×1350</figcaption>
             </figure>
             <figure class="size">
               <video src="assets/villa/banner-web.mp4" poster="assets/villa/banner-v0.webp" width="1200" height="628" autoplay muted loop playsinline aria-label="Facebook banner: Villa Lefka beside the tower"></video>
-              <figcaption>Banner · 1200×628</figcaption>
+              <figcaption><span class="sz-name">Banner · </span>1200×628</figcaption>
             </figure>
             <figure class="size">
               <video src="assets/villa/sky-web.mp4" poster="assets/villa/sky-v0.webp" width="300" height="600" autoplay muted loop playsinline aria-label="Skyscraper ad: Villa Lefka, the tower above the name"></video>
-              <figcaption>Skyscraper · 300×600</figcaption>
+              <figcaption><span class="sz-name">Skyscraper · </span>300×600</figcaption>
             </figure>
           </div>
         </div>
       </div>
     </section>
 
-    <section class="works wrap" aria-label="Works with">
-      <p>Works with</p>
-      <ul>
-        <li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg>Claude Code</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></svg>Claude Desktop</li><li>Codex</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11.503.131 1.891 5.678a.84.84 0 0 0-.42.726v11.188c0 .3.162.575.42.724l9.609 5.55a1 1 0 0 0 .998 0l9.61-5.55a.84.84 0 0 0 .42-.724V6.404a.84.84 0 0 0-.42-.726L12.497.131a1.01 1.01 0 0 0-.996 0M2.657 6.338h18.55c.263 0 .43.287.297.515L12.23 22.918c-.062.107-.229.064-.229-.06V12.335a.59.59 0 0 0-.295-.51l-9.11-5.257c-.109-.063-.064-.23.061-.23"/></svg>Cursor</li><li>VS Code</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M23.55 5.067c-1.2038-.002-2.1806.973-2.1806 2.1765v4.8676c0 .972-.8035 1.7594-1.7597 1.7594-.568 0-1.1352-.286-1.4718-.7659l-4.9713-7.1003c-.4125-.5896-1.0837-.941-1.8103-.941-1.1334 0-2.1533.9635-2.1533 2.153v4.8957c0 .972-.7969 1.7594-1.7596 1.7594-.57 0-1.1363-.286-1.4728-.7658L.4076 5.1598C.2822 4.9798 0 5.0688 0 5.2882v4.2452c0 .2147.0656.4228.1884.599l5.4748 7.8183c.3234.462.8006.8052 1.3509.9298 1.3771.313 2.6446-.747 2.6446-2.0977v-4.893c0-.972.7875-1.7593 1.7596-1.7593h.003a1.798 1.798 0 0 1 1.4718.7658l4.9723 7.0994c.4135.5905 1.05.941 1.8093.941 1.1587 0 2.1515-.9645 2.1515-2.153v-4.8948c0-.972.7875-1.7594 1.7596-1.7594h.194a.22.22 0 0 0 .2204-.2202v-4.622a.22.22 0 0 0-.2203-.2203Z"/></svg>Windsurf</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m23.365 13.556-1.442-2.895V8.994c0-2.764-2.218-5.002-4.954-5.002h-2.464c.178-.367.276-.779.276-1.213A2.77 2.77 0 0 0 12.018 0a2.77 2.77 0 0 0-2.763 2.779c0 .434.098.846.276 1.213H7.067c-2.736 0-4.954 2.238-4.954 5.002v1.667L.64 13.549c-.149.29-.149.636 0 .927l1.472 2.855v1.667C2.113 21.762 4.33 24 7.067 24h9.902c2.736 0 4.954-2.238 4.954-5.002V17.33l1.44-2.865c.143-.286.143-.622.002-.91m-12.854 2.36a2.27 2.27 0 0 1-2.261 2.273 2.27 2.27 0 0 1-2.261-2.273v-4.042A2.27 2.27 0 0 1 8.249 9.6a2.267 2.267 0 0 1 2.262 2.274zm7.285 0a2.27 2.27 0 0 1-2.26 2.273 2.27 2.27 0 0 1-2.262-2.273v-4.042A2.267 2.267 0 0 1 15.535 9.6a2.267 2.267 0 0 1 2.261 2.274z"/></svg>Cline</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10.984 13.836a.5.5 0 0 1-.353-.146l-.745-.743a.5.5 0 1 1 .706-.708l.392.391 1.181-1.18a.5.5 0 0 1 .708.707l-1.535 1.533a.504.504 0 0 1-.354.146zm9.353-.147l1.534-1.532a.5.5 0 0 0-.707-.707l-1.181 1.18-.392-.391a.5.5 0 1 0-.706.708l.746.743a.497.497 0 0 0 .706-.001zM4.527 7.452l2.557-1.585A1 1 0 0 0 7.09 4.17L4.533 2.56A1 1 0 0 0 3 3.406v3.196a1.001 1.001 0 0 0 1.527.85zm2.03-2.436L4 6.602V3.406l2.557 1.61zM24 12.5c0 1.93-1.57 3.5-3.5 3.5a3.503 3.503 0 0 1-3.46-3h-2.08a3.503 3.503 0 0 1-3.46 3 3.502 3.502 0 0 1-3.46-3h-.558c-.972 0-1.85-.399-2.482-1.042V17c0 1.654 1.346 3 3 3h.04c.244-1.693 1.7-3 3.46-3 1.93 0 3.5 1.57 3.5 3.5S13.43 24 11.5 24a3.502 3.502 0 0 1-3.46-3H8c-2.206 0-4-1.794-4-4V9.899A5.008 5.008 0 0 1 0 5c0-2.757 2.243-5 5-5s5 2.243 5 5a5.005 5.005 0 0 1-4.952 4.998A2.482 2.482 0 0 0 7.482 12h.558c.244-1.693 1.7-3 3.46-3a3.502 3.502 0 0 1 3.46 3h2.08a3.503 3.503 0 0 1 3.46-3c1.93 0 3.5 1.57 3.5 3.5zm-15 8c0 1.378 1.122 2.5 2.5 2.5s2.5-1.122 2.5-2.5-1.122-2.5-2.5-2.5S9 19.122 9 20.5zM5 9c2.206 0 4-1.794 4-4S7.206 1 5 1 1 2.794 1 5s1.794 4 4 4zm9 3.5c0-1.378-1.122-2.5-2.5-2.5S9 11.122 9 12.5s1.122 2.5 2.5 2.5 2.5-1.122 2.5-2.5zm9 0c0-1.378-1.122-2.5-2.5-2.5S18 11.122 18 12.5s1.122 2.5 2.5 2.5 2.5-1.122 2.5-2.5zm-13 8a.5.5 0 1 0 1 0 .5.5 0 0 0-1 0zm2 0a.5.5 0 1 0 1 0 .5.5 0 0 0-1 0zm12 0c0 1.93-1.57 3.5-3.5 3.5a3.503 3.503 0 0 1-3.46-3.002c-.007.001-.013.005-.021.005l-.506.017h-.017a.5.5 0 0 1-.016-.999l.506-.017c.018-.002.035.006.052.007A3.503 3.503 0 0 1 20.5 17c1.93 0 3.5 1.57 3.5 3.5zm-1 0c0-1.378-1.122-2.5-2.5-2.5S18 19.122 18 20.5s1.122 2.5 2.5 2.5 2.5-1.122 2.5-2.5z"/></svg>GitHub Actions</li><li><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.85 0a4.16 4.16 0 0 0-2.95 1.217L1.456 10.66a.835.835 0 0 0 0 1.18.835.835 0 0 0 1.18 0l9.442-9.442a2.49 2.49 0 0 1 3.541 0 2.49 2.49 0 0 1 0 3.541L8.59 12.97l-.1.1a.835.835 0 0 0 0 1.18.835.835 0 0 0 1.18 0l.1-.098 7.03-7.034a2.49 2.49 0 0 1 3.542 0l.049.05a2.49 2.49 0 0 1 0 3.54l-8.54 8.54a1.96 1.96 0 0 0 0 2.755l1.753 1.753a.835.835 0 0 0 1.18 0 .835.835 0 0 0 0-1.18l-1.753-1.753a.266.266 0 0 1 0-.394l8.54-8.54a4.185 4.185 0 0 0 0-5.9l-.05-.05a4.16 4.16 0 0 0-2.95-1.218c-.2 0-.401.02-.6.048a4.17 4.17 0 0 0-1.17-3.552A4.16 4.16 0 0 0 13.85 0m0 3.333a.84.84 0 0 0-.59.245L6.275 10.56a4.186 4.186 0 0 0 0 5.902 4.186 4.186 0 0 0 5.902 0L19.16 9.48a.835.835 0 0 0 0-1.18.835.835 0 0 0-1.18 0l-6.985 6.984a2.49 2.49 0 0 1-3.54 0 2.49 2.49 0 0 1 0-3.54l6.983-6.985a.835.835 0 0 0 0-1.18.84.84 0 0 0-.59-.245"/></svg>Any MCP client</li>
-      </ul>
-    </section>
-
-    <section id="gallery" class="gallery wrap">
-      <h2>Made with keyline</h2>
-      <p class="section-lead">Each campaign is one small JSON scene, rendered and checked by keyline. The brands are fictional; the photos are real.</p>
-      <article class="case">
-        <header><h3>Kindlepaw Rescue <span>Adoption posts</span></h3><p class="proves">1 template · 4 dogs · 12 files</p></header>
-        <p class="case-lead">The same card, one row per dog: name, age, traits and photo come from the data.</p>
-        <div class="strip"><figure class="m" style="flex: 1.0000 1 0; aspect-ratio: 1080 / 1080"><img src="assets/adoption/instagram-square-v0.r1.webp" width="1080" height="1080" loading="lazy" alt="Meet Biscuit: a pug wrapped in a blanket"><figcaption>Biscuit</figcaption></figure><figure class="m" style="flex: 1.0000 1 0; aspect-ratio: 1080 / 1080"><img src="assets/adoption/instagram-square-v0.r2.webp" width="1080" height="1080" loading="lazy" alt="Meet Pepper: a black lab puppy"><figcaption>Pepper</figcaption></figure><figure class="m" style="flex: 1.0000 1 0; aspect-ratio: 1080 / 1080"><img src="assets/adoption/instagram-square-v0.r3.webp" width="1080" height="1080" loading="lazy" alt="Meet Juno: a husky"><figcaption>Juno</figcaption></figure><figure class="m" style="flex: 1.0000 1 0; aspect-ratio: 1080 / 1080"><img src="assets/adoption/instagram-square-v0.r4.webp" width="1080" height="1080" loading="lazy" alt="Meet Sir Winston: a bulldog"><figcaption>Sir Winston</figcaption></figure><figure class="m" style="flex: 0.5625 1 0; aspect-ratio: 540 / 960"><video src="assets/adoption/story-loop-v0.r1.mp4" poster="assets/adoption/instagram-story-v0.r1.webp" width="540" height="960" autoplay muted loop playsinline preload="none" aria-label="Biscuit's animated story"></video><figcaption>Story · animated</figcaption></figure></div>
-        <p class="credit">Photos: Matthew Wiebe, André Spieker, Alexander Dimitrov, Yamon Figurs / Unsplash</p>
-      </article>
-      <article class="case">
-        <header><h3>Loam Cargo <span>E-bike launch</span></h3><p class="proves">1 scene · 5 sizes, down to 728×90 · a pan that follows the rider</p></header>
-        <p class="case-lead">The layout reflows from a post to a leaderboard banner; the checks confirm every size.</p>
-        <div class="strip"><figure class="m" style="flex: 0.8000 1 0; aspect-ratio: 540 / 675"><video src="assets/ebike/web-v0.mp4" poster="assets/ebike/portrait-v0.webp" width="540" height="675" autoplay muted loop playsinline preload="none" aria-label="Loam Cargo post, animated: the photo pans with the rider"></video><figcaption>Post · animated</figcaption></figure><figure class="m" style="flex: 1.9108 1 0; aspect-ratio: 1200 / 628"><img src="assets/ebike/feed-v0.webp" width="1200" height="628" loading="lazy" alt="Loam Cargo banner: photo left, headline and prices right"><figcaption>Feed · 1200×628</figcaption></figure><figure class="m" style="flex: 0.5000 1 0; aspect-ratio: 300 / 600"><img src="assets/ebike/half-page-v0.webp" width="300" height="600" loading="lazy" alt="Loam Cargo half-page ad"><figcaption>300×600</figcaption></figure><figure class="m" style="flex: 1.2000 1 0; aspect-ratio: 300 / 250"><img src="assets/ebike/mpu-v0.webp" width="300" height="250" loading="lazy" alt="Loam Cargo medium rectangle"><figcaption>300×250</figcaption></figure></div>
-        <div class="strip strip-wide"><figure class="m" style="flex: 1 1 0; aspect-ratio: 728 / 90; max-width: 728px"><img src="assets/ebike/leaderboard-v0.webp" width="728" height="90" loading="lazy" alt="Loam Cargo leaderboard: one line with photo, headline, prices and button"><figcaption>728×90</figcaption></figure></div>
-        <p class="credit">Photo: Abigail Keenan / Unsplash</p>
-      </article>
-      <article class="case">
-        <header><h3>Nightline <span>Festival teaser</span></h3><p class="proves">4 shots · duotone photos · letters that fly in</p></header>
-        <p class="case-lead">Three unrelated photos read as one campaign; the headliner's letters land in place.</p>
-        <div class="strip"><figure class="m" style="flex: 0.5625 1 0; aspect-ratio: 540 / 960"><video src="assets/festival/story-v0.mp4" width="540" height="960" autoplay muted loop playsinline preload="none" aria-label="Nightline festival story: stage shots in magenta, then the lineup"></video><figcaption>Story · animated</figcaption></figure><figure class="m" style="flex: 1.7778 1 0; aspect-ratio: 800 / 450"><video src="assets/festival/land-v0.mp4" width="800" height="450" autoplay muted loop playsinline preload="none" aria-label="Nightline festival, landscape"></video><figcaption>Landscape · animated</figcaption></figure><figure class="m" style="flex: 1.7778 1 0; aspect-ratio: 1280 / 720"><img src="assets/festival/thumb-v0.webp" width="1280" height="720" loading="lazy" alt="Nightline lineup thumbnail"><figcaption>Thumbnail</figcaption></figure></div>
-        <p class="credit">Photos: Daniel Robert, Gonzalo Poblete, Desi Mendoza / Unsplash</p>
-      </article>
-      <article class="case">
-        <header><h3>Maya Okafor for City Council <span>Campaign, English and Spanish</span></h3><p class="proves">2 languages · 4 sizes · 8 files · the longer Spanish still fits</p></header>
-        <p class="case-lead">One campaign, one row per language; the text-fitting checks prove every size holds.</p>
-        <div class="strip"><figure class="m" style="flex: 0.8000 1 0; aspect-ratio: 1080 / 1350"><img src="assets/campaign/instagram-portrait-v0.r1.webp" width="1080" height="1350" loading="lazy" alt="Campaign post in English: A District 4 that works for families"><figcaption>English</figcaption></figure><figure class="m" style="flex: 0.8000 1 0; aspect-ratio: 1080 / 1350"><img src="assets/campaign/instagram-portrait-v0.r2.webp" width="1080" height="1350" loading="lazy" alt="Campaign post in Spanish: Un Distrito 4 que funciona para las familias"><figcaption>Spanish</figcaption></figure><figure class="m" style="flex: 1.9108 1 0; aspect-ratio: 1200 / 628"><img src="assets/campaign/facebook-feed-v0.r2.webp" width="1200" height="628" loading="lazy" alt="Campaign banner in Spanish"><figcaption>Feed · Spanish</figcaption></figure><figure class="m" style="flex: 0.5000 1 0; aspect-ratio: 300 / 600"><img src="assets/campaign/iab-half-page-v0.r2.webp" width="300" height="600" loading="lazy" alt="Campaign half-page ad in Spanish"><figcaption>300×600 · Spanish</figcaption></figure></div>
-        <p class="credit">Photo: Nicholas Swanson / Unsplash</p>
-      </article>
-      <article class="case">
-        <header><h3>Quillday <span>App launch</span></h3><p class="proves">A UI built from layers · a focus ring that draws itself · hours that count up</p></header>
-        <p class="case-lead">No screenshot: the app's interface is built in the scene, so it stays sharp at every size.</p>
-        <div class="strip"><figure class="m" style="flex: 1.7778 1 0; aspect-ratio: 800 / 450"><video src="assets/cadence/web-v0.mp4" poster="assets/cadence/x-post-v0.webp" width="800" height="450" autoplay muted loop playsinline preload="none" aria-label="Quillday launch video: calendar cards pop in, the focus ring fills, hours count up"></video><figcaption>Animated</figcaption></figure><figure class="m" style="flex: 1.0000 1 0; aspect-ratio: 1080 / 1080"><img src="assets/cadence/square-v0.webp" width="1080" height="1080" loading="lazy" alt="Quillday square post"><figcaption>Square</figcaption></figure></div>
-        <p class="credit">Photo: William Iven / Unsplash</p>
-      </article>
-      <article class="case">
-        <header><h3>Cinder &amp; Thyme <span>Supper-club menu</span></h3><p class="proves">1 scene · a print PDF, a post and a story</p></header>
-        <p class="case-lead">The same menu as vector A4 for the printer and as social posts; dot leaders run to the prices.</p>
-        <div class="strip"><figure class="m" style="flex: 0.7067 1 0; aspect-ratio: 595 / 842"><a href="assets/menu/a4-v0.pdf"><img src="assets/menu/a4-v0.webp" width="595" height="842" loading="lazy" alt="Cinder & Thyme menu, A4"></a><figcaption>A4 · PDF</figcaption></figure><figure class="m" style="flex: 0.8000 1 0; aspect-ratio: 1080 / 1350"><img src="assets/menu/instagram-portrait-v0.webp" width="1080" height="1350" loading="lazy" alt="Cinder & Thyme menu post"><figcaption>Post</figcaption></figure><figure class="m" style="flex: 0.5625 1 0; aspect-ratio: 540 / 960"><video src="assets/menu/story-loop-v0.mp4" width="540" height="960" autoplay muted loop playsinline preload="none" aria-label="Cinder & Thyme story, animated"></video><figcaption>Story · animated</figcaption></figure></div>
-        <p class="credit">Photos: Todd Quackenbush, Annie Spratt / Unsplash</p>
-      </article>
-    </section>
-
-    <section id="how" class="how wrap">
-      <h2>How it works</h2>
-      <p class="section-lead">The agent works in a small JSON scene. keyline measures it and says what's wrong, so the agent fixes the design before anyone looks at pixels.</p>
-      <ol class="steps">
-        <li>
-          <h3><span>1</span> The agent writes a scene</h3>
-          <p>Text, images, shapes, layout and motion, in names models already know from CSS and Figma.</p>
-<pre><code>{"id": "headline", "type": "text",
- "text": "Cold Brew Season",
- "fontSize": 168, "fontWeight": 900,
- "textWrap": "balance",
- "media": {"banner": {"fontSize": 104}}}</code></pre>
-        </li>
-        <li>
-          <h3><span>2</span> keyline checks it</h3>
-          <p>Every edit replies with what doesn't fit, per size: cut text, overflow, low contrast, text under a platform's buttons.</p>
-<pre><code>changed headline v4
-story headline text 96,1110 888×290 168px 2L
-banner sub text 60,372 470×62 26px
-  !truncated needs 470×96</code></pre>
-        </li>
-        <li>
-          <h3><span>3</span> and renders every size</h3>
-          <p>PNG, JPEG, WebP, PDF, animated PNG, GIF, MP4 or WebM, with facts the agent can check without opening the files.</p>
-<pre><code>story  …/story-v5.png  (1080×1920, 78 KB)
-banner …/banner-v5.png (1200×628, 46 KB)
-square …/square-v5.mp4 (1080×1080, 5s,
-  125 frames at 25 fps, 2179 KB)</code></pre>
-        </li>
-      </ol>
-    </section>
-
-    <!-- Figures: vs2 medians per arm, from keyline-dev/keyline bench/versus-browser/results.tsv.
-         Cards: the run closest to its arm's median total tokens. -->
-    <section id="versus" class="versus wrap">
-      <h2>Same card, no browser</h2>
-      <p class="section-lead">We gave Claude one brief, a conference speaker card at three sizes, and two ways to make it: keyline, or HTML screenshotted by headless Chrome through Playwright. Both made the card. Here's what each took.</p>
-      <div class="vs">
-        <figure><img src="assets/versus/keyline-square.webp" width="1080" height="1080" loading="lazy" alt="The speaker card made with keyline: portrait, name, talk title and a Get tickets button"><figcaption><i class="sw k"></i>keyline</figcaption></figure>
-        <figure><img src="assets/versus/browser-square.webp" width="1080" height="1080" loading="lazy" alt="The same speaker card made with HTML and headless Chrome"><figcaption><i class="sw b"></i>HTML + headless Chrome</figcaption></figure>
-      </div>
-      <table class="vs-stats">
-        <caption>Median of 5 runs each, Claude Opus 5, October 2026</caption>
-        <thead><tr><th scope="col"></th><th scope="col"><i class="sw k"></i>keyline</th><th scope="col"><i class="sw b"></i>Headless Chrome</th></tr></thead>
-        <tbody>
-          <tr><th scope="row">Tokens</th><td><span class="bar k" style="--w: 37%"></span>199k</td><td><span class="bar b" style="--w: 100%"></span>536k</td></tr>
-          <tr><th scope="row">Turns</th><td><span class="bar k" style="--w: 54%"></span>13</td><td><span class="bar b" style="--w: 100%"></span>24</td></tr>
-          <tr><th scope="row">Time</th><td><span class="bar k" style="--w: 55%"></span>2.0 min</td><td><span class="bar b" style="--w: 100%"></span>3.7 min</td></tr>
-          <tr><th scope="row">Images looked at</th><td><span class="bar k" style="--w: 57%"></span>4</td><td><span class="bar b" style="--w: 100%"></span>7</td></tr>
-        </tbody>
-      </table>
-      <p class="vs-claim">On this task, keyline used <strong>less than half the tokens</strong> of a headless-browser agent.</p>
-      <p class="vs-note">Our second task, a flyer, supports no claim: keyline got it right 4 times in 5, the browser 5 in 5. Every run, failures included, the prompts and the judge are in <a href="benchmark/index.html">the benchmark</a>.</p>
-    </section>
-
-    <section class="features wrap">
+    <section id="features" class="features wrap">
       <h2>What it does</h2>
+      <p class="section-lead">Everything an agent needs to ship a campaign, and nothing it has to guess.</p>
       <div class="grid">
         <div class="feature">
           <h3>Every size from one layout</h3>
-          <p>Stacks, grids and constraints adapt one design to a post, a banner and a skyscraper ad; <code>media</code> tweaks a single size.</p>
+          <p>Stacks, grids and constraints adapt one design to a post, a banner and a skyscraper ad, and any size can be tweaked on its own.</p>
         </div>
         <div class="feature">
           <h3>Checks before pixels</h3>
@@ -206,9 +102,118 @@ square …/square-v5.mp4 (1080×1080, 5s,
         </div>
         <div class="feature">
           <h3>Built for tokens</h3>
-          <p>Six tools, batched edits and terse replies: a full multi-size design in a couple of thousand tokens of tool traffic.</p>
+          <p>Six tools, batched edits and terse replies, so the agent spends its tokens on the design, not on reading the scene.</p>
         </div>
       </div>
+    </section>
+
+    <!-- Figures: vs2 medians per arm, from keyline-dev/keyline bench/versus-browser/results.tsv.
+         Cards: the run closest to its arm's median total tokens. -->
+    <section id="versus" class="versus wrap">
+      <h2>Same card, no browser</h2>
+      <p class="section-lead">We gave Claude one brief, a conference speaker card at three sizes, and three ways to make it: keyline, HTML screenshotted by headless Chrome, or a browser driven through Playwright MCP. All three made the card. Here's what each took.</p>
+      <p class="vs-stat"><strong>2×</strong> fewer tokens than headless Chrome, <strong>5×</strong> fewer than Playwright MCP.</p>
+      <div class="vs-body">
+        <div class="vs">
+          <figure><img src="assets/versus/keyline-square.webp" width="1080" height="1080" loading="lazy" alt="The speaker card made with keyline: portrait, name, talk title and a Get tickets button"><figcaption>keyline</figcaption></figure>
+          <figure><img src="assets/versus/browser-square.webp" width="1080" height="1080" loading="lazy" alt="The same speaker card made with HTML and headless Chrome"><figcaption>Headless Chrome</figcaption></figure>
+        </div>
+        <div class="vs-chart">
+          <ul class="legend" aria-hidden="true"><li><i class="sw k"></i>keyline</li><li><i class="sw b"></i>Headless Chrome</li><li><i class="sw pm"></i>Playwright MCP</li></ul>
+          <table class="vs-stats">
+            <caption>Median of 5 runs each, all correct, Claude Opus 5, October 2026</caption>
+            <tbody>
+            <tr><th scope="row">Tokens</th><td><span class="bar-row"><span class="bar k" style="--w: 18%"></span><span><span class="vh">keyline: </span>199k</span></span><span class="bar-row"><span class="bar b" style="--w: 49%"></span><span><span class="vh">Headless Chrome: </span>536k</span></span><span class="bar-row"><span class="bar pm" style="--w: 100%"></span><span><span class="vh">Playwright MCP: </span>1,087k</span></span></td></tr>
+            <tr><th scope="row">Turns</th><td><span class="bar-row"><span class="bar k" style="--w: 33%"></span><span><span class="vh">keyline: </span>13</span></span><span class="bar-row"><span class="bar b" style="--w: 62%"></span><span><span class="vh">Headless Chrome: </span>24</span></span><span class="bar-row"><span class="bar pm" style="--w: 100%"></span><span><span class="vh">Playwright MCP: </span>39</span></span></td></tr>
+            <tr><th scope="row">Time</th><td><span class="bar-row"><span class="bar k" style="--w: 47%"></span><span><span class="vh">keyline: </span>2.0 min</span></span><span class="bar-row"><span class="bar b" style="--w: 87%"></span><span><span class="vh">Headless Chrome: </span>3.7 min</span></span><span class="bar-row"><span class="bar pm" style="--w: 100%"></span><span><span class="vh">Playwright MCP: </span>4.3 min</span></span></td></tr>
+            <tr><th scope="row">Images looked at</th><td><span class="bar-row"><span class="bar k" style="--w: 50%"></span><span><span class="vh">keyline: </span>4</span></span><span class="bar-row"><span class="bar b" style="--w: 88%"></span><span><span class="vh">Headless Chrome: </span>7</span></span><span class="bar-row"><span class="bar pm" style="--w: 100%"></span><span><span class="vh">Playwright MCP: </span>8</span></span></td></tr>
+            </tbody>
+          </table>
+          <p class="vs-note">Every run, with its prompt and the judge's scores, is in <a href="benchmark/index.html">the benchmark</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="how wrap">
+      <h2>How it works</h2>
+      <p class="section-lead">The agent works in a small JSON scene. keyline measures it and says what's wrong, so the agent fixes the design before anyone looks at pixels.</p>
+      <ol class="steps">
+        <li>
+          <h3><span>1</span> The agent writes a scene</h3>
+          <p>Text, images, shapes, layout and motion, in names models already know from CSS and Figma.</p>
+<pre><code>{"id": "headline",
+ "type": "text",
+ "text": "Cold Brew Season",
+ "fontSize": 168,
+ "fontWeight": 900,
+ "textWrap": "balance",
+ "media": {"banner":
+   {"fontSize": 104}}}</code></pre>
+        </li>
+        <li>
+          <h3><span>2</span> keyline checks it</h3>
+          <p>Every edit replies with what doesn't fit, per size: cut text, overflow, low contrast, text under a platform's buttons.</p>
+<pre><code>changed headline v4
+story headline text
+  96,1110 888×290 168px 2L
+banner sub text
+  60,372 470×62 26px
+  !truncated needs 470×96</code></pre>
+        </li>
+        <li>
+          <h3><span>3</span> and renders every size</h3>
+          <p>PNG, JPEG, WebP, PDF, animated PNG, GIF, MP4 or WebM, with facts the agent can check without opening the files.</p>
+<pre><code>story  …/story-v5.png
+  1080×1920, 78 KB
+banner …/banner-v5.png
+  1200×628, 46 KB
+square …/square-v5.mp4
+  1080×1080, 5s, 125 frames,
+  2179 KB</code></pre>
+        </li>
+      </ol>
+    </section>
+
+    <section id="gallery" class="gallery wrap">
+      <h2>Made with keyline</h2>
+      <p class="section-lead">Each campaign is one small JSON scene, rendered and checked by keyline. The brands are fictional; the photos are real.</p>
+      <article class="case">
+        <header><h3>Kindlepaw Rescue <span>Adoption posts</span></h3><p class="proves"><span>1 template ·</span> <span>4 dogs ·</span> <span>a post and an animated story</span></p></header>
+        <p class="case-lead">The same card, one row per dog: name, age, traits and photo come from the data.</p>
+        <div class="strip"><figure class="m" style="flex: 1.0000 1 0; aspect-ratio: 1080 / 1080"><img src="assets/adoption/instagram-square-v0.r1.webp" width="1080" height="1080" loading="lazy" alt="Meet Biscuit: a pug wrapped in a blanket"><figcaption>Biscuit</figcaption></figure><figure class="m" style="flex: 1.0000 1 0; aspect-ratio: 1080 / 1080"><img src="assets/adoption/instagram-square-v0.r2.webp" width="1080" height="1080" loading="lazy" alt="Meet Pepper: a black lab puppy"><figcaption>Pepper</figcaption></figure><figure class="m" style="flex: 1.0000 1 0; aspect-ratio: 1080 / 1080"><img src="assets/adoption/instagram-square-v0.r3.webp" width="1080" height="1080" loading="lazy" alt="Meet Juno: a husky"><figcaption>Juno</figcaption></figure><figure class="m" style="flex: 1.0000 1 0; aspect-ratio: 1080 / 1080"><img src="assets/adoption/instagram-square-v0.r4.webp" width="1080" height="1080" loading="lazy" alt="Meet Sir Winston: a bulldog"><figcaption>Sir Winston</figcaption></figure><figure class="m" style="flex: 0.5625 1 0; aspect-ratio: 540 / 960"><video src="assets/adoption/story-loop-v0.r1.mp4" poster="assets/adoption/instagram-story-v0.r1.webp" width="540" height="960" autoplay muted loop playsinline preload="none" aria-label="Biscuit's animated story"></video><figcaption>Story · animated</figcaption></figure></div>
+        <p class="credit">Photos: Matthew Wiebe, André Spieker, Alexander Dimitrov, Yamon Figurs / Unsplash</p>
+      </article>
+      <article class="case">
+        <header><h3>Loam Cargo <span>E-bike launch</span></h3><p class="proves"><span>1 scene ·</span> <span>5 sizes, down to 728×90 ·</span> <span>a pan that follows the rider</span></p></header>
+        <p class="case-lead">The layout reflows from a post to a leaderboard banner; the checks confirm every size.</p>
+        <div class="strip"><figure class="m" style="flex: 0.8000 1 0; aspect-ratio: 540 / 675"><video src="assets/ebike/web-v0.mp4" poster="assets/ebike/portrait-v0.webp" width="540" height="675" autoplay muted loop playsinline preload="none" aria-label="Loam Cargo post, animated: the photo pans with the rider"></video><figcaption>Post · animated</figcaption></figure><figure class="m" style="flex: 1.9108 1 0; aspect-ratio: 1200 / 628"><img src="assets/ebike/feed-v0.webp" width="1200" height="628" loading="lazy" alt="Loam Cargo banner: photo left, headline and prices right"><figcaption>Feed · 1200×628</figcaption></figure><figure class="m" style="flex: 0.5000 1 0; aspect-ratio: 300 / 600"><img src="assets/ebike/half-page-v0.webp" width="300" height="600" loading="lazy" alt="Loam Cargo half-page ad"><figcaption>300×600</figcaption></figure><figure class="m" style="flex: 1.2000 1 0; aspect-ratio: 300 / 250"><img src="assets/ebike/mpu-v0.webp" width="300" height="250" loading="lazy" alt="Loam Cargo medium rectangle"><figcaption>300×250</figcaption></figure></div>
+        <div class="strip strip-wide"><figure class="m" style="flex: 1 1 0; aspect-ratio: 728 / 90; max-width: 728px"><img src="assets/ebike/leaderboard-v0.webp" width="728" height="90" loading="lazy" alt="Loam Cargo leaderboard: one line with photo, headline, prices and button"><figcaption>728×90</figcaption></figure></div>
+        <p class="credit">Photo: Abigail Keenan / Unsplash</p>
+      </article>
+      <article class="case">
+        <header><h3>Nightline <span>Festival teaser</span></h3><p class="proves"><span>4 shots ·</span> <span>duotone photos ·</span> <span>letters that fly in</span></p></header>
+        <p class="case-lead">Three unrelated photos read as one campaign; the headliner's letters land in place.</p>
+        <div class="strip"><figure class="m" style="flex: 0.5625 1 0; aspect-ratio: 540 / 960"><video src="assets/festival/story-v0.mp4" poster="assets/festival/story-v0.at7s.webp" width="540" height="960" autoplay muted loop playsinline preload="none" aria-label="Nightline festival story: stage shots in magenta, then the lineup"></video><figcaption>Story · animated</figcaption></figure><figure class="m" style="flex: 1.7778 1 0; aspect-ratio: 800 / 450"><video src="assets/festival/land-v0.mp4" poster="assets/festival/land-v0.at7s.webp" width="800" height="450" autoplay muted loop playsinline preload="none" aria-label="Nightline festival, landscape"></video><figcaption>Landscape · animated</figcaption></figure><figure class="m" style="flex: 1.7778 1 0; aspect-ratio: 1280 / 720"><img src="assets/festival/thumb-v0.webp" width="1280" height="720" loading="lazy" alt="Nightline lineup thumbnail"><figcaption>Thumbnail</figcaption></figure></div>
+        <p class="credit">Photos: Daniel Robert, Gonzalo Poblete, Desi Mendoza / Unsplash</p>
+      </article>
+      <article class="case">
+        <header><h3>Maya Okafor for City Council <span>Campaign, English and Spanish</span></h3><p class="proves"><span>2 languages ·</span> <span>4 sizes ·</span> <span>the longer Spanish still fits</span></p></header>
+        <p class="case-lead">One campaign, one row per language; the text-fitting checks prove every size holds.</p>
+        <div class="strip"><figure class="m" style="flex: 0.8000 1 0; aspect-ratio: 1080 / 1350"><img src="assets/campaign/instagram-portrait-v0.r1.webp" width="1080" height="1350" loading="lazy" alt="Campaign post in English: A District 4 that works for families"><figcaption>English</figcaption></figure><figure class="m" style="flex: 0.8000 1 0; aspect-ratio: 1080 / 1350"><img src="assets/campaign/instagram-portrait-v0.r2.webp" width="1080" height="1350" loading="lazy" alt="Campaign post in Spanish: Un Distrito 4 que funciona para las familias"><figcaption>Spanish</figcaption></figure><figure class="m" style="flex: 1.9108 1 0; aspect-ratio: 1200 / 628"><img src="assets/campaign/facebook-feed-v0.r2.webp" width="1200" height="628" loading="lazy" alt="Campaign banner in Spanish"><figcaption>Feed · Spanish</figcaption></figure><figure class="m" style="flex: 0.5000 1 0; aspect-ratio: 300 / 600"><img src="assets/campaign/iab-half-page-v0.r2.webp" width="300" height="600" loading="lazy" alt="Campaign half-page ad in Spanish"><figcaption>300×600 · Spanish</figcaption></figure></div>
+        <p class="credit">Photo: Nicholas Swanson / Unsplash</p>
+      </article>
+      <article class="case">
+        <header><h3>Quillday <span>App launch</span></h3><p class="proves"><span>A UI built from layers ·</span> <span>a focus ring that draws itself ·</span> <span>hours that count up</span></p></header>
+        <p class="case-lead">No screenshot: the app's interface is built in the scene, so it stays sharp at every size.</p>
+        <div class="strip"><figure class="m" style="flex: 1.7778 1 0; aspect-ratio: 800 / 450"><video src="assets/cadence/web-v0.mp4" poster="assets/cadence/x-post-v0.webp" width="800" height="450" autoplay muted loop playsinline preload="none" aria-label="Quillday launch video: calendar cards pop in, the focus ring fills, hours count up"></video><figcaption>Animated</figcaption></figure><figure class="m" style="flex: 1.0000 1 0; aspect-ratio: 1080 / 1080"><img src="assets/cadence/square-v0.webp" width="1080" height="1080" loading="lazy" alt="Quillday square post"><figcaption>Square</figcaption></figure></div>
+        <p class="credit">Photo: William Iven / Unsplash</p>
+      </article>
+      <article class="case">
+        <header><h3>Cinder &amp; Thyme <span>Supper-club menu</span></h3><p class="proves"><span>1 scene ·</span> <span>a print PDF, a post and a story</span></p></header>
+        <p class="case-lead">The same menu as vector A4 for the printer and as social posts; dot leaders run to the prices.</p>
+        <div class="strip"><figure class="m" style="flex: 0.7067 1 0; aspect-ratio: 595 / 842"><a href="assets/menu/a4-v0.pdf"><img src="assets/menu/a4-v0.webp" width="595" height="842" loading="lazy" alt="Cinder & Thyme menu, A4"></a><figcaption>A4 · PDF</figcaption></figure><figure class="m" style="flex: 0.8000 1 0; aspect-ratio: 1080 / 1350"><img src="assets/menu/instagram-portrait-v0.webp" width="1080" height="1350" loading="lazy" alt="Cinder & Thyme menu post"><figcaption>Post</figcaption></figure><figure class="m" style="flex: 0.5625 1 0; aspect-ratio: 540 / 960"><video src="assets/menu/story-loop-v0.mp4" poster="assets/menu/story-loop-v0.at5s.webp" width="540" height="960" autoplay muted loop playsinline preload="none" aria-label="Cinder & Thyme story, animated"></video><figcaption>Story · animated</figcaption></figure></div>
+        <p class="credit">Photos: Todd Quackenbush, Annie Spratt / Unsplash</p>
+      </article>
     </section>
 
     <section id="install" class="install wrap">
@@ -220,6 +225,7 @@ square …/square-v5.mp4 (1080×1080, 5s,
         <button role="tab" aria-selected="false" data-tab="homebrew">Homebrew</button>
         <button role="tab" aria-selected="false" data-tab="docker">Docker</button>
         <button role="tab" aria-selected="false" data-tab="other">Other clients</button>
+        <button role="tab" aria-selected="false" data-tab="ci">GitHub Actions</button>
       </div>
       <div class="panel" data-panel="claude-code">
         <p>The plugin installs everything, downloading keyline if it isn't on your PATH.</p>
@@ -240,10 +246,8 @@ square …/square-v5.mp4 (1080×1080, 5s,
       <div class="panel" data-panel="other" hidden>
         <p>Codex, Cursor, VS Code, Windsurf, Cline and any MCP client: install keyline, then point the client at <code>keyline-mcp</code>. The <a href="docs/install/index.html">Quick start</a> has a setup block for each.</p>
       </div>
-
-      <div class="ci">
-        <h3>Render in CI</h3>
-        <p>Keep designs as scene files in a repo; every push renders them and fails on a broken layout.</p>
+      <div class="panel" data-panel="ci" hidden>
+        <p>GitHub Actions: keep designs as scene files in a repo; every push renders them and fails on a broken layout.</p>
         <div class="code"><pre><code>- uses: keyline-dev/keyline@v0
   with:
     scenes: campaigns/*.json</code></pre><button class="copy">Copy</button></div>
@@ -256,6 +260,7 @@ square …/square-v5.mp4 (1080×1080, 5s,
       <span class="foot-brand"><picture><source srcset="logo/lockup-nav-dark.svg" media="(prefers-color-scheme: dark)"><img src="logo/lockup-nav-light.svg" alt="keyline" width="76" height="22"></picture><span>Every image on this page was rendered by keyline.</span></span>
       <nav>
         <a href="https://github.com/keyline-dev/keyline">GitHub</a>
+        <a href="https://github.com/keyline-dev/keyline/releases">Releases</a>
         <a href="docs/index.html">Docs</a>
         <a href="license/index.html">PolyForm Shield license</a>
       </nav>
