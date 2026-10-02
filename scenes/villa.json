@@ -171,6 +171,7 @@
   {
    "id": "copy",
    "type": "frame",
+   "clipsContent": false,
    "place": "bottom-left",
    "margin": [
     64,
