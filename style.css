@@ -181,7 +181,9 @@ h1 {
 .calls s { text-decoration: none; margin-left: auto; color: var(--ok); }
 .app .sizes { margin-top: 22px; }
 .size { margin: 0; min-width: 0; }
-.size figcaption { font-size: 12.5px; color: var(--muted); margin-top: 8px; }
+.size figcaption { font-size: 12.5px; color: var(--muted); margin-top: 8px; white-space: nowrap; }
+/* The skyscraper column is narrow: its caption spills left rather than wrapping. */
+.size:last-child figcaption { display: flex; justify-content: flex-end; gap: 0.3em; overflow: visible; }
 
 
 .case { margin-top: 64px; }
@@ -355,7 +357,6 @@ pre {
   .sz-name { display: none; }
   .calls li { flex-wrap: wrap; row-gap: 2px; }
   .calls s { flex-basis: 100%; margin-left: 11px; white-space: normal; }
-  .size:last-child figcaption { overflow: visible; display: flex; justify-content: flex-end; }
   .eyebrow { font-size: 13px; padding: 5px 12px; }
   .code pre { padding: 44px 16px 14px; white-space: pre; overflow-x: auto; font-size: 13px; }
   .bar { width: calc(var(--w) * 0.66); }
