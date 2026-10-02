@@ -94,7 +94,7 @@
         </div>
         <div class="feature">
           <h3><a href="docs/index.html#checks-defects-advisories-facts">Checks before pixels</a></h3>
-          <p>The server measures text, overflow, contrast and safe areas, so the agent verifies with numbers instead of screenshots.</p>
+          <p>The server measures text, overflow, contrast and safe areas, and say where every layer landed and which part of each photo shows, so the agent verifies with numbers instead of screenshots.</p>
         </div>
         <div class="feature">
           <h3><a href="docs/index.html#motion-and-video">Motion and video</a></h3>
@@ -170,14 +170,14 @@ banner sub text
         </li>
         <li>
           <h3><span>3</span> and renders every size</h3>
-          <p>PNG, JPEG, WebP, PDF, animated PNG, GIF, MP4 or WebM, with facts the agent can check without opening the files.</p>
-<pre><code>story  …/story-v5.png
-  1080×1920, 78 KB
-banner …/banner-v5.png
-  1200×628, 46 KB
-square …/square-v5.mp4
-  1080×1080, 5s, 125 frames,
-  2179 KB</code></pre>
+          <p>PNG, JPEG, WebP, PDF, animated PNG, GIF, MP4 or WebM, with the layout as drawn: every layer's box and the part of each photo that shows.</p>
+<pre><code>banner …/banner-v0.png
+  (1200×628, 931 KB)
+ photo image 0,0 1200×628
+  cover shows 2400×1256
+  from 0,155 of 2400×1600
+ name text 48,228 525×99 99px
+ empty y 423–628 (33%)</code></pre>
         </li>
       </ol>
     </section>

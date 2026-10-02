@@ -69,13 +69,10 @@ A **layer line** is `id type x,y w×h`, in px at that size, then:
 | `!clipped by <frame or canvas>: <side> <px>` | defect | Part of the layer falls outside what shows; for text, its letters too, where they reach past its box (tall caps at a tight `lineHeight` in a frame that clips). It names the edge that cuts: the canvas or the clipping frame whose side it is. A frame that sizes to its content (no width or height, or `hug`) gets it too when it runs past what shows, since its content is lost; the text inside it, cut by the same edge, isn't listed again. A rotated, scaled or moved layer is checked by the box around it as drawn. A layer whole at rest but cut by more than 2 px while it moves (a `pop` overshooting, a scale pulse) gets it with when, in its own clock: `!clipped by info: bottom 13px during enter pop 2.1–2.7s`; only a frame that clips counts, not the canvas (entrances fly in from outside), and not past an edge the layer already fills at rest (a photo zooming in its frame), unless that frame sizes to its content (a button pulsing in the row that hugs it) |
 | `!hidden` | defect | The layer is entirely outside what shows |
 | `!overlaps <ids>` | defect | Text ink overlaps other text |
-| `!covered by <id> N%, …` | defect | A layer drawn after the text (a filled frame, a shape, a photo; an outline with no fill, by its stroke only) covers this share of its ink, or another text's highlight does (`name highlight 30%`); each one named once, the largest first |
+| `!covered by <id> N%, …` | defect | An opaque layer drawn after the text (a filled frame, a shape, a photo; an outline with no fill, by its stroke only) covers this share of its ink. A layer made transparent at all, by its opacity, its fill's alpha or a parent's, doesn't count: a glow or tint is a choice, and `warn contrast` judges what it does to the text, or another text's highlight does (`name highlight 30%`); each one named once, the largest first |
 | `!leader "<left…>" meets "<right>"` | defect | In a `leader` line, the text before the tab runs into the text after it |
-| `!unsafe` | defect | Text's letters, as drawn (a rotation included), reach under the size's `safeArea` |
+| `!unsafe <side> <px>` | defect | Text's letters, as drawn (a rotation included), reach under the size's `safeArea`: how far past each edge they go, so one move fixes it (`!unsafe bottom 32px`) |
 | `warn contrast R:1 (WCAG N)` | advisory | Text contrast against what's behind it is below the WCAG level for its size. Knockout text is judged by what shows through its letters against the frame around them |
-| `!crop cuts the image's middle (focus X%,Y%): height A shows all, B half` | defect | A cover crop hides more than half the image top and bottom, so whatever sits in its middle is cut (a house in a band too short for it). The end names the field to write and its values in master px, like every field (the size's `scale` multiplies it): the height that shows the whole image, and the one that shows half. When the parent sets the height (`fill`, a share, `flexGrow`, a stretch constraint), `minHeight A shows all, B half`; when a stretch constraint shrank a fixed height, `squeezed from C to D: minHeight …` (C and D px at that size). A photo filling the canvas gets none: it can't grow, and its focus shows where it's set. Names "the area around its focus" when `focus` isn't the center |
-| `warn crop cuts the image's middle (focus X%,Y%): height at most A shows all, B half` | advisory | The same at the sides (a landscape photo in a tall box, common in skyscraper ads): `height at most N`, or `maxHeight N` when the parent sets the height |
-| `warn ink Npx from <id>` | advisory | This text's ink comes within N px of a neighbour's, above or beside it, closer than 15% of the smaller font size, touching included (`0px`) up to the overlap `!overlaps` reports (caps overshooting a tight `lineHeight`); on the upper or left text |
 | `warn shadow clipped by <frame>` | advisory | A frame that clips its content (`clipsContent`, on by default) cuts the layer's drop shadow; give it room (padding) or set `clipsContent: false` |
 
 Defects need fixing; advisories need judgment ([concepts](https://keyline.dev/docs/index.md#checks-defects-advisories-facts)). In a scene of [shots](https://keyline.dev/docs/scene/index.md#shots-and-transitions), every shot is checked, each with the layers around it.
@@ -96,13 +93,7 @@ After the facts, one line per text that writes a token as `$name` rather than [`
 hint: did you mean {{price}}? (cta says $price)
 ```
 
-`scene_create` adds one per size at least twice the master's width with no `scale` (a print preset for a screen-sized master). A smaller difference gets no hint (a 1280 px size for a 1080 px master is laid out as is); if it doesn't fit, `!overflow` gives the size it needs:
-
-```text
-hint: a4-portrait is 2.3× the master's width; give it "scale": 2.3 to keep the layout's proportions
-```
-
-And an edit, one per style used as a markup tag whose fields a tag can't carry (a tag carries `color`, `fontWeight`, `fontStyle`, `fontSize`, `fontFamily`, `textDecoration` and `highlight`). A dropped `media` adds what to do instead: `; set per-size text in the layer's media`.
+An edit adds one per style used as a markup tag whose fields a tag can't carry (a tag carries `color`, `fontWeight`, `fontStyle`, `fontSize`, `fontFamily`, `textDecoration` and `highlight`). A dropped `media` adds what to do instead: `; set per-size text in the layer's media`.
 
 ```text
 hint: <accent> drops letterSpacing (a tag carries color, fontWeight, fontStyle, fontSize, fontFamily, textDecoration, highlight)
@@ -112,12 +103,6 @@ One per text with both a `color` and a different plain `fill`, since the fill pa
 
 ```text
 hint: chip fill paints the letters (its color is unused); a box behind text is a frame with a fill
-```
-
-One per image drawn as a `halftone` over a dark background (its closest frame's plain fill, else the canvas), since the dots are black:
-
-```text
-hint: photo halftone draws black dots; on #141414 it barely shows (a light fill behind it, or duotone instead)
 ```
 
 ### Drawn-text lines
@@ -189,7 +174,7 @@ song sound 184.3s v3
 | Input | Type | Default | Meaning |
 |---|---|---|---|
 | `sceneId` | string, required | | The scene |
-| `layers` | array, required | | [Layer](https://keyline.dev/docs/scene/index.md#layers) objects, added on top in order. A layer with `parent` goes inside that frame |
+| `layers` | array, required | | [Layer](https://keyline.dev/docs/scene/index.md#layers) objects, added on top in order. A layer with `parent` goes inside that frame; with `index`, at that place among its parent's (or the scene's) layers, from 0 at the bottom or first in a stack |
 | `styles` | object | | [Styles](https://keyline.dev/docs/scene/index.md#styles) to add or replace: `{name: {fields}}` |
 | `tokens` | object | | [Tokens](https://keyline.dev/docs/scene/index.md#tokens) to add or replace: `{name: value}` |
 | `components` | object | | [Components](https://keyline.dev/docs/scene/index.md#components) to add or replace |
@@ -251,16 +236,20 @@ smallest text: instagram-portrait 48px (cta), sky 19px (cta)
 | `sceneId` | string, required | | The scene |
 | `size` | string | all sizes | One size id |
 | `full` | boolean | false | Every layer's box, not just the problems |
+| `view` | string | | An image asset's id: returns that photo, 512 px wide, with rulers and faint lines at each tenth of its width and height, the units [`subject`](https://keyline.dev/docs/scene/index.md#image) takes. The way to see what's in a photo, and where, before framing it |
 
 Reply: `ok`, or one [problem line](#problem-lines) per problem. With `full`, the assets (a clip with its length and `sound`), then each size and every [layer line](#problem-lines) at it, indented by nesting:
 
 ```text
 assets photo 864×530
 instagram-portrait 1080×1350
- photo image 0,0 1080×810 cover crop 18%w upscaled 1.5x
+ photo image 0,0 1080×810 cover shows 708×530 from 78,0 of 864×530 upscaled 1.5x
  headline text 60,900 960×174 72px 2L
  cta text 60,1180 600×60 48px
+ empty y 1240–1350 (8%)
 ```
+
+An image drawn with `cover` says which region of the photo is in its box, in the photo's own pixels: `shows 708×530 from 78,0 of 864×530`, so the agent, which knows what's in its photo, can tell what's in view. That's a description, not a verdict: a crop is the design's choice. The last line per size is its tallest band with no text, image, video or icon in it (a photo filling the canvas is the background): `empty y 1240–1350 (8%)`.
 
 ## render
 
@@ -276,7 +265,7 @@ instagram-portrait 1080×1350
 | `muted` | boolean | false | `true` leaves all sound out of `mp4` and `webm`: the soundtrack and every clip's (a clip's own `muted` leaves out one) |
 | `rows` | array of objects | | [Variants](#templates-and-variants): one render per row of token values |
 
-Reply: per size, the size id, the file's path ([Output files](#output-files)) and, in parentheses, what the file holds, then its [drawn-text lines](#drawn-text-lines):
+Reply: per size, the size id, the file's path ([Output files](#output-files)) and, in parentheses, what the file holds, then its layout as drawn (as [`scene_describe` with `full`](#scene_describe), a line per layer with any defect on it, the region of each photo drawn and the largest empty band), then its [drawn-text lines](#drawn-text-lines). The layout is the agent's eyes: it judges the design from it rather than by opening the files.
 
 ```text
 wide /…/renders/s1a2b3c4d5/wide-v3.png (1200×628, 212 KB)
