@@ -26,6 +26,8 @@
 # Files that are only here because the site deploys its repo.
 /README.md
   X-Robots-Tag: noindex
+/CLAUDE.md
+  X-Robots-Tag: noindex
 /docs.mjs
   X-Robots-Tag: noindex
 /render.sh
