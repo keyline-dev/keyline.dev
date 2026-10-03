@@ -193,8 +193,8 @@ for (const page of PAGES) {
 const license = readFileSync(join(SRC, 'LICENSE'), 'utf8');
 write('license/LICENSE.txt', license);
 write('license/index.html', shell(
-  { title: 'License', url: '/license/', src: 'LICENSE', description: 'keyline is source-available under the PolyForm Shield License 1.0.0.' },
-  { body: `<h1>License</h1>\n<p>keyline is source-available under PolyForm Shield 1.0.0: use, change and share it, commercially too, except to compete with it.</p>\n<pre class="license">${esc(license)}</pre>`, toc: [] },
+  { title: 'License', url: '/license/', src: 'LICENSE', description: 'keyline is free and source-available under the Functional Source License 1.1, and each release becomes Apache-2.0 two years after it ships.' },
+  { body: `<h1>License</h1>\n<p>keyline is free to use, change and share, commercially too, except to offer it as a competing commercial product or service; each release also becomes Apache-2.0 two years after it ships.</p>\n${new Marked({ gfm: true }).parse(license.replace(/^# .*\n/, ''))}`, toc: [] },
   'LICENSE.txt'));
 
 // llms.txt (llmstxt.org): what keyline is, the facts an answer needs, and
@@ -204,7 +204,7 @@ const FACTS = `- Works with Claude Code, Claude Desktop, Cursor, Codex, VS Code,
 - Deterministic: no model generates pixels; the same scene always renders the same design.
 - In a benchmark (Claude Opus 5, 5 runs each on two tasks, a speaker card and a flyer) an agent used 2× fewer tokens than with HTML + headless Chrome, and 6× fewer than with Playwright MCP, and was correct as often.
 - An alternative to Puppeteer or Playwright HTML-to-image screenshots, hosted image APIs like Bannerbear or Placid, and the Canva or Figma APIs, for agents.
-- Free and source-available under PolyForm Shield 1.0.0.`;
+- Free and source-available under the Functional Source License 1.1 (FSL-1.1-ALv2); each release becomes Apache-2.0 two years after it ships.`;
 write('llms.txt', `# keyline
 
 > ${DEFINITION}
