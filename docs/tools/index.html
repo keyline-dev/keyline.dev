@@ -97,6 +97,7 @@
 <li><strong>Unknown arguments are refused</strong>, like unknown scene fields, so a misspelled one is never silently ignored.</li>
 <li><strong>Replies are compact text, not JSON.</strong> Their parts are described once, under <a href="#replies">Replies</a>.</li>
 <li><strong>Errors are one line</strong> that names what failed and how to fix it, and change nothing (<a href="#errors">Errors</a>).</li>
+<li><strong>Annotations tell the client what a tool does</strong>: each has a <code>title</code>; only <code>scene_describe</code> is read-only, and only <code>layer_update</code> is destructive (a deleted layer can&#39;t be brought back).</li>
 </ul>
 <h2 id="replies"><a class="anchor" href="#replies">Replies</a></h2>
 <h3 id="versions-and-ids"><a class="anchor" href="#versions-and-ids">Versions and ids</a></h3>
@@ -814,7 +815,7 @@ layers[0]: token {{big}} doesn&#39;t suit fontSize: invalid type: string &quot;h
 give exactly one of url, path or base64
 </code></pre>
 
-      <p class="doc-source">This page is built from <a href="https://github.com/keyline-dev/keyline/blob/main/docs/tools.md">docs/tools.md</a>; also as <a href="index.md">Markdown</a>.</p>
+      <p class="doc-source">Also as <a href="index.md">Markdown</a>.</p>
     </article>
     <nav class="doc-toc" aria-label="On this page"><p class="toc-title">On this page</p><a href="#conventions">Conventions</a><a href="#replies">Replies</a><a href="#scene_create">scene_create</a><a href="#asset_add">asset_add</a><a href="#layer_add">layer_add</a><a href="#layer_update">layer_update</a><a href="#scene_describe">scene_describe</a><a href="#render">render</a><a href="#templates-and-variants">Templates and variants</a><a href="#output-formats">Output formats</a><a href="#server-configuration">Server configuration</a><a href="#security">Security</a><a href="#limits">Limits</a><a href="#errors">Errors</a></nav>
   </main>
@@ -827,6 +828,7 @@ give exactly one of url, path or base64
         <a href="https://github.com/keyline-dev/keyline/releases">Releases</a>
         <a href="../../docs/index.html">Docs</a>
         <a href="../../license/index.html">License</a>
+        <a href="../../privacy/index.html">Privacy</a>
       </nav>
     </div>
   </footer>

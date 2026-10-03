@@ -30,6 +30,17 @@ const PAGES = [
     description: 'The same model makes the same images with keyline, HTML + headless Chrome and Playwright MCP: method, every run, tokens, turns and time.' },
 ];
 
+// Pages outside the docs, from their sources as written.
+const STANDALONE = [
+  { src: 'LICENSE', url: '/license/', title: 'License',
+    description: 'keyline is free and source-available under the Functional Source License 1.1, and each release becomes Apache-2.0 two years after it ships.',
+    intro: 'keyline is free to use, change and share, commercially too, except to offer it as a competing commercial product or service; each release also becomes Apache-2.0 two years after it ships.' },
+  { src: 'PRIVACY.md', url: '/privacy/', title: 'Privacy',
+    description: 'keyline runs on your machine and collects nothing; what it fetches from the network, and why.' },
+  { src: 'SECURITY.md', url: '/security/', title: 'Security',
+    description: 'How to report a vulnerability in keyline privately, and where to get support.' },
+];
+
 const home = readFileSync('index.html', 'utf8');
 // The one-sentence definition, from the home page's JSON-LD, so it never drifts.
 const DEFINITION = JSON.parse(home.match(/<script type="application\/ld\+json">(.*?)<\/script>/)[1])['@graph']
@@ -62,6 +73,7 @@ function link(from, href) {
   const [path, hash = ''] = href.split('#');
   const target = posix.normalize(posix.join(posix.dirname(from), path));
   const page = PAGES.find((p) => p.src === target && !p.section)
+    ?? STANDALONE.find((p) => p.src === target)
     ?? (target === 'README.md' && hash === 'quick-start' ? PAGES[0] : null);
   if (page) return page.url + (hash && !page.section ? '#' + hash : '');
   return REPO + target + (hash ? '#' + hash : '');
@@ -109,7 +121,7 @@ function render(page, md) {
         const out = to.startsWith('/') ? rel(page.url, to) : to;
         let text = this.parser.parseInline(tokens);
         // "tools.md" reads as a file on GitHub; on the site, name the page.
-        const named = PAGES.find((p) => to.split('#')[0] === p.url && /^(<code>)?[\w/.-]+\.md(<\/code>)?$/.test(text));
+        const named = [...PAGES, ...STANDALONE].find((p) => to.split('#')[0] === p.url && /^(<code>)?[\w/.-]+\.md(<\/code>)?$/.test(text));
         if (named) text = named.title;
         return `<a href="${esc(out)}"${t}>${text}</a>`;
       },
@@ -137,8 +149,7 @@ function shell(page, { body, toc }, mdName) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${esc(titleOf(page))}</title>
   <meta name="description" content="${esc(page.description)}">
-  <link rel="canonical" href="${SITE}${page.url}">
-  <link rel="alternate" type="text/markdown" href="${mdName}">
+  <link rel="canonical" href="${SITE}${page.url}">${mdName ? `\n  <link rel="alternate" type="text/markdown" href="${mdName}">` : ''}
   <meta property="og:type" content="article">
   <meta property="og:site_name" content="keyline">
   <meta property="og:title" content="${esc(titleOf(page))}">
@@ -167,8 +178,7 @@ function shell(page, { body, toc }, mdName) {
   <main class="wrap doc">
     <nav class="doc-side" aria-label="Docs">${side}</nav>
     <article class="prose">
-${body}
-      <p class="doc-source">This page is built from <a href="${REPO}${page.src}">${esc(page.src)}</a>; also as <a href="${mdName}">Markdown</a>.</p>
+${body}${mdName ? `\n      <p class="doc-source">Also as <a href="${mdName}">Markdown</a>.</p>` : ''}
     </article>
     <nav class="doc-toc" aria-label="On this page">${onPage}</nav>
   </main>
@@ -189,13 +199,12 @@ for (const page of PAGES) {
   full.push(absolute(page, md));
 }
 
-// The license, as written.
-const license = readFileSync(join(SRC, 'LICENSE'), 'utf8');
-write('license/LICENSE.txt', license);
-write('license/index.html', shell(
-  { title: 'License', url: '/license/', src: 'LICENSE', description: 'keyline is free and source-available under the Functional Source License 1.1, and each release becomes Apache-2.0 two years after it ships.' },
-  { body: `<h1>License</h1>\n<p>keyline is free to use, change and share, commercially too, except to offer it as a competing commercial product or service; each release also becomes Apache-2.0 two years after it ships.</p>\n${new Marked({ gfm: true }).parse(license.replace(/^# .*\n/, ''))}`, toc: [] },
-  'LICENSE.txt'));
+// The license, privacy and security pages, as written, with their links on the site.
+for (const page of STANDALONE) {
+  const text = readFileSync(join(SRC, page.src), 'utf8');
+  const md = text.replace(/^# .*$/m, `# ${page.title}` + (page.intro ? `\n\n${page.intro}` : ''));
+  write('.' + page.url + 'index.html', shell(page, render(page, md)));
+}
 
 // llms.txt (llmstxt.org): what keyline is, the facts an answer needs, and
 // where the plain-text docs are. The benchmark figures are the home page's.
@@ -231,7 +240,7 @@ write('llms-full.txt', `# keyline\n\n> ${DEFINITION}\n\n${FACTS}\n\n---\n\n` + f
 
 // Each URL's lastmod is its source's last commit, so it moves only when the page does.
 const changed = (dir, file) => execFileSync('git', ['-C', dir, 'log', '-1', '--format=%cs', '--', file], { encoding: 'utf8' }).trim();
-const urls = [['/', changed('.', 'index.html')], ...PAGES.map((p) => [p.url, changed(SRC, p.src)]), ['/license/', changed(SRC, 'LICENSE')]];
+const urls = [['/', changed('.', 'index.html')], ...PAGES.map((p) => [p.url, changed(SRC, p.src)]), ...STANDALONE.map((p) => [p.url, changed(SRC, p.src)])];
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map(([u, day]) => `  <url><loc>${SITE}${u}</loc><lastmod>${day}</lastmod></url>`).join('\n')}
