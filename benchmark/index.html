@@ -85,7 +85,7 @@
 <ul>
 <li><strong>Total tokens:</strong> input + cache writes + cache reads + output, over every model. Caching doesn&#39;t change it. Thinking is part of output and is shown on its own, not added twice.</li>
 <li><strong>Cost:</strong> Claude Code&#39;s API-equivalent <code>total_cost_usd</code>, and a <em>cold</em> cost re-priced as if nothing had been cached (list-price ratios: cache read 0.1×, cache write 1.25× or 2×, output 5× the input price). Neither is what a subscription costs.</li>
-<li><strong>Turns, tool calls by name, wall-clock</strong> (<code>duration_ms</code>, setup excluded), <strong>images the model saw</strong> (image blocks in tool results, Read included), <strong>fixed overhead</strong> (the first request&#39;s input: system prompt plus tool definitions), <strong>peak context</strong> (the largest single request), and for the browser arms whether they measured with JavaScript (Playwright MCP&#39;s evaluate or run-code tools, or Node run from Bash).</li>
+<li><strong>Turns</strong> (Claude Code&#39;s <code>num_turns</code>, which is the tool calls plus one, not the model requests: one request can make several tool calls, and browser agents often do), <strong>tool calls by name, wall-clock</strong> (<code>duration_ms</code>, setup excluded), <strong>images the model saw</strong> (image blocks in tool results, Read included), <strong>fixed overhead</strong> (the first request&#39;s input: system prompt plus tool definitions), <strong>peak context</strong> (the largest single request), and for the browser arms whether they measured with JavaScript (Playwright MCP&#39;s evaluate or run-code tools, or Node run from Bash).</li>
 </ul>
 <h3 id="correctness-the-same-for-every-arm-from-the-final-pngs-only"><a class="anchor" href="#correctness-the-same-for-every-arm-from-the-final-pngs-only">Correctness, the same for every arm, from the final PNGs only</a></h3>
 <ol>
@@ -110,6 +110,178 @@ KEYLINE_MCP_BENCH=&lt;label&gt; \
 <p>Then judge the unjudged runs, rewrite <code>results.tsv</code> and print the medians:</p>
 <pre><code class="language-sh">cargo test --release --test versus_browser judge_runs -- --ignored --nocapture
 </code></pre>
+<h2 id="prompt-version-vs3"><a class="anchor" href="#prompt-version-vs3">Prompt version vs3</a></h2>
+<p>The same protocol on keyline 0.7.0 (<code>9e4a66c</code>). One change to the task, made before any counted run: the flyer&#39;s photo is a real one, <code>bench/photos/farmhouse.jpg</code> (a farmhouse in a field at sunrise), for every arm. Speaker card, judge prompt and tooling unchanged. Pilots (<code>*-pilot-v3</code>, one per arm on the flyer) ran on <code>80d053e</code> and aren&#39;t counted.</p>
+<p>30 counted runs, 5 per arm and task in five interleaved blocks, on 2026-10-03, 10:18–12:40. Two earlier attempts were stopped and none of their runs counted: the first after its first block, so the Gemini schema fix could ship as 0.7.0, and the second because the machine slept overnight and its runs couldn&#39;t reach the API (one turn, no tokens). The runner now stops at a run that uses no tokens. <strong>Infrastructure reruns:</strong> one, <code>speaker-card/browser-mcp-v3-3</code>, whose first attempt ended on an API connection reset (<code>ECONNRESET</code>) after 9 turns without its PNGs.</p>
+<h3 id="results"><a class="anchor" href="#results">Results</a></h3>
+<p>Medians (min–max) over all 30 runs. Ratios are browser ÷ keyline: the ratio of the medians, then the range between the extremes.</p>
+<h4 id="reference-ad"><a class="anchor" href="#reference-ad">reference-ad</a></h4>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Arm</th>
+<th>Correct</th>
+<th>Total tokens</th>
+<th>Cost</th>
+<th>Cold cost</th>
+<th>Turns</th>
+<th>Time (s)</th>
+<th>Images seen</th>
+<th>Fixed overhead</th>
+<th>Peak context</th>
+<th>Measured with JS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>keyline</td>
+<td>5/5</td>
+<td>147k (93k–163k)</td>
+<td>$0.47 ($0.37–0.57)</td>
+<td>$0.90</td>
+<td>10 (8–11)</td>
+<td>120 (88–320)</td>
+<td>3 (2–3)</td>
+<td>5k</td>
+<td>22k</td>
+<td>–</td>
+</tr>
+<tr>
+<td>browser-cli</td>
+<td>5/5</td>
+<td>372k (261k–765k)</td>
+<td>$0.91 ($0.73–1.37)</td>
+<td>$2.16</td>
+<td>23 (15–38)</td>
+<td>227 (195–322)</td>
+<td>8 (5–10)</td>
+<td>4k</td>
+<td>35k</td>
+<td>5/5</td>
+</tr>
+<tr>
+<td>browser-mcp</td>
+<td>5/5</td>
+<td>917k (361k–1,259k)</td>
+<td>$1.08 ($0.95–1.41)</td>
+<td>$4.86</td>
+<td>37 (31–44)</td>
+<td>216 (180–265)</td>
+<td>5 (4–9)</td>
+<td>9k</td>
+<td>40k</td>
+<td>5/5</td>
+</tr>
+</tbody></table></div>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Browser ÷ keyline</th>
+<th>Total tokens</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>browser-cli</td>
+<td>2.5× (1.6–8.2×)</td>
+<td>1.9× (1.3–3.7×)</td>
+</tr>
+<tr>
+<td>browser-mcp</td>
+<td>6.2× (2.2–13.5×)</td>
+<td>2.3× (1.7–3.8×)</td>
+</tr>
+</tbody></table></div>
+<h4 id="speaker-card"><a class="anchor" href="#speaker-card">speaker-card</a></h4>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Arm</th>
+<th>Correct</th>
+<th>Total tokens</th>
+<th>Cost</th>
+<th>Cold cost</th>
+<th>Turns</th>
+<th>Time (s)</th>
+<th>Images seen</th>
+<th>Fixed overhead</th>
+<th>Peak context</th>
+<th>Measured with JS</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>keyline</td>
+<td>5/5</td>
+<td>144k (90k–195k)</td>
+<td>$0.42 ($0.40–0.58)</td>
+<td>$0.86</td>
+<td>10 (7–13)</td>
+<td>103 (91–144)</td>
+<td>4 (2–4)</td>
+<td>5k</td>
+<td>21k</td>
+<td>–</td>
+</tr>
+<tr>
+<td>browser-cli</td>
+<td>4/5</td>
+<td>505k (387k–1,054k)</td>
+<td>$1.14 ($0.87–1.71)</td>
+<td>$2.87</td>
+<td>30 (25–31)</td>
+<td>265 (191–327)</td>
+<td>9 (7–13)</td>
+<td>4k</td>
+<td>47k</td>
+<td>5/5</td>
+</tr>
+<tr>
+<td>browser-mcp</td>
+<td>5/5</td>
+<td>1,053k (448k–2,840k)</td>
+<td>$1.23 ($0.65–2.68)</td>
+<td>$5.53</td>
+<td>39 (23–61)</td>
+<td>213 (133–447)</td>
+<td>7 (5–8)</td>
+<td>9k</td>
+<td>45k</td>
+<td>5/5</td>
+</tr>
+</tbody></table></div>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Browser ÷ keyline</th>
+<th>Total tokens</th>
+<th>Cost</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>browser-cli</td>
+<td>3.5× (2.0–11.8×)</td>
+<td>2.7× (1.5–4.3×)</td>
+</tr>
+<tr>
+<td>browser-mcp</td>
+<td>7.3× (2.3–31.7×)</td>
+<td>2.9× (1.1–6.8×)</td>
+</tr>
+</tbody></table></div>
+<p>Every run is in <code>results.tsv</code>, and <code>judge_runs</code> prints the medians over correct runs only (speaker-card browser-cli: 647k over its 4).</p>
+<h3 id="reading-it"><a class="anchor" href="#reading-it">Reading it</a></h3>
+<ul>
+<li><strong>The stronger browser arm is browser-cli,</strong> with the lower median total tokens on both tasks, so it&#39;s the comparison.</li>
+<li><strong>Both tasks:</strong> keyline used fewer tokens (2.5× and 3.5×) and was correct at least as often (5/5 and 5/5, against 5/5 and 4/5). The browser run that failed, <code>speaker-card/browser-cli-v3-4</code>, left the &quot;Get tickets&quot; button cut off at the square size.</li>
+<li><strong>The ranges don&#39;t overlap:</strong> keyline&#39;s most expensive run used fewer tokens than any browser run, on both tasks (163k against 261k, and 195k against 387k).</li>
+<li><strong>Elsewhere:</strong> keyline was faster on median time (120 s against 227 s, and 103 s against 265 s), made fewer model requests and looked at fewer images. Model requests (distinct assistant messages in <code>events.jsonl</code>, median): flyer 9, 17 and 35; speaker card 10, 22 and 38 (keyline, browser-cli, browser-mcp). The Turns column counts tool calls plus one, so it reads higher for the browser arms, which often make several tool calls per request. No keyline flyer run opened the photo or marked a subject; the default crop kept the farmhouse whole at every size.</li>
+<li><strong>From the turns:</strong> in <code>speaker-card/keyline-v3-4</code> the model twice wrote a <code>layer_add</code> that wasn&#39;t valid JSON, which Claude Code refused before keyline saw it; in <code>speaker-card/keyline-v3-1</code> keyline refused gradient stops written as <code>[color, offset]</code>.</li>
+</ul>
+<h3 id="what-the-rules-allow"><a class="anchor" href="#what-the-rules-allow">What the rules allow</a></h3>
+<p>keyline won on both tasks with correctness at least as high, so a general claim is allowed, from the smaller of the two ratios, rounded down to one significant figure:</p>
+<blockquote>
+<p>keyline used 2× fewer tokens than a headless-browser agent (median of 5 runs on each of two tasks, Claude Opus 5, October 2026).</p>
+</blockquote>
+<p>And per task: 2× on the flyer, 3× on the speaker card. Against browser-mcp alone, by the same rule (keyline won on both tasks, correct as often): 6× fewer tokens, 6× on the flyer and 7× on the speaker card.</p>
 <h2 id="prompt-version-vs2"><a class="anchor" href="#prompt-version-vs2">Prompt version vs2</a></h2>
 <p>The same protocol (prompts, tasks, judge, tooling unchanged; only the version label) rerun on keyline <code>43d4acd</code>. The <code>commit</code> column says <code>f386138</code>, the commit that bumped the label; its <code>src/</code> is identical to <code>43d4acd</code>.</p>
 <p>30 counted runs, 5 per arm and task in five interleaved blocks, on 2026-10-01. Blocks 1–4 ran 14:07–15:28; the runner then stopped because uncommitted changes appeared in the working tree&#39;s <code>src/</code>, and block 5 ran 15:54–16:14 once <code>src/</code> was identical to <code>43d4acd</code> again and the binary was rebuilt from it. Blocks 1–4 used the 14:06 build from <code>43d4acd</code>, block 5 a 15:54 rebuild of the same source (the commit column says <code>5447e97</code>, a commit that only added runs). <code>reference-ad/*-v2-4</code> say <code>+dirty</code> only because <code>src/</code> changed while they were being saved. Every run ended normally; there were no timeouts and no infrastructure reruns.</p>
@@ -297,7 +469,7 @@ KEYLINE_MCP_BENCH=&lt;label&gt; \
 
       <p class="doc-source">This page is built from <a href="https://github.com/keyline-dev/keyline/blob/main/bench/versus-browser/README.md">bench/versus-browser/README.md</a>; also as <a href="index.md">Markdown</a>.</p>
     </article>
-    <nav class="doc-toc" aria-label="On this page"><p class="toc-title">On this page</p><a href="#method">Method</a><a href="#reproduce">Reproduce</a><a href="#prompt-version-vs2">Prompt version vs2</a><a href="#prompt-version-vs1-stopped-superseded-by-vs2">Prompt version vs1 (stopped, superseded by vs2)</a></nav>
+    <nav class="doc-toc" aria-label="On this page"><p class="toc-title">On this page</p><a href="#method">Method</a><a href="#reproduce">Reproduce</a><a href="#prompt-version-vs3">Prompt version vs3</a><a href="#prompt-version-vs2">Prompt version vs2</a><a href="#prompt-version-vs1-stopped-superseded-by-vs2">Prompt version vs1 (stopped, superseded by vs2)</a></nav>
   </main>
 
   <footer class="footer">

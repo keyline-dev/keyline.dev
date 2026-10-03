@@ -5,7 +5,7 @@
 - Works with Claude Code, Claude Desktop, Cursor, Codex, VS Code, Windsurf, Cline and any stdio MCP client; on macOS, Linux, Windows, Docker and GitHub Actions.
 - Outputs PNG, JPEG, WebP, vector PDF, GIF, animated PNG, MP4 and WebM, at every size from one master layout.
 - Deterministic: no model generates pixels; the same scene always renders the same design.
-- In a benchmark (Claude Opus 5, 5 runs each, all correct) an agent used 2× fewer tokens making the same card than with HTML + headless Chrome, and 5× fewer than with Playwright MCP.
+- In a benchmark (Claude Opus 5, 5 runs each on two tasks, a speaker card and a flyer) an agent used 2× fewer tokens than with HTML + headless Chrome, and 6× fewer than with Playwright MCP, and was correct as often.
 - An alternative to Puppeteer or Playwright HTML-to-image screenshots, hosted image APIs like Bannerbear or Placid, and the Canva or Figma APIs, for agents.
 - Free and source-available under PolyForm Shield 1.0.0.
 

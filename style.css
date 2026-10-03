@@ -275,6 +275,7 @@ pre {
 .vs figure { margin: 0; min-width: 0; }
 .vs img { width: 100%; height: auto; display: block; border-radius: 10px; box-shadow: 0 1px 2px rgb(0 0 0 / 0.06), 0 10px 28px -14px rgb(0 0 0 / 0.35); }
 .vs figcaption { margin-top: 10px; font-size: 14px; font-weight: 600; }
+.vs .vs-foot { grid-column: 1 / -1; margin: 0; font-size: 13px; }
 .legend { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 20px; font-size: 14px; font-weight: 600; }
 .sw { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 8px; vertical-align: 0; }
 .sw.k, .bar.k { background: var(--k); }
