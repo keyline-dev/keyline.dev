@@ -1,6 +1,7 @@
 // Builds the docs pages, llms.txt, llms-full.txt and sitemap.xml from
 // keyline's Markdown. Run after the docs change: `npm run docs`.
-// KEYLINE_SRC points at a keyline checkout (default ../visual-renderer).
+// KEYLINE_SRC points at a keyline checkout (default ../visual-renderer),
+// KEYLINE_BENCH at a keyline-bench checkout (default ../keyline-bench).
 // The header and footer are copied from index.html, so they never drift.
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
@@ -8,6 +9,7 @@ import { dirname, join, posix } from 'node:path';
 import { Marked } from 'marked';
 
 const SRC = process.env.KEYLINE_SRC ?? '../visual-renderer';
+const BENCH = process.env.KEYLINE_BENCH ?? '../keyline-bench';
 const SITE = 'https://keyline.dev';
 const REPO = 'https://github.com/keyline-dev/keyline/blob/main/';
 
@@ -25,7 +27,7 @@ const PAGES = [
   { src: 'docs/tools.md', url: '/docs/tools/', title: 'Tools and replies',
     seoTitle: 'keyline MCP tools, replies and server flags',
     description: 'keyline\'s MCP tools, their replies and problem lines, output formats, server flags and rendering without an agent.' },
-  { src: 'bench/versus-browser/README.md', url: '/benchmark/', title: 'Benchmark: keyline vs a headless browser',
+  { root: BENCH, src: 'versus-browser/README.md', url: '/benchmark/', title: 'Benchmark: keyline vs a headless browser',
     seoTitle: 'keyline vs headless Chrome vs Playwright MCP: agent token benchmark',
     description: 'The same model makes the same images with keyline, HTML + headless Chrome and Playwright MCP: method, every run, tokens, turns and time.' },
 ];
@@ -80,7 +82,7 @@ function link(from, href) {
 }
 
 function markdown(page) {
-  let md = readFileSync(join(SRC, page.src), 'utf8');
+  let md = readFileSync(join(page.root ?? SRC, page.src), 'utf8');
   if (page.section) {
     // One section of a bigger file, as its own page.
     const start = md.indexOf(`\n## ${page.section}\n`);
@@ -240,7 +242,7 @@ write('llms-full.txt', `# keyline\n\n> ${DEFINITION}\n\n${FACTS}\n\n---\n\n` + f
 
 // Each URL's lastmod is its source's last commit, so it moves only when the page does.
 const changed = (dir, file) => execFileSync('git', ['-C', dir, 'log', '-1', '--format=%cs', '--', file], { encoding: 'utf8' }).trim();
-const urls = [['/', changed('.', 'index.html')], ...PAGES.map((p) => [p.url, changed(SRC, p.src)]), ...STANDALONE.map((p) => [p.url, changed(SRC, p.src)])];
+const urls = [['/', changed('.', 'index.html')], ...PAGES.map((p) => [p.url, changed(p.root ?? SRC, p.src)]), ...STANDALONE.map((p) => [p.url, changed(SRC, p.src)])];
 write('sitemap.xml', `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map(([u, day]) => `  <url><loc>${SITE}${u}</loc><lastmod>${day}</lastmod></url>`).join('\n')}

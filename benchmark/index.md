@@ -37,13 +37,13 @@ From Claude Code's `result` event (`modelUsage`, so Haiku side calls count too):
 Pinned tooling (Playwright 1.63.0 and `@playwright/mcp` 0.0.83, bench-only, never a keyline dependency):
 
 ```sh
-cd bench/versus-browser/tooling
+cd versus-browser/tooling     # in this repo
 npm ci
 npx playwright install chromium-headless-shell
 node node_modules/@playwright/mcp/node_modules/playwright/cli.js install chromium chromium-headless-shell
 ```
 
-One run (labels are never reused; a run's folder is `<task>/<arm>-<label>/`):
+One run, from a keyline checkout with this repo beside it as `keyline-bench` (or at `KEYLINE_BENCH`); labels are never reused, and a run's folder is `<task>/<arm>-<label>/`:
 
 ```sh
 CLAUDE_BIN=<claude> KEYLINE_MCP_TEST_MODEL=<model> \
@@ -60,7 +60,7 @@ cargo test --release --test versus_browser judge_runs -- --ignored --nocapture
 
 ## Prompt version vs3
 
-The same protocol on keyline 0.7.0 (`9e4a66c`). One change to the task, made before any counted run: the flyer's photo is a real one, `bench/photos/farmhouse.jpg` (a farmhouse in a field at sunrise), for every arm. Speaker card, judge prompt and tooling unchanged. Pilots (`*-pilot-v3`, one per arm on the flyer) ran on `80d053e` and aren't counted.
+The same protocol on keyline 0.7.0 (`9e4a66c`). One change to the task, made before any counted run: the flyer's photo is a real one, `farmhouse.jpg` (in keyline's `tests/fixtures/photos/`) (a farmhouse in a field at sunrise), for every arm. Speaker card, judge prompt and tooling unchanged. Pilots (`*-pilot-v3`, one per arm on the flyer) ran on `80d053e` and aren't counted.
 
 30 counted runs, 5 per arm and task in five interleaved blocks, on 2026-10-03, 10:18–12:40. Two earlier attempts were stopped and none of their runs counted: the first after its first block, so the Gemini schema fix could ship as 0.7.0, and the second because the machine slept overnight and its runs couldn't reach the API (one turn, no tokens). The runner now stops at a run that uses no tokens. **Infrastructure reruns:** one, `speaker-card/browser-mcp-v3-3`, whose first attempt ended on an API connection reset (`ECONNRESET`) after 9 turns without its PNGs.
 
@@ -175,7 +175,7 @@ There is no general "X× fewer tokens" claim, since that would need keyline to w
 **vs1 stopped after 29 runs so keyline changes could land; a full rerun follows as vs2.** Blocks 1–4 ran in full, and block 5 got five of its six runs (`speaker-card/keyline-5` never ran). Every run that ran is kept here and in `results.tsv`, and judged. vs1 numbers are not compared with vs2's.
 
 - **Commit:** keyline at `d098e31`; blocks 3–5 ran after `46fda5b`, which changed one unit-test assertion only (the shipped binary is identical). The `commit` column says which.
-- **Model and client:** `claude-opus-5[1m]` in Claude Code 2.1.251, pinned with `KEYLINE_MCP_TEST_MODEL`, the same build as the `bench/reference-ad/` runs. The judge used `claude-opus-5`.
+- **Model and client:** `claude-opus-5[1m]` in Claude Code 2.1.251, pinned with `KEYLINE_MCP_TEST_MODEL`, the same build as the `reference-ad/` runs. The judge used `claude-opus-5`.
 - **Browsers:** the CLI arm's Playwright 1.63.0 uses Chrome Headless Shell 153; `@playwright/mcp` 0.0.83 brings its own Playwright (1.64 alpha) and Chromium 155.
 - **Machine:** one Apple-silicon Mac, macOS 27, runs one at a time, on 2026-09-30.
 - **Pilot:** one run per arm and task (`*-pilot1`) before the counted runs, not counted. After it, only the harness changed: event logs drop base64 image bytes, since the PNGs are kept beside them.

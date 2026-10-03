@@ -4,7 +4,7 @@ The site for [keyline](https://github.com/keyline-dev/keyline): static pages, no
 
 - `index.html`, `style.css`, `site.js`: the page.
 - `scenes/`: keyline scene files for every image on the page.
-- `docs/`, `benchmark/`, `license/`, `llms.txt`, `llms-full.txt`, `sitemap.xml`: generated from keyline's Markdown by `npm run docs` (`docs.mjs`, after `npm install`; `KEYLINE_SRC=/path/to/keyline` if it isn't at `../visual-renderer`). Rerun when keyline's docs change. Each page also has a plain `index.md` beside it, for LLMs.
+- `docs/`, `benchmark/`, `license/`, `privacy/`, `security/`, `llms.txt`, `llms-full.txt`, `sitemap.xml`: generated from keyline's Markdown by `npm run docs` (`docs.mjs`, after `npm install`; `KEYLINE_SRC=/path/to/keyline` if it isn't at `../visual-renderer`). `benchmark/` comes from keyline-bench's `versus-browser/README.md` (`KEYLINE_BENCH=/path/to/keyline-bench` if it isn't at `../keyline-bench`). Rerun when either changes. Each page also has a plain `index.md` beside it, for LLMs.
 - `robots.txt`: hand-written.
 - `assets/`: their renders, committed. `./render.sh` re-renders them with keyline (`KEYLINE=/path/to/keyline-mcp` if it isn't on the PATH; the MP4 needs ffmpeg).
 

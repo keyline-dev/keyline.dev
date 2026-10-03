@@ -96,12 +96,12 @@
 </ol>
 <h2 id="reproduce"><a class="anchor" href="#reproduce">Reproduce</a></h2>
 <p>Pinned tooling (Playwright 1.63.0 and <code>@playwright/mcp</code> 0.0.83, bench-only, never a keyline dependency):</p>
-<pre><code class="language-sh">cd bench/versus-browser/tooling
+<pre><code class="language-sh">cd versus-browser/tooling     # in this repo
 npm ci
 npx playwright install chromium-headless-shell
 node node_modules/@playwright/mcp/node_modules/playwright/cli.js install chromium chromium-headless-shell
 </code></pre>
-<p>One run (labels are never reused; a run&#39;s folder is <code>&lt;task&gt;/&lt;arm&gt;-&lt;label&gt;/</code>):</p>
+<p>One run, from a keyline checkout with this repo beside it as <code>keyline-bench</code> (or at <code>KEYLINE_BENCH</code>); labels are never reused, and a run&#39;s folder is <code>&lt;task&gt;/&lt;arm&gt;-&lt;label&gt;/</code>:</p>
 <pre><code class="language-sh">CLAUDE_BIN=&lt;claude&gt; KEYLINE_MCP_TEST_MODEL=&lt;model&gt; \
 KEYLINE_BENCH_ARM=keyline|browser-cli|browser-mcp KEYLINE_BENCH_TASK=reference-ad|speaker-card \
 KEYLINE_MCP_BENCH=&lt;label&gt; \
@@ -111,7 +111,7 @@ KEYLINE_MCP_BENCH=&lt;label&gt; \
 <pre><code class="language-sh">cargo test --release --test versus_browser judge_runs -- --ignored --nocapture
 </code></pre>
 <h2 id="prompt-version-vs3"><a class="anchor" href="#prompt-version-vs3">Prompt version vs3</a></h2>
-<p>The same protocol on keyline 0.7.0 (<code>9e4a66c</code>). One change to the task, made before any counted run: the flyer&#39;s photo is a real one, <code>bench/photos/farmhouse.jpg</code> (a farmhouse in a field at sunrise), for every arm. Speaker card, judge prompt and tooling unchanged. Pilots (<code>*-pilot-v3</code>, one per arm on the flyer) ran on <code>80d053e</code> and aren&#39;t counted.</p>
+<p>The same protocol on keyline 0.7.0 (<code>9e4a66c</code>). One change to the task, made before any counted run: the flyer&#39;s photo is a real one, <code>farmhouse.jpg</code> (in keyline&#39;s <code>tests/fixtures/photos/</code>) (a farmhouse in a field at sunrise), for every arm. Speaker card, judge prompt and tooling unchanged. Pilots (<code>*-pilot-v3</code>, one per arm on the flyer) ran on <code>80d053e</code> and aren&#39;t counted.</p>
 <p>30 counted runs, 5 per arm and task in five interleaved blocks, on 2026-10-03, 10:18–12:40. Two earlier attempts were stopped and none of their runs counted: the first after its first block, so the Gemini schema fix could ship as 0.7.0, and the second because the machine slept overnight and its runs couldn&#39;t reach the API (one turn, no tokens). The runner now stops at a run that uses no tokens. <strong>Infrastructure reruns:</strong> one, <code>speaker-card/browser-mcp-v3-3</code>, whose first attempt ended on an API connection reset (<code>ECONNRESET</code>) after 9 turns without its PNGs.</p>
 <h3 id="results"><a class="anchor" href="#results">Results</a></h3>
 <p>Medians (min–max) over all 30 runs. Ratios are browser ÷ keyline: the ratio of the medians, then the range between the extremes.</p>
@@ -460,7 +460,7 @@ KEYLINE_MCP_BENCH=&lt;label&gt; \
 <p><strong>vs1 stopped after 29 runs so keyline changes could land; a full rerun follows as vs2.</strong> Blocks 1–4 ran in full, and block 5 got five of its six runs (<code>speaker-card/keyline-5</code> never ran). Every run that ran is kept here and in <code>results.tsv</code>, and judged. vs1 numbers are not compared with vs2&#39;s.</p>
 <ul>
 <li><strong>Commit:</strong> keyline at <code>d098e31</code>; blocks 3–5 ran after <code>46fda5b</code>, which changed one unit-test assertion only (the shipped binary is identical). The <code>commit</code> column says which.</li>
-<li><strong>Model and client:</strong> <code>claude-opus-5[1m]</code> in Claude Code 2.1.251, pinned with <code>KEYLINE_MCP_TEST_MODEL</code>, the same build as the <code>bench/reference-ad/</code> runs. The judge used <code>claude-opus-5</code>.</li>
+<li><strong>Model and client:</strong> <code>claude-opus-5[1m]</code> in Claude Code 2.1.251, pinned with <code>KEYLINE_MCP_TEST_MODEL</code>, the same build as the <code>reference-ad/</code> runs. The judge used <code>claude-opus-5</code>.</li>
 <li><strong>Browsers:</strong> the CLI arm&#39;s Playwright 1.63.0 uses Chrome Headless Shell 153; <code>@playwright/mcp</code> 0.0.83 brings its own Playwright (1.64 alpha) and Chromium 155.</li>
 <li><strong>Machine:</strong> one Apple-silicon Mac, macOS 27, runs one at a time, on 2026-09-30.</li>
 <li><strong>Pilot:</strong> one run per arm and task (<code>*-pilot1</code>) before the counted runs, not counted. After it, only the harness changed: event logs drop base64 image bytes, since the PNGs are kept beside them.</li>
