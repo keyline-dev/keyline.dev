@@ -138,6 +138,20 @@ The ChatGPT app itself connects only to remote MCP servers over HTTP, so it can'
 </details>
 
 <details>
+<summary><b>Gemini CLI</b> (Google)</summary>
+
+```sh
+gemini mcp add --scope user keyline keyline-mcp
+```
+
+Or add to `~/.gemini/settings.json`, then check with `/mcp` in Gemini CLI: ([guide](https://geminicli.com/docs/tools/mcp-server/))
+
+```json
+{ "mcpServers": { "keyline": { "command": "keyline-mcp" } } }
+```
+</details>
+
+<details>
 <summary><b>Any other client</b></summary>
 
 Any MCP client that starts stdio servers works: the command is `keyline-mcp`. It runs where the client runs; to render on another machine, make the command `ssh that-machine keyline-mcp`.
