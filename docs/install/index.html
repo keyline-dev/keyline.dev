@@ -85,7 +85,7 @@ gh attestation verify keyline-mcp_&lt;version&gt;-1_amd64.deb --repo keyline-dev
 <pre><code class="language-json">{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;/opt/homebrew/bin/keyline-mcp&quot; } } }
 </code></pre>
 </details><details>
-<summary><b>Cursor</b></summary><p><a href="cursor://anysphere.cursor-deeplink/mcp/install?name=keyline&amp;config=eyJjb21tYW5kIjoia2V5bGluZS1tY3AifQ==">Add to Cursor</a>, or add to <code>~/.cursor/mcp.json</code> (every project) or <code>.cursor/mcp.json</code> (one project). (<a href="https://cursor.com/docs/context/mcp">guide</a>)</p>
+<summary><b>Cursor</b></summary><p><a href="https://cursor.com/en/install-mcp?name=keyline&amp;config=eyJjb21tYW5kIjoia2V5bGluZS1tY3AifQ%3D%3D">Add to Cursor</a>, or add to <code>~/.cursor/mcp.json</code> (every project) or <code>.cursor/mcp.json</code> (one project). (<a href="https://cursor.com/docs/context/mcp">guide</a>)</p>
 <pre><code class="language-json">{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot; } } }
 </code></pre>
 </details><details>
@@ -95,7 +95,7 @@ gh attestation verify keyline-mcp_&lt;version&gt;-1_amd64.deb --repo keyline-dev
 <pre><code class="language-json">{ &quot;servers&quot;: { &quot;keyline&quot;: { &quot;type&quot;: &quot;stdio&quot;, &quot;command&quot;: &quot;keyline-mcp&quot; } } }
 </code></pre>
 </details><details>
-<summary><b>Windsurf</b></summary><p>Add to <code>~/.codeium/windsurf/mcp_config.json</code>. (<a href="https://docs.windsurf.com/windsurf/cascade/mcp">guide</a>)</p>
+<summary><b>Devin Desktop</b> (formerly Windsurf)</summary><p>Add to <code>~/.config/devin/mcp_config.json</code> (Windows: <code>%APPDATA%\devin\mcp_config.json</code>); versions still named Windsurf read <code>~/.codeium/windsurf/mcp_config.json</code>. (<a href="https://docs.devin.ai/desktop/cascade/mcp">guide</a>)</p>
 <pre><code class="language-json">{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot; } } }
 </code></pre>
 </details><details>
@@ -115,6 +115,38 @@ command = &quot;keyline-mcp&quot;
 </code></pre>
 <p>Or add to <code>~/.gemini/settings.json</code>, then check with <code>/mcp</code> in Gemini CLI: (<a href="https://geminicli.com/docs/tools/mcp-server/">guide</a>)</p>
 <pre><code class="language-json">{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot; } } }
+</code></pre>
+</details><details>
+<summary><b>Antigravity</b> (Google)</summary><p>Add to <code>~/.gemini/config/mcp_config.json</code> (every workspace) or <code>.agents/mcp_config.json</code> (one workspace). (<a href="https://antigravity.google/docs/mcp">guide</a>)</p>
+<pre><code class="language-json">{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot; } } }
+</code></pre>
+</details><details>
+<summary><b>GitHub Copilot CLI</b></summary><p>Run <code>/mcp add</code> in Copilot CLI, or add to <code>~/.copilot/mcp-config.json</code>: (<a href="https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-copilot-cli">guide</a>)</p>
+<pre><code class="language-json">{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;type&quot;: &quot;local&quot;, &quot;command&quot;: &quot;keyline-mcp&quot;, &quot;args&quot;: [], &quot;tools&quot;: [&quot;*&quot;] } } }
+</code></pre>
+</details><details>
+<summary><b>Grok Build</b> (xAI)</summary><pre><code class="language-sh">grok mcp add keyline -- keyline-mcp
+</code></pre>
+<p>Or add to <code>~/.grok/config.toml</code>, then check with <code>grok mcp doctor keyline</code>: (<a href="https://docs.x.ai/build/features/mcp-servers">guide</a>)</p>
+<pre><code class="language-toml">[mcp_servers.keyline]
+command = &quot;keyline-mcp&quot;
+</code></pre>
+<p>grok.com and the xAI API connect only to remote MCP servers, so they can&#39;t start keyline; use Grok Build.</p>
+</details><details>
+<summary><b>Kiro</b></summary><p>Add to <code>~/.kiro/settings/mcp.json</code> (every workspace) or <code>.kiro/settings/mcp.json</code> (one workspace). (<a href="https://kiro.dev/docs/mcp/configuration/">guide</a>)</p>
+<pre><code class="language-json">{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot; } } }
+</code></pre>
+</details><details>
+<summary><b>opencode</b></summary><p>Add to <code>~/.config/opencode/opencode.json</code>, or <code>opencode.json</code> in a project. The command is a list. (<a href="https://opencode.ai/docs/mcp-servers/">guide</a>)</p>
+<pre><code class="language-json">{ &quot;$schema&quot;: &quot;https://opencode.ai/config.json&quot;, &quot;mcp&quot;: { &quot;keyline&quot;: { &quot;type&quot;: &quot;local&quot;, &quot;command&quot;: [&quot;keyline-mcp&quot;] } } }
+</code></pre>
+</details><details>
+<summary><b>JetBrains</b> (AI Assistant and Junie)</summary><p>AI Assistant: Settings → Tools → AI Assistant → Model Context Protocol (MCP) → Add, and paste the JSON below. (<a href="https://www.jetbrains.com/help/ai-assistant/configure-an-mcp-server.html">guide</a>) Junie: run <code>/mcp</code>, or add the same JSON to <code>~/.junie/mcp/mcp.json</code>. (<a href="https://junie.jetbrains.com/docs/junie-cli-mcp-configuration.html">guide</a>)</p>
+<pre><code class="language-json">{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot;, &quot;args&quot;: [] } } }
+</code></pre>
+</details><details>
+<summary><b>Warp</b></summary><p>Settings → Agents → MCP servers → Add, and paste: (<a href="https://docs.warp.dev/knowledge-and-collaboration/mcp">guide</a>)</p>
+<pre><code class="language-json">{ &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot;, &quot;args&quot;: [] } }
 </code></pre>
 </details><details>
 <summary><b>Any other client</b></summary><p>Any MCP client that starts stdio servers works: the command is <code>keyline-mcp</code>. It runs where the client runs; to render on another machine, make the command <code>ssh that-machine keyline-mcp</code>.</p>

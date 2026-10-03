@@ -199,7 +199,7 @@ write('license/index.html', shell(
 
 // llms.txt (llmstxt.org): what keyline is, the facts an answer needs, and
 // where the plain-text docs are. The benchmark figures are the home page's.
-const FACTS = `- Works with Claude Code, Claude Desktop, Cursor, Codex, Gemini CLI, VS Code, Windsurf, Cline and any stdio MCP client; on macOS, Linux, Windows, Docker and GitHub Actions.
+const FACTS = `- Works with Claude Code, Claude Desktop, Cursor, Codex, Gemini CLI, VS Code, GitHub Copilot CLI, Antigravity, Grok Build, Kiro, opencode, JetBrains AI and Junie, Warp, Devin Desktop (Windsurf), Cline and any stdio MCP client; on macOS, Linux, Windows, Docker and GitHub Actions.
 - Outputs PNG, JPEG, WebP, vector PDF, GIF, animated PNG, MP4 and WebM, at every size from one master layout.
 - Deterministic: no model generates pixels; the same scene always renders the same design.
 - In a benchmark (Claude Opus 5, 5 runs each on two tasks, a speaker card and a flyer) an agent used 2× fewer tokens than with HTML + headless Chrome, and 6× fewer than with Playwright MCP, and was correct as often.
