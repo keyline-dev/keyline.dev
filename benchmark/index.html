@@ -96,12 +96,12 @@
 </ol>
 <h2 id="reproduce"><a class="anchor" href="#reproduce">Reproduce</a></h2>
 <p>Pinned tooling (Playwright 1.63.0 and <code>@playwright/mcp</code> 0.0.83, bench-only, never a keyline dependency):</p>
-<pre><code class="language-sh">cd versus-browser/tooling     # in this repo
+<pre><code class="language-sh">cd versus-browser/tooling     # in keyline-bench
 npm ci
 npx playwright install chromium-headless-shell
 node node_modules/@playwright/mcp/node_modules/playwright/cli.js install chromium chromium-headless-shell
 </code></pre>
-<p>One run, from a keyline checkout with this repo beside it as <code>keyline-bench</code> (or at <code>KEYLINE_BENCH</code>); labels are never reused, and a run&#39;s folder is <code>&lt;task&gt;/&lt;arm&gt;-&lt;label&gt;/</code>:</p>
+<p>One run, from a keyline checkout with keyline-bench checked out beside it (or at <code>KEYLINE_BENCH</code>); labels are never reused, and a run&#39;s folder is <code>&lt;task&gt;/&lt;arm&gt;-&lt;label&gt;/</code>:</p>
 <pre><code class="language-sh">CLAUDE_BIN=&lt;claude&gt; KEYLINE_MCP_TEST_MODEL=&lt;model&gt; \
 KEYLINE_BENCH_ARM=keyline|browser-cli|browser-mcp KEYLINE_BENCH_TASK=reference-ad|speaker-card \
 KEYLINE_MCP_BENCH=&lt;label&gt; \

@@ -1840,13 +1840,13 @@ From Claude Code's `result` event (`modelUsage`, so Haiku side calls count too):
 Pinned tooling (Playwright 1.63.0 and `@playwright/mcp` 0.0.83, bench-only, never a keyline dependency):
 
 ```sh
-cd versus-browser/tooling     # in this repo
+cd versus-browser/tooling     # in keyline-bench
 npm ci
 npx playwright install chromium-headless-shell
 node node_modules/@playwright/mcp/node_modules/playwright/cli.js install chromium chromium-headless-shell
 ```
 
-One run, from a keyline checkout with this repo beside it as `keyline-bench` (or at `KEYLINE_BENCH`); labels are never reused, and a run's folder is `<task>/<arm>-<label>/`:
+One run, from a keyline checkout with keyline-bench checked out beside it (or at `KEYLINE_BENCH`); labels are never reused, and a run's folder is `<task>/<arm>-<label>/`:
 
 ```sh
 CLAUDE_BIN=<claude> KEYLINE_MCP_TEST_MODEL=<model> \
