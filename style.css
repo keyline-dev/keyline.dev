@@ -323,6 +323,7 @@ pre {
 .panel { margin-top: 20px; }
 .panel p { color: var(--muted); margin: 0 0 14px; }
 .code { position: relative; }
+.panel .code + p, .panel .code + .code { margin-top: 14px; }
 .code pre { margin: 0; font-size: 14px; padding-right: 80px; }
 .copy {
   position: absolute;

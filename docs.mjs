@@ -208,6 +208,35 @@ for (const page of STANDALONE) {
   write('.' + page.url + 'index.html', shell(page, render(page, md)));
 }
 
+// The home page's install tab for each client, from the README's setup
+// blocks (all but the Claude ones without the plugin or extension, which
+// the Claude tabs cover), between the client markers in index.html.
+const readme = readFileSync(join(SRC, 'README.md'), 'utf8');
+const clients = [...readme.matchAll(/<details>\n<summary>(.*?)<\/summary>\n([\s\S]*?)<\/details>/g)]
+  .filter(([, summary]) => !summary.includes('without the'))
+  .map(([, summary, body]) => {
+    const name = summary.match(/<b>(.*?)<\/b>/)[1];
+    const was = summary.match(/\(formerly (.*?)\)/)?.[1];
+    const label = name === 'Any other client' ? 'Other clients' : was ? `${name} (${was})` : name;
+    return { label, id: label.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''), body };
+  });
+const panel = new Marked({
+  gfm: true,
+  renderer: {
+    code({ text }) {
+      return `<div class="code"><pre><code>${esc(text)}</code></pre><button class="copy">Copy</button></div>\n`;
+    },
+  },
+});
+const install = '<p>First <a href="docs/install/index.html#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>';
+const between = (html, name, inner) => html.replace(
+  new RegExp(`(<!-- ${name}:[^>]*-->\\n)[\\s\\S]*?( *<!-- /${name} -->)`),
+  (_, open, close) => open + inner + close);
+const tabs = clients.map((c) => `        <button role="tab" aria-selected="false" data-tab="${c.id}">${esc(c.label)}</button>\n`).join('');
+// Unindented: a code block's lines are copied as they are.
+const panels = clients.map((c) => `      <div class="panel" data-panel="${c.id}" hidden>\n        ${install}\n        ${panel.parse(c.body).trim()}\n      </div>\n`).join('');
+writeFileSync('index.html', between(between(home, 'client tabs', tabs), 'client panels', panels));
+
 // llms.txt (llmstxt.org): what keyline is, the facts an answer needs, and
 // where the plain-text docs are. The benchmark figures are the home page's.
 const FACTS = `- Works with Claude Code, Claude Desktop, Cursor, Codex, Gemini CLI, VS Code, GitHub Copilot CLI, Antigravity, Grok Build, Kiro, opencode, JetBrains AI and Junie, Warp, Devin Desktop (Windsurf), Cline and any stdio MCP client; on macOS, Linux, Windows, Docker and GitHub Actions.

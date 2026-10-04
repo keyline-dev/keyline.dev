@@ -187,6 +187,11 @@ portrait,square toast warn shadow clipped by card
 <td>advisory</td>
 <td>A frame that clips its content (<code>clipsContent</code>, on by default) cuts the layer&#39;s drop shadow; give it room (padding) or set <code>clipsContent: false</code></td>
 </tr>
+<tr>
+<td><code>warn invisible (no visible fill or stroke)</code></td>
+<td>advisory</td>
+<td>A shape, line or icon draws nothing: every fill and stroke is fully transparent (<code>rgba(…, 0)</code>, often meant as a fade) or missing (<code>fill: []</code> and no stroke). Frames and spacers aren&#39;t checked, and neither is a layer used as a mask, one with a <code>backdropBlur</code>, or one whose <code>color</code> animates</td>
+</tr>
 </tbody></table></div>
 <p>Defects need fixing; advisories need judgment (<a href="../../docs/index.html#checks-defects-advisories-facts">concepts</a>). In a scene of <a href="../../docs/scene/index.html#shots-and-transitions">shots</a>, every shot is checked, each with the layers around it.</p>
 <h3 id="facts-line"><a class="anchor" href="#facts-line">Facts line</a></h3>

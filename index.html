@@ -29,7 +29,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="style.css?v=4">
   <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"What is keyline?","acceptedAnswer":{"@type":"Answer","text":"keyline is a free, source-available MCP server that lets AI agents (Claude Code, Cursor, Codex, VS Code) design social posts, display ads, banners, flyers and video at every size from one JSON scene. It measures text fit and overflow before rendering, and renders with Skia instead of a headless browser."}},{"@type":"Question","name":"How is it different from Puppeteer or Playwright screenshots?","acceptedAnswer":{"@type":"Answer","text":"There's no browser to install, run or patch: keyline is one native binary. It measures text fit, overflow and contrast itself, so the agent fixes a layout without taking screenshots. In our benchmark, on two tasks, an agent used 2× fewer tokens than with HTML and headless Chrome, and 6× fewer than with Playwright MCP."}},{"@type":"Question","name":"How is it different from Bannerbear or Placid?","acceptedAnswer":{"@type":"Answer","text":"keyline runs on your machine or in CI, for free, with no hosted templates and no API key. The agent writes the design itself, as a JSON scene, instead of filling in a template someone made in a web editor."}},{"@type":"Question","name":"Does it generate images with AI?","acceptedAnswer":{"@type":"Answer","text":"No. keyline renders deterministically: the agent writes the scene, and the same scene always renders the same pixels. Photos and logos are your own files."}},{"@type":"Question","name":"How do I install keyline in Cursor?","acceptedAnswer":{"@type":"Answer","text":"Install the binary (brew install keyline-dev/tap/keyline-mcp, or a release download), then add { \"mcpServers\": { \"keyline\": { \"command\": \"keyline-mcp\" } } } to ~/.cursor/mcp.json. The install guide has every other client."}},{"@type":"Question","name":"Is it free?","acceptedAnswer":{"@type":"Answer","text":"Yes. keyline is free to use, change and share, commercially too, under the Functional Source License (FSL-1.1-ALv2). The one thing it doesn't allow is offering keyline itself as a competing commercial product or service. Each release also becomes Apache-2.0 two years after it ships."}}]}</script>
 </head>
 <body>
@@ -262,9 +262,24 @@ banner sub text
       <div class="tabs" role="tablist">
         <button role="tab" aria-selected="true" data-tab="claude-code">Claude Code</button>
         <button role="tab" aria-selected="false" data-tab="claude-desktop">Claude Desktop</button>
+        <!-- client tabs: built by docs.mjs from keyline's README; change them there -->
+        <button role="tab" aria-selected="false" data-tab="cursor">Cursor</button>
+        <button role="tab" aria-selected="false" data-tab="vs-code">VS Code</button>
+        <button role="tab" aria-selected="false" data-tab="devin-desktop-windsurf">Devin Desktop (Windsurf)</button>
+        <button role="tab" aria-selected="false" data-tab="cline">Cline</button>
+        <button role="tab" aria-selected="false" data-tab="codex">Codex</button>
+        <button role="tab" aria-selected="false" data-tab="gemini-cli">Gemini CLI</button>
+        <button role="tab" aria-selected="false" data-tab="antigravity">Antigravity</button>
+        <button role="tab" aria-selected="false" data-tab="github-copilot-cli">GitHub Copilot CLI</button>
+        <button role="tab" aria-selected="false" data-tab="grok-build">Grok Build</button>
+        <button role="tab" aria-selected="false" data-tab="kiro">Kiro</button>
+        <button role="tab" aria-selected="false" data-tab="opencode">opencode</button>
+        <button role="tab" aria-selected="false" data-tab="jetbrains">JetBrains</button>
+        <button role="tab" aria-selected="false" data-tab="warp">Warp</button>
+        <button role="tab" aria-selected="false" data-tab="other-clients">Other clients</button>
+        <!-- /client tabs -->
         <button role="tab" aria-selected="false" data-tab="homebrew">Homebrew</button>
         <button role="tab" aria-selected="false" data-tab="docker">Docker</button>
-        <button role="tab" aria-selected="false" data-tab="other">Other clients</button>
         <button role="tab" aria-selected="false" data-tab="ci">GitHub Actions</button>
       </div>
       <div class="panel" data-panel="claude-code">
@@ -275,6 +290,85 @@ banner sub text
       <div class="panel" data-panel="claude-desktop" hidden>
         <p>Download <code>keyline-mcp-&lt;version&gt;.mcpb</code> from the <a href="https://github.com/keyline-dev/keyline/releases/latest">latest release</a> and double-click it, or install it from Settings, Extensions. Mac (Apple silicon) and Windows.</p>
       </div>
+      <!-- client panels: built by docs.mjs from keyline's README; change them there -->
+      <div class="panel" data-panel="cursor" hidden>
+        <p>First <a href="docs/install/index.html#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>
+        <p><a href="https://cursor.com/en/install-mcp?name=keyline&amp;config=eyJjb21tYW5kIjoia2V5bGluZS1tY3AifQ%3D%3D">Add to Cursor</a>, or add to <code>~/.cursor/mcp.json</code> (every project) or <code>.cursor/mcp.json</code> (one project). (<a href="https://cursor.com/docs/context/mcp">guide</a>)</p>
+<div class="code"><pre><code>{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot; } } }</code></pre><button class="copy">Copy</button></div>
+      </div>
+      <div class="panel" data-panel="vs-code" hidden>
+        <p>First <a href="docs/install/index.html#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>
+        <div class="code"><pre><code>code --add-mcp '{&quot;name&quot;:&quot;keyline&quot;,&quot;command&quot;:&quot;keyline-mcp&quot;}'</code></pre><button class="copy">Copy</button></div>
+<p>Or add to <code>.vscode/mcp.json</code>, or your profile&#39;s (<em>MCP: Open User Configuration</em>). The key is <code>servers</code>, not <code>mcpServers</code>. (<a href="https://code.visualstudio.com/docs/copilot/customization/mcp-servers">guide</a>)</p>
+<div class="code"><pre><code>{ &quot;servers&quot;: { &quot;keyline&quot;: { &quot;type&quot;: &quot;stdio&quot;, &quot;command&quot;: &quot;keyline-mcp&quot; } } }</code></pre><button class="copy">Copy</button></div>
+      </div>
+      <div class="panel" data-panel="devin-desktop-windsurf" hidden>
+        <p>First <a href="docs/install/index.html#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>
+        <p>Add to <code>~/.config/devin/mcp_config.json</code> (Windows: <code>%APPDATA%\devin\mcp_config.json</code>); versions still named Windsurf read <code>~/.codeium/windsurf/mcp_config.json</code>. (<a href="https://docs.devin.ai/desktop/cascade/mcp">guide</a>)</p>
+<div class="code"><pre><code>{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot; } } }</code></pre><button class="copy">Copy</button></div>
+      </div>
+      <div class="panel" data-panel="cline" hidden>
+        <p>First <a href="docs/install/index.html#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>
+        <p>In Cline&#39;s MCP Servers panel, open the installed servers&#39; settings (<code>cline_mcp_settings.json</code>) and add: (<a href="https://docs.cline.bot/mcp/configuring-mcp-servers">guide</a>)</p>
+<div class="code"><pre><code>{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot; } } }</code></pre><button class="copy">Copy</button></div>
+      </div>
+      <div class="panel" data-panel="codex" hidden>
+        <p>First <a href="docs/install/index.html#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>
+        <div class="code"><pre><code>codex mcp add keyline -- keyline-mcp</code></pre><button class="copy">Copy</button></div>
+<p>Or add to <code>~/.codex/config.toml</code>: (<a href="https://developers.openai.com/codex/mcp">guide</a>)</p>
+<div class="code"><pre><code>[mcp_servers.keyline]
+command = &quot;keyline-mcp&quot;</code></pre><button class="copy">Copy</button></div>
+<p>The ChatGPT app itself connects only to remote MCP servers over HTTP, so it can&#39;t start keyline, which runs on your machine; use Codex.</p>
+      </div>
+      <div class="panel" data-panel="gemini-cli" hidden>
+        <p>First <a href="docs/install/index.html#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>
+        <div class="code"><pre><code>gemini mcp add --scope user keyline keyline-mcp</code></pre><button class="copy">Copy</button></div>
+<p>Or add to <code>~/.gemini/settings.json</code>, then check with <code>/mcp</code> in Gemini CLI: (<a href="https://geminicli.com/docs/tools/mcp-server/">guide</a>)</p>
+<div class="code"><pre><code>{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot; } } }</code></pre><button class="copy">Copy</button></div>
+      </div>
+      <div class="panel" data-panel="antigravity" hidden>
+        <p>First <a href="docs/install/index.html#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>
+        <p>Add to <code>~/.gemini/config/mcp_config.json</code> (every workspace) or <code>.agents/mcp_config.json</code> (one workspace). (<a href="https://antigravity.google/docs/mcp">guide</a>)</p>
+<div class="code"><pre><code>{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot; } } }</code></pre><button class="copy">Copy</button></div>
+      </div>
+      <div class="panel" data-panel="github-copilot-cli" hidden>
+        <p>First <a href="docs/install/index.html#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>
+        <p>Run <code>/mcp add</code> in Copilot CLI, or add to <code>~/.copilot/mcp-config.json</code>: (<a href="https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-copilot-cli">guide</a>)</p>
+<div class="code"><pre><code>{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;type&quot;: &quot;local&quot;, &quot;command&quot;: &quot;keyline-mcp&quot;, &quot;args&quot;: [], &quot;tools&quot;: [&quot;*&quot;] } } }</code></pre><button class="copy">Copy</button></div>
+      </div>
+      <div class="panel" data-panel="grok-build" hidden>
+        <p>First <a href="docs/install/index.html#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>
+        <div class="code"><pre><code>grok mcp add keyline -- keyline-mcp</code></pre><button class="copy">Copy</button></div>
+<p>Or add to <code>~/.grok/config.toml</code>, then check with <code>grok mcp doctor keyline</code>: (<a href="https://docs.x.ai/build/features/mcp-servers">guide</a>)</p>
+<div class="code"><pre><code>[mcp_servers.keyline]
+command = &quot;keyline-mcp&quot;</code></pre><button class="copy">Copy</button></div>
+<p>grok.com and the xAI API connect only to remote MCP servers, so they can&#39;t start keyline; use Grok Build.</p>
+      </div>
+      <div class="panel" data-panel="kiro" hidden>
+        <p>First <a href="docs/install/index.html#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>
+        <p>Add to <code>~/.kiro/settings/mcp.json</code> (every workspace) or <code>.kiro/settings/mcp.json</code> (one workspace). (<a href="https://kiro.dev/docs/mcp/configuration/">guide</a>)</p>
+<div class="code"><pre><code>{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot; } } }</code></pre><button class="copy">Copy</button></div>
+      </div>
+      <div class="panel" data-panel="opencode" hidden>
+        <p>First <a href="docs/install/index.html#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>
+        <p>Add to <code>~/.config/opencode/opencode.json</code>, or <code>opencode.json</code> in a project. The command is a list. (<a href="https://opencode.ai/docs/mcp-servers/">guide</a>)</p>
+<div class="code"><pre><code>{ &quot;$schema&quot;: &quot;https://opencode.ai/config.json&quot;, &quot;mcp&quot;: { &quot;keyline&quot;: { &quot;type&quot;: &quot;local&quot;, &quot;command&quot;: [&quot;keyline-mcp&quot;] } } }</code></pre><button class="copy">Copy</button></div>
+      </div>
+      <div class="panel" data-panel="jetbrains" hidden>
+        <p>First <a href="docs/install/index.html#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>
+        <p>AI Assistant: Settings → Tools → AI Assistant → Model Context Protocol (MCP) → Add, and paste the JSON below. (<a href="https://www.jetbrains.com/help/ai-assistant/configure-an-mcp-server.html">guide</a>) Junie: run <code>/mcp</code>, or add the same JSON to <code>~/.junie/mcp/mcp.json</code>. (<a href="https://junie.jetbrains.com/docs/junie-cli-mcp-configuration.html">guide</a>)</p>
+<div class="code"><pre><code>{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot;, &quot;args&quot;: [] } } }</code></pre><button class="copy">Copy</button></div>
+      </div>
+      <div class="panel" data-panel="warp" hidden>
+        <p>First <a href="docs/install/index.html#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>
+        <p>Settings → Agents → MCP servers → Add, and paste: (<a href="https://docs.warp.dev/knowledge-and-collaboration/mcp">guide</a>)</p>
+<div class="code"><pre><code>{ &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot;, &quot;args&quot;: [] } }</code></pre><button class="copy">Copy</button></div>
+      </div>
+      <div class="panel" data-panel="other-clients" hidden>
+        <p>First <a href="docs/install/index.html#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>
+        <p>Any MCP client that starts stdio servers works: the command is <code>keyline-mcp</code>. It runs where the client runs; to render on another machine, make the command <code>ssh that-machine keyline-mcp</code>.</p>
+      </div>
+      <!-- /client panels -->
       <div class="panel" data-panel="homebrew" hidden>
         <p>macOS on Apple silicon. Then add <code>keyline-mcp</code> to your client.</p>
         <div class="code"><pre><code>brew install keyline-dev/tap/keyline-mcp</code></pre><button class="copy">Copy</button></div>
@@ -282,9 +376,6 @@ banner sub text
       <div class="panel" data-panel="docker" hidden>
         <p>Linux, nothing else to install. Use this as your client's command; <code>:stills</code> leaves out video and is a third the size.</p>
         <div class="code"><pre><code>docker run -i --rm -v keyline:/data ghcr.io/keyline-dev/keyline-mcp</code></pre><button class="copy">Copy</button></div>
-      </div>
-      <div class="panel" data-panel="other" hidden>
-        <p>Codex, Gemini CLI, Cursor, VS Code, Copilot CLI, Antigravity, Grok Build, Kiro, opencode, JetBrains, Warp, Devin Desktop (Windsurf), Cline and any MCP client: install keyline, then point the client at <code>keyline-mcp</code>. The <a href="docs/install/index.html">Quick start</a> has a setup block for each.</p>
       </div>
       <div class="panel" data-panel="ci" hidden>
         <p>GitHub Actions: keep designs as scene files in a repo; every push renders them and fails on a broken layout.</p>
