@@ -39,6 +39,10 @@ r scenes/menu.json --out assets/menu --size story-loop --format webp --time 5
 
 # The image at the top of keyline's README (and for posts): one prompt, every size.
 r scenes/readme-hero.json --out assets/readme --format png
+# README motion: the festival teaser as animated WebP (GitHub doesn't play
+# MP4 from another site), from keyline's own render.
+ffmpeg -v error -y -i assets/festival/land-v0.mp4 -vf "fps=15,scale=640:-2:flags=lanczos" \
+  -c:v libwebp_anim -loop 0 -quality 70 -compression_level 6 assets/readme/festival-v0.webp
 
 # The preview shown when the site is shared.
 r scenes/og.json --out assets/og --format png

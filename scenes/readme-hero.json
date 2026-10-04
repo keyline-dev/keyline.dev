@@ -1,7 +1,7 @@
 {
   "sizes": [
     {
-      "id": "hero",
+      "id": "readme",
       "width": 1304,
       "height": 862
     }
@@ -225,7 +225,7 @@
               "fontSize": 19,
               "fontFamily": "JetBrains Mono",
               "color": "#A1A1AA",
-              "text": "<span style=\"color:#F4F4F5\">keyline</span>  feed sub text  <span style=\"color:#F87171\">!truncated needs 470×96</span>  →  fixed: <span style=\"color:#4ADE80\">ok</span> at every size"
+              "text": "<span style=\"color:#F4F4F5\">keyline</span>  leaderboard content  <span style=\"color:#F87171\">!overflow needs 572×116</span>  →  fixed: <span style=\"color:#4ADE80\">ok</span> at every size"
             }
           ],
           "clipsContent": false
