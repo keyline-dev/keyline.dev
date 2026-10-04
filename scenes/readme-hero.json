@@ -1,0 +1,245 @@
+{
+  "sizes": [
+    {
+      "id": "hero",
+      "width": 1304,
+      "height": 862
+    }
+  ],
+  "background": "#0B0B0C",
+  "assets": {
+    "post": "../assets/ebike/portrait-v0.webp",
+    "feed": "../assets/ebike/feed-v0.webp",
+    "half": "../assets/ebike/half-page-v0.webp",
+    "mpu": "../assets/ebike/mpu-v0.webp",
+    "board": "../assets/ebike/leaderboard-v0.webp"
+  },
+  "styles": {
+    "shot": {
+      "borderRadius": 10,
+      "shadow": {
+        "y": 12,
+        "blur": 32,
+        "color": "rgba(0,0,0,0.5)"
+      }
+    },
+    "cap": {
+      "fontSize": 17,
+      "color": "#8A8A93",
+      "fontFamily": "JetBrains Mono"
+    }
+  },
+  "layers": [
+    {
+      "type": "frame",
+      "id": "page",
+      "width": 1304,
+      "height": 862,
+      "flexDirection": "column",
+      "padding": [
+        56,
+        64
+      ],
+      "gap": 34,
+      "children": [
+        {
+          "type": "frame",
+          "id": "ask",
+          "flexDirection": "column",
+          "gap": 10,
+          "children": [
+            {
+              "type": "text",
+              "id": "ask-label",
+              "text": "PROMPT",
+              "fontSize": 15,
+              "fontWeight": 600,
+              "letterSpacing": 2,
+              "color": "#F0245E"
+            },
+            {
+              "type": "frame",
+              "id": "bubble",
+              "fill": "#1C1C21",
+              "borderRadius": 18,
+              "padding": [
+                20,
+                26
+              ],
+              "width": 1176,
+              "children": [
+                {
+                  "type": "text",
+                  "id": "prompt",
+                  "width": 1124,
+                  "fontSize": 25,
+                  "lineHeight": 1.35,
+                  "color": "#F4F4F5",
+                  "text": "Make a launch campaign for the Loam Cargo e-bike: an Instagram post, a Facebook feed ad, and display ads at 300×600, 300×250 and 728×90."
+                }
+              ],
+              "clipsContent": false
+            }
+          ],
+          "clipsContent": false
+        },
+        {
+          "type": "frame",
+          "id": "sizes",
+          "flexDirection": "column",
+          "gap": 26,
+          "children": [
+            {
+              "type": "frame",
+              "id": "row",
+              "flexDirection": "row",
+              "gap": 24,
+              "children": [
+                {
+                  "type": "frame",
+                  "flexDirection": "column",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "image",
+                      "asset": "post",
+                      "width": 200,
+                      "height": 250,
+                      "style": "shot"
+                    },
+                    {
+                      "type": "text",
+                      "text": "Post 1080×1350",
+                      "style": "cap"
+                    }
+                  ],
+                  "clipsContent": false
+                },
+                {
+                  "type": "frame",
+                  "flexDirection": "column",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "image",
+                      "asset": "feed",
+                      "width": 478,
+                      "height": 250,
+                      "style": "shot"
+                    },
+                    {
+                      "type": "text",
+                      "text": "Feed 1200×628",
+                      "style": "cap"
+                    }
+                  ],
+                  "clipsContent": false
+                },
+                {
+                  "type": "frame",
+                  "flexDirection": "column",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "image",
+                      "asset": "half",
+                      "width": 125,
+                      "height": 250,
+                      "style": "shot"
+                    },
+                    {
+                      "type": "text",
+                      "text": "300×600",
+                      "style": "cap"
+                    }
+                  ],
+                  "clipsContent": false
+                },
+                {
+                  "type": "frame",
+                  "flexDirection": "column",
+                  "gap": 10,
+                  "children": [
+                    {
+                      "type": "image",
+                      "asset": "mpu",
+                      "width": 300,
+                      "height": 250,
+                      "style": "shot"
+                    },
+                    {
+                      "type": "text",
+                      "text": "300×250",
+                      "style": "cap"
+                    }
+                  ],
+                  "clipsContent": false
+                }
+              ],
+              "clipsContent": false
+            },
+            {
+              "type": "frame",
+              "flexDirection": "column",
+              "gap": 10,
+              "children": [
+                {
+                  "type": "image",
+                  "asset": "board",
+                  "width": 728,
+                  "height": 90,
+                  "style": "shot"
+                },
+                {
+                  "type": "text",
+                  "text": "Leaderboard 728×90",
+                  "style": "cap"
+                }
+              ],
+              "clipsContent": false
+            }
+          ],
+          "clipsContent": false
+        },
+        {
+          "type": "frame",
+          "id": "check",
+          "flexDirection": "row",
+          "alignItems": "center",
+          "gap": 16,
+          "fill": "#151518",
+          "borderRadius": 12,
+          "padding": [
+            16,
+            22
+          ],
+          "stroke": {
+            "width": 1,
+            "color": "#26262A",
+            "align": "inside"
+          },
+          "children": [
+            {
+              "type": "text",
+              "id": "check-text",
+              "fontSize": 19,
+              "fontFamily": "JetBrains Mono",
+              "color": "#A1A1AA",
+              "text": "<span style=\"color:#F4F4F5\">keyline</span>  feed sub text  <span style=\"color:#F87171\">!truncated needs 470×96</span>  →  fixed: <span style=\"color:#4ADE80\">ok</span> at every size"
+            }
+          ],
+          "clipsContent": false
+        },
+        {
+          "type": "text",
+          "id": "site",
+          "text": "keyline.dev",
+          "fontSize": 20,
+          "fontWeight": 600,
+          "color": "#F0245E"
+        }
+      ],
+      "clipsContent": false
+    }
+  ]
+}

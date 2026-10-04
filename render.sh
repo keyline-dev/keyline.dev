@@ -37,5 +37,8 @@ r scenes/menu.json --out assets/menu --size instagram-portrait --size a4 --forma
 r scenes/menu.json --out assets/menu --size story-loop --format mp4
 r scenes/menu.json --out assets/menu --size story-loop --format webp --time 5
 
+# The image at the top of keyline's README (and for posts): one prompt, every size.
+r scenes/readme-hero.json --out assets/readme --format png
+
 # The preview shown when the site is shared.
 r scenes/og.json --out assets/og --format png
