@@ -234,7 +234,7 @@ const between = (html, name, inner) => html.replace(
   (_, open, close) => open + inner + close);
 const tabs = clients.map((c) => `        <button role="tab" aria-selected="false" data-tab="${c.id}">${esc(c.label)}</button>\n`).join('');
 // Unindented: a code block's lines are copied as they are.
-const panels = clients.map((c) => `      <div class="panel" data-panel="${c.id}" hidden>\n        ${install}\n        ${panel.parse(c.body).trim()}\n      </div>\n`).join('');
+const panels = clients.map((c) => `      <div class="panel" data-panel="${c.id}" hidden>\n        ${install}\n        ${panel.parse(c.body).trim().replace(/<table>/g, '<div class="table"><table>').replace(/<\/table>/g, '</table></div>')}\n      </div>\n`).join('');
 writeFileSync('index.html', between(between(home, 'client tabs', tabs), 'client panels', panels));
 
 // llms.txt (llmstxt.org): what keyline is, the facts an answer needs, and

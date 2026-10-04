@@ -322,6 +322,12 @@ pre {
 .tabs button[aria-selected="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 .panel { margin-top: 20px; }
 .panel p { color: var(--muted); margin: 0 0 14px; }
+.panel .table { overflow-x: auto; margin: 14px 0 0; }
+.panel table { border-collapse: collapse; font-size: 14px; width: 100%; }
+.panel th, .panel td { text-align: left; vertical-align: top; padding: 8px 14px 8px 0; border-bottom: 1px solid var(--line); }
+.panel th { font-weight: 600; }
+.panel td { color: var(--muted); }
+.panel td:first-child { color: var(--ink); white-space: nowrap; }
 .code { position: relative; }
 .panel .code + p, .panel .code + .code { margin-top: 14px; }
 .code pre { margin: 0; font-size: 14px; padding-right: 80px; }

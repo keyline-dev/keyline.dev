@@ -47,120 +47,124 @@
     <article class="prose">
 <h1>Install</h1>
 <p>keyline is a free, source-available MCP server that lets AI agents (Claude Code, Cursor, Codex, VS Code) design social posts, display ads, banners, flyers and video at every size from one JSON scene. It measures text fit and overflow before rendering, and renders with Skia instead of a headless browser.</p>
-<h2 id="claude-code-and-claude-desktop"><a class="anchor" href="#claude-code-and-claude-desktop">Claude Code and Claude Desktop</a></h2>
-<p>Nothing else to install.</p>
-<p><strong>Claude Code:</strong> install the plugin. It uses <code>keyline-mcp</code> from your PATH if it&#39;s there, and otherwise downloads the matching release once and checks it against the release&#39;s <code>SHA256SUMS</code>.</p>
+<p><strong>Claude Code</strong> (macOS or Linux): the plugin downloads keyline and checks it against the release&#39;s <code>SHA256SUMS</code>, or uses <code>keyline-mcp</code> from your PATH.</p>
 <pre><code class="language-text">/plugin marketplace add keyline-dev/keyline
 /plugin install keyline@keyline
 </code></pre>
-<p><strong>Claude Desktop</strong> (Mac with Apple silicon, or Windows): download <code>keyline-mcp-&lt;version&gt;.mcpb</code> from the <a href="https://github.com/keyline-dev/keyline/releases/latest">latest release</a> and double-click it. Its settings pick the folders keyline may read and whether to leave motion out.</p>
+<p><strong>Claude Desktop</strong> (Mac with Apple silicon, or Windows): download <code>keyline-mcp-&lt;version&gt;.mcpb</code> from the <a href="https://github.com/keyline-dev/keyline/releases/latest">latest release</a> and double-click it. Its settings choose the folders keyline may read.</p>
 <h2 id="other-clients-install-then-add"><a class="anchor" href="#other-clients-install-then-add">Other clients: install, then add</a></h2>
-<p><strong>macOS</strong> (Apple silicon):</p>
-<pre><code class="language-sh">brew install keyline-dev/tap/keyline-mcp
-</code></pre>
-<p>Or download <code>keyline-mcp-&lt;version&gt;-macos-arm64.tar.gz</code> from the <a href="https://github.com/keyline-dev/keyline/releases/latest">latest release</a> and put the binary on your PATH. It isn&#39;t signed by Apple, so if you downloaded it in a browser, clear the quarantine flag once:</p>
-<pre><code class="language-sh">tar xzf keyline-mcp-&lt;version&gt;-macos-arm64.tar.gz
-sudo mv keyline-mcp-&lt;version&gt;-macos-arm64/keyline-mcp /usr/local/bin/
-xattr -d com.apple.quarantine /usr/local/bin/keyline-mcp 2&gt;/dev/null || true
-</code></pre>
-<p><strong>Linux</strong> (amd64 or arm64): the <code>.deb</code> from the <a href="https://github.com/keyline-dev/keyline/releases/latest">latest release</a> puts <code>keyline-mcp</code> in <code>/usr/bin</code>; a plain tarball is there too.</p>
-<pre><code class="language-sh">sudo apt install ./keyline-mcp_&lt;version&gt;-1_amd64.deb
-</code></pre>
-<p><strong>Windows</strong> (x64; Arm runs it emulated): download <code>keyline-mcp-&lt;version&gt;-windows-amd64.zip</code> from the <a href="https://github.com/keyline-dev/keyline/releases/latest">latest release</a>, unpack it, and put the folder holding <code>keyline-mcp.exe</code> on your PATH, or give clients its full path. The Claude Code plugin doesn&#39;t run on Windows yet; add the server with <code>claude mcp add keyline -- keyline-mcp</code> instead.</p>
-<p><strong>Docker</strong> (Linux, nothing else to install): use this as the command in your client. <code>:latest</code> includes ffmpeg for video; <code>:stills</code> leaves it out and is about a third the size.</p>
-<pre><code class="language-sh">docker run -i --rm -v keyline:/data ghcr.io/keyline-dev/keyline-mcp
-</code></pre>
-<p><strong>From source</strong> (any OS; Rust stable; Skia comes precompiled; on Linux also <code>libfontconfig1-dev libfreetype6-dev</code>): <code>cargo build --release</code>.</p>
-<p>To check a download, compare it with the release&#39;s <code>SHA256SUMS</code>, or check where it was built with the <a href="https://cli.github.com">GitHub CLI</a>; then check it runs with <code>keyline-mcp --help</code>:</p>
-<pre><code class="language-sh">sha256sum --check --ignore-missing SHA256SUMS      # macOS: shasum -a 256 --check --ignore-missing SHA256SUMS
-gh attestation verify keyline-mcp_&lt;version&gt;-1_amd64.deb --repo keyline-dev/keyline
-</code></pre>
-<p>Then add it to your client. Each block names the server <code>keyline</code>; clients prefix its tools with that name, so a short one costs fewer tokens. If a client can&#39;t find the program, give its full path (<code>which keyline-mcp</code>).</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th></th>
+<th>Install</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>macOS (Apple silicon)</td>
+<td><code>brew install keyline-dev/tap/keyline-mcp</code></td>
+</tr>
+<tr>
+<td>Linux (amd64, arm64)</td>
+<td><code>sudo apt install ./keyline-mcp_&lt;version&gt;-1_amd64.deb</code> (or <code>_arm64</code>), from the <a href="https://github.com/keyline-dev/keyline/releases/latest">latest release</a>; tarballs are there too</td>
+</tr>
+<tr>
+<td>Windows (x64)</td>
+<td>Unpack <code>keyline-mcp-v&lt;version&gt;-windows-amd64.zip</code> and put its folder on your PATH</td>
+</tr>
+<tr>
+<td>Docker</td>
+<td>Use <code>docker run -i --rm -v keyline:/data ghcr.io/keyline-dev/keyline-mcp</code> as the client&#39;s command; the <code>:stills</code> tag leaves out ffmpeg</td>
+</tr>
+<tr>
+<td>From source</td>
+<td><code>cargo build --release</code> (Rust stable; on Linux also <code>libfontconfig1-dev libfreetype6-dev</code>)</td>
+</tr>
+</tbody></table></div>
+<p>Every release has a <code>SHA256SUMS</code> file and build attestations: <code>gh attestation verify &lt;file&gt; --repo keyline-dev/keyline</code>. Then add keyline to your client. The command is <code>keyline-mcp</code>; if the client can&#39;t find it, give its full path (<code>which keyline-mcp</code>).</p>
 <details>
-<summary><b>Claude Code</b>, without the plugin</summary><pre><code class="language-sh">claude mcp add keyline -- keyline-mcp
-</code></pre>
-<p>Add <code>--scope user</code> to use it in every project. (<a href="https://code.claude.com/docs/en/mcp">guide</a>)</p>
-</details><details>
-<summary><b>Claude Desktop</b>, without the extension</summary><p>Settings → Developer → Edit Config opens <code>claude_desktop_config.json</code>. Claude Desktop doesn&#39;t search your shell&#39;s PATH, so give the full path, then restart it. (<a href="https://modelcontextprotocol.io/quickstart/user">guide</a>)</p>
-<pre><code class="language-json">{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;/opt/homebrew/bin/keyline-mcp&quot; } } }
-</code></pre>
-</details><details>
-<summary><b>Cursor</b></summary><p><a href="https://cursor.com/en/install-mcp?name=keyline&amp;config=eyJjb21tYW5kIjoia2V5bGluZS1tY3AifQ%3D%3D">Add to Cursor</a>, or add to <code>~/.cursor/mcp.json</code> (every project) or <code>.cursor/mcp.json</code> (one project). (<a href="https://cursor.com/docs/context/mcp">guide</a>)</p>
+<summary><b>Cursor</b></summary><p><a href="https://cursor.com/en/install-mcp?name=keyline&amp;config=eyJjb21tYW5kIjoia2V5bGluZS1tY3AifQ%3D%3D">Add to Cursor</a>, or add this to <code>~/.cursor/mcp.json</code>:</p>
 <pre><code class="language-json">{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot; } } }
 </code></pre>
 </details><details>
 <summary><b>VS Code</b></summary><pre><code class="language-sh">code --add-mcp &#39;{&quot;name&quot;:&quot;keyline&quot;,&quot;command&quot;:&quot;keyline-mcp&quot;}&#39;
 </code></pre>
-<p>Or add to <code>.vscode/mcp.json</code>, or your profile&#39;s (<em>MCP: Open User Configuration</em>). The key is <code>servers</code>, not <code>mcpServers</code>. (<a href="https://code.visualstudio.com/docs/copilot/customization/mcp-servers">guide</a>)</p>
-<pre><code class="language-json">{ &quot;servers&quot;: { &quot;keyline&quot;: { &quot;type&quot;: &quot;stdio&quot;, &quot;command&quot;: &quot;keyline-mcp&quot; } } }
-</code></pre>
-</details><details>
-<summary><b>Devin Desktop</b> (formerly Windsurf)</summary><p>Add to <code>~/.config/devin/mcp_config.json</code> (Windows: <code>%APPDATA%\devin\mcp_config.json</code>); versions still named Windsurf read <code>~/.codeium/windsurf/mcp_config.json</code>. (<a href="https://docs.devin.ai/desktop/cascade/mcp">guide</a>)</p>
-<pre><code class="language-json">{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot; } } }
-</code></pre>
-</details><details>
-<summary><b>Cline</b></summary><p>In Cline&#39;s MCP Servers panel, open the installed servers&#39; settings (<code>cline_mcp_settings.json</code>) and add: (<a href="https://docs.cline.bot/mcp/configuring-mcp-servers">guide</a>)</p>
-<pre><code class="language-json">{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot; } } }
-</code></pre>
 </details><details>
 <summary><b>Codex</b> (OpenAI)</summary><pre><code class="language-sh">codex mcp add keyline -- keyline-mcp
 </code></pre>
-<p>Or add to <code>~/.codex/config.toml</code>: (<a href="https://developers.openai.com/codex/mcp">guide</a>)</p>
-<pre><code class="language-toml">[mcp_servers.keyline]
-command = &quot;keyline-mcp&quot;
-</code></pre>
-<p>The ChatGPT app itself connects only to remote MCP servers over HTTP, so it can&#39;t start keyline, which runs on your machine; use Codex.</p>
 </details><details>
 <summary><b>Gemini CLI</b> (Google)</summary><pre><code class="language-sh">gemini mcp add --scope user keyline keyline-mcp
 </code></pre>
-<p>Or add to <code>~/.gemini/settings.json</code>, then check with <code>/mcp</code> in Gemini CLI: (<a href="https://geminicli.com/docs/tools/mcp-server/">guide</a>)</p>
+</details><details>
+<summary><b>Other clients</b></summary><p>Most clients take this JSON, in the file below; links go to each client&#39;s guide.</p>
 <pre><code class="language-json">{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot; } } }
 </code></pre>
-</details><details>
-<summary><b>Antigravity</b> (Google)</summary><p>Add to <code>~/.gemini/config/mcp_config.json</code> (every workspace) or <code>.agents/mcp_config.json</code> (one workspace). (<a href="https://antigravity.google/docs/mcp">guide</a>)</p>
-<pre><code class="language-json">{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot; } } }
-</code></pre>
-</details><details>
-<summary><b>GitHub Copilot CLI</b></summary><p>Run <code>/mcp add</code> in Copilot CLI, or add to <code>~/.copilot/mcp-config.json</code>: (<a href="https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-copilot-cli">guide</a>)</p>
-<pre><code class="language-json">{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;type&quot;: &quot;local&quot;, &quot;command&quot;: &quot;keyline-mcp&quot;, &quot;args&quot;: [], &quot;tools&quot;: [&quot;*&quot;] } } }
-</code></pre>
-</details><details>
-<summary><b>Grok Build</b> (xAI)</summary><pre><code class="language-sh">grok mcp add keyline -- keyline-mcp
-</code></pre>
-<p>Or add to <code>~/.grok/config.toml</code>, then check with <code>grok mcp doctor keyline</code>: (<a href="https://docs.x.ai/build/features/mcp-servers">guide</a>)</p>
-<pre><code class="language-toml">[mcp_servers.keyline]
-command = &quot;keyline-mcp&quot;
-</code></pre>
-<p>grok.com and the xAI API connect only to remote MCP servers, so they can&#39;t start keyline; use Grok Build.</p>
-</details><details>
-<summary><b>Kiro</b></summary><p>Add to <code>~/.kiro/settings/mcp.json</code> (every workspace) or <code>.kiro/settings/mcp.json</code> (one workspace). (<a href="https://kiro.dev/docs/mcp/configuration/">guide</a>)</p>
-<pre><code class="language-json">{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot; } } }
-</code></pre>
-</details><details>
-<summary><b>opencode</b></summary><p>Add to <code>~/.config/opencode/opencode.json</code>, or <code>opencode.json</code> in a project. The command is a list. (<a href="https://opencode.ai/docs/mcp-servers/">guide</a>)</p>
-<pre><code class="language-json">{ &quot;$schema&quot;: &quot;https://opencode.ai/config.json&quot;, &quot;mcp&quot;: { &quot;keyline&quot;: { &quot;type&quot;: &quot;local&quot;, &quot;command&quot;: [&quot;keyline-mcp&quot;] } } }
-</code></pre>
-</details><details>
-<summary><b>JetBrains</b> (AI Assistant and Junie)</summary><p>AI Assistant: Settings → Tools → AI Assistant → Model Context Protocol (MCP) → Add, and paste the JSON below. (<a href="https://www.jetbrains.com/help/ai-assistant/configure-an-mcp-server.html">guide</a>) Junie: run <code>/mcp</code>, or add the same JSON to <code>~/.junie/mcp/mcp.json</code>. (<a href="https://junie.jetbrains.com/docs/junie-cli-mcp-configuration.html">guide</a>)</p>
-<pre><code class="language-json">{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot;, &quot;args&quot;: [] } } }
-</code></pre>
-</details><details>
-<summary><b>Warp</b></summary><p>Settings → Agents → MCP servers → Add, and paste: (<a href="https://docs.warp.dev/knowledge-and-collaboration/mcp">guide</a>)</p>
-<pre><code class="language-json">{ &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot;, &quot;args&quot;: [] } }
-</code></pre>
-</details><details>
-<summary><b>Any other client</b></summary><p>Any MCP client that starts stdio servers works: the command is <code>keyline-mcp</code>. It runs where the client runs; to render on another machine, make the command <code>ssh that-machine keyline-mcp</code>.</p>
+<div class="table"><table>
+<thead>
+<tr>
+<th>Client</th>
+<th>Where</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Claude Code, without the plugin (and on Windows)</td>
+<td><code>claude mcp add --scope user keyline -- keyline-mcp</code></td>
+</tr>
+<tr>
+<td>Claude Desktop, without the <code>.mcpb</code></td>
+<td>Settings → Developer → Edit Config, with the full path (<code>/opt/homebrew/bin/keyline-mcp</code>); it doesn&#39;t read your shell&#39;s PATH</td>
+</tr>
+<tr>
+<td><a href="https://docs.devin.ai/desktop/cascade/mcp">Devin Desktop</a> (Windsurf)</td>
+<td><code>~/.config/devin/mcp_config.json</code>; still named Windsurf: <code>~/.codeium/windsurf/mcp_config.json</code></td>
+</tr>
+<tr>
+<td><a href="https://docs.cline.bot/mcp/configuring-mcp-servers">Cline</a></td>
+<td>MCP Servers panel → <code>cline_mcp_settings.json</code></td>
+</tr>
+<tr>
+<td><a href="https://antigravity.google/docs/mcp">Antigravity</a></td>
+<td><code>~/.gemini/config/mcp_config.json</code></td>
+</tr>
+<tr>
+<td><a href="https://kiro.dev/docs/mcp/configuration/">Kiro</a></td>
+<td><code>~/.kiro/settings/mcp.json</code></td>
+</tr>
+<tr>
+<td><a href="https://www.jetbrains.com/help/ai-assistant/configure-an-mcp-server.html">JetBrains</a> AI Assistant, <a href="https://junie.jetbrains.com/docs/junie-cli-mcp-configuration.html">Junie</a></td>
+<td>Settings → Tools → AI Assistant → MCP → Add; Junie: <code>~/.junie/mcp/mcp.json</code></td>
+</tr>
+<tr>
+<td><a href="https://docs.github.com/en/copilot/how-tos/use-copilot-agents/use-copilot-cli">GitHub Copilot CLI</a></td>
+<td><code>/mcp add</code> in Copilot CLI</td>
+</tr>
+<tr>
+<td><a href="https://docs.x.ai/build/features/mcp-servers">Grok Build</a></td>
+<td><code>grok mcp add keyline -- keyline-mcp</code></td>
+</tr>
+<tr>
+<td><a href="https://opencode.ai/docs/mcp-servers/">opencode</a></td>
+<td><code>opencode.json</code>: <code>&quot;mcp&quot;: { &quot;keyline&quot;: { &quot;type&quot;: &quot;local&quot;, &quot;command&quot;: [&quot;keyline-mcp&quot;] } }</code></td>
+</tr>
+<tr>
+<td><a href="https://docs.warp.dev/knowledge-and-collaboration/mcp">Warp</a></td>
+<td>Settings → Agents → MCP servers → Add: <code>{ &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot; } }</code></td>
+</tr>
+</tbody></table></div>
+<p>Any client that starts stdio servers works. ChatGPT, grok.com and the xAI API connect only to remote servers, so they can&#39;t start keyline, which runs on your machine.</p>
 </details><h2 id="then"><a class="anchor" href="#then">Then</a></h2>
 <p>Ask your agent for a design: <em>&quot;Make a vote-by-mail flyer with this photo, in 1080×1350, 1200×1000 and a 300×600 skyscraper.&quot;</em></p>
-<p><strong>Local files:</strong> to let the agent add images and templates by path (their bytes never pass through the model, far cheaper than base64), allow their folders: <code>--allow-read ~/brand ~/projects/ads</code>. With <code>claude mcp add</code>, flags go after the command (<code>claude mcp add keyline -- keyline-mcp --allow-read ~/brand</code>); in a JSON config, in <code>args</code>. Paths are resolved through every symlink before the check. In Docker, mount the folder and allow the mount: <code>-v ~/brand:/brand … --allow-read /brand</code>.</p>
-<p><strong>Video</strong> needs <a href="https://ffmpeg.org">ffmpeg</a> (<code>brew install ffmpeg</code>, <code>apt install ffmpeg</code>), looked up when a call needs it. It&#39;s optional: without it, everything else works, animated PNG and GIF included.</p>
-<p><strong>Options:</strong> every setting is a flag (<code>--allow-read</code>, <code>--no-motion</code>, <code>--data</code>, <code>--fonts</code>, <code>--renderer</code>, <code>--ffmpeg</code>, <code>--encoder</code>), listed in <a href="../../docs/tools/index.html#server-configuration">Tools and replies</a> and by <code>keyline-mcp --help</code>.</p>
-<p><strong>Without an agent:</strong> <code>keyline-mcp render scene.json --out renders/</code> renders a scene file at every size, and exits 1 on a <code>!</code> defect, for scripts and CI (<code>--check</code> checks without drawing); in GitHub Actions, <code>uses: keyline-dev/keyline@v0</code> does it for every scene in a repo (<a href="../../docs/tools/index.html#rendering-without-an-agent">Tools and replies</a>).</p>
-<p><strong>GPU on a Linux server:</strong> it needs a GPU with Vulkan drivers (NVIDIA&#39;s, or Mesa for AMD and Intel); no display is needed. In Docker, pass the GPU through (for NVIDIA: the Container Toolkit, <code>--gpus all</code>, with graphics capability). Software Vulkan drivers are skipped, since the CPU renderer is faster; without a GPU, renders use the CPU.</p>
+<ul>
+<li><strong>Local files:</strong> let the agent add images and templates by path (cheaper than sending their bytes) with <code>--allow-read ~/brand ~/projects/ads</code>. Flags go after the command: <code>claude mcp add keyline -- keyline-mcp --allow-read ~/brand</code>, or in <code>args</code> in a JSON config. In Docker, mount the folder and allow the mount.</li>
+<li><strong>Video</strong> needs <a href="https://ffmpeg.org">ffmpeg</a> on the PATH; everything else, animated PNG and GIF included, works without it.</li>
+<li><strong>Options:</strong> every setting is a flag (<code>--allow-read</code>, <code>--no-motion</code>, <code>--data</code>, <code>--fonts</code>, <code>--renderer</code>, <code>--ffmpeg</code>, <code>--encoder</code>); see <code>keyline-mcp --help</code> and <a href="../../docs/tools/index.html#server-configuration">Tools and replies</a>.</li>
+<li><strong>Without an agent:</strong> <code>keyline-mcp render scene.json --out renders/</code> renders every size and exits 1 on a <code>!</code> defect; in GitHub Actions, <code>uses: keyline-dev/keyline@v0</code> does it for a repo&#39;s scenes (<a href="../../docs/tools/index.html#rendering-without-an-agent">details</a>).</li>
+<li><strong>GPU on a Linux server</strong> needs Vulkan drivers (NVIDIA&#39;s, or Mesa); without a GPU, keyline renders on the CPU.</li>
+</ul>
 
       <p class="doc-source">Also as <a href="index.md">Markdown</a>.</p>
     </article>
-    <nav class="doc-toc" aria-label="On this page"><p class="toc-title">On this page</p><a href="#claude-code-and-claude-desktop">Claude Code and Claude Desktop</a><a href="#other-clients-install-then-add">Other clients: install, then add</a><a href="#then">Then</a></nav>
+    <nav class="doc-toc" aria-label="On this page"><p class="toc-title">On this page</p><a href="#other-clients-install-then-add">Other clients: install, then add</a><a href="#then">Then</a></nav>
   </main>
 
   <footer class="footer">
