@@ -130,7 +130,18 @@ function render(page, md) {
     },
   });
   // Wide tables scroll inside their own box, not the page.
-  const body = marked.parse(md).replace(/<table>/g, '<div class="table"><table>').replace(/<\/table>/g, '</table></div>');
+  const html = marked.parse(md).replace(/<table>/g, '<div class="table"><table>').replace(/<\/table>/g, '</table></div>');
+  // A run of <details> blocks (the install page's clients) becomes buttons
+  // with a panel each, like the home page's install tabs (site.js switches them).
+  const body = html.replace(/(?:<details>\s*<summary>[\s\S]*?<\/details>\s*)+/g, (run) => {
+    const items = [...run.matchAll(/<details>\s*<summary>([\s\S]*?)<\/summary>([\s\S]*?)<\/details>/g)].map(([, summary, inner]) => {
+      const label = (summary.match(/<b>(.*?)<\/b>/)?.[1] ?? summary).replace(/<[^>]+>/g, '');
+      return { label, id: label.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''), inner: inner.trim() };
+    });
+    const tabs = items.map((t, i) => `<button role="tab" aria-selected="${i === 0}" data-tab="${t.id}">${t.label}</button>`).join('');
+    const panels = items.map((t, i) => `<div class="panel" data-panel="${t.id}"${i ? ' hidden' : ''}>\n${t.inner}\n</div>`).join('\n');
+    return `<div class="tabs" role="tablist">${tabs}</div>\n${panels}\n`;
+  });
   return { body, toc };
 }
 
@@ -186,6 +197,7 @@ ${body}${mdName ? `\n      <p class="doc-source">Also as <a href="${mdName}">Mar
   </main>
 
   ${relocate(footer, page.url)}
+  <script src="${up(page.url)}site.js" defer></script>
 </body>
 </html>
 `;

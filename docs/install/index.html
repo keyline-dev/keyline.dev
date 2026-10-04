@@ -82,21 +82,26 @@
 </tr>
 </tbody></table></div>
 <p>Every release has a <code>SHA256SUMS</code> file and build attestations: <code>gh attestation verify &lt;file&gt; --repo keyline-dev/keyline</code>. Then add keyline to your client. The command is <code>keyline-mcp</code>; if the client can&#39;t find it, give its full path (<code>which keyline-mcp</code>).</p>
-<details>
-<summary><b>Cursor</b></summary><p><a href="https://cursor.com/en/install-mcp?name=keyline&amp;config=eyJjb21tYW5kIjoia2V5bGluZS1tY3AifQ%3D%3D">Add to Cursor</a>, or add this to <code>~/.cursor/mcp.json</code>:</p>
+<div class="tabs" role="tablist"><button role="tab" aria-selected="true" data-tab="cursor">Cursor</button><button role="tab" aria-selected="false" data-tab="vs-code">VS Code</button><button role="tab" aria-selected="false" data-tab="codex">Codex</button><button role="tab" aria-selected="false" data-tab="gemini-cli">Gemini CLI</button><button role="tab" aria-selected="false" data-tab="other-clients">Other clients</button></div>
+<div class="panel" data-panel="cursor">
+<p><a href="https://cursor.com/en/install-mcp?name=keyline&amp;config=eyJjb21tYW5kIjoia2V5bGluZS1tY3AifQ%3D%3D">Add to Cursor</a>, or add this to <code>~/.cursor/mcp.json</code>:</p>
 <pre><code class="language-json">{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot; } } }
 </code></pre>
-</details><details>
-<summary><b>VS Code</b></summary><pre><code class="language-sh">code --add-mcp &#39;{&quot;name&quot;:&quot;keyline&quot;,&quot;command&quot;:&quot;keyline-mcp&quot;}&#39;
+</div>
+<div class="panel" data-panel="vs-code" hidden>
+<pre><code class="language-sh">code --add-mcp &#39;{&quot;name&quot;:&quot;keyline&quot;,&quot;command&quot;:&quot;keyline-mcp&quot;}&#39;
 </code></pre>
-</details><details>
-<summary><b>Codex</b> (OpenAI)</summary><pre><code class="language-sh">codex mcp add keyline -- keyline-mcp
+</div>
+<div class="panel" data-panel="codex" hidden>
+<pre><code class="language-sh">codex mcp add keyline -- keyline-mcp
 </code></pre>
-</details><details>
-<summary><b>Gemini CLI</b> (Google)</summary><pre><code class="language-sh">gemini mcp add --scope user keyline keyline-mcp
+</div>
+<div class="panel" data-panel="gemini-cli" hidden>
+<pre><code class="language-sh">gemini mcp add --scope user keyline keyline-mcp
 </code></pre>
-</details><details>
-<summary><b>Other clients</b></summary><p>Most clients take this JSON, in the file below; links go to each client&#39;s guide.</p>
+</div>
+<div class="panel" data-panel="other-clients" hidden>
+<p>Most clients take this JSON, in the file below; links go to each client&#39;s guide.</p>
 <pre><code class="language-json">{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot; } } }
 </code></pre>
 <div class="table"><table>
@@ -152,7 +157,8 @@
 </tr>
 </tbody></table></div>
 <p>Any client that starts stdio servers works. ChatGPT, grok.com and the xAI API connect only to remote servers, so they can&#39;t start keyline, which runs on your machine.</p>
-</details><h2 id="then"><a class="anchor" href="#then">Then</a></h2>
+</div>
+<h2 id="then"><a class="anchor" href="#then">Then</a></h2>
 <p>Ask your agent for a design: <em>&quot;Make a vote-by-mail flyer with this photo, in 1080×1350, 1200×1000 and a 300×600 skyscraper.&quot;</em></p>
 <ul>
 <li><strong>Local files:</strong> let the agent add images and templates by path (cheaper than sending their bytes) with <code>--allow-read ~/brand ~/projects/ads</code>. Flags go after the command: <code>claude mcp add keyline -- keyline-mcp --allow-read ~/brand</code>, or in <code>args</code> in a JSON config. In Docker, mount the folder and allow the mount.</li>
@@ -179,5 +185,6 @@
       </nav>
     </div>
   </footer>
+  <script src="../../site.js" defer></script>
 </body>
 </html>
