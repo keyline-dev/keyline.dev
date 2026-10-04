@@ -34,7 +34,7 @@ const PAGES = [
 
 // Pages outside the docs, from their sources as written.
 const STANDALONE = [
-  { src: 'LICENSE', url: '/license/', title: 'License',
+  { src: 'LICENSE.md', url: '/license/', title: 'License',
     description: 'keyline is free and source-available under the Functional Source License 1.1, and each release becomes Apache-2.0 two years after it ships.',
     intro: 'keyline is free to use, change and share, commercially too, except to offer it as a competing commercial product or service; each release also becomes Apache-2.0 two years after it ships.' },
   { src: 'PRIVACY.md', url: '/privacy/', title: 'Privacy',
