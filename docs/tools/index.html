@@ -178,6 +178,11 @@ portrait,square toast warn shadow clipped by card
 <td>Text&#39;s letters, as drawn (a rotation included), reach under the size&#39;s <code>safeArea</code>: how far past each edge they go, so one move fixes it (<code>!unsafe bottom 32px</code>)</td>
 </tr>
 <tr>
+<td><code>asset &lt;id&gt; !missing from the store</code></td>
+<td>defect</td>
+<td>An asset the design uses has its file gone from the <a href="#data-directory">data directory</a> (the folder cleaned, the scene moved to another machine), so the design fits but can&#39;t render; add it again with <code>asset_add</code>. Its own line, before the sizes&#39; lines, since it isn&#39;t tied to a size</td>
+</tr>
+<tr>
 <td><code>warn contrast R:1 (WCAG N)</code></td>
 <td>advisory</td>
 <td>Text contrast against what&#39;s behind it is below the WCAG level for its size. Knockout text is judged by what shows through its letters against the frame around them</td>
@@ -818,6 +823,8 @@ layers[0]: unknown token {{blue}}; tokens: brand, headline
 row 2: no token headlin; tokens: accent, headline
 layers[0]: token {{big}} doesn&#39;t suit fontSize: invalid type: string &quot;huge&quot;, expected f32
 give exactly one of url, path or base64
+video layer intro: its clip stopped decoding at 2.0s (File ended prematurely); re-encode or replace the clip
+the mp4 has 80 of its 125 frames: the encoder lost some; render again, or pass --encoder software
 </code></pre>
 
       <p class="doc-source">Also as <a href="index.md">Markdown</a>.</p>
