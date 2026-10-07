@@ -32,28 +32,28 @@
 <body>
   <header class="nav">
     <div class="wrap nav-row">
-      <a class="brand" href="../index.html" aria-label="keyline home"><picture><source srcset="../logo/lockup-nav-dark.svg" media="(prefers-color-scheme: dark)"><img src="../logo/lockup-nav-light.svg" alt="keyline" width="90" height="26"></picture></a>
+      <a class="brand" href="../" aria-label="keyline home"><picture><source srcset="../logo/lockup-nav-dark.svg" media="(prefers-color-scheme: dark)"><img src="../logo/lockup-nav-light.svg" alt="keyline" width="90" height="26"></picture></a>
       <nav>
-        <a href="../index.html#how">How it works</a>
-        <a href="../index.html#gallery">Examples</a>
-        <a href="../docs/index.html">Docs</a>
+        <a href="../#how">How it works</a>
+        <a href="../#gallery">Examples</a>
+        <a href="../docs/">Docs</a>
         <a href="https://github.com/keyline-dev/keyline" class="gh" aria-label="keyline on GitHub"><svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg><span id="stars"></span></a>
       </nav>
     </div>
   </header>
 
   <main class="wrap doc">
-    <nav class="doc-side" aria-label="Docs"><a href="../docs/install/index.html">Install</a><a href="../docs/index.html" aria-current="page">Concepts</a><a href="../docs/scene/index.html">Scene format</a><a href="../docs/tools/index.html">Tools and replies</a><a href="../benchmark/index.html">Benchmark</a></nav>
+    <nav class="doc-side" aria-label="Docs"><a href="../docs/install/">Install</a><a href="../docs/" aria-current="page">Concepts</a><a href="../docs/scene/">Scene format</a><a href="../docs/tools/">Tools and replies</a><a href="../benchmark/">Benchmark</a></nav>
     <article class="prose">
 <h1>Concepts</h1>
-<p>keyline is a design engine driven by an AI agent. The agent writes a design as a small JSON scene through six MCP tools; keyline lays it out at every size you need, checks it, and renders it. This page explains the ideas. The fields are in the <a href="../docs/scene/index.html">scene format reference</a>, and the calls and replies in the <a href="../docs/tools/index.html">tools reference</a>.</p>
+<p>keyline is a design engine driven by an AI agent. The agent writes a design as a small JSON scene through six MCP tools; keyline lays it out at every size you need, checks it, and renders it. This page explains the ideas. The fields are in the <a href="../docs/scene/">scene format reference</a>, and the calls and replies in the <a href="../docs/tools/">tools reference</a>.</p>
 <h2 id="what-a-scene-is"><a class="anchor" href="#what-a-scene-is">What a scene is</a></h2>
 <p>A scene is one JSON document: a tree of layers (frames, text, images, shapes, icons, video), the assets they use, and shared tokens, styles and components. It is structured data, not pixels, so the agent edits it precisely instead of regenerating an image. The server keeps the scene; the agent changes it in batches of operations that apply whole or not at all, and every change bumps its version.</p>
 <h2 id="master-size-and-sizes"><a class="anchor" href="#master-size-and-sizes">Master size and sizes</a></h2>
 <p>A design is written once, at a <strong>master size</strong> (say 1080×1350), and lists the <strong>sizes</strong> it&#39;s rendered at: a square post, a wide banner and a 300×600 skyscraper from the same layers. Sizes can be named presets for common social and ad formats.</p>
 <p>Each size may carry a <strong>scale</strong>, like a design tool&#39;s Scale tool: everything, fonts included, shrinks by that factor before the layout adapts. A size may also have a <strong>safe area</strong>, the part a platform covers (a story&#39;s top and bottom bars), where text is flagged.</p>
 <h3 id="aspect-classes"><a class="anchor" href="#aspect-classes">Aspect classes</a></h3>
-<p>Sizes fall into aspect classes: <strong>landscape</strong>, <strong>square</strong> or <strong>portrait</strong>, and within those <strong>wide</strong> or <strong>tall</strong> for the extremes. Any layer can change its fields for one class (<code>media</code>), so one <code>tall</code> entry covers every skyscraper the design is ever rendered at, including sizes added later. A change for one size id is the most specific and applies last. The thresholds are in <a href="../docs/scene/index.html#aspect-classes">Scene format</a>.</p>
+<p>Sizes fall into aspect classes: <strong>landscape</strong>, <strong>square</strong> or <strong>portrait</strong>, and within those <strong>wide</strong> or <strong>tall</strong> for the extremes. Any layer can change its fields for one class (<code>media</code>), so one <code>tall</code> entry covers every skyscraper the design is ever rendered at, including sizes added later. A change for one size id is the most specific and applies last. The thresholds are in <a href="../docs/scene/#aspect-classes">Scene format</a>.</p>
 <h2 id="how-layout-adapts"><a class="anchor" href="#how-layout-adapts">How layout adapts</a></h2>
 <p>For each size, keyline scales the master by the size&#39;s scale, then fits it to the target: free-placed layers follow their constraints, and rows, columns and grids lay out again, recursively. There is no constraint solver; that&#39;s where layout systems get slow and agent-written layouts become undebuggable.</p>
 <h3 id="free-stack-and-grid"><a class="anchor" href="#free-stack-and-grid">Free, stack and grid</a></h3>
@@ -99,7 +99,7 @@
 </tr>
 </tbody></table></div>
 <p>A defect is only what&#39;s wrong in every design: text cut, hidden or drawn on other text, an opaque layer over text, text under a platform&#39;s bars. Defects carry the measurement that fixes them, so the agent corrects them in one step instead of guessing. Everything else is taste and stays with the model: whether 8 px text is fine print or unreadable depends on the medium, and whether a photo is cropped well depends on what&#39;s in it, so the server reports the size, or the part of the photo drawn, and doesn&#39;t judge it. There are no thresholds of the server&#39;s own; contrast&#39;s are WCAG&#39;s.</p>
-<p>Previews are opt-in. They cost more tokens and catch less: in testing, a model approved 7 px text from a 512 px preview, which the measurements catch. <code>render</code> also reports how each wrapped, shrunk or cut text was actually drawn. The markers and reply lines are listed in <a href="../docs/tools/index.html#replies">Tools and replies</a>.</p>
+<p>Previews are opt-in. They cost more tokens and catch less: in testing, a model approved 7 px text from a 512 px preview, which the measurements catch. <code>render</code> also reports how each wrapped, shrunk or cut text was actually drawn. The markers and reply lines are listed in <a href="../docs/tools/#replies">Tools and replies</a>.</p>
 <h2 id="reuse"><a class="anchor" href="#reuse">Reuse</a></h2>
 <h3 id="tokens-and-binding"><a class="anchor" href="#tokens-and-binding">Tokens and binding</a></h3>
 <p>A <strong>token</strong> is a named value (<code>navy: &quot;#1B2A5C&quot;</code>) that any field uses as <code>&quot;{{navy}}&quot;</code>, or inside text: <code>&quot;Meet {{name}}&quot;</code>. The server remembers which fields came from which token, so changing the token changes every field <strong>bound</strong> to it, sentences included. Setting such a field to a value of its own unbinds it.</p>
@@ -226,9 +226,9 @@
       <nav>
         <a href="https://github.com/keyline-dev/keyline">GitHub</a>
         <a href="https://github.com/keyline-dev/keyline/releases">Releases</a>
-        <a href="../docs/index.html">Docs</a>
-        <a href="../license/index.html">License</a>
-        <a href="../privacy/index.html">Privacy</a>
+        <a href="../docs/">Docs</a>
+        <a href="../license/">License</a>
+        <a href="../privacy/">Privacy</a>
       </nav>
     </div>
   </footer>

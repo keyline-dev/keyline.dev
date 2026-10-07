@@ -52,18 +52,20 @@ const titleOf = (page) => page.seoTitle ?? `${page.title} · keyline`;
 const header = home.match(/<header class="nav">[\s\S]*?<\/header>/)[0];
 const footer = home.match(/<footer class="footer">[\s\S]*?<\/footer>/)[0];
 
-// Every path on the site is relative, so it works from any server, any
-// folder, or opened as a file. `up` climbs from a page to the site's root.
+// Every path on the site is relative and names a page's folder, never its
+// index.html: Pages redirects those, and Google lists each redirect. `up`
+// climbs from a page to the site's root.
 const up = (url) => '../'.repeat(url.split('/').filter(Boolean).length);
 // A site path like /docs/tools/#replies, as seen from the page at `from`.
 function rel(from, to) {
   const [path, hash] = to.split('#');
-  return up(from) + path.slice(1) + 'index.html' + (hash ? '#' + hash : '');
+  return (up(from) + path.slice(1) || './') + (hash ? '#' + hash : '');
 }
 // The home page's header and footer, moved down to a page at `from`.
 const relocate = (html, from) => html
-  .replace(/(href|src|srcset)="(?![a-z]+:|#|\/)([^"]*)"/g, (_, a, v) => `${a}="${up(from)}${v}"`)
-  .replace(/href="#([^"]*)"/g, (_, id) => `href="${up(from)}index.html#${id}"`);
+  .replace(/(href|src|srcset)="(?![a-z]+:|#|\/)([^"]*)"/g, (_, a, v) =>
+    `${a}="${v === './' ? up(from) || './' : up(from) + v}"`)
+  .replace(/href="#([^"]*)"/g, (_, id) => `href="${up(from) || './'}#${id}"`);
 
 // GitHub's heading ids, so links like tools.md#replies keep working.
 const slug = (text) => text.toLowerCase().replace(/<[^>]+>/g, '').replace(/[^\w\- ]/g, '').replace(/ /g, '-');
@@ -240,7 +242,7 @@ const panel = new Marked({
     },
   },
 });
-const install = '<p>First <a href="docs/install/index.html#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>';
+const install = '<p>First <a href="docs/install/#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>';
 const between = (html, name, inner) => html.replace(
   new RegExp(`(<!-- ${name}:[^>]*-->\\n)[\\s\\S]*?( *<!-- /${name} -->)`),
   (_, open, close) => open + inner + close);

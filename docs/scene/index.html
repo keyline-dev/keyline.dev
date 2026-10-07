@@ -32,21 +32,21 @@
 <body>
   <header class="nav">
     <div class="wrap nav-row">
-      <a class="brand" href="../../index.html" aria-label="keyline home"><picture><source srcset="../../logo/lockup-nav-dark.svg" media="(prefers-color-scheme: dark)"><img src="../../logo/lockup-nav-light.svg" alt="keyline" width="90" height="26"></picture></a>
+      <a class="brand" href="../../" aria-label="keyline home"><picture><source srcset="../../logo/lockup-nav-dark.svg" media="(prefers-color-scheme: dark)"><img src="../../logo/lockup-nav-light.svg" alt="keyline" width="90" height="26"></picture></a>
       <nav>
-        <a href="../../index.html#how">How it works</a>
-        <a href="../../index.html#gallery">Examples</a>
-        <a href="../../docs/index.html">Docs</a>
+        <a href="../../#how">How it works</a>
+        <a href="../../#gallery">Examples</a>
+        <a href="../../docs/">Docs</a>
         <a href="https://github.com/keyline-dev/keyline" class="gh" aria-label="keyline on GitHub"><svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg><span id="stars"></span></a>
       </nav>
     </div>
   </header>
 
   <main class="wrap doc">
-    <nav class="doc-side" aria-label="Docs"><a href="../../docs/install/index.html">Install</a><a href="../../docs/index.html">Concepts</a><a href="../../docs/scene/index.html" aria-current="page">Scene format</a><a href="../../docs/tools/index.html">Tools and replies</a><a href="../../benchmark/index.html">Benchmark</a></nav>
+    <nav class="doc-side" aria-label="Docs"><a href="../../docs/install/">Install</a><a href="../../docs/">Concepts</a><a href="../../docs/scene/" aria-current="page">Scene format</a><a href="../../docs/tools/">Tools and replies</a><a href="../../benchmark/">Benchmark</a></nav>
     <article class="prose">
 <h1>Scene format</h1>
-<p>A scene is one JSON document: a master size, the sizes it renders at, its assets, shared tokens, styles and components, and a tree of layers. This page is the reference for every field. The ideas behind it are in <a href="../../docs/index.html">Concepts</a>, and the tools that write and render it in <a href="../../docs/tools/index.html">Tools and replies</a>.</p>
+<p>A scene is one JSON document: a master size, the sizes it renders at, its assets, shared tokens, styles and components, and a tree of layers. This page is the reference for every field. The ideas behind it are in <a href="../../docs/">Concepts</a>, and the tools that write and render it in <a href="../../docs/tools/">Tools and replies</a>.</p>
 <pre><code class="language-json">{
   &quot;sizes&quot;: [&quot;instagram-square&quot;, &quot;iab-skyscraper&quot;],
   &quot;tokens&quot;: {&quot;brand&quot;: &quot;#D0202E&quot;},
@@ -621,7 +621,7 @@ CSS written CSS&#39;s way reads as meant: <code>padding: &quot;48px 40px&quot;</
 <td><code>subject</code></td>
 <td><code>[x, y, width, height]</code>, 0–1 of the photo</td>
 <td>none</td>
-<td>What matters in the photo, as the agent saw it (<a href="../../docs/tools/index.html#scene_describe"><code>scene_describe</code> with <code>view</code></a> shows the photo with rulers in these tenths). A <code>cover</code> crop is centred on it at every size, over <code>focus</code>, and the layout says how much of it is drawn: <code>(subject 94%)</code></td>
+<td>What matters in the photo, as the agent saw it (<a href="../../docs/tools/#scene_describe"><code>scene_describe</code> with <code>view</code></a> shows the photo with rulers in these tenths). A <code>cover</code> crop is centred on it at every size, over <code>focus</code>, and the layout says how much of it is drawn: <code>(subject 94%)</code></td>
 </tr>
 <tr>
 <td><code>crop</code></td>
@@ -644,7 +644,7 @@ CSS written CSS&#39;s way reads as meant: <code>padding: &quot;48px 40px&quot;</
 </tbody></table></div>
 <p>SVGs are drawn at their drawn size, so they stay sharp.</p>
 <h3 id="video"><a class="anchor" href="#video">video</a></h3>
-<p>A clip added with <code>asset_add</code>, drawn like an image and under any layers above it: titles, captions, logos. Decoding it needs ffmpeg (<a href="../../docs/tools/index.html#ffmpeg">Tools and replies</a>).</p>
+<p>A clip added with <code>asset_add</code>, drawn like an image and under any layers above it: titles, captions, logos. Decoding it needs ffmpeg (<a href="../../docs/tools/#ffmpeg">Tools and replies</a>).</p>
 <pre><code class="language-json">{&quot;type&quot;: &quot;video&quot;, &quot;asset&quot;: &quot;beach&quot;, &quot;width&quot;: &quot;fill&quot;, &quot;height&quot;: &quot;fill&quot;, &quot;trimStart&quot;: 2, &quot;playbackRate&quot;: 0.5, &quot;muted&quot;: true}
 </code></pre>
 <div class="table"><table>
@@ -1705,7 +1705,7 @@ CSS written CSS&#39;s way reads as meant: <code>padding: &quot;48px 40px&quot;</
 <li>Components may place other components, up to 8 levels deep.</li>
 </ul>
 <h2 id="motion"><a class="anchor" href="#motion">Motion</a></h2>
-<p>A scene with a <code>duration</code>, or made of <a href="#shots-and-transitions">shots</a>, moves. Only fields that don&#39;t change layout animate, so the layout is the same at every moment and every check holds throughout. A scene without motion fields is drawn at rest. A still of a moving scene (PNG, JPEG, WebP, PDF, without <code>time</code>) is also at rest: each layer as written, before its tracks (a <code>&quot;scale&quot;: 1.12</code> written for a pan&#39;s room shows at 1.12), except <code>draw</code> and <code>count</code>, which show where they end. Output formats are in <a href="../../docs/tools/index.html#output-formats">Tools and replies</a>.</p>
+<p>A scene with a <code>duration</code>, or made of <a href="#shots-and-transitions">shots</a>, moves. Only fields that don&#39;t change layout animate, so the layout is the same at every moment and every check holds throughout. A scene without motion fields is drawn at rest. A still of a moving scene (PNG, JPEG, WebP, PDF, without <code>time</code>) is also at rest: each layer as written, before its tracks (a <code>&quot;scale&quot;: 1.12</code> written for a pan&#39;s room shows at 1.12), except <code>draw</code> and <code>count</code>, which show where they end. Output formats are in <a href="../../docs/tools/#output-formats">Tools and replies</a>.</p>
 <h3 id="scene-timing"><a class="anchor" href="#scene-timing">Scene timing</a></h3>
 <div class="table"><table>
 <thead>
@@ -2043,7 +2043,7 @@ CSS written CSS&#39;s way reads as meant: <code>padding: &quot;48px 40px&quot;</
 </tbody></table></div>
 <p>Each shot starts where the one before ends minus its transition. The scene&#39;s length is where the last shot ends unless <code>duration</code> says otherwise; a longer <code>duration</code> holds the last shot to the end. A transition can&#39;t be longer than either shot it joins.</p>
 <h2 id="template-files"><a class="anchor" href="#template-files">Template files</a></h2>
-<p>A template is a scene file that <code>scene_create</code> loads by URL or path (<a href="../../docs/tools/index.html#templates-and-variants">Tools and replies</a>). It has a scene&#39;s fields, and its <code>assets</code> name files instead of hashes: a URL, or a path relative to the template. Its <code>tokens</code> are its variables.</p>
+<p>A template is a scene file that <code>scene_create</code> loads by URL or path (<a href="../../docs/tools/#templates-and-variants">Tools and replies</a>). It has a scene&#39;s fields, and its <code>assets</code> name files instead of hashes: a URL, or a path relative to the template. Its <code>tokens</code> are its variables.</p>
 <pre><code class="language-json">{
   &quot;sizes&quot;: [&quot;instagram-square&quot;, &quot;iab-medium-rectangle&quot;],
   &quot;tokens&quot;: {&quot;headline&quot;: &quot;Spring sale&quot;, &quot;price&quot;: &quot;$29&quot;, &quot;accent&quot;: &quot;#D0202E&quot;},
@@ -2056,7 +2056,7 @@ CSS written CSS&#39;s way reads as meant: <code>padding: &quot;48px 40px&quot;</
 </code></pre>
 <p>A scene keyline saved (its <code>assets</code> by <code>sha256</code>) loads as a template too.</p>
 <h2 id="validation-and-limits"><a class="anchor" href="#validation-and-limits">Validation and limits</a></h2>
-<p>A change that breaks any of these rules is refused whole, with a one-line error (<a href="../../docs/tools/index.html#errors">Tools and replies</a>); what the layout does at each size (overflow, clipping, contrast) is never refused, but reported as <a href="../../docs/tools/index.html#problem-lines">problems</a>.</p>
+<p>A change that breaks any of these rules is refused whole, with a one-line error (<a href="../../docs/tools/#errors">Tools and replies</a>); what the layout does at each size (overflow, clipping, contrast) is never refused, but reported as <a href="../../docs/tools/#problem-lines">problems</a>.</p>
 <ul>
 <li>Unknown fields, in layers and in every object inside them.</li>
 <li>Values of the wrong type or out of range: opacity 0–1, <code>fontWeight</code> 100–900 in 100s, <code>minimumScaleFactor</code> above 0 and at most 1, <code>flexGrow</code> ≥ 0, polygon <code>sides</code> ≥ 3, video <code>playbackRate</code> 0.01–100, sizes at least 1 px with <code>scale</code> above 0.</li>
@@ -2090,7 +2090,7 @@ CSS written CSS&#39;s way reads as meant: <code>padding: &quot;48px 40px&quot;</
 <td>0.001–86,400 s</td>
 </tr>
 </tbody></table></div>
-<p>Asset and file limits are in <a href="../../docs/tools/index.html#limits">Tools and replies</a>.</p>
+<p>Asset and file limits are in <a href="../../docs/tools/#limits">Tools and replies</a>.</p>
 <h2 id="example"><a class="anchor" href="#example">Example</a></h2>
 <p>The reference ad from the end-to-end tests, in one <code>layer_add</code>: tokens, styles, two components placed with <code>each</code>, and a layout that adapts to a portrait post, a wide banner and a skyscraper without per-size positions.</p>
 <pre><code class="language-json">{
@@ -2358,9 +2358,9 @@ CSS written CSS&#39;s way reads as meant: <code>padding: &quot;48px 40px&quot;</
       <nav>
         <a href="https://github.com/keyline-dev/keyline">GitHub</a>
         <a href="https://github.com/keyline-dev/keyline/releases">Releases</a>
-        <a href="../../docs/index.html">Docs</a>
-        <a href="../../license/index.html">License</a>
-        <a href="../../privacy/index.html">Privacy</a>
+        <a href="../../docs/">Docs</a>
+        <a href="../../license/">License</a>
+        <a href="../../privacy/">Privacy</a>
       </nav>
     </div>
   </footer>

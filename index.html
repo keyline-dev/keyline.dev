@@ -35,11 +35,11 @@
 <body>
   <header class="nav">
     <div class="wrap nav-row">
-      <a class="brand" href="index.html" aria-label="keyline home"><picture><source srcset="logo/lockup-nav-dark.svg" media="(prefers-color-scheme: dark)"><img src="logo/lockup-nav-light.svg" alt="keyline" width="90" height="26"></picture></a>
+      <a class="brand" href="./" aria-label="keyline home"><picture><source srcset="logo/lockup-nav-dark.svg" media="(prefers-color-scheme: dark)"><img src="logo/lockup-nav-light.svg" alt="keyline" width="90" height="26"></picture></a>
       <nav>
         <a href="#how">How it works</a>
         <a href="#gallery">Examples</a>
-        <a href="docs/index.html">Docs</a>
+        <a href="docs/">Docs</a>
         <a href="https://github.com/keyline-dev/keyline" class="gh" aria-label="keyline on GitHub"><svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg><span id="stars"></span></a>
       </nav>
     </div>
@@ -53,7 +53,7 @@
       <div class="cta">
         <a class="btn primary" href="#install">Install</a>
       </div>
-      <p class="release">Free · <a href="license/index.html">Fair Source</a> · <a id="release" href="https://github.com/keyline-dev/keyline/releases/latest">Latest release</a></p>
+      <p class="release">Free · <a href="license/">Fair Source</a> · <a id="release" href="https://github.com/keyline-dev/keyline/releases/latest">Latest release</a></p>
 
       <div class="app" aria-label="A conversation with an agent using keyline">
         <div class="app-bar"><span></span><span></span><span></span><em>Claude · keyline</em></div>
@@ -89,15 +89,15 @@
       <p class="section-lead">Everything an agent needs to ship a campaign, and nothing it has to guess.</p>
       <div class="grid">
         <div class="feature">
-          <h3><a href="docs/index.html#how-layout-adapts">Every size from one layout</a></h3>
+          <h3><a href="docs/#how-layout-adapts">Every size from one layout</a></h3>
           <p>Stacks, grids and constraints adapt one design to a post, a banner and a skyscraper ad, and any size can be tweaked on its own.</p>
         </div>
         <div class="feature">
-          <h3><a href="docs/index.html#checks-defects-advisories-facts">Checks before pixels</a></h3>
+          <h3><a href="docs/#checks-defects-advisories-facts">Checks before pixels</a></h3>
           <p>The server measures text, overflow, contrast and safe areas, and say where every layer landed and which part of each photo shows, so the agent verifies with numbers instead of screenshots.</p>
         </div>
         <div class="feature">
-          <h3><a href="docs/index.html#motion-and-video">Motion and video</a></h3>
+          <h3><a href="docs/#motion-and-video">Motion and video</a></h3>
           <p>Entrance effects, keyframes, staggered text and video clips, rendered as GIF, animated PNG, MP4 or WebM.</p>
         </div>
         <div class="feature">
@@ -109,7 +109,7 @@
           <p>No model generates pixels: a scene always renders the same way, on every machine.</p>
         </div>
         <div class="feature">
-          <h3><a href="docs/tools/index.html">Built for tokens</a></h3>
+          <h3><a href="docs/tools/">Built for tokens</a></h3>
           <p>Six tools, batched edits and terse replies, so the agent spends its tokens on the design, not on reading the scene.</p>
         </div>
       </div>
@@ -139,7 +139,7 @@
             <tr><th scope="row">Images looked at</th><td><span class="bar-row"><span class="bar k" style="--w: 44%"></span><span><span class="vh">keyline: </span>4</span></span><span class="bar-row"><span class="bar b" style="--w: 100%"></span><span><span class="vh">Headless Chrome: </span>9</span></span><span class="bar-row"><span class="bar pm" style="--w: 78%"></span><span><span class="vh">Playwright MCP: </span>7</span></span></td></tr>
             </tbody>
           </table>
-          <p class="vs-note">Every run, with its prompt and the judge's scores, is in <a href="benchmark/index.html">the benchmark</a>.</p>
+          <p class="vs-note">Every run, with its prompt and the judge's scores, is in <a href="benchmark/">the benchmark</a>.</p>
         </div>
       </div>
     </section>
@@ -247,11 +247,11 @@ banner sub text
         </details>
         <details>
           <summary>How do I install keyline in Cursor?</summary>
-          <p>Install the binary (<code>brew install keyline-dev/tap/keyline-mcp</code>, or a <a href="https://github.com/keyline-dev/keyline/releases/latest">release download</a>), then add <code>{ "mcpServers": { "keyline": { "command": "keyline-mcp" } } }</code> to <code>~/.cursor/mcp.json</code>. The <a href="docs/install/index.html">install guide</a> has every other client.</p>
+          <p>Install the binary (<code>brew install keyline-dev/tap/keyline-mcp</code>, or a <a href="https://github.com/keyline-dev/keyline/releases/latest">release download</a>), then add <code>{ "mcpServers": { "keyline": { "command": "keyline-mcp" } } }</code> to <code>~/.cursor/mcp.json</code>. The <a href="docs/install/">install guide</a> has every other client.</p>
         </details>
         <details>
           <summary>Is it free?</summary>
-          <p>Yes. keyline is free to use, change and share, commercially too, under the <a href="license/index.html">Functional Source License</a> (FSL-1.1-ALv2). The one thing it doesn't allow is offering keyline itself as a competing commercial product or service. Each release also becomes Apache-2.0 two years after it ships.</p>
+          <p>Yes. keyline is free to use, change and share, commercially too, under the <a href="license/">Functional Source License</a> (FSL-1.1-ALv2). The one thing it doesn't allow is offering keyline itself as a competing commercial product or service. Each release also becomes Apache-2.0 two years after it ships.</p>
         </details>
       </div>
     </section>
@@ -282,24 +282,24 @@ banner sub text
       </div>
       <!-- client panels: built by docs.mjs from keyline's README; change them there -->
       <div class="panel" data-panel="cursor" hidden>
-        <p>First <a href="docs/install/index.html#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>
+        <p>First <a href="docs/install/#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>
         <p><a href="https://cursor.com/en/install-mcp?name=keyline&amp;config=eyJjb21tYW5kIjoia2V5bGluZS1tY3AifQ%3D%3D">Add to Cursor</a>, or add this to <code>~/.cursor/mcp.json</code>:</p>
 <div class="code"><pre><code>{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot; } } }</code></pre><button class="copy">Copy</button></div>
       </div>
       <div class="panel" data-panel="vs-code" hidden>
-        <p>First <a href="docs/install/index.html#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>
+        <p>First <a href="docs/install/#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>
         <div class="code"><pre><code>code --add-mcp '{&quot;name&quot;:&quot;keyline&quot;,&quot;command&quot;:&quot;keyline-mcp&quot;}'</code></pre><button class="copy">Copy</button></div>
       </div>
       <div class="panel" data-panel="codex" hidden>
-        <p>First <a href="docs/install/index.html#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>
+        <p>First <a href="docs/install/#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>
         <div class="code"><pre><code>codex mcp add keyline -- keyline-mcp</code></pre><button class="copy">Copy</button></div>
       </div>
       <div class="panel" data-panel="gemini-cli" hidden>
-        <p>First <a href="docs/install/index.html#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>
+        <p>First <a href="docs/install/#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>
         <div class="code"><pre><code>gemini mcp add --scope user keyline keyline-mcp</code></pre><button class="copy">Copy</button></div>
       </div>
       <div class="panel" data-panel="other-clients" hidden>
-        <p>First <a href="docs/install/index.html#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>
+        <p>First <a href="docs/install/#other-clients-install-then-add">install keyline</a> (on a Mac: <code>brew install keyline-dev/tap/keyline-mcp</code>), then:</p>
         <p>Most clients take this JSON, in the file below; links go to each client&#39;s guide.</p>
 <div class="code"><pre><code>{ &quot;mcpServers&quot;: { &quot;keyline&quot;: { &quot;command&quot;: &quot;keyline-mcp&quot; } } }</code></pre><button class="copy">Copy</button></div>
 <div class="table"><table>
@@ -372,9 +372,9 @@ banner sub text
       <nav>
         <a href="https://github.com/keyline-dev/keyline">GitHub</a>
         <a href="https://github.com/keyline-dev/keyline/releases">Releases</a>
-        <a href="docs/index.html">Docs</a>
-        <a href="license/index.html">License</a>
-        <a href="privacy/index.html">Privacy</a>
+        <a href="docs/">Docs</a>
+        <a href="license/">License</a>
+        <a href="privacy/">Privacy</a>
       </nav>
     </div>
   </footer>
