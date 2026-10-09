@@ -51,7 +51,7 @@
 <pre><code class="language-text">/plugin marketplace add keyline-dev/keyline
 /plugin install keyline@keyline
 </code></pre>
-<p><strong>Claude Desktop</strong> (Mac with Apple silicon, or Windows): download <code>keyline-mcp-&lt;version&gt;.mcpb</code> from the <a href="https://github.com/keyline-dev/keyline/releases/latest">latest release</a> and double-click it. To let Claude use your own images and logos, open Settings → Extensions → keyline → Configure, add the folders they&#39;re in, and click <strong>Save</strong>; without it, keyline can&#39;t open files on your computer.</p>
+<p><strong>Claude Desktop</strong> (Mac with Apple silicon, or Windows): download <code>keyline-mcp-&lt;version&gt;.mcpb</code> from the <a href="https://github.com/keyline-dev/keyline/releases/latest">latest release</a> and double-click it. Designs and their renders go in <code>~/keyline</code>, a folder per design, where you can also put the images and logos Claude should use. To work in folders of your own instead, open Settings → Extensions → keyline → Configure, add them, and click <strong>Save</strong>.</p>
 <h2 id="other-clients-install-then-add"><a class="anchor" href="#other-clients-install-then-add">Other clients: install, then add</a></h2>
 <div class="table"><table>
 <thead>
@@ -161,9 +161,9 @@
 <h2 id="then"><a class="anchor" href="#then">Then</a></h2>
 <p>Ask your agent for a design: <em>&quot;Make a vote-by-mail flyer with this photo, in 1080×1350, 1200×1000 and a 300×600 skyscraper.&quot;</em></p>
 <ul>
-<li><strong>Local files:</strong> let the agent add images and templates by path (cheaper than sending their bytes) with <code>--allow-read ~/brand ~/projects/ads</code>. Flags go after the command: <code>claude mcp add keyline -- keyline-mcp --allow-read ~/brand</code>, or in <code>args</code> in a JSON config. In Docker, mount the folder and allow the mount.</li>
+<li><strong>Your files:</strong> each design gets a folder, <code>~/keyline/&lt;name&gt;/</code>, holding its scene and <code>renders/</code>; the agent adds images, video and templates in it by path (cheaper than sending their bytes) and picks up a design by name in a later session. The Claude Code plugin uses the project folder instead. Elsewhere, <code>--folder ~/work ~/brand</code> replaces <code>~/keyline</code>: designs go in the first folder, and files are read in all of them. Flags go after the command (<code>claude mcp add keyline -- keyline-mcp --folder ~/work</code>), or in <code>args</code> in a JSON config. In Docker, designs are in the <code>/data</code> volume; mount other folders and pass them.</li>
 <li><strong>Video</strong> needs <a href="https://ffmpeg.org">ffmpeg</a> on the PATH; everything else, animated PNG and GIF included, works without it.</li>
-<li><strong>Options:</strong> every setting is a flag (<code>--allow-read</code>, <code>--no-motion</code>, <code>--data</code>, <code>--fonts</code>, <code>--renderer</code>, <code>--ffmpeg</code>, <code>--encoder</code>); see <code>keyline-mcp --help</code> and <a href="../../docs/tools/#server-configuration">Tools and replies</a>.</li>
+<li><strong>Options:</strong> every setting is a flag (<code>--folder</code>, <code>--no-motion</code>, <code>--data</code>, <code>--fonts</code>, <code>--renderer</code>, <code>--ffmpeg</code>, <code>--encoder</code>); see <code>keyline-mcp --help</code> and <a href="../../docs/tools/#server-configuration">Tools and replies</a>.</li>
 <li><strong>Without an agent:</strong> <code>keyline-mcp render scene.json --out renders/</code> renders every size and exits 1 on a <code>!</code> defect; in GitHub Actions, <code>uses: keyline-dev/keyline@v0</code> does it for a repo&#39;s scenes (<a href="../../docs/tools/#rendering-without-an-agent">details</a>).</li>
 <li><strong>GPU on a Linux server</strong> needs Vulkan drivers (NVIDIA&#39;s, or Mesa); without a GPU, keyline renders on the CPU.</li>
 </ul>

@@ -7,7 +7,7 @@ cd "$(dirname "$0")"
 k=${KEYLINE:-keyline-mcp}
 # The CPU renderer draws the same pixels on every machine; scenes read their
 # photos and logo from this folder.
-r() { "$k" render "$@" --renderer cpu --allow-read .; }
+r() { "$k" render "$@" --renderer cpu --folder .; }
 
 # The hero: stills, then loops. keyline renders MP4 at full size; the page
 # plays half-size copies (ffmpeg) to stay light.

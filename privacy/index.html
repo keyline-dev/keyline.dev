@@ -47,7 +47,7 @@
 <h1>Privacy</h1>
 <p>keyline runs on your machine and collects nothing: no accounts, no telemetry, no analytics, and no data sent to us.</p>
 <h2 id="what-stays-on-your-machine"><a class="anchor" href="#what-stays-on-your-machine">What stays on your machine</a></h2>
-<p>Scenes, the images you add, renders and the font cache are files in keyline&#39;s data folder (<code>~/.keyline-mcp</code>, or the folder given with <code>--data</code>; the Claude Code plugin uses its own data folder). They stay there until you delete them. keyline reads other local files only inside the folders you allow with <code>--allow-read</code>.</p>
+<p>Each design&#39;s scene and renders are files in a folder of its own in the workspace: <code>~/keyline</code>, the folders given with <code>--folder</code>, or, with the Claude Code plugin, the project folder. The images you add and the font cache are in keyline&#39;s data folder (<code>~/.keyline-mcp</code>, or the folder given with <code>--data</code>). They stay there until you delete them. keyline reads other local files only inside the workspace folders, and writes only in a design&#39;s folder and the data folder.</p>
 <h2 id="what-keyline-fetches"><a class="anchor" href="#what-keyline-fetches">What keyline fetches</a></h2>
 <p>keyline connects to the network only for these:</p>
 <ul>

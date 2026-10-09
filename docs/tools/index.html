@@ -90,7 +90,7 @@
 </tbody></table></div>
 <h2 id="conventions"><a class="anchor" href="#conventions">Conventions</a></h2>
 <ul>
-<li><strong>Scenes are addressed by id.</strong> <code>sceneId</code> comes from <code>scene_create</code>. Scenes, assets and renders live in the <a href="#data-directory">data directory</a>.</li>
+<li><strong>Scenes are addressed by id.</strong> <code>sceneId</code> comes from <code>scene_create</code>: its <code>name</code>, or a generated id. Each design and its renders live in a folder of the <a href="#workspace">workspace</a>; assets in the <a href="#data-directory">data directory</a>.</li>
 <li><strong>Batches are atomic.</strong> A tool that takes a list applies all of it or none of it.</li>
 <li><strong>Every change bumps the scene&#39;s version</strong>, shown in replies as <code>v3</code>.</li>
 <li><strong>Defaults are omitted</strong> in both directions: leave a field out to get its default.</li>
@@ -215,12 +215,12 @@ portrait,square toast warn shadow clipped by card
 </code></pre>
 <h3 id="drawn-text-lines"><a class="anchor" href="#drawn-text-lines">Drawn-text lines</a></h3>
 <p>Under each size, <code>render</code> lists every text that wrapped, shrank or was cut, as actually drawn, so wording and line breaks can be checked without looking at the image, and the option each <code>firstFit</code> drew (with why it passed over its first, when it did):</p>
-<pre><code class="language-text">instagram-portrait /…/renders/sfc5e3bbb5b/instagram-portrait-v3.jpg quality 11
+<pre><code class="language-text">instagram-portrait /…/sfc5e3bbb5b/renders/instagram-portrait-v3.jpg quality 11
  head → long
  headline 72px: &quot;Proven RESULTS for&quot; / &quot;Willowmere Families&quot;
 </code></pre>
 <h3 id="output-files"><a class="anchor" href="#output-files">Output files</a></h3>
-<p><code>render</code> writes into <code>&lt;data&gt;/renders/&lt;sceneId&gt;/</code>, one file per size, named from the size id and the scene version:</p>
+<p><code>render</code> writes into the design&#39;s <code>renders/</code> folder (see <a href="#workspace">Workspace</a>), one file per size, named from the size id and the scene version:</p>
 <div class="table"><table>
 <thead>
 <tr>
@@ -256,6 +256,12 @@ portrait,square toast warn shadow clipped by card
 </tr>
 </thead>
 <tbody><tr>
+<td><code>name</code></td>
+<td>string</td>
+<td>generated</td>
+<td>The design&#39;s id and the name of its folder in the <a href="#workspace">workspace</a>: letters, digits, <code>-</code> and <code>_</code>. A name in use is refused</td>
+</tr>
+<tr>
 <td><code>sizes</code></td>
 <td>array</td>
 <td>required, or the template&#39;s</td>
@@ -289,7 +295,7 @@ portrait,square toast warn shadow clipped by card
 <td><code>path</code></td>
 <td>string</td>
 <td></td>
-<td>Or a template file in an allowed folder; offered only with <a href="#command-line-flags"><code>--allow-read</code></a></td>
+<td>Or a template file in a <a href="#workspace">workspace</a> folder</td>
 </tr>
 <tr>
 <td><code>tokens</code></td>
@@ -298,10 +304,10 @@ portrait,square toast warn shadow clipped by card
 <td>The template&#39;s variables to set, <code>{name: value}</code></td>
 </tr>
 </tbody></table></div>
-<p>Reply: the new scene&#39;s id and version. From a template, also its variables, then <code>ok</code> or <a href="#problem-lines">problem lines</a>, so a value that doesn&#39;t fit shows at once. When ffmpeg can&#39;t be found (and motion is on), a second line says so up front, so the agent doesn&#39;t plan a video it can&#39;t make:</p>
-<pre><code class="language-text">s5b0a42a5e v0 tokens: accent, headline, price ok
+<p>Reply: the new scene&#39;s id and version, and its folder (under the home folder written <code>~/…</code>). From a template, also its variables, then <code>ok</code> or <a href="#problem-lines">problem lines</a>, so a value that doesn&#39;t fit shows at once. When ffmpeg can&#39;t be found (and motion is on), a second line says so up front, so the agent doesn&#39;t plan a video it can&#39;t make:</p>
+<pre><code class="language-text">summer-sale v0 in ~/keyline/summer-sale tokens: accent, headline, price ok
 </code></pre>
-<pre><code class="language-text">sfc5e3bbb5b v0
+<pre><code class="language-text">sfc5e3bbb5b v0 in ~/keyline/sfc5e3bbb5b
 video off: no ffmpeg (install it or pass --ffmpeg); apng, gif work
 </code></pre>
 <h2 id="asset_add"><a class="anchor" href="#asset_add">asset_add</a></h2>
@@ -330,7 +336,7 @@ video off: no ffmpeg (install it or pass --ffmpeg); apng, gif work
 <td><code>path</code></td>
 <td>string</td>
 <td></td>
-<td>Or a local file in an allowed folder; offered only with <a href="#command-line-flags"><code>--allow-read</code></a>, and its description names the folders</td>
+<td>Or a local file in a <a href="#workspace">workspace</a> folder, which its description names</td>
 </tr>
 <tr>
 <td><code>base64</code></td>
@@ -607,10 +613,10 @@ instagram-portrait 1080×1350
 </tr>
 </tbody></table></div>
 <p>Reply: per size, the size id, the file&#39;s path (<a href="#output-files">Output files</a>) and, in parentheses, what the file holds, then its layout as drawn (as <a href="#scene_describe"><code>scene_describe</code> with <code>full</code></a>, a line per layer with any defect on it, the region of each photo drawn and the largest empty band), then its <a href="#drawn-text-lines">drawn-text lines</a>. The layout is the agent&#39;s eyes: it judges the design from it rather than by opening the files.</p>
-<pre><code class="language-text">wide /…/renders/s1a2b3c4d5/wide-v3.png (1200×628, 212 KB)
-wide /…/renders/s1a2b3c4d5/wide-v3.gif (1200×628, 2s, 60 frames at 30 fps, plays once, 1840 KB)
-wide /…/renders/s1a2b3c4d5/wide-v3.mp4 (1200×628, 2s, 60 frames at 30 fps, with sound, 610 KB) quality 90
-a4-portrait /…/renders/s1a2b3c4d5/a4-portrait-v3.pdf (595×842 pt, images ≥ 212 dpi, 1840 KB)
+<pre><code class="language-text">wide /…/s1a2b3c4d5/renders/wide-v3.png (1200×628, 212 KB)
+wide /…/s1a2b3c4d5/renders/wide-v3.gif (1200×628, 2s, 60 frames at 30 fps, plays once, 1840 KB)
+wide /…/s1a2b3c4d5/renders/wide-v3.mp4 (1200×628, 2s, 60 frames at 30 fps, with sound, 610 KB) quality 90
+a4-portrait /…/s1a2b3c4d5/renders/a4-portrait-v3.pdf (595×842 pt, images ≥ 212 dpi, 1840 KB)
 fonts: Bricolage Grotesque 800, Inter 400/600
 </code></pre>
 <p>A still or PDF of a moving scene says which moment it shows, before its size: <code>at rest, shot s1</code> (or <code>at 2.5s, shot s2</code> with <code>time</code>). A PDF embeds its photos at most at 300 dpi of their drawn size, opaque ones as JPEG at <code>quality</code> (90 by default). A PDF gives its page in points (a print preset&#39;s, such as A4&#39;s 595×842, or 1 pt per px) and the lowest resolution of its photos on that page. The last line names the fonts the texts are drawn in, once per render: each family with its weights, <code>900→700</code> when the family has no face for a weight and a nearer one is drawn, <code>(fallback)</code> when the family has no face at all.</p>
@@ -666,9 +672,9 @@ fonts: Bricolage Grotesque 800, Inter 400/600
 </tr>
 </thead>
 <tbody><tr>
-<td><code>--allow-read &lt;folder&gt;...</code></td>
-<td>none</td>
-<td>Lets <code>asset_add</code> and <code>scene_create</code> read local files inside these folders: every folder up to the next flag, and repeatable. Without it, <code>path</code> isn&#39;t offered to the agent at all</td>
+<td><code>--folder &lt;folder&gt;...</code></td>
+<td><code>~/keyline</code></td>
+<td>The <a href="#workspace">workspace</a>: every folder up to the next flag, and repeatable</td>
 </tr>
 <tr>
 <td><code>--no-motion[=true|false]</code></td>
@@ -707,7 +713,7 @@ fonts: Bricolage Grotesque 800, Inter 400/600
 </tr>
 </tbody></table></div>
 <p>An MCP client passes them in <code>args</code>:</p>
-<pre><code class="language-json">{&quot;mcpServers&quot;: {&quot;keyline&quot;: {&quot;command&quot;: &quot;keyline-mcp&quot;, &quot;args&quot;: [&quot;--data&quot;, &quot;/srv/keyline&quot;, &quot;--allow-read&quot;, &quot;/srv/brand&quot;]}}}
+<pre><code class="language-json">{&quot;mcpServers&quot;: {&quot;keyline&quot;: {&quot;command&quot;: &quot;keyline-mcp&quot;, &quot;args&quot;: [&quot;--data&quot;, &quot;/srv/keyline&quot;, &quot;--folder&quot;, &quot;/srv/designs&quot;, &quot;/srv/brand&quot;]}}}
 </code></pre>
 <h3 id="rendering-without-an-agent"><a class="anchor" href="#rendering-without-an-agent">Rendering without an agent</a></h3>
 <p><code>keyline-mcp render &lt;scene.json&gt;</code> loads a scene file the way <code>scene_create</code> loads a <a href="#templates-and-variants">template</a>, renders it like the <code>render</code> tool, and copies the files into a folder, for scripts and CI:</p>
@@ -774,18 +780,27 @@ fonts: Bricolage Grotesque 800, Inter 400/600
     scenes: campaigns/*.json   # each scene&#39;s files go to renders/&lt;name&gt;/
     args: --format webp        # any render flags
 </code></pre>
-<p>It may read files in the scene file&#39;s folder, and takes the server&#39;s flags too (<code>--allow-read</code>, <code>--data</code>, <code>--renderer</code>…). It prints the tool&#39;s reply, each problem line first, and exits 1 when any drawn size (of any row) has a <code>!</code> defect, so a broken design fails the job; <code>warn</code> advisories don&#39;t.</p>
+<p>It may read files in the scene file&#39;s folder, and takes the server&#39;s flags too (<code>--folder</code>, <code>--data</code>, <code>--renderer</code>…). It prints the tool&#39;s reply, each problem line first, and exits 1 when any drawn size (of any row) has a <code>!</code> defect, so a broken design fails the job; <code>warn</code> advisories don&#39;t.</p>
+<h3 id="workspace"><a class="anchor" href="#workspace">Workspace</a></h3>
+<p>Each design has a folder of its own in the workspace, named by its id: its scene, saved after every edit, and its renders.</p>
+<pre><code class="language-text">~/keyline/
+  summer-sale/
+    hero.jpg                   files you put there, added by path
+    summer-sale.keyline.json   the scene
+    renders/                   what render writes
+</code></pre>
+<p>The workspace is the folders given with <code>--folder</code>, else <code>~/keyline</code>, created on start. New designs go in the first folder; the agent may read files by <code>path</code> in any of them, and keyline writes only in a design&#39;s folder. A design is found by id in any of them, so another session, or another app on the same workspace, continues it by name; an unknown id&#39;s error lists the designs there are. The Claude Code plugin passes the project folder (but not the home folder or <code>/</code>, which get <code>~/keyline</code>), so designs live with the project. Claude Desktop passes the folders picked in its settings, and <code>~/keyline</code> when there are none.</p>
 <h3 id="data-directory"><a class="anchor" href="#data-directory">Data directory</a></h3>
-<p>Scenes are saved as JSON under <code>&lt;data&gt;/scenes/</code>, assets under <code>&lt;data&gt;/assets/</code> by content hash, renders under <code>&lt;data&gt;/renders/&lt;sceneId&gt;/</code>, and downloaded fonts under <code>&lt;data&gt;/fonts/</code>.</p>
+<p>Assets are kept under <code>&lt;data&gt;/assets/</code> by content hash, and downloaded fonts under <code>&lt;data&gt;/fonts/</code>. Scenes made before design folders stay under <code>&lt;data&gt;/scenes/</code>, their renders under <code>&lt;data&gt;/renders/&lt;sceneId&gt;/</code>, and still open by id.</p>
 <h3 id="fonts"><a class="anchor" href="#fonts">Fonts</a></h3>
 <p>Inter is bundled. A <code>fontFamily</code> that isn&#39;t installed is fetched from <a href="https://fonts.google.com">Google Fonts</a> once and cached in <code>&lt;data&gt;/fonts/</code> (tracked in <code>fonts/index.json</code>); the reply then starts with <code>fetched font &lt;family&gt; (&lt;n&gt; files)</code>. Fonts in <code>&lt;data&gt;/fonts/</code> and the <code>--fonts</code> folders are loaded too. Fonts are never taken from the machine&#39;s system fonts, so renders don&#39;t vary with what&#39;s installed.</p>
 <h3 id="ffmpeg"><a class="anchor" href="#ffmpeg">ffmpeg</a></h3>
 <p>Video clips, sounds, and MP4 and WebM output need <a href="https://ffmpeg.org">ffmpeg</a> (<code>brew install ffmpeg</code>, <code>apt install ffmpeg</code>), run as a separate program. It&#39;s looked up on every call that needs it (<code>--ffmpeg</code>, else the PATH), so it can be installed without a restart. Without it, those calls are refused with how to install it, <code>scene_create</code> says <code>video off</code> up front, and everything else works, APNG and GIF included.</p>
 <h2 id="security"><a class="anchor" href="#security">Security</a></h2>
 <ul>
-<li><strong>Local files</strong> are read only with <code>--allow-read</code>. A <code>path</code> is resolved through every symlink and <code>..</code> first, then must lie inside an allowed folder and be a regular file, so a link inside the folder can&#39;t lead outside it.</li>
+<li><strong>Local files</strong> are read only in the <a href="#workspace">workspace</a> folders. A <code>path</code> starting with <code>~</code> is in the home folder, as in a shell; it is resolved through every symlink and <code>..</code> first, then must lie inside a workspace folder and be a regular file, so a link inside the folder can&#39;t lead outside it.</li>
 <li><strong>URLs</strong> are fetched only over http(s); private and local addresses are refused, and every redirect is checked again.</li>
-<li><strong>Templates</strong> follow the same rules for their images: a template from a URL reads images from the web only, never local files; one from a path reads only inside the allowed folders.</li>
+<li><strong>Templates</strong> follow the same rules for their images: a template from a URL reads images from the web only, never local files; one from a path reads only inside the workspace folders.</li>
 <li><strong>Base64</strong> is taken only for still images.</li>
 </ul>
 <h2 id="limits"><a class="anchor" href="#limits">Limits</a></h2>
@@ -816,7 +831,8 @@ fonts: Bricolage Grotesque 800, Inter 400/600
 <p>Limits of the scene itself (grid tracks, component depth, frame rates) are in <a href="../../docs/scene/#validation-and-limits">Scene format</a>.</p>
 <h2 id="errors"><a class="anchor" href="#errors">Errors</a></h2>
 <p>Errors come back as an MCP tool error (<code>isError: true</code>) with one line of text that names what failed and how to fix it. They leave the scene and its version unchanged; only a font fetched on the way stays cached. A batch error names the item that failed:</p>
-<pre><code class="language-text">/Users/me/secret.png is outside the folders the server may read (--allow-read)
+<pre><code class="language-text">/Users/me/secret.png is outside the folders the server may read (--folder)
+no scene sael; designs: summer-sale
 layers[0]: unknown field(s) fontsize for text layer; did you mean fontsize → fontSize
 ops[0]: no layer with id nope
 layers[0]: unknown token {{blue}}; tokens: brand, headline
