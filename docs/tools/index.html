@@ -716,7 +716,7 @@ fonts: Bricolage Grotesque 800, Inter 400/600
 <pre><code class="language-json">{&quot;mcpServers&quot;: {&quot;keyline&quot;: {&quot;command&quot;: &quot;keyline-mcp&quot;, &quot;args&quot;: [&quot;--data&quot;, &quot;/srv/keyline&quot;, &quot;--folder&quot;, &quot;/srv/designs&quot;, &quot;/srv/brand&quot;]}}}
 </code></pre>
 <h3 id="rendering-without-an-agent"><a class="anchor" href="#rendering-without-an-agent">Rendering without an agent</a></h3>
-<p><code>keyline-mcp render &lt;scene.json&gt;</code> loads a scene file the way <code>scene_create</code> loads a <a href="#templates-and-variants">template</a>, renders it like the <code>render</code> tool, and copies the files into a folder, for scripts and CI:</p>
+<p><code>keyline-mcp render &lt;scene.json&gt;</code> loads a scene file the way <code>scene_create</code> loads a <a href="#templates-and-variants">template</a>, renders it like the <code>render</code> tool, and writes the files into a folder, keeping nothing in the data directory, for scripts and CI:</p>
 <pre><code class="language-sh">keyline-mcp render campaign.json --out renders/ --size wide --rows rows.json --format webp
 </code></pre>
 <div class="table"><table>
